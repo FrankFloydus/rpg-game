@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://cd640s7ugfext"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_d26rf"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/gutter_doublet.tres" id="icon_art"]
+
+[resource]
+resource_name = "Gutter Doublet"
+script = ExtResource("1_definition")
+id = &"gutter_doublet"
+display_name = "Gutter Doublet"
+icon = ExtResource("icon_art")
+icon_key = "doublet"
+description = "Fires two aimed projectiles in quick succession."
+action_key = "doublet"
+damage_type = "physical"
+windup = 0.63
+recovery = 1.05
+damage_multiplier = 0.92
+execution_profile = {
+"shape": "ray",
+"reach": 13.6,
+"start": 13.25,
+"speed": 15.8,
+"second": 0.25
+}

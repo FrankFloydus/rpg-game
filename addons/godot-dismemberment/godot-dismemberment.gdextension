@@ -1,0 +1,31 @@
+[configuration]
+
+entry_symbol = "godot_dismemberment_library_init"
+compatibility_minimum = "4.7"
+reloadable = false
+
+[libraries]
+; Relative paths ensure that our GDExtension can be placed anywhere in the project directory.
+
+
+windows.x86_32.single.debug = "./bin/windows/realistic/godot-dismemberment.windows.template_debug.x86_32.dll"
+windows.x86_32.double.debug = "./bin/windows/realistic/godot-dismemberment.windows.template_debug.x86_32.double.dll"
+windows.x86_32.single.release = "./bin/windows/realistic/godot-dismemberment.windows.template_release.x86_32.dll"
+windows.x86_32.double.release = "./bin/windows/realistic/godot-dismemberment.windows.template_release.x86_32.double.dll"
+
+windows.x86_64.single.debug = "./bin/windows/realistic/godot-dismemberment.windows.template_debug.x86_64.dll"
+windows.x86_64.single.release = "./bin/windows/realistic/godot-dismemberment.windows.template_release.x86_64.dll"
+
+
+
+
+
+
+web.wasm32.single.debug = "./bin/web/libgodot-dismemberment.web.template_debug.wasm32.nothreads.wasm"
+web.wasm32.double.debug = "./bin/web/libgodot-dismemberment.web.template_debug.wasm32.double.nothreads.wasm"
+web.wasm32.single.release = "./bin/web/libgodot-dismemberment.web.template_release.wasm32.nothreads.wasm"
+web.wasm32.double.release = "./bin/web/libgodot-dismemberment.web.template_release.wasm32.double.nothreads.wasm"
+
+[icons]
+
+GoreComponent = "res://addons/godot-dismemberment/icons/gore_component.svg"

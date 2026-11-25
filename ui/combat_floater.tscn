@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[node name="CombatFloater" type="Label3D" groups=["combat_floaters"]]
+cast_shadow = 0
+pixel_size = 0.00175
+billboard = 1
+no_depth_test = true
+fixed_size = true
+outline_modulate = Color(0.086275, 0.054902, 0.050980, 1)
+text = "24"
+font_size = 32
+outline_size = 8
+line_spacing = -3.0

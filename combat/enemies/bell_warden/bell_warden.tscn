@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://combat/enemies/bell_warden/bell_warden_ai.gd" id="AI"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="Ability"]
+[ext_resource type="Resource" path="res://combat/abilities/bronze_clapper.tres" id="Action0"]
+[ext_resource type="Resource" path="res://combat/abilities/bell_reverb.tres" id="Action1"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="Model"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/bell_warden.glb" id="Rig"]
+
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/bell_warden/bell_warden_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="Body"]
+radius = 0.46
+height = 1.84
+
+[node name="BellWarden" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("AI")
+base_life = 20
+base_attack_damage = 3.1
+base_move_speed = 2.44
+ability_loadout = Array[ExtResource("Ability")]([ExtResource("Action0"), ExtResource("Action1")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.920, 0)
+shape = SubResource("Body")
+
+[node name="Model" type="Node3D" parent="."]
+script = ExtResource("Model")
+
+[node name="Rig" parent="Model" instance=ExtResource("Rig")]
+
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

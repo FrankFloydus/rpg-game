@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/flame_offering.tres" id="2_icon"]
+
+[resource]
+resource_name = "Kindle Brood"
+script = ExtResource("1_definition")
+id = &"kindle_brood"
+display_name = "Kindle Brood"
+icon = ExtResource("2_icon")
+icon_key = "fan"
+description = "Hatches up to two waxlings. They chase briefly and stop to light a fuse. Strike them apart before they flare, or leave the marked area. Any surviving waxlings go cold if the hive dies."
+action_key = "kindle_brood"
+damage_type = "fire"
+windup = 0.63
+recovery = 0.87
+cooldown = 5.5
+damage_multiplier = 0.0
+execution_profile = {
+"shape": "ray",
+"reach": 8.5,
+"start": 8.5,
+"speed": 10.0
+}

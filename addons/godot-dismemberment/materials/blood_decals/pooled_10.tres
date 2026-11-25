@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://c8w72gepx8wk1" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_10.png" id="pooled_10_albedo"]
+[ext_resource type="Texture2D" uid="uid://5p1sqmcc7iqc" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_10_orm.png" id="pooled_10_orm"]
+[ext_resource type="Texture2D" uid="uid://btkddwsikmxkk" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_10_normal.png" id="pooled_10_normal"]
+
+[resource]
+resource_name = "Shattered Center"
+transparency = 1
+albedo_texture = ExtResource("pooled_10_albedo")
+orm_texture = ExtResource("pooled_10_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_10_normal")
+ao_enabled = true
+texture_repeat = false

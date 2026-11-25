@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="theme"]
+
+[node name="RecipeButton" type="Button"]
+theme = ExtResource("theme")
+custom_minimum_size = Vector2(0, 39)
+theme_type_variation = &"PrimaryButton"
+alignment = 0
+text = "Recipe"

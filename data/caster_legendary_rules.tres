@@ -1,0 +1,7 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/caster_legendary_rules.gd" id="1"]
+
+[resource]
+resource_name = "Caster and Summon Legendary Effects"
+script = ExtResource("1")

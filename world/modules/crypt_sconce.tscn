@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/architecture/crypt_forged_sconce.glb" id="1_forging"]
+
+[ext_resource type="PackedScene" path="res://world/modules/torch_flame.tscn" id="4_flame"]
+
+[ext_resource type="PackedScene" path="res://world/modules/coal_bed.tscn" id="5_fuel"]
+
+[node name="CryptSconce" type="Node3D"]
+
+[node name="ForgedFitting" parent="." instance=ExtResource("1_forging")]
+
+[node name="CoalBed" parent="." instance=ExtResource("5_fuel")]
+transform = Transform3D(0.69, 0, 0, 0, 0.69, 0, 0, 0, 0.69, 0, 2.37, 0)
+
+[node name="Flame" parent="." instance=ExtResource("4_flame")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34, 0)
+
+[node name="LanternLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.46, 0.62)
+light_color = Color(1, 0.94, 0.87, 1)
+light_energy = 1.96
+omni_range = 5.95
+omni_attenuation = 1.68
+
+[editable path="ForgedFitting"]

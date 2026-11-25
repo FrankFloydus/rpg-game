@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://dsxaxaw8rqfb5"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_3u8tg"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/forked_staff_bolt.tres" id="icon_art"]
+
+[resource]
+resource_name = "Forked Staff Bolt"
+script = ExtResource("1_definition")
+id = &"forked_staff_bolt"
+display_name = "Forked Staff Bolt"
+icon = ExtResource("icon_art")
+icon_key = "fan"
+description = "Fire a stronger bolt. The fork strikes one nearby enemy for half damage."
+mana_cost = 7.0
+cooldown = 1.7
+action_key = "weapon_staff"
+damage_multiplier = 1.45
+execution_profile = {
+"heavy": true
+}

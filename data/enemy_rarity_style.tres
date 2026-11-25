@@ -1,0 +1,7 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/enemy_rarity_style.gd" id="1_style"]
+
+[resource]
+resource_name = "Enemy Rarity Edge Color"
+script = ExtResource("1_style")

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+
+[resource]
+resource_name = "Bronze Clapper"
+script = ExtResource("1")
+id = &"bronze_clapper"
+display_name = "Bronze Clapper"
+icon_key = "slam"
+description = "Swings its heavy bell into anyone close."
+action_key = "bronze_clapper"
+damage_type = "physical"
+windup = 0.44
+recovery = 0.90
+stun_buildup = 28.0
+execution_profile = {"shape": "arc", "reach": 2.22, "start": 1.98, "arc": 50.0}

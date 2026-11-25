@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="Gradient" id="Gradient_blood"]
+offsets = PackedFloat32Array(0, 0.35, 0.78, 1)
+colors = PackedColorArray(0.81, 0.115, 0.16, 1, 0.60, 0.065, 0.095, 1, 0.38, 0.027, 0.05, 0.75, 0.265, 0.014, 0.027, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_blood"]
+gradient = SubResource("Gradient_blood")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_blood"]
+emission_shape = 1
+emission_sphere_radius = 0.055
+direction = Vector3(0, 1, 0)
+spread = 76.0
+initial_velocity_min = 1.15
+initial_velocity_max = 2.55
+gravity = Vector3(0, -5.2, 0)
+scale_min = 0.55
+scale_max = 1.23
+color_ramp = SubResource("GradientTexture1D_blood")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blood"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_blood"]
+material = SubResource("StandardMaterial3D_blood")
+radius = 0.018
+height = 0.044
+radial_segments = 8
+rings = 4
+
+[node name="BleedApplicationParticles" type="GPUParticles3D"]
+cast_shadow = 0
+amount = 15
+lifetime = 0.46
+one_shot = true
+explosiveness = 0.94
+lifetime_randomness = 0.23
+visibility_aabb = AABB(-1.4, -1.5, -1.4, 2.8, 2.75, 2.8)
+process_material = SubResource("ParticleProcessMaterial_blood")
+draw_pass_1 = SubResource("SphereMesh_blood")
+
+[node name="Cleanup" type="Timer" parent="."]
+wait_time = 0.62
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Cleanup" to="." method="queue_free"]

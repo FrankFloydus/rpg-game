@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/rework/prop_materials.png" id="1_surface"]
+[ext_resource type="Material" path="res://assets/rework/materials/cracked_leather.tres" id="2_grip"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mr10k"]
+albedo_color = Color(0.87058824, 0.8509804, 0.8117647, 1)
+albedo_texture = ExtResource("1_surface")
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.508, 0.008, 0)
+texture_repeat = false
+metallic = 0.45
+roughness = 1.0
+emission_enabled = true
+emission = Color(0.87058824, 0.8509804, 0.8117647, 1)
+emission_energy_multiplier = 0.14
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_t6bd4"]
+size = Vector3(0.34, 0.056, 0.042)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xi2kp"]
+size = Vector3(0.045, 0.12, 0.049)
+
+[node name="WeaponLoot" type="Node3D" unique_id=846438337]
+
+[node name="Body" type="Node3D" parent="." unique_id=93034973]
+
+[node name="BoxMesh1" type="MeshInstance3D" parent="Body" unique_id=636038329 groups=["loot_rarity"]]
+transform = Transform3D(0.92718387, -0.37460658, 0, 0.37460658, 0.92718387, 0, 0, 0, 1, 0.02, 0.04, 0)
+material_override = SubResource("StandardMaterial3D_mr10k")
+mesh = SubResource("BoxMesh_t6bd4")
+
+[node name="BoxMesh2" type="MeshInstance3D" parent="Body" unique_id=694247831]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.008, 0)
+material_override = ExtResource("2_grip")
+mesh = SubResource("BoxMesh_xi2kp")
+
+[node name="WorldLabel" type="Label3D" parent="." unique_id=2104124515]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41, 0)
+pixel_size = 0.0025
+billboard = 1
+modulate = Color(0.87058824, 0.8509804, 0.8117647, 1)
+outline_modulate = Color(0.09019608, 0.0627451, 0.050980393, 1)
+text = "Weapon"
+font_size = 36
+outline_size = 13

@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="SecretChallengeRoute" format=3 uid="uid://dvm8aqse2fgxi"]
+
+[ext_resource type="Script" uid="uid://d240lj3f4jnbt" path="res://world/secret_challenges/secret_challenge_route.gd" id="Route"]
+[ext_resource type="Script" uid="uid://dt56oec7d6bkk" path="res://world/secret_challenges/secret_challenge_socket.gd" id="Socket"]
+
+[sub_resource type="Resource" id="Trap_1"]
+script = ExtResource("Socket")
+phase = 0.05
+reach = 1.1
+
+[sub_resource type="Resource" id="Trap_2"]
+script = ExtResource("Socket")
+glyph = "2"
+kind = "miasma_vent"
+alternate_kind = "ember_vent"
+phase = 0.25
+reach = 1.72
+optional = true
+
+[sub_resource type="Resource" id="Trap_3"]
+script = ExtResource("Socket")
+glyph = "3"
+alternate_kind = "ember_vent"
+facing = Vector2i(0, 1)
+phase = 0.43
+reach = 1.1
+optional = true
+
+[sub_resource type="Resource" id="Trap_4"]
+script = ExtResource("Socket")
+glyph = "4"
+kind = "ember_vent"
+phase = 0.81
+reach = 1.55
+optional = true
+
+[resource]
+resource_name = "Bellsmith Gallery"
+script = ExtResource("Route")
+id = &"bellsmith_gallery"
+display_name = "Bellsmith Gallery"
+min_depth = 5
+rows = PackedStringArray("#########..R", "#########.##", "###.2.....##", "###.###.####", "S1..###3####", "###.###.####", "###..4..####")
+hazard_sockets = Array[ExtResource("Socket")]([SubResource("Trap_1"), SubResource("Trap_2"), SubResource("Trap_3"), SubResource("Trap_4")])

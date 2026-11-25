@@ -1,0 +1,210 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/bestiary_ui.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://ui/bestiary_portrait_card.tscn" id="3_portrait"]
+
+[sub_resource type="SystemFont" id="Font_serif"]
+font_names = PackedStringArray("Georgia", "Palatino Linotype", "DejaVu Serif")
+
+[node name="Bestiary" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="Veil" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.86)
+
+[node name="Window" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -585.0
+offset_top = -388.0
+offset_right = 585.0
+offset_bottom = 388.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"GearFrame"
+
+[node name="Layout" type="VBoxContainer" parent="Window"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Window/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Window/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("Font_serif")
+theme_override_font_sizes/font_size = 42
+text = "Bestiary"
+
+[node name="Count" type="Label" parent="Window/Layout/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.690196, 0.713725, 0.745098, 1)
+theme_override_font_sizes/font_size = 16
+text = "0 discovered"
+vertical_alignment = 1
+
+[node name="Back" type="Button" parent="Window/Layout/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_type_variation = &"QuietButton"
+theme_override_font_sizes/font_size = 15
+text = "Back to Settings"
+
+[node name="Divider" type="HSeparator" parent="Window/Layout"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Window/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Inset" type="MarginContainer" parent="Window/Layout/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 2
+
+[node name="Content" type="VBoxContainer" parent="Window/Layout/Scroll/Inset"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Entries" type="GridContainer" parent="Window/Layout/Scroll/Inset/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 13
+theme_override_constants/v_separation = 13
+columns = 5
+
+[node name="Detail" type="BoxContainer" parent="Window/Layout/Scroll/Inset/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 26
+
+[node name="PortraitColumn" type="VBoxContainer" parent="Window/Layout/Scroll/Inset/Content/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Portrait" parent="Window/Layout/Scroll/Inset/Content/Detail/PortraitColumn" instance=ExtResource("3_portrait")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(394, 394)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+display_only = true
+
+[node name="FieldNotesPanel" type="PanelContainer" parent="Window/Layout/Scroll/Inset/Content/Detail"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"GearSection"
+
+[node name="FieldNotes" type="VBoxContainer" parent="Window/Layout/Scroll/Inset/Content/Detail/FieldNotesPanel"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="CreatureName" type="Label" parent="Window/Layout/Scroll/Inset/Content/Detail/FieldNotesPanel/FieldNotes"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("Font_serif")
+theme_override_font_sizes/font_size = 39
+text = "Creature Name"
+autowrap_mode = 3
+
+[node name="Classification" type="Label" parent="Window/Layout/Scroll/Inset/Content/Detail/FieldNotesPanel/FieldNotes"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.690196, 0.713725, 0.745098, 1)
+theme_override_font_sizes/font_size = 15
+text = "Melee   ·   Physical   ·   Found from Depth 1"
+autowrap_mode = 3
+
+[node name="Lore" type="Label" parent="Window/Layout/Scroll/Inset/Content/Detail/FieldNotesPanel/FieldNotes"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/line_spacing = 6
+theme_override_fonts/font = SubResource("Font_serif")
+theme_override_font_sizes/font_size = 19
+autowrap_mode = 3
+
+[node name="Divider" type="HSeparator" parent="Window/Layout/Scroll/Inset/Content/Detail/FieldNotesPanel/FieldNotes"]
+layout_mode = 2
+
+[node name="AbilityGroups" type="VBoxContainer" parent="Window/Layout/Scroll/Inset/Content/Detail/FieldNotesPanel/FieldNotes"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Description" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 30
+layout_mode = 0
+mouse_filter = 2
+theme_type_variation = &"GearTooltip"
+
+[node name="Layout" type="VBoxContainer" parent="Description"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Heading" type="HBoxContainer" parent="Description/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 9
+
+[node name="DescriptionIcon" type="TextureRect" parent="Description/Layout/Heading"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DescriptionTitle" type="Label" parent="Description/Layout/Heading"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("Font_serif")
+theme_override_font_sizes/font_size = 19
+text = "Ability"
+vertical_alignment = 1
+
+[node name="Divider" type="HSeparator" parent="Description/Layout"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="DescriptionText" type="Label" parent="Description/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(278, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3

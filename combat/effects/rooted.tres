@@ -1,0 +1,16 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://combat/effects/effect_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/rooted.tres" id="icon_art"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/rooted.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Rooted"
+script = ExtResource("1_definition")
+id = &"rooted"
+display_name = "Rooted"
+icon = ExtResource("icon_art")
+description = "Restricts movement for the duration of the effect."
+duration = 2.0
+enemy_while_active_fx = ExtResource("loop_fx")

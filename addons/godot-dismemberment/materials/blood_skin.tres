@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://addons/godot-dismemberment/shaders/blood_skin.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/cloud_noise.png" id="2_noise"]
+
+[resource]
+resource_name = "Blood on Skin and Fabric"
+shader = ExtResource("1_shader")
+shader_parameter/blood_noise = ExtResource("2_noise")
+shader_parameter/use_blood_noise = true

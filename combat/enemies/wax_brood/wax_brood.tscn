@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://combat/enemies/wax_brood/wax_brood_ai.gd" id="AI"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="Ability"]
+[ext_resource type="Resource" path="res://combat/abilities/wax_bite.tres" id="Action0"]
+[ext_resource type="Resource" path="res://combat/abilities/kindle_brood.tres" id="Action1"]
+[ext_resource type="Resource" path="res://combat/abilities/waxling_flare.tres" id="Action2"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="Model"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/wax_brood.glb" id="Rig"]
+
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/wax_brood/wax_brood_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="Body"]
+radius = 0.47
+height = 1.25
+
+[node name="WaxBrood" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("AI")
+base_life = 15
+base_attack_damage = 2.45
+base_move_speed = 2.24
+preferred_range = 4
+ability_loadout = Array[ExtResource("Ability")]([ExtResource("Action0"), ExtResource("Action1"), ExtResource("Action2")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.625, 0)
+shape = SubResource("Body")
+
+[node name="Model" type="Node3D" parent="."]
+script = ExtResource("Model")
+
+[node name="Rig" parent="Model" instance=ExtResource("Rig")]
+
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

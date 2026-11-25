@@ -1,0 +1,90 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/rework/materials/aged_wood.tres" id="1_wood"]
+[ext_resource type="Material" path="res://assets/rework/materials/forged_steel.tres" id="2_steel"]
+[ext_resource type="Material" path="res://assets/rework/materials/weathered_bronze.tres" id="3_bronze"]
+[ext_resource type="Material" path="res://assets/rework/materials/cracked_leather.tres" id="4_leather"]
+
+[sub_resource type="BoxMesh" id="Box"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="CylinderMesh" id="Cylinder"]
+top_radius = 0.5
+bottom_radius = 0.5
+height = 1.0
+radial_segments = 10
+
+[sub_resource type="CylinderMesh" id="Bench"]
+top_radius = 0.4
+bottom_radius = 0.5
+height = 1.0
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="Cone"]
+top_radius = 0.0
+bottom_radius = 0.5
+height = 1.0
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="Dome"]
+top_radius = 0.26
+bottom_radius = 0.5
+height = 1.0
+radial_segments = 7
+
+[sub_resource type="SphereMesh" id="Sphere"]
+radius = 0.5
+height = 1.0
+radial_segments = 9
+rings = 5
+
+[sub_resource type="TorusMesh" id="Ring"]
+inner_radius = 0.36
+outer_radius = 0.5
+rings = 14
+ring_segments = 6
+
+[sub_resource type="QuadMesh" id="Plane"]
+size = Vector2(1, 1)
+
+[node name="DungeonDressingParts" type="Node3D"]
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = ExtResource("1_wood")
+mesh = SubResource("Box")
+
+[node name="Cylinder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, 0)
+material_override = ExtResource("2_steel")
+mesh = SubResource("Cylinder")
+
+[node name="Bench" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, 0)
+material_override = ExtResource("1_wood")
+mesh = SubResource("Bench")
+
+[node name="Cone" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.199999999999999, 0, 0)
+material_override = ExtResource("2_steel")
+mesh = SubResource("Cone")
+
+[node name="Dome" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6, 0, 0)
+material_override = ExtResource("3_bronze")
+mesh = SubResource("Dome")
+
+[node name="Sphere" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
+material_override = ExtResource("3_bronze")
+mesh = SubResource("Sphere")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.399999999999999, 0, 0)
+material_override = ExtResource("3_bronze")
+mesh = SubResource("Ring")
+
+[node name="Plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.799999999999999, 0, 0)
+material_override = ExtResource("4_leather")
+mesh = SubResource("Plane")

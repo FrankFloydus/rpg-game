@@ -1,0 +1,913 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://ui/inventory_ui.gd" id="script"]
+[ext_resource type="Script" path="res://ui/inventory_grid.gd" id="grid"]
+[ext_resource type="Script" path="res://ui/inventory_equipment_slot.gd" id="slot"]
+[ext_resource type="PackedScene" path="res://ui/inventory_carry.tscn" id="carry"]
+[ext_resource type="PackedScene" path="res://ui/item_tooltip.tscn" id="tooltip"]
+[ext_resource type="PackedScene" path="res://ui/inventory_shortcut.tscn" id="shortcut"]
+[ext_resource type="PackedScene" path="res://ui/inventory_stat_card.tscn" id="stat"]
+
+[sub_resource type="ButtonGroup" id="Tabs"]
+
+[node name="Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme = ExtResource("theme")
+script = ExtResource("script")
+
+[node name="Veil" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.025, 0.028, 0.033, 0.72)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frame" type="PanelContainer" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GearFrame"
+
+[node name="Body" type="VBoxContainer" parent="Center/Frame"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Center/Frame/Body"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Center/Frame/Body/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 34
+text = "Inventory"
+size_flags_horizontal = 3
+theme_type_variation = &"GearHeading"
+
+[node name="Purse" type="PanelContainer" parent="Center/Frame/Body/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"GearWell"
+
+[node name="Value" type="HBoxContainer" parent="Center/Frame/Body/Header/Purse"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Gold" type="Label" parent="Center/Frame/Body/Header/Purse/Value"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+theme_type_variation = &"GearValue"
+
+[node name="Unit" type="Label" parent="Center/Frame/Body/Header/Purse/Value"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+text = "Gold"
+
+[node name="Close" type="Button" parent="Center/Frame/Body/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = "Close [Esc]"
+
+[node name="HeaderRule" type="HSeparator" parent="Center/Frame/Body"]
+layout_mode = 2
+
+[node name="Layout" type="HBoxContainer" parent="Center/Frame/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Catalogue" type="PanelContainer" parent="Center/Frame/Body/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_type_variation = &"GearSection"
+
+[node name="Body" type="VBoxContainer" parent="Center/Frame/Body/Layout/Catalogue"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Catalogue/Body"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Catalogue/Body/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Catalogue"
+theme_type_variation = &"GearHeading"
+
+[node name="CatalogueScroll" type="ScrollContainer" parent="Center/Frame/Body/Layout/Catalogue/Body"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(380, 266)
+size_flags_horizontal = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="VendorGrid" type="Control" parent="Center/Frame/Body/Layout/Catalogue/Body/CatalogueScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(380, 266)
+size_flags_horizontal = 0
+mouse_filter = 0
+script = ExtResource("grid")
+endpoint = "vendor"
+authored_cells = Vector2i(10, 7)
+
+[node name="Storage" type="PanelContainer" parent="Center/Frame/Body/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_type_variation = &"GearSection"
+
+[node name="Body" type="VBoxContainer" parent="Center/Frame/Body/Layout/Storage"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Storage/Body"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Storage/Body/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Storage"
+theme_type_variation = &"GearHeading"
+
+[node name="Tabs" type="HBoxContainer" parent="Center/Frame/Body/Layout/Storage/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Tab1" type="Button" parent="Center/Frame/Body/Layout/Storage/Body/Tabs"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 29)
+size_flags_horizontal = 3
+accessibility_name = "Stash tab 1"
+toggle_mode = true
+button_group = SubResource("Tabs")
+button_pressed = true
+text = "1"
+
+[node name="Tab2" type="Button" parent="Center/Frame/Body/Layout/Storage/Body/Tabs"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 29)
+size_flags_horizontal = 3
+accessibility_name = "Stash tab 2"
+toggle_mode = true
+button_group = SubResource("Tabs")
+text = "2"
+
+[node name="Tab3" type="Button" parent="Center/Frame/Body/Layout/Storage/Body/Tabs"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 29)
+size_flags_horizontal = 3
+accessibility_name = "Stash tab 3"
+toggle_mode = true
+button_group = SubResource("Tabs")
+text = "3"
+
+[node name="Tab4" type="Button" parent="Center/Frame/Body/Layout/Storage/Body/Tabs"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 29)
+size_flags_horizontal = 3
+accessibility_name = "Stash tab 4"
+toggle_mode = true
+button_group = SubResource("Tabs")
+text = "4"
+
+[node name="Tab5" type="Button" parent="Center/Frame/Body/Layout/Storage/Body/Tabs"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 29)
+size_flags_horizontal = 3
+accessibility_name = "Stash tab 5"
+toggle_mode = true
+button_group = SubResource("Tabs")
+text = "5"
+
+[node name="Filters" type="HBoxContainer" parent="Center/Frame/Body/Layout/Storage/Body"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Search" type="LineEdit" parent="Center/Frame/Body/Layout/Storage/Body/Filters"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+accessibility_name = "Search stash by item name or stats"
+placeholder_text = "Search name or stats"
+max_length = 84
+clear_button_enabled = true
+
+[node name="Rarity" type="OptionButton" parent="Center/Frame/Body/Layout/Storage/Body/Filters"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(103, 0)
+fit_to_longest_item = false
+text = "All rarities"
+
+[node name="Type" type="OptionButton" parent="Center/Frame/Body/Layout/Storage/Body/Filters"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(103, 0)
+fit_to_longest_item = false
+text = "All types"
+
+[node name="StashScroll" type="ScrollContainer" parent="Center/Frame/Body/Layout/Storage/Body"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(468, 456)
+size_flags_horizontal = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="StashGrid" type="Control" parent="Center/Frame/Body/Layout/Storage/Body/StashScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(456, 456)
+size_flags_horizontal = 0
+mouse_filter = 0
+script = ExtResource("grid")
+endpoint = "stash:0"
+authored_cells = Vector2i(12, 12)
+
+[node name="Smith" type="PanelContainer" parent="Center/Frame/Body/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_type_variation = &"GearSection"
+
+[node name="Body" type="VBoxContainer" parent="Center/Frame/Body/Layout/Smith"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Smith/Body"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Smith/Body/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Recipes"
+theme_type_variation = &"GearHeading"
+
+[node name="SmithTarget" type="PanelContainer" parent="Center/Frame/Body/Layout/Smith/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GearWell"
+mouse_filter = 0
+
+[node name="Selected" type="HBoxContainer" parent="Center/Frame/Body/Layout/Smith/Body/SmithTarget"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="SmithArt" type="TextureRect" parent="Center/Frame/Body/Layout/Smith/Body/SmithTarget/Selected"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(38, 48)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SmithName" type="Label" parent="Center/Frame/Body/Layout/Smith/Body/SmithTarget/Selected"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 17
+text = "No gear selected"
+custom_minimum_size = Vector2(376, 0)
+size_flags_horizontal = 3
+autowrap_mode = 3
+vertical_alignment = 1
+
+[node name="RecipesScroll" type="ScrollContainer" parent="Center/Frame/Body/Layout/Smith/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(450, 238)
+horizontal_scroll_mode = 0
+
+[node name="RecipeList" type="VBoxContainer" parent="Center/Frame/Body/Layout/Smith/Body/RecipesScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="MaterialsRule" type="HSeparator" parent="Center/Frame/Body/Layout/Smith/Body"]
+layout_mode = 2
+
+[node name="Materials" type="Label" parent="Center/Frame/Body/Layout/Smith/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "Materials • None gathered"
+custom_minimum_size = Vector2(450, 0)
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Loadout" type="PanelContainer" parent="Center/Frame/Body/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GearSection"
+
+[node name="Body" type="VBoxContainer" parent="Center/Frame/Body/Layout/Loadout"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Loadout/Body"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Loadout/Body/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Equipment"
+theme_type_variation = &"GearHeading"
+
+[node name="EquipmentBoard" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(456, 244)
+mouse_filter = 2
+
+[node name="MainHand" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 15.20
+offset_top = 22.04
+offset_right = 91.20
+offset_bottom = 174.04
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "main_hand"
+
+[node name="OffHand" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 364.80
+offset_top = 22.04
+offset_right = 440.80
+offset_bottom = 174.04
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "off_hand"
+
+[node name="Helm" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 190.00
+offset_top = 3.04
+offset_right = 266.00
+offset_bottom = 79.04
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "helm"
+
+[node name="Chest" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 190.00
+offset_top = 83.60
+offset_right = 266.00
+offset_bottom = 197.60
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "chest"
+
+[node name="LeftRing" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 139.46
+offset_top = 90.82
+offset_right = 177.46
+offset_bottom = 128.82
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "left_ring"
+
+[node name="RightRing" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 278.54
+offset_top = 90.82
+offset_right = 316.54
+offset_bottom = 128.82
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "right_ring"
+
+[node name="Amulet" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 278.54
+offset_top = 41.04
+offset_right = 316.54
+offset_bottom = 79.04
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "amulet"
+
+[node name="Gloves" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 97.66
+offset_top = 139.84
+offset_right = 173.66
+offset_bottom = 215.84
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "gloves"
+
+[node name="Boots" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 282.34
+offset_top = 139.84
+offset_right = 358.34
+offset_bottom = 215.84
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "boots"
+
+[node name="Belt" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 190.00
+offset_top = 202.92
+offset_right = 266.00
+offset_bottom = 240.92
+mouse_filter = 0
+script = ExtResource("slot")
+slot = "belt"
+
+[node name="MainHandCaption" type="Label" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 4.75
+offset_right = 101.65
+offset_bottom = 18.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+text = "Main Hand"
+horizontal_alignment = 1
+
+[node name="OffHandCaption" type="Label" parent="Center/Frame/Body/Layout/Loadout/Body/EquipmentBoard"]
+layout_mode = 0
+offset_left = 354.35
+offset_right = 451.25
+offset_bottom = 18.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+text = "Off Hand"
+horizontal_alignment = 1
+
+[node name="PackRule" type="HSeparator" parent="Center/Frame/Body/Layout/Loadout/Body"]
+layout_mode = 2
+
+[node name="PackBand" type="PanelContainer" parent="Center/Frame/Body/Layout/Loadout/Body"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Loadout/Body/PackBand"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Your Pack"
+theme_type_variation = &"GearHeading"
+
+[node name="PackScroll" type="ScrollContainer" parent="Center/Frame/Body/Layout/Loadout/Body"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(456, 228)
+size_flags_horizontal = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="PackGrid" type="Control" parent="Center/Frame/Body/Layout/Loadout/Body/PackScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(456, 228)
+size_flags_horizontal = 0
+mouse_filter = 0
+script = ExtResource("grid")
+endpoint = "bag"
+authored_cells = Vector2i(12, 6)
+
+[node name="SmithPack" type="PanelContainer" parent="Center/Frame/Body/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_type_variation = &"GearSection"
+
+[node name="Body" type="VBoxContainer" parent="Center/Frame/Body/Layout/SmithPack"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/SmithPack/Body"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/SmithPack/Body/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Your Pack"
+theme_type_variation = &"GearHeading"
+
+[node name="SmithPackScroll" type="ScrollContainer" parent="Center/Frame/Body/Layout/SmithPack/Body"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(456, 228)
+size_flags_horizontal = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="SmithPackGrid" type="Control" parent="Center/Frame/Body/Layout/SmithPack/Body/SmithPackScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(456, 228)
+size_flags_horizontal = 0
+mouse_filter = 0
+script = ExtResource("grid")
+endpoint = "bag"
+authored_cells = Vector2i(12, 6)
+
+[node name="Character" type="PanelContainer" parent="Center/Frame/Body/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GearSection"
+
+[node name="Body" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Character/Body"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Character"
+theme_type_variation = &"GearHeading"
+
+[node name="Progression" type="PanelContainer" parent="Center/Frame/Body/Layout/Character/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"GearWell"
+
+[node name="Fields" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Experience" type="HBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields"]
+layout_mode = 2
+
+[node name="Level" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Experience"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 17
+text = "Level 1"
+size_flags_horizontal = 3
+theme_type_variation = &"GearHeading"
+
+[node name="XP" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Experience"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "0 / 100 XP"
+theme_type_variation = &"GearValue"
+
+[node name="ExperienceBar" type="ProgressBar" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(0, 5)
+show_percentage = false
+
+[node name="Attributes" type="HBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Strength" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Strength"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "Strength"
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Controls" type="HBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Strength"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Value" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Strength/Controls"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "0"
+size_flags_horizontal = 3
+
+[node name="Allocate" type="Button" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Strength/Controls"]
+layout_mode = 2
+accessibility_name = "Increase Strength"
+theme_override_font_sizes/font_size = 13
+text = "+"
+
+[node name="Dexterity" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Dexterity"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "Dexterity"
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Controls" type="HBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Dexterity"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Value" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Dexterity/Controls"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "0"
+size_flags_horizontal = 3
+
+[node name="Allocate" type="Button" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Dexterity/Controls"]
+layout_mode = 2
+accessibility_name = "Increase Dexterity"
+theme_override_font_sizes/font_size = 13
+text = "+"
+
+[node name="Intelligence" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Intelligence"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "Intelligence"
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Controls" type="HBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Intelligence"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Value" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Intelligence/Controls"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "0"
+size_flags_horizontal = 3
+
+[node name="Allocate" type="Button" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Attributes/Intelligence/Controls"]
+layout_mode = 2
+accessibility_name = "Increase Intelligence"
+theme_override_font_sizes/font_size = 13
+text = "+"
+
+[node name="Points" type="HBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields"]
+layout_mode = 2
+
+[node name="Available" type="Label" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Points"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "0 attribute points available"
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Reset" type="Button" parent="Center/Frame/Body/Layout/Character/Body/Progression/Fields/Points"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+accessibility_name = "Reset Training attributes"
+tooltip_text = "Return allocated Training attribute points."
+theme_override_font_sizes/font_size = 12
+text = "Reset"
+
+[node name="Overview" type="GridContainer" parent="Center/Frame/Body/Layout/Character/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+
+[node name="Damage" parent="Center/Frame/Body/Layout/Character/Body/Overview" instance=ExtResource("stat")]
+layout_mode = 2
+
+[node name="Caption" parent="Center/Frame/Body/Layout/Character/Body/Overview/Damage/Body" index="0"]
+text = "Physical Damage"
+
+[node name="Life" parent="Center/Frame/Body/Layout/Character/Body/Overview" instance=ExtResource("stat")]
+layout_mode = 2
+
+[node name="Caption" parent="Center/Frame/Body/Layout/Character/Body/Overview/Life/Body" index="0"]
+text = "Maximum Life"
+
+[node name="Mana" parent="Center/Frame/Body/Layout/Character/Body/Overview" instance=ExtResource("stat")]
+layout_mode = 2
+
+[node name="Caption" parent="Center/Frame/Body/Layout/Character/Body/Overview/Mana/Body" index="0"]
+text = "Maximum Mana"
+
+[node name="Stamina" parent="Center/Frame/Body/Layout/Character/Body/Overview" instance=ExtResource("stat")]
+layout_mode = 2
+
+[node name="Caption" parent="Center/Frame/Body/Layout/Character/Body/Overview/Stamina/Body" index="0"]
+text = "Maximum Stamina"
+
+[node name="Armour" parent="Center/Frame/Body/Layout/Character/Body/Overview" instance=ExtResource("stat")]
+layout_mode = 2
+
+[node name="Caption" parent="Center/Frame/Body/Layout/Character/Body/Overview/Armour/Body" index="0"]
+text = "Armour"
+
+[node name="Ward" parent="Center/Frame/Body/Layout/Character/Body/Overview" instance=ExtResource("stat")]
+layout_mode = 2
+
+[node name="Caption" parent="Center/Frame/Body/Layout/Character/Body/Overview/Ward/Body" index="0"]
+text = "Ward"
+
+[node name="StatsScroll" type="ScrollContainer" parent="Center/Frame/Body/Layout/Character/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(258, 178)
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Stats" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Attack" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Attack"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Attack/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "Attack"
+theme_type_variation = &"GearHeading"
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Attack"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Defence" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Defence"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Defence/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "Defence"
+theme_type_variation = &"GearHeading"
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Defence"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Recovery" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Recovery"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Recovery/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "Recovery"
+theme_type_variation = &"GearHeading"
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Recovery"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Exploration" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Band" type="PanelContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Exploration"]
+layout_mode = 2
+theme_type_variation = &"GearHeadband"
+
+[node name="Heading" type="Label" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Exploration/Band"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "Exploration"
+theme_type_variation = &"GearHeading"
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Exploration"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Other" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Body/Layout/Character/Body/StatsScroll/Stats/Other"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="FooterRule" type="HSeparator" parent="Center/Frame/Body"]
+layout_mode = 2
+
+[node name="Footer" type="HBoxContainer" parent="Center/Frame/Body"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Shortcuts" type="HBoxContainer" parent="Center/Frame/Body/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="Shortcut1" parent="Center/Frame/Body/Footer/Shortcuts" instance=ExtResource("shortcut")]
+layout_mode = 2
+
+[node name="Shortcut2" parent="Center/Frame/Body/Footer/Shortcuts" instance=ExtResource("shortcut")]
+layout_mode = 2
+visible = false
+
+[node name="Shortcut3" parent="Center/Frame/Body/Footer/Shortcuts" instance=ExtResource("shortcut")]
+layout_mode = 2
+visible = false
+
+[node name="Shortcut4" parent="Center/Frame/Body/Footer/Shortcuts" instance=ExtResource("shortcut")]
+layout_mode = 2
+visible = false
+
+[node name="Feedback" type="Label" parent="Center/Frame/Body/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = ""
+custom_minimum_size = Vector2(232, 28)
+autowrap_mode = 3
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Carry" parent="." instance=ExtResource("carry")]
+unique_name_in_owner = true
+
+
+[node name="Tooltip" parent="." instance=ExtResource("tooltip")]
+unique_name_in_owner = true
+
+
+[editable path="Center/Frame/Body/Layout/Character/Body/Overview/Damage"]
+[editable path="Center/Frame/Body/Layout/Character/Body/Overview/Life"]
+[editable path="Center/Frame/Body/Layout/Character/Body/Overview/Mana"]
+[editable path="Center/Frame/Body/Layout/Character/Body/Overview/Stamina"]
+[editable path="Center/Frame/Body/Layout/Character/Body/Overview/Armour"]
+[editable path="Center/Frame/Body/Layout/Character/Body/Overview/Ward"]

@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/dressing/floor_votives.glb" id="1_wax"]
+[ext_resource type="PackedScene" path="res://world/modules/torch_flame.tscn" id="2_flame"]
+
+[node name="FloorVotiveCluster" type="Node3D"]
+
+[node name="WaxAndWicks" parent="." instance=ExtResource("1_wax")]
+
+[node name="TallFlame" parent="." instance=ExtResource("2_flame")]
+transform = Transform3D(0.20, 0, 0, 0, 0.21, 0, 0, 0, 0.20, -0.056, 0.241, 0.029)
+
+[node name="MiddleFlame" parent="." instance=ExtResource("2_flame")]
+transform = Transform3D(0.15, 0, 0, 0, 0.17, 0, 0, 0, 0.15, 0.085, 0.173, -0.005)
+
+[node name="LowFlame" parent="." instance=ExtResource("2_flame")]
+transform = Transform3D(0.13, 0, 0, 0, 0.14, 0, 0, 0, 0.13, -0.152, 0.090, -0.036)
+
+[node name="OuterFlame" parent="." instance=ExtResource("2_flame")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0.156, 0.114, 0.099)
+
+[node name="Candlelight" type="OmniLight3D" parent="."]
+position = Vector3(0, 0.33, 0.06)
+light_color = Color(1, 0.60, 0.32, 1)
+light_energy = 0.53
+omni_range = 2.76
+omni_attenuation = 1.54
+distance_fade_enabled = true
+distance_fade_begin = 16.0
+distance_fade_length = 5.0
+

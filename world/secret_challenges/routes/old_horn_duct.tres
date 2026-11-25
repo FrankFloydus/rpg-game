@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="SecretChallengeRoute" format=3 uid="uid://okanke12xkwv"]
+
+[ext_resource type="Script" uid="uid://d240lj3f4jnbt" path="res://world/secret_challenges/secret_challenge_route.gd" id="Route"]
+[ext_resource type="Script" uid="uid://dt56oec7d6bkk" path="res://world/secret_challenges/secret_challenge_socket.gd" id="Socket"]
+
+[sub_resource type="Resource" id="Trap_1"]
+script = ExtResource("Socket")
+alternate_kind = "ember_vent"
+phase = 0.65
+reach = 1.1
+
+[sub_resource type="Resource" id="Trap_2"]
+script = ExtResource("Socket")
+glyph = "2"
+kind = "miasma_vent"
+facing = Vector2i(0, 1)
+phase = 0.05
+reach = 1.72
+
+[resource]
+resource_name = "Old Horn Duct"
+script = ExtResource("Route")
+id = &"old_horn_duct"
+display_name = "Old Horn Duct"
+rows = PackedStringArray("###..1....###", "###.#####.###", "S...#####2###", "#########...R", "##########.##")
+hazard_sockets = Array[ExtResource("Socket")]([SubResource("Trap_1"), SubResource("Trap_2")])

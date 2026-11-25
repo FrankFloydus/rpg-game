@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_crown.png" id="wall_crown_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_crown_normal.png" id="wall_crown_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_crown_orm.png" id="wall_crown_orm"]
+
+[resource]
+resource_name = "Broken Impact Crown"
+transparency = 1
+albedo_texture = ExtResource("wall_crown_albedo")
+orm_texture = ExtResource("wall_crown_orm")
+normal_enabled = true
+normal_texture = ExtResource("wall_crown_normal")
+ao_enabled = true
+texture_repeat = false

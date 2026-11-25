@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MeleeAbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/melee_ability_definition.gd" id="1_action"]
+
+[resource]
+resource_name = "Oathbound Slash"
+script = ExtResource("1_action")
+id = &"oathbound_slash"
+display_name = "Oathbound Slash"
+description = "An allied skeleton's short sword deals Physical damage to a hostile it can reach."
+damage_type = "physical"
+reach = 1.72
+start_range = 1.49
+half_angle = 46.0
+windup = 0.42
+recovery = 0.48
+cooldown = 1.33
+damage_multiplier = 0.43

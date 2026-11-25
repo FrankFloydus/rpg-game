@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://km4otferwexk"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_dowvu"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/flame_offering.tres" id="icon_art"]
+
+[resource]
+resource_name = "Flame Offering"
+script = ExtResource("1_definition")
+id = &"flame_offering"
+display_name = "Flame Offering"
+icon = ExtResource("icon_art")
+icon_key = "fan"
+description = "Launches three projectiles in a fan, with two weaker shots flanking the center shot."
+action_key = "fan"
+damage_type = "fire"
+windup = 0.76
+recovery = 1.14
+damage_multiplier = 1.08
+execution_profile = {
+"shape": "ray",
+"reach": 12.8,
+"start": 12.4,
+"speed": 11.5,
+"spread": 15.0
+}

@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://cdt5utjebj37x" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_05.png" id="pooled_05_albedo"]
+[ext_resource type="Texture2D" uid="uid://cn5qyqhl6qrbn" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_05_orm.png" id="pooled_05_orm"]
+[ext_resource type="Texture2D" uid="uid://cu4lqn15vftmu" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_05_normal.png" id="pooled_05_normal"]
+
+[resource]
+resource_name = "Diffuse Spray Cloud"
+transparency = 1
+albedo_texture = ExtResource("pooled_05_albedo")
+orm_texture = ExtResource("pooled_05_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_05_normal")
+ao_enabled = true
+texture_repeat = false

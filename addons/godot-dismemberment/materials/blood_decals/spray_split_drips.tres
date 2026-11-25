@@ -1,0 +1,12 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://dhcfrrgida0j7" path="res://addons/godot-dismemberment/textures/blood_deposits/spray_split_drips.png" id="spray_split_drips_albedo"]
+[ext_resource type="Texture2D" uid="uid://cdd8brpxyngwq" path="res://addons/godot-dismemberment/textures/blood_deposits/spray_split_drips_orm.png" id="spray_split_drips_orm"]
+
+[resource]
+resource_name = "Split Drops and Runs"
+transparency = 1
+albedo_texture = ExtResource("spray_split_drips_albedo")
+orm_texture = ExtResource("spray_split_drips_orm")
+ao_enabled = true
+texture_repeat = false

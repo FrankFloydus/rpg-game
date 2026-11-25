@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://combat/enemies/grave_reclaimer/reclaim_beam.gdshader" id="1_ritual"]
+
+[sub_resource type="ShaderMaterial" id="Material_ritual"]
+shader = ExtResource("1_ritual")
+
+[sub_resource type="CylinderMesh" id="Mesh_thread"]
+material = SubResource("Material_ritual")
+top_radius = 0.058
+bottom_radius = 0.10
+height = 1.0
+radial_segments = 12
+rings = 5
+cap_top = false
+cap_bottom = false
+
+[node name="ReclaimBeam" type="MeshInstance3D"]
+cast_shadow = 0
+mesh = SubResource("Mesh_thread")

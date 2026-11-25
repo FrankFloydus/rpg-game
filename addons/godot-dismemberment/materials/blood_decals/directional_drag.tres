@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_drag.png" id="directional_drag_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_drag_normal.png" id="directional_drag_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_drag_orm.png" id="directional_drag_orm"]
+
+[resource]
+resource_name = "Directional Hooked Spray"
+transparency = 1
+albedo_texture = ExtResource("directional_drag_albedo")
+normal_texture = ExtResource("directional_drag_normal")
+orm_texture = ExtResource("directional_drag_orm")
+normal_enabled = true
+ao_enabled = true
+texture_repeat = false

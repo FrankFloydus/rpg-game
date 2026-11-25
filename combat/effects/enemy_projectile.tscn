@@ -1,0 +1,59 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://combat/effects/enemy_projectile.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/loot/fletched_arrow.glb" id="2_arrow"]
+[ext_resource type="Shader" path="res://combat/effects/enemy_bolt.gdshader" id="3_bolt"]
+[ext_resource type="Shader" path="res://combat/effects/projectile_trail.gdshader" id="4_trail"]
+
+[sub_resource type="ShaderMaterial" id="Core_material"]
+shader = ExtResource("3_bolt")
+
+[sub_resource type="SphereMesh" id="Core_mesh"]
+material = SubResource("Core_material")
+radial_segments = 12
+rings = 6
+
+[sub_resource type="ParticleProcessMaterial" id="Trail_proc"]
+resource_local_to_scene = true
+lifetime_randomness = 0.23
+particle_flag_align_y = true
+direction = Vector3(0, 0, 1)
+spread = 21.0
+initial_velocity_min = 0.33
+initial_velocity_max = 0.92
+gravity = Vector3(0, -0.13, 0)
+scale_min = 0.54
+scale_max = 1.06
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="Trail_material"]
+shader = ExtResource("4_trail")
+
+[sub_resource type="QuadMesh" id="Trail_mesh"]
+material = SubResource("Trail_material")
+size = Vector2(0.094, 0.27)
+
+[node name="EnemyProjectile" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Arrow" parent="." instance=ExtResource("2_arrow")]
+
+[node name="Bolt" type="Node3D" parent="."]
+visible = false
+
+[node name="Core" type="MeshInstance3D" parent="Bolt"]
+position = Vector3(0, 0, 0.098)
+scale = Vector3(0.20, 0.20, 0.53)
+cast_shadow = 0
+mesh = SubResource("Core_mesh")
+
+[node name="Trail" type="GPUParticles3D" parent="Bolt"]
+position = Vector3(0, 0, 0.15)
+cast_shadow = 0
+emitting = false
+amount = 18
+lifetime = 0.26
+fixed_fps = 60
+visibility_aabb = AABB(-4.4, -2.0, -4.4, 8.8, 4.0, 8.8)
+process_material = SubResource("Trail_proc")
+draw_pass_1 = SubResource("Trail_mesh")

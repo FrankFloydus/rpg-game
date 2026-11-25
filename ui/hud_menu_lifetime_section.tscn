@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="1_theme"]
+
+[node name="LifetimeSection" type="VBoxContainer"]
+mouse_filter = 2
+theme = ExtResource("1_theme")
+theme_override_constants/separation = 7
+
+[node name="Heading" type="Label" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "Category"
+
+[node name="Rows" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="Empty" type="Label" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.5882, 0.6157, 0.651, 1)
+theme_override_font_sizes/font_size = 15
+text = "No records yet"
+
+[node name="Divider" type="HSeparator" parent="."]
+layout_mode = 2

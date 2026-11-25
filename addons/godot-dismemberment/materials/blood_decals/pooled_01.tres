@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://bc1dtoqua0jtb" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_01.png" id="pooled_01_albedo"]
+[ext_resource type="Texture2D" uid="uid://dbc8oxwjwegv0" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_01_orm.png" id="pooled_01_orm"]
+[ext_resource type="Texture2D" uid="uid://hoex60l416j2" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_01_normal.png" id="pooled_01_normal"]
+
+[resource]
+resource_name = "Broad Pooled Impact"
+transparency = 1
+albedo_texture = ExtResource("pooled_01_albedo")
+orm_texture = ExtResource("pooled_01_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_01_normal")
+ao_enabled = true
+texture_repeat = false

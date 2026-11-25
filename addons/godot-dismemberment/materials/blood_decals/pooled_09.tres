@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://c8b3pftle1w4v" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_09.png" id="pooled_09_albedo"]
+[ext_resource type="Texture2D" uid="uid://xnna0xyyuduf" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_09_orm.png" id="pooled_09_orm"]
+[ext_resource type="Texture2D" uid="uid://bq38mvvg4yhi5" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_09_normal.png" id="pooled_09_normal"]
+
+[resource]
+resource_name = "One-Sided Feathered Fan"
+transparency = 1
+albedo_texture = ExtResource("pooled_09_albedo")
+orm_texture = ExtResource("pooled_09_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_09_normal")
+ao_enabled = true
+texture_repeat = false

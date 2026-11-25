@@ -1,0 +1,12 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://j6a6wiroxgdk" path="res://addons/godot-dismemberment/textures/blood_deposits/spray_split_streak.png" id="spray_split_streak_albedo"]
+[ext_resource type="Texture2D" uid="uid://b6tbe1q1gjsp6" path="res://addons/godot-dismemberment/textures/blood_deposits/spray_split_streak_orm.png" id="spray_split_streak_orm"]
+
+[resource]
+resource_name = "Long Split Streak"
+transparency = 1
+albedo_texture = ExtResource("spray_split_streak_albedo")
+orm_texture = ExtResource("spray_split_streak_orm")
+ao_enabled = true
+texture_repeat = false

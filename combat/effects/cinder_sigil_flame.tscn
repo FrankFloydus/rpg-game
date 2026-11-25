@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/cloud_noise.png" id="1_smoke"]
+[ext_resource type="Shader" path="res://combat/effects/impact_billboard.gdshader" id="2_billboard"]
+
+[sub_resource type="ShaderMaterial" id="FlameMaterial"]
+shader = ExtResource("2_billboard")
+shader_parameter/mask_texture = ExtResource("1_smoke")
+shader_parameter/tint = Color(1.46, 0.52, 0.16, 0.83)
+shader_parameter/radial_falloff = true
+
+[sub_resource type="QuadMesh" id="FlameMesh"]
+material = SubResource("FlameMaterial")
+size = Vector2(0.52, 0.95)
+
+[sub_resource type="Curve" id="FlameSize"]
+_data = [Vector2(0, 0.3), 0.0, 2.8, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.28), -0.9, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="FlameSizeTexture"]
+curve = SubResource("FlameSize")
+
+[sub_resource type="ParticleProcessMaterial" id="FlameProcess"]
+resource_local_to_scene = true
+emission_shape = 3
+emission_box_extents = Vector3(0.6, 0.05, 2)
+lifetime_randomness = 0.35
+direction = Vector3(0, 1, 0)
+spread = 16.0
+initial_velocity_min = 0.65
+initial_velocity_max = 2.8
+gravity = Vector3(0, -2, 0)
+scale_min = 0.46
+scale_max = 1.23
+scale_curve = SubResource("FlameSizeTexture")
+
+[node name="CinderSigilFlame" type="GPUParticles3D"]
+cast_shadow = 0
+emitting = false
+amount = 54
+lifetime = 0.62
+one_shot = true
+explosiveness = 0.86
+visibility_aabb = AABB(-2, -0.5, -12, 4, 5, 24)
+local_coords = true
+process_material = SubResource("FlameProcess")
+draw_pass_1 = SubResource("FlameMesh")
+
+[node name="Cleanup" type="Timer" parent="."]
+wait_time = 0.9
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Cleanup" to="." method="queue_free"]

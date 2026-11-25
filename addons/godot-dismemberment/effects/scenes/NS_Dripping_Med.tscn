@@ -1,0 +1,171 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_scene.gd" id="1_scene"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_emitter_layer.gd" id="2_layer"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="3_process"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_BloodSplash_07.tres" id="Niagara_BloodSplash_07"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/BloodMasked01Dripping.tres" id="Niagara_BloodMasked_01"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sprite"]
+size = Vector2(1, 1)
+
+[sub_resource type="Curve" id="Curve_Source_0_dissolve_curve"]
+min_value = -1
+max_value = 2
+_data = [Vector2(0, 0), 0.000000000, 0.000000000, 0, 0, Vector2(1, 1), 1.739372800, 1.739372800, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_Source_0_dissolve_curve"]
+width = 256
+curve = SubResource("Curve_Source_0_dissolve_curve")
+
+[sub_resource type="Curve" id="Curve_Source_0_alpha_curve"]
+min_value = -1
+max_value = 2
+_data = [Vector2(0, 1), 0.000000000, 0.000000000, 1, 1, Vector2(1, 1), 0.000000000, 0.000000000, 1, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_Source_0_alpha_curve"]
+width = 256
+curve = SubResource("Curve_Source_0_alpha_curve")
+
+[sub_resource type="Curve" id="Curve_Source_0_size_x_curve"]
+min_value = -1
+max_value = 3.2
+_data = [Vector2(0, 0.000000051), 8.357048000, 8.357048000, 0, 0, Vector2(0.22226356, 1.365055560), 1.999002580, 1.999002580, 0, 0, Vector2(1, 1.999999880), -0.081036404, -0.081036404, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_Source_0_size_x_curve"]
+width = 256
+curve = SubResource("Curve_Source_0_size_x_curve")
+
+[sub_resource type="Curve" id="Curve_Source_1_dissolve_curve"]
+min_value = -1
+max_value = 2
+_data = [Vector2(0, 0), 0.0, 0.0, 1, 1, Vector2(1, 0), 0.0, 0.0, 1, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_Source_1_dissolve_curve"]
+width = 256
+curve = SubResource("Curve_Source_1_dissolve_curve")
+
+[sub_resource type="Curve" id="Curve_Source_1_alpha_curve"]
+min_value = -1
+max_value = 2
+_data = [Vector2(0, 1), 0.000000000, 0.000000000, 1, 1, Vector2(1, 1), 0.000000000, 0.000000000, 1, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_Source_1_alpha_curve"]
+width = 256
+curve = SubResource("Curve_Source_1_alpha_curve")
+
+[sub_resource type="Curve" id="Curve_Source_1_size_x_curve"]
+min_value = -1
+max_value = 2
+_data = [Vector2(0, 1), 0.000000000, 0.000000000, 0, 0, Vector2(1, 0.30000001), -3.206860300, -3.206860300, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_Source_1_size_x_curve"]
+width = 256
+curve = SubResource("Curve_Source_1_size_x_curve")
+
+[node name="NS_Dripping_Med" type="Node3D"]
+script = ExtResource("1_scene")
+system_name = &"NS_Dripping_Med"
+family = &"dripping"
+intensity = 1
+
+[node name="DirectionalBurst001" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodSplash_07")
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst001"
+reference_material = &"MI_BloodSplash_07"
+uv_flip = 1
+channel = 1
+source_motion = true
+alignment = 2
+sprite_pivot = Vector2(0.5, 0.8)
+alignment_uses_initial_velocity = true
+particle_count = 2
+spawn_delay = 0
+stream_rate = 2
+emission_window = 0.2
+loop_duration = 0.2
+particle_lifetime = Vector2(0.3, 0.4)
+width = Vector2(0.05, 0.1)
+length = Vector2(0.2, 0.3)
+lifetime = 2.26
+opacity = 2.0
+speed_stretch = true
+collision_events = false
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 2)
+speed_scale_threshold = 15
+velocity_min = Vector3(-0.2, 0.2, -0.05)
+velocity_max = Vector3(0.1, 0.5, 0.05)
+velocity_world_space = false
+gravity_min = Vector3(0, -3.5, 0)
+gravity_max = Vector3(0, -2.5, 0)
+drag_range = Vector2(2, 3)
+dissolve_curve = SubResource("CurveTexture_Source_0_dissolve_curve")
+alpha_curve = SubResource("CurveTexture_Source_0_alpha_curve")
+size_x_curve = SubResource("CurveTexture_Source_0_size_x_curve")
+size_y_curve = SubResource("CurveTexture_Source_0_size_x_curve")
+
+[node name="Flow" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodMasked_01")
+cast_shadow = 0
+gi_mode = 0
+amount = 5250
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"Flow"
+reference_material = &"MI_BloodMasked_01"
+uv_flip = 1
+channel = 2
+source_motion = true
+alignment = 0
+sprite_pivot = Vector2(0.5, 0.8)
+alignment_uses_initial_velocity = false
+uniform_sprite_size = true
+particle_count = 0
+spawn_delay = 0
+stream_rate = 150
+emission_window = 1
+loop_duration = 1
+particle_lifetime = Vector2(1, 1)
+width = Vector2(0.009, 0.01)
+length = Vector2(0.009, 0.01)
+lifetime = 2.26
+opacity = 1
+speed_stretch = false
+collision_events = false
+rotation_range = Vector2(0, 1)
+velocity_min = Vector3(-0, 0.35, 0)
+velocity_max = Vector3(-0, 0.35, 0)
+velocity_world_space = false
+gravity_min = Vector3(0, -3, 0)
+gravity_max = Vector3(0, -3, 0)
+drag_range = Vector2(2, 2)
+stream_spacing = 0.01
+stream_max_speed = 50.0
+dissolve_curve = SubResource("CurveTexture_Source_1_dissolve_curve")
+alpha_curve = SubResource("CurveTexture_Source_1_alpha_curve")
+size_x_curve = SubResource("CurveTexture_Source_1_size_x_curve")
+size_y_curve = SubResource("CurveTexture_Source_1_size_x_curve")

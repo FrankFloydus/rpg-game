@@ -1,0 +1,38 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://combat/enemies/chalice_fiend/chalice_fiend_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/chalice_flame.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/flame_offering.tres" id="4_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/twin_libations.tres" id="5_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="6_boqei"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/chalice_fiend.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/chalice_fiend/chalice_fiend_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gb5cc"]
+radius = 0.42
+height = 1.8576
+
+[node name="ChaliceFiend" type="CharacterBody3D" unique_id=314336226]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 19.0
+base_attack_damage = 3.8
+base_move_speed = 2.82
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability"), ExtResource("5_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=901111236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9288, 0)
+shape = SubResource("CapsuleShape3D_gb5cc")
+
+[node name="Model" type="Node3D" parent="." unique_id=1320897648]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+script = ExtResource("6_boqei")
+
+[node name="Rig" parent="Model" unique_id=801246051 instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

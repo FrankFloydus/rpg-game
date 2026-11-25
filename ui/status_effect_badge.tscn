@@ -1,0 +1,80 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/status_effect_badge.gd" id="1_badge"]
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="BuffBorder"]
+bg_color = Color(0.0431373, 0.0470588, 0.054902, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.50, 0.62, 0.42, 1)
+
+[sub_resource type="StyleBoxFlat" id="DebuffBorder"]
+bg_color = Color(0.0431373, 0.0470588, 0.054902, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.71, 0.38, 0.31, 1)
+
+[sub_resource type="StyleBoxFlat" id="TimerLabel"]
+content_margin_left = 3.0
+content_margin_right = 3.0
+bg_color = Color(0.027451, 0.031373, 0.035294, 0.96)
+border_width_top = 1
+border_width_left = 1
+border_color = Color(0.235294, 0.254902, 0.278431, 1)
+
+[node name="EffectBadge" type="Panel"]
+visible = false
+custom_minimum_size = Vector2(36, 36)
+mouse_filter = 1
+theme = ExtResource("2_theme")
+script = ExtResource("1_badge")
+beneficial_style = SubResource("BuffBorder")
+harmful_style = SubResource("DebuffBorder")
+
+[node name="Icon" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Countdown" type="Label" parent="."]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -16.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.894118, 0.905882, 0.921569, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("TimerLabel")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Charges" type="Label" parent="."]
+visible = false
+anchor_right = 1.0
+offset_left = 3.0
+offset_top = 1.0
+offset_right = -3.0
+offset_bottom = 16.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.894118, 0.905882, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0.027451, 0.031373, 0.035294, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 10
+vertical_alignment = 1

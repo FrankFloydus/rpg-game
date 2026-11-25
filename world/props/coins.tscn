@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/loot/coins.glb" id="1_model"]
+
+[node name="Coins" type="Node3D" unique_id=2133641009]
+
+[node name="Body" type="Node3D" parent="." unique_id=1778006497]
+
+[node name="CoinPile" parent="Body" instance=ExtResource("1_model")]
+
+[node name="WorldLabel" type="Label3D" parent="." unique_id=1587629534]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41, 0)
+pixel_size = 0.0025
+billboard = 1
+modulate = Color(0.85882354, 0.6627451, 0.34117648, 1)
+outline_modulate = Color(0.09019608, 0.0627451, 0.050980393, 1)
+text = "1 Gold"
+font_size = 36
+outline_size = 13

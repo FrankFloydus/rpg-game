@@ -1,0 +1,191 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/card_interface.gd" id="1"]
+[ext_resource type="PackedScene" path="res://player/weapons/models/left_card_arm.glb" id="2_arm"]
+
+[ext_resource type="PackedScene" path="res://ui/card_loadout.tscn" id="3_loadout"]
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="4_theme"]
+
+[sub_resource type="StyleBoxFlat" id="DeckFrame"]
+content_margin_left = 35.0
+content_margin_top = 23.0
+content_margin_right = 35.0
+content_margin_bottom = 23.0
+bg_color = Color(0.04314, 0.04706, 0.0549, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45098, 0.48627, 0.52157, 1)
+
+[sub_resource type="Environment" id="Environment_arm"]
+ambient_light_source = 2
+ambient_light_color = Color(0.9, 0.84, 0.78, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.85
+
+[node name="Cards" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_theme")
+script = ExtResource("1")
+
+[node name="DeckShade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.82)
+
+[node name="HandShade" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.50)
+
+[node name="Content" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Hand" type="Control" parent="Content"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Fan" type="Control" parent="Content/Hand"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Hint" type="Label" parent="Content/Hand"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -266.0
+offset_bottom = -244.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6902, 0.71373, 0.7451, 1)
+theme_override_font_sizes/font_size = 16
+text = "Click to play   ·   Q / Esc to close"
+horizontal_alignment = 1
+
+[node name="DeckFrame" type="PanelContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = 39.0
+offset_right = -52.0
+offset_bottom = -39.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("DeckFrame")
+
+[node name="Stack" type="VBoxContainer" parent="Content/DeckFrame"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Header" type="HBoxContainer" parent="Content/DeckFrame/Stack"]
+layout_mode = 2
+
+[node name="Heading" type="Label" parent="Content/DeckFrame/Stack/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"GearHeading"
+theme_override_font_sizes/font_size = 30
+text = "Expedition Deck"
+
+[node name="Close" type="Button" parent="Content/DeckFrame/Stack/Header"]
+layout_mode = 2
+text = "Close  [Esc]"
+
+[node name="Rule" type="HSeparator" parent="Content/DeckFrame/Stack"]
+layout_mode = 2
+
+[node name="Loadout" parent="Content/DeckFrame/Stack" instance=ExtResource("3_loadout")]
+layout_mode = 2
+
+[node name="LeftArm" type="TextureRect" parent="."]
+visible = false
+z_index = 1
+layout_mode = 0
+mouse_filter = 2
+expand_mode = 1
+
+[node name="ArmViewport" type="SubViewport" parent="LeftArm"]
+transparent_bg = true
+gui_disable_input = true
+own_world_3d = true
+size = Vector2i(432, 316)
+render_target_update_mode = 0
+
+[node name="Camera" type="Camera3D" parent="LeftArm/ArmViewport"]
+position = Vector3(0, -0.10, 4)
+environment = SubResource("Environment_arm")
+cull_mask = 1
+projection = 1
+current = true
+size = 2.8
+
+[node name="WarmKey" type="DirectionalLight3D" parent="LeftArm/ArmViewport"]
+rotation_degrees = Vector3(-24, -35, 0)
+light_color = Color(1, 0.82, 0.64, 1)
+light_energy = 1.05
+
+[node name="CoolFill" type="DirectionalLight3D" parent="LeftArm/ArmViewport"]
+rotation_degrees = Vector3(19, 41, 0)
+light_color = Color(0.61, 0.72, 0.84, 1)
+light_energy = 0.30
+
+[node name="Pose" type="Node3D" parent="LeftArm/ArmViewport"]
+
+[node name="Grip" parent="LeftArm/ArmViewport/Pose" instance=ExtResource("2_arm")]
+
+[node name="LeftThumb" type="TextureRect" parent="."]
+visible = false
+z_index = 20
+layout_mode = 0
+mouse_filter = 2
+expand_mode = 1
+
+[node name="ThumbViewport" type="SubViewport" parent="LeftThumb"]
+transparent_bg = true
+gui_disable_input = true
+size = Vector2i(432, 316)
+render_target_update_mode = 0
+
+[node name="Camera" type="Camera3D" parent="LeftThumb/ThumbViewport"]
+position = Vector3(0, -0.10, 4)
+environment = SubResource("Environment_arm")
+cull_mask = 2
+projection = 1
+current = true
+size = 2.8

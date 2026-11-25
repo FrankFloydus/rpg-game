@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://c0mfttrrx2srr"
+path="res://.godot/imported/blood_depth_spots.glsl-5ce6890414e967327c523033c183eaed.res"
+
+[deps]
+
+source_file="res://addons/godot-dismemberment/effects/blood_depth_spots.glsl"
+dest_files=["res://.godot/imported/blood_depth_spots.glsl-5ce6890414e967327c523033c183eaed.res"]
+
+[params]
+

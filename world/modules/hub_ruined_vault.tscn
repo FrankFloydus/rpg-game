@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bnxwsfbkiga8b"]
+
+[ext_resource type="PackedScene" uid="uid://p0fpfpko11od" path="res://assets/models/architecture/hub_ruined_vault.glb" id="1_vault"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gate_wall"]
+size = Vector3(29, 5.78, 0.6)
+
+[node name="RuinedVault" type="Node3D" unique_id=761568134]
+
+[node name="Masonry" parent="." unique_id=1222101137 instance=ExtResource("1_vault")]
+
+[node name="SealedArrivalEnd" type="StaticBody3D" parent="." unique_id=608991903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.82, 12.52)
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SealedArrivalEnd" unique_id=1227557451]
+shape = SubResource("BoxShape3D_gate_wall")
+
+[node name="ClerestoryBounce" type="OmniLight3D" parent="." unique_id=171747860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.1, -8.15)
+light_color = Color(0.55, 0.66, 0.81, 1)
+light_energy = 2.0
+omni_range = 13.9
+omni_attenuation = 1.18
+
+[node name="CrossingBounce" type="OmniLight3D" parent="." unique_id=720163225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.91, 2.38)
+light_color = Color(0.76, 0.67, 0.56, 1)
+light_energy = 1.28
+omni_range = 12.3
+omni_attenuation = 1.28
+
+[node name="ArrivalBounce" type="OmniLight3D" parent="." unique_id=68777457]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86, 6.75, 9.42)
+light_color = Color(0.53, 0.66, 0.78, 1)
+light_energy = 1.04
+omni_range = 14.15
+omni_attenuation = 1.3
+
+[node name="WestAisleBounce" type="OmniLight3D" parent="." unique_id=58414184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.8, 5.43, -3.6)
+light_color = Color(0.56, 0.65, 0.69, 1)
+light_energy = 0.7
+omni_range = 10.5
+
+[node name="EastAisleBounce" type="OmniLight3D" parent="." unique_id=2110723189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.8, 5.43, -3.6)
+light_color = Color(0.56, 0.65, 0.69, 1)
+light_energy = 0.7
+omni_range = 10.5
+
+[node name="ReliquaryStoneBounce" type="OmniLight3D" parent="." unique_id=1401372583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, -8.98)
+light_color = Color(0.84, 0.64, 0.43, 1)
+light_energy = 2.05
+omni_range = 6.9
+omni_attenuation = 1.31

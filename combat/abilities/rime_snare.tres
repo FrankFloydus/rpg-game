@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+[ext_resource type="Script" path="res://combat/effects/effect_definition.gd" id="2"]
+[ext_resource type="Resource" path="res://combat/effects/chilled.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/chilled.tres" id="4"]
+
+[resource]
+resource_name = "Rime Snare"
+script = ExtResource("1")
+id = &"rime_snare"
+display_name = "Rime Snare"
+icon = ExtResource("4")
+description = "Throws a snare onto the floor in front of its pursuer. It takes a moment to arm. Walking over an armed snare slows movement briefly."
+action_key = "rime_snare"
+damage_type = "cold"
+cooldown = 8.8
+windup = 0.61
+recovery = 0.98
+damage_multiplier = 0.0
+execution_profile = {
+"arm_delay": 0.75,
+"lifetime": 6.0,
+"reach": 11.0,
+"shape": "ray",
+"speed": 12.0,
+"start": 9.0,
+"trigger_radius": 0.78
+}
+on_hit_effects = Array[ExtResource("2")]([ExtResource("3")])

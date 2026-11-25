@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BloodGpuMaterials" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/blood_gpu_materials.gd" id="1_script"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="process"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/mist.tres" id="mist"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/sheets.tres" id="sheets"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/drops.tres" id="drops"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/clots.tres" id="clots"]
+
+[resource]
+resource_name = "Default GPU Blood Materials"
+script = ExtResource("1_script")
+process_material = ExtResource("process")
+mist_material = ExtResource("mist")
+sheets_material = ExtResource("sheets")
+drops_material = ExtResource("drops")
+clots_material = ExtResource("clots")

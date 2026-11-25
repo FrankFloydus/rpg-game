@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/ashen_bite.tres" id="2"]
+
+[resource]
+resource_name = "Grave Bite"
+script = ExtResource("1")
+id = &"burrower_jaw"
+display_name = "Grave Bite"
+icon = ExtResource("2")
+description = "The burrower snaps its jaws at a nearby target."
+action_key = "burrower_jaw"
+damage_type = "physical"
+cooldown = 0.6
+windup = 0.48
+recovery = 0.88
+execution_profile = {
+"arc": 47.0,
+"reach": 2.16,
+"shape": "arc",
+"start": 1.94
+}

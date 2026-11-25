@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_streak.png" id="directional_streak_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_streak_normal.png" id="directional_streak_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_streak_orm.png" id="directional_streak_orm"]
+
+[resource]
+resource_name = "Directional Narrow Streak"
+transparency = 1
+albedo_texture = ExtResource("directional_streak_albedo")
+normal_texture = ExtResource("directional_streak_normal")
+orm_texture = ExtResource("directional_streak_orm")
+normal_enabled = true
+ao_enabled = true
+texture_repeat = false

@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/rework/creature_materials.png" id="1_surface"]
+[ext_resource type="Material" path="res://assets/rework/materials/weathered_bronze.tres" id="2_binding"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2b06"]
+albedo_color = Color(0.87058824, 0.8509804, 0.8117647, 1)
+albedo_texture = ExtResource("1_surface")
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.008, 0.508, 0)
+texture_repeat = false
+metallic = 0.45
+roughness = 1.0
+emission_enabled = true
+emission = Color(0.87058824, 0.8509804, 0.8117647, 1)
+emission_energy_multiplier = 0.14
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_htrya"]
+size = Vector3(0.22, 0.15, 0.18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_505vs"]
+size = Vector3(0.06, 0.15, 0.19)
+
+[node name="GearLoot" type="Node3D" unique_id=724264377]
+
+[node name="Body" type="Node3D" parent="." unique_id=886389249]
+
+[node name="BoxMesh1" type="MeshInstance3D" parent="Body" unique_id=659069386 groups=["loot_rarity"]]
+transform = Transform3D(0.9563048, -0.2923717, 0, 0.2923717, 0.9563048, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_b2b06")
+mesh = SubResource("BoxMesh_htrya")
+
+[node name="BoxMesh2" type="MeshInstance3D" parent="Body" unique_id=470160643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+material_override = ExtResource("2_binding")
+mesh = SubResource("BoxMesh_505vs")
+
+[node name="WorldLabel" type="Label3D" parent="." unique_id=1445474842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41, 0)
+pixel_size = 0.0025
+billboard = 1
+modulate = Color(0.87058824, 0.8509804, 0.8117647, 1)
+outline_modulate = Color(0.09019608, 0.0627451, 0.050980393, 1)
+text = "Gear"
+font_size = 36
+outline_size = 13

@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/sootspark_doublet.tres" id="2"]
+
+[resource]
+resource_name = "Soot Conduit"
+script = ExtResource("1")
+id = &"soot_conduit"
+display_name = "Soot Conduit"
+icon = ExtResource("2")
+description = "The revenant channels a sustained lightning beam along the marked line. It stops at solid cover and deals repeated damage while you stand in its path."
+action_key = "soot_conduit"
+damage_type = "lightning"
+cooldown = 8.4
+windup = 1.17
+recovery = 1.21
+damage_multiplier = 0.78
+execution_profile = {
+"channel_duration": 1.58,
+"floor_warning": "always",
+"reach": 10.6,
+"shape": "lane",
+"speed": 13.5,
+"start": 10.2,
+"tick_interval": 0.27,
+"width": 0.61
+}

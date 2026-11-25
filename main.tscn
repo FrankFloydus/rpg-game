@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cconyrqrnj1y7"]
+
+[ext_resource type="Script" uid="uid://cvoqu7p65ms7w" path="res://main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="2_hud"]
+[ext_resource type="Script" uid="uid://kwumukl8j7gb" path="res://systems/game_audio.gd" id="3_audio"]
+[ext_resource type="PackedScene" path="res://ui/inventory_ui.tscn" id="4_inventory"]
+[ext_resource type="PackedScene" path="res://ui/bestiary_ui.tscn" id="5_bestiary"]
+[ext_resource type="PackedScene" path="res://ui/combat_log_ui.tscn" id="6_log"]
+[ext_resource type="PackedScene" path="res://ui/training_roster.tscn" id="7_roster"]
+[ext_resource type="PackedScene" path="res://ui/title_screen.tscn" id="8_title"]
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="9_player"]
+[ext_resource type="PackedScene" uid="uid://cvlu6ckk5h4ev" path="res://world/hub.tscn" id="10_hub"]
+[ext_resource type="PackedScene" path="res://ui/card_interface.tscn" id="11_cards"]
+
+[node name="HearthBelow" type="Node3D" unique_id=387488174]
+script = ExtResource("1")
+
+[node name="ActiveWorld" type="Node3D" parent="." unique_id=1907589056]
+
+[node name="Hub" parent="ActiveWorld" unique_id=505587037 instance=ExtResource("10_hub")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28133726, -0.07035923, -0.08088207)
+
+[node name="Player" parent="." unique_id=1484975400 instance=ExtResource("9_player")]
+
+[node name="GameAudio" type="Node" parent="." unique_id=620484717]
+script = ExtResource("3_audio")
+
+[node name="Interface" type="CanvasLayer" parent="." unique_id=1182277780]
+
+[node name="HUD" parent="Interface" unique_id=1340970587 instance=ExtResource("2_hud")]
+
+[node name="Inventory" parent="Interface" unique_id=1744190997 instance=ExtResource("4_inventory")]
+
+[node name="Bestiary" parent="Interface" unique_id=773271444 instance=ExtResource("5_bestiary")]
+
+[node name="CombatLog" parent="Interface" unique_id=19681961 instance=ExtResource("6_log")]
+
+[node name="TrainingRoster" parent="Interface" unique_id=1199557077 instance=ExtResource("7_roster")]
+
+[node name="Title" parent="Interface" unique_id=1597719265 instance=ExtResource("8_title")]
+
+[node name="Cards" parent="Interface" unique_id=38179150 instance=ExtResource("11_cards")]

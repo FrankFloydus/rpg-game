@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DamageOverTimeEffectDefinition" format=3 uid="uid://djr3w0upnl1jq"]
+
+[ext_resource type="Script" path="res://combat/effects/damage_over_time_effect_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/burning.tres" id="icon_art"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/burning.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Burning"
+script = ExtResource("1_definition")
+id = &"burning"
+display_name = "Burning"
+icon = ExtResource("icon_art")
+description = "Deals Fire damage over time."
+damage_type = "fire"
+hit_damage_percent = 41.6
+enemy_while_active_fx = ExtResource("loop_fx")

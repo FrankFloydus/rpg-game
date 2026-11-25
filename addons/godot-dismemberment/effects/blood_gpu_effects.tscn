@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/blood_gpu_effects.gd" id="1_script"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="material_process"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/mist.tres" id="material_mist"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/sheets.tres" id="material_sheets"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/drops.tres" id="material_drops"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/clots.tres" id="material_clots"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sprite"]
+size = Vector2(1, 1)
+
+[node name="BloodGpuEffects" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Mist" type="GPUParticles3D" parent="."]
+material_override = ExtResource("material_mist")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 256
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("material_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+
+[node name="Sheets" type="GPUParticles3D" parent="."]
+material_override = ExtResource("material_sheets")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("material_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+
+[node name="Drops" type="GPUParticles3D" parent="."]
+material_override = ExtResource("material_drops")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 3072
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("material_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+
+[node name="Clots" type="GPUParticles3D" parent="."]
+material_override = ExtResource("material_clots")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 512
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("material_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")

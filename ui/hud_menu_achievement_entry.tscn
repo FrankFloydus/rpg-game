@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://ui/hud_menu_summary_row.tscn" id="1_summary"]
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="2_theme"]
+
+[node name="AchievementEntry" type="VBoxContainer"]
+mouse_filter = 2
+theme = ExtResource("2_theme")
+theme_override_constants/separation = 7
+
+[node name="Summary" parent="." instance=ExtResource("1_summary")]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6902, 0.7137, 0.7451, 1)
+theme_override_font_sizes/font_size = 15
+text = "Achievement description"
+autowrap_mode = 3
+
+[node name="Divider" type="HSeparator" parent="."]
+layout_mode = 2

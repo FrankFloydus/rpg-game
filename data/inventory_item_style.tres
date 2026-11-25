@@ -1,0 +1,9 @@
+[gd_resource type="Resource" format=3 uid="uid://b7ry6toy2e8s5"]
+
+[ext_resource type="Script" uid="uid://cnhvvjcjyebiv" path="res://data/inventory_item_style.gd" id="1_style"]
+
+[resource]
+resource_name = "Inventory Item Appearance"
+script = ExtResource("1_style")
+identified_fill = Color(0.13333334, 0.19607843, 0.52156866, 0.06666667)
+unidentified_fill = Color(0.9372549, 0.2784314, 0.27058825, 0.05490196)

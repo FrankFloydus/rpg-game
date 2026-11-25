@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://player/effects/staff_arc.gd" id="1_arc"]
+[ext_resource type="Shader" path="res://player/effects/staff_arc.gdshader" id="2_draw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_core"]
+top_radius = 0.012
+bottom_radius = 0.019
+radial_segments = 8
+rings = 18
+height = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_glow"]
+top_radius = 0.029
+bottom_radius = 0.044
+radial_segments = 8
+rings = 18
+height = 1.0
+
+[sub_resource type="ShaderMaterial" id="Material_core"]
+shader = ExtResource("2_draw")
+
+[sub_resource type="ShaderMaterial" id="Material_glow"]
+shader = ExtResource("2_draw")
+shader_parameter/haze = true
+
+[node name="StaffArc" type="Node3D"]
+script = ExtResource("1_arc")
+
+[node name="Beam" type="Node3D" parent="."]
+
+[node name="Core" type="MeshInstance3D" parent="Beam"]
+cast_shadow = 0
+material_override = SubResource("Material_core")
+mesh = SubResource("CylinderMesh_core")
+
+[node name="Glow" type="MeshInstance3D" parent="Beam"]
+cast_shadow = 0
+material_override = SubResource("Material_glow")
+mesh = SubResource("CylinderMesh_glow")
+
+[node name="Lifetime" type="Timer" parent="."]
+wait_time = 0.16
+one_shot = true
+autostart = true

@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://player/effects/camera/camera_feedback.gd" id="1_feedback"]
+[ext_resource type="PackedScene" path="res://player/effects/camera/lens_blood.tscn" id="3_lens"]
+[ext_resource type="PackedScene" path="res://player/effects/camera/damage_vignette.tscn" id="4_vignette"]
+[ext_resource type="PackedScene" path="res://player/effects/camera/damage_indicator.tscn" id="5_indicator"]
+
+[node name="CameraFeedback" type="CanvasLayer"]
+layer = 0
+script = ExtResource("1_feedback")
+
+[node name="LensBlood" parent="." instance=ExtResource("3_lens")]
+
+[node name="DamageVignette" parent="." instance=ExtResource("4_vignette")]
+peak_opacity = 1.0
+fade_time = 1.0
+low_health_pulse_enabled = true
+low_health_pulse_threshold = 25.0
+low_health_pulse_color = Color(0.25230777, 0, 0.0077416147, 1)
+low_health_pulse_speed = 0.9
+
+[node name="DamageIndicator" parent="." instance=ExtResource("5_indicator")]
+z_index = 1
+preview_marker_count = 1
+marker_distance = 224.0
+fade_time = 1.05

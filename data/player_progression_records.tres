@@ -1,0 +1,7 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/player_progression_records.gd" id="1_xmwu2"]
+
+[resource]
+script = ExtResource("1_xmwu2")
+life_by_level = Array[Vector2]([Vector2(1, 24), Vector2(10, 30), Vector2(25, 49), Vector2(50, 82), Vector2(75, 109), Vector2(100, 134)])

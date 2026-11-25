@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/hollow_chorus.tres" id="2_icon"]
+
+[resource]
+resource_name = "Raise the Levy"
+script = ExtResource("1_definition")
+id = &"raise_the_levy"
+display_name = "Raise the Levy"
+icon = ExtResource("2_icon")
+icon_key = "fan"
+description = "Calls three enemies into the fight and then departs. The Legate keeps casting through stuns and loss of sight. Defeat it before the summons."
+action_key = "raise_the_levy"
+damage_type = "physical"
+windup = 2.5
+recovery = 0.45
+cooldown = 4.0
+damage_multiplier = 0.0
+uninterruptible = true
+execution_profile = {
+"shape": "ray",
+"reach": 8.5,
+"start": 8.5,
+"speed": 8.0
+}

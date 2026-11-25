@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/chalice_flame.tres" id="2_icon"]
+
+[resource]
+resource_name = "Waxling Flare"
+script = ExtResource("1_definition")
+id = &"waxling_flare"
+display_name = "Waxling Flare"
+icon = ExtResource("2_icon")
+icon_key = "slam"
+description = "At close range a waxling stops and lights its fuse. The red circle fills before the fire erupts. The blast cannot be blocked. Cutting down the waxling extinguishes the fuse."
+action_key = "waxling_flare"
+damage_type = "fire"
+windup = 0.84
+damage_multiplier = 1.64
+execution_profile = {
+"flare_radius": 1.42,
+"arm_distance": 1.02,
+"wake_seconds": 0.41,
+"chase_seconds": 2.8,
+"chase_speed": 2.72
+}

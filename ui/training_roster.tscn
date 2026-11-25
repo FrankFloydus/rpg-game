@@ -1,0 +1,293 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/training_roster.gd" id="1"]
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="2"]
+[ext_resource type="PackedScene" path="res://ui/card_loadout.tscn" id="3"]
+
+[sub_resource type="StyleBoxFlat" id="RosterFrame"]
+content_margin_left = 25.0
+content_margin_top = 23.0
+content_margin_right = 25.0
+content_margin_bottom = 23.0
+bg_color = Color(0.0431373, 0.0470588, 0.054902, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45098, 0.48627, 0.52157, 1)
+
+[sub_resource type="StyleBoxEmpty" id="Pages"]
+content_margin_top = 9.0
+
+[sub_resource type="ButtonGroup" id="RarityGroup"]
+
+[node name="TrainingRoster" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2")
+script = ExtResource("1")
+
+[node name="Veil" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0392157, 0.0431373, 0.0509804, 0.721569)
+
+[node name="Panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -484.0
+offset_top = -374.0
+offset_right = 484.0
+offset_bottom = 374.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("RosterFrame")
+
+[node name="Layout" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Panel/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="Panel/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"GearHeading"
+theme_override_font_sizes/font_size = 38
+text = "Training Ground"
+
+[node name="Close" type="Button" parent="Panel/Layout/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_type_variation = &"QuietButton"
+theme_override_font_sizes/font_size = 15
+text = "Close"
+
+[node name="Divider" type="HSeparator" parent="Panel/Layout"]
+layout_mode = 2
+
+[node name="TrainingTabs" type="TabContainer" parent="Panel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 15
+theme_override_styles/panel = SubResource("Pages")
+
+[node name="Enemy" type="VBoxContainer" parent="Panel/Layout/TrainingTabs"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SetupWell" type="PanelContainer" parent="Panel/Layout/TrainingTabs/Enemy"]
+layout_mode = 2
+theme_type_variation = &"GearSection"
+
+[node name="Setup" type="VBoxContainer" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Options" type="HFlowContainer" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup"]
+layout_mode = 2
+theme_override_constants/h_separation = 22
+theme_override_constants/v_separation = 6
+
+[node name="EnemyLevelRow" type="HBoxContainer" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Caption" type="Label" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/EnemyLevelRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.690196, 0.713726, 0.745098, 1)
+theme_override_font_sizes/font_size = 15
+text = "Enemy Level"
+
+[node name="EnemyLevel" type="SpinBox" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/EnemyLevelRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+accessibility_name = "Enemy Level"
+min_value = 1.0
+max_value = 2147483647.0
+step = 1.0
+value = 1.0
+
+[node name="PlayerLevelRow" type="HBoxContainer" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Caption" type="Label" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/PlayerLevelRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.690196, 0.713726, 0.745098, 1)
+theme_override_font_sizes/font_size = 15
+text = "Player Level"
+
+[node name="PlayerLevel" type="SpinBox" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/PlayerLevelRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+accessibility_name = "Player Level"
+min_value = 1.0
+step = 1.0
+value = 1.0
+
+[node name="RarityRow" type="HBoxContainer" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Caption" type="Label" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/RarityRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.690196, 0.713726, 0.745098, 1)
+theme_override_font_sizes/font_size = 15
+text = "Rarity"
+
+[node name="RarityNormal" type="Button" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/RarityRow"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("RarityGroup")
+text = "Normal"
+
+[node name="RarityMagic" type="Button" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/RarityRow"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("RarityGroup")
+text = "Magic"
+
+[node name="RarityRare" type="Button" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options/RarityRow"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("RarityGroup")
+text = "Rare"
+
+[node name="ShowAbilityTraces" type="CheckButton" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Shows enemy hit checks for 2.0 seconds in the Training Ground."
+mouse_default_cursor_shape = 2
+text = "Show Ability Traces"
+
+[node name="AffixPanel" type="VBoxContainer" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="AffixSummary" type="Label" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/AffixPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.690196, 0.713726, 0.745098, 1)
+text = "Affixes · Random roll"
+
+[node name="AffixChoices" type="HFlowContainer" parent="Panel/Layout/TrainingTabs/Enemy/SetupWell/Setup/AffixPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="EnemyScroll" type="ScrollContainer" parent="Panel/Layout/TrainingTabs/Enemy"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="EnemyGrid" type="GridContainer" parent="Panel/Layout/TrainingTabs/Enemy/EnemyScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 11
+theme_override_constants/v_separation = 11
+columns = 5
+
+[node name="Weaponry" type="VBoxContainer" parent="Panel/Layout/TrainingTabs"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Options" type="HFlowContainer" parent="Panel/Layout/TrainingTabs/Weaponry"]
+layout_mode = 2
+theme_override_constants/h_separation = 14
+
+[node name="ItemLevelRow" type="HBoxContainer" parent="Panel/Layout/TrainingTabs/Weaponry/Options"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Caption" type="Label" parent="Panel/Layout/TrainingTabs/Weaponry/Options/ItemLevelRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.690196, 0.713726, 0.745098, 1)
+theme_override_font_sizes/font_size = 15
+text = "Item Level"
+
+[node name="WeaponItemLevel" type="SpinBox" parent="Panel/Layout/TrainingTabs/Weaponry/Options/ItemLevelRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+accessibility_name = "Item Level"
+min_value = 1.0
+max_value = 100.0
+step = 1.0
+value = 1.0
+
+[node name="ShowPlayerWeaponTraces" type="CheckButton" parent="Panel/Layout/TrainingTabs/Weaponry/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Shows sampled player weapon collision boxes for 2 seconds."
+mouse_default_cursor_shape = 2
+text = "Show Player Weapon Traces"
+
+[node name="RollHint" type="Label" parent="Panel/Layout/TrainingTabs/Weaponry/Options"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.690196, 0.713726, 0.745098, 1)
+text = "Base preview · Spawns roll Magic or better"
+
+[node name="WeaponScroll" type="ScrollContainer" parent="Panel/Layout/TrainingTabs/Weaponry"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="WeaponGrid" type="GridContainer" parent="Panel/Layout/TrainingTabs/Weaponry/WeaponScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 11
+theme_override_constants/v_separation = 11
+columns = 3
+
+[node name="Cards" parent="Panel/Layout/TrainingTabs" instance=ExtResource("3")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+slot_width = 295.0

@@ -1,0 +1,171 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://world/modules/flame_particles.gdshader" id="1_flame"]
+
+[sub_resource type="ShaderMaterial" id="Material_tongues"]
+resource_name = "Folded flame and hot root"
+shader = ExtResource("1_flame")
+shader_parameter/density = 0.73
+
+[sub_resource type="QuadMesh" id="Mesh_tongue"]
+size = Vector2(0.45, 0.52)
+material = SubResource("Material_tongues")
+
+[sub_resource type="Gradient" id="Gradient_tongue_age"]
+offsets = PackedFloat32Array(0, 0.12, 0.37, 0.68, 0.90, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.46, 1, 1, 1, 0.71, 1, 1, 1, 0.60, 1, 1, 1, 0.22, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="Texture_tongue_age"]
+gradient = SubResource("Gradient_tongue_age")
+
+[sub_resource type="Curve" id="Curve_tongue_size"]
+_data = [Vector2(0, 0.83), 0.0, 0.0, 0, 0, Vector2(0.35, 0.98), 0.0, 0.0, 0, 0, Vector2(0.72, 0.87), -0.64, -0.64, 0, 0, Vector2(1, 0.59), -0.55, -0.55, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="Texture_tongue_size"]
+curve = SubResource("Curve_tongue_size")
+
+[sub_resource type="ParticleProcessMaterial" id="Process_tongues"]
+resource_name = "Buoyant tongues"
+lifetime_randomness = 0.24
+emission_shape = 1
+emission_sphere_radius = 0.075
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 0.08
+initial_velocity_max = 0.23
+gravity = Vector3(0, 0.18, 0)
+scale_min = 0.73
+scale_max = 1.14
+scale_curve = SubResource("Texture_tongue_size")
+color_ramp = SubResource("Texture_tongue_age")
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="Material_embs"]
+resource_name = "Cooling ember"
+shader = ExtResource("1_flame")
+shader_parameter/layer = 1
+shader_parameter/density = 0.81
+
+[sub_resource type="QuadMesh" id="Mesh_ember"]
+size = Vector2(0.009, 0.021)
+material = SubResource("Material_embs")
+
+[sub_resource type="Gradient" id="Gradient_ember_age"]
+offsets = PackedFloat32Array(0, 0.09, 0.42, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.93, 1, 1, 1, 0.58, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="Texture_ember_age"]
+gradient = SubResource("Gradient_ember_age")
+
+[sub_resource type="ParticleProcessMaterial" id="Process_embers"]
+resource_name = "Rising sparks"
+lifetime_randomness = 0.38
+emission_shape = 1
+emission_sphere_radius = 0.064
+direction = Vector3(0, 1, 0)
+spread = 28.0
+initial_velocity_min = 0.26
+initial_velocity_max = 0.53
+gravity = Vector3(0, 0.11, 0)
+angle_min = -34.0
+angle_max = 34.0
+angular_velocity_min = -42.0
+angular_velocity_max = 42.0
+scale_min = 0.62
+scale_max = 1.19
+color_ramp = SubResource("Texture_ember_age")
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="Material_smoke"]
+resource_name = "Torch smoke"
+shader = ExtResource("1_flame")
+shader_parameter/layer = 2
+shader_parameter/density = 0.76
+
+[sub_resource type="QuadMesh" id="Mesh_smoke"]
+size = Vector2(0.58, 0.53)
+material = SubResource("Material_smoke")
+
+[sub_resource type="Gradient" id="Gradient_smoke_age"]
+offsets = PackedFloat32Array(0, 0.20, 0.44, 0.77, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.18, 1, 1, 1, 0.23, 1, 1, 1, 0.11, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="Texture_smoke_age"]
+gradient = SubResource("Gradient_smoke_age")
+
+[sub_resource type="Curve" id="Curve_smoke_size"]
+_data = [Vector2(0, 0.22), 1.05, 1.05, 0, 0, Vector2(1, 1), 0.38, 0.38, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_smoke_size"]
+curve = SubResource("Curve_smoke_size")
+
+[sub_resource type="ParticleProcessMaterial" id="Process_smoke"]
+resource_name = "Expanding smoke trail"
+lifetime_randomness = 0.29
+emission_shape = 1
+emission_sphere_radius = 0.023
+direction = Vector3(0.14, 1, 0.12)
+spread = 17.0
+initial_velocity_min = 0.13
+initial_velocity_max = 0.28
+gravity = Vector3(0, 0.11, 0)
+scale_min = 0.62
+scale_max = 1.13
+scale_curve = SubResource("Texture_smoke_size")
+color_ramp = SubResource("Texture_smoke_age")
+anim_offset_max = 1.0
+
+[node name="TorchFlame" type="Node3D"]
+
+[node name="FlameTongues" type="GPUParticles3D" parent="."]
+position = Vector3(0, 0.147, 0)
+cast_shadow = 0
+amount = 13
+lifetime = 0.99
+preprocess = 1.16
+fixed_fps = 60
+randomness = 0.38
+local_coords = true
+draw_order = 2
+visibility_aabb = AABB(-0.45, -0.19, -0.45, 0.9, 0.96, 0.9)
+visibility_range_end = 34.0
+visibility_range_end_margin = 3.0
+visibility_range_fade_mode = 1
+process_material = SubResource("Process_tongues")
+draw_pass_1 = SubResource("Mesh_tongue")
+
+[node name="Embers" type="GPUParticles3D" parent="."]
+position = Vector3(0, 0.18, 0)
+cast_shadow = 0
+amount = 7
+lifetime = 1.42
+preprocess = 1.45
+fixed_fps = 60
+randomness = 0.43
+local_coords = true
+draw_order = 2
+visibility_aabb = AABB(-0.5, -0.1, -0.5, 1, 1.42, 1)
+visibility_range_end = 25.0
+visibility_range_end_margin = 3.0
+visibility_range_fade_mode = 1
+process_material = SubResource("Process_embers")
+draw_pass_1 = SubResource("Mesh_ember")
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+position = Vector3(0, 0.25, 0)
+cast_shadow = 0
+amount = 7
+lifetime = 1.94
+preprocess = 1.95
+fixed_fps = 30
+randomness = 0.43
+local_coords = true
+draw_order = 2
+visibility_aabb = AABB(-0.62, -0.2, -0.62, 1.24, 1.9, 1.24)
+visibility_range_end = 21.0
+visibility_range_end_margin = 3.0
+visibility_range_fade_mode = 1
+process_material = SubResource("Process_smoke")
+draw_pass_1 = SubResource("Mesh_smoke")

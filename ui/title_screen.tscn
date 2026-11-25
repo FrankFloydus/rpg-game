@@ -1,0 +1,197 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/title_screen.gd" id="1_title"]
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://ui/title_character_slot.tscn" id="3_slot"]
+
+[sub_resource type="StyleBoxFlat" id="Style_title_frame"]
+content_margin_left = 27.0
+content_margin_top = 22.0
+content_margin_right = 27.0
+content_margin_bottom = 22.0
+bg_color = Color(0.0431373, 0.0470588, 0.054902, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.333333, 0.356863, 0.384314, 1)
+
+[node name="Title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_title")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.027451, 0.031373, 0.035294, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MenuFrame" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(570, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_title_frame")
+
+[node name="Menu" type="VBoxContainer" parent="Center/MenuFrame"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Wordmark" type="Label" parent="Center/MenuFrame/Menu"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 39
+text = "Hearth Below"
+horizontal_alignment = 1
+
+[node name="Divider" type="HSeparator" parent="Center/MenuFrame/Menu"]
+layout_mode = 2
+
+[node name="Roster" type="VBoxContainer" parent="Center/MenuFrame/Menu"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Heading" type="Label" parent="Center/MenuFrame/Menu/Roster"]
+layout_mode = 2
+theme_type_variation = &"GearHeading"
+theme_override_font_sizes/font_size = 23
+text = "Characters"
+
+[node name="Slots" type="GridContainer" parent="Center/MenuFrame/Menu/Roster"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 7
+columns = 2
+
+[node name="Character01" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+
+[node name="Character02" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 2
+
+[node name="Character03" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 3
+
+[node name="Character04" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 4
+
+[node name="Character05" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 5
+
+[node name="Character06" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 6
+
+[node name="Character07" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 7
+
+[node name="Character08" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 8
+
+[node name="Character09" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 9
+
+[node name="Character10" parent="Center/MenuFrame/Menu/Roster/Slots" instance=ExtResource("3_slot")]
+layout_mode = 2
+slot_number = 10
+
+[node name="CreateCharacter" type="VBoxContainer" parent="Center/MenuFrame/Menu"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="Center/MenuFrame/Menu/CreateCharacter"]
+layout_mode = 2
+theme_type_variation = &"GearHeading"
+theme_override_font_sizes/font_size = 23
+text = "New Character · Slot 01"
+
+[node name="Name" type="LineEdit" parent="Center/MenuFrame/Menu/CreateCharacter"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+accessibility_name = "Character name"
+theme_override_font_sizes/font_size = 21
+placeholder_text = "Character name"
+
+[node name="Actions" type="HBoxContainer" parent="Center/MenuFrame/Menu/CreateCharacter"]
+layout_mode = 2
+alignment = 2
+theme_override_constants/separation = 8
+
+[node name="Back" type="Button" parent="Center/MenuFrame/Menu/CreateCharacter/Actions"]
+custom_minimum_size = Vector2(94, 44)
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+mouse_default_cursor_shape = 2
+text = "Back"
+
+[node name="Create" type="Button" parent="Center/MenuFrame/Menu/CreateCharacter/Actions"]
+custom_minimum_size = Vector2(156, 44)
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+mouse_default_cursor_shape = 2
+text = "Create character"
+
+[node name="Error" type="Label" parent="Center/MenuFrame/Menu"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.54, 0.52, 1)
+autowrap_mode = 2
+
+[node name="MenuDivider" type="HSeparator" parent="Center/MenuFrame/Menu"]
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="Center/MenuFrame/Menu"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Training" type="Button" parent="Center/MenuFrame/Menu/Actions"]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_type_variation = &"QuietButton"
+theme_override_font_sizes/font_size = 16
+text = "Training Ground"
+
+[node name="Settings" type="Button" parent="Center/MenuFrame/Menu/Actions"]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_type_variation = &"QuietButton"
+theme_override_font_sizes/font_size = 16
+text = "Settings"
+
+[node name="Quit" type="Button" parent="Center/MenuFrame/Menu/Actions"]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_type_variation = &"QuietButton"
+theme_override_font_sizes/font_size = 16
+text = "Quit"

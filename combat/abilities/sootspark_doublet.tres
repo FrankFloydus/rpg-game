@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://csj1sggcjkf2l"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_effect_definition"]
+[ext_resource type="Resource" uid="uid://y57241h0wtqk" path="res://combat/effects/shocked.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/sootspark_doublet.tres" id="icon_art"]
+
+[resource]
+resource_name = "Sootspark Doublet"
+script = ExtResource("1_definition")
+id = &"sootspark_doublet"
+display_name = "Sootspark Doublet"
+icon = ExtResource("icon_art")
+icon_key = "doublet"
+description = "Fires two aimed projectiles in quick succession."
+action_key = "doublet"
+damage_type = "lightning"
+windup = 0.63
+recovery = 1.05
+damage_multiplier = 0.92
+execution_profile = {
+"reach": 13.6,
+"second": 0.25,
+"shape": "ray",
+"speed": 15.8,
+"start": 13.25
+}
+on_hit_effects = Array[ExtResource("2_effect_definition")]([ExtResource("3_effect")])

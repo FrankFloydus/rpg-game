@@ -1,0 +1,103 @@
+[gd_resource type="AIBehaviorTree" format=3]
+
+[resource]
+resource_name = "Hearth Below Enemy"
+nodes = [{
+"id": 0,
+"kind": "root",
+"children": [1],
+"services": [{
+"block": "remember_last_seen_position",
+"interval": 0.15,
+"parameters": {"memory_seconds": 5.0}
+}]
+}, {
+"id": 1,
+"kind": "selector",
+"children": [10, 20, 30, 40]
+}, {
+"id": 10,
+"kind": "native_task",
+"block": "telegraph_commit_recover",
+"label": "Commit an admitted monster attack",
+"parameters": {"action": &"monster_attack"},
+"conditions": [{
+"key": "combat_awake",
+"op": "truthy"
+}, {
+"key": "stunned",
+"op": "falsy"
+}, {
+"key": "attack_ready",
+"op": "truthy",
+"mode": "entry"
+}]
+}, {
+"id": 20,
+"kind": "native_task",
+"block": "move_to_goal_with_recovery",
+"label": "Follow a tactical position or investigate contact",
+"parameters": {"stall_timeout": 0.74, "minimum_progress": 0.12, "max_retries": 2},
+"conditions": [{
+"key": "combat_awake",
+"op": "truthy"
+}, {
+"key": "has_move_goal",
+"op": "truthy"
+}, {
+"key": "stunned",
+"op": "falsy"
+}]
+}, {
+"id": 30,
+"kind": "native_task",
+"block": "patrol_route",
+"label": "Patrol a corridor",
+"parameters": {"driver_key": &"patrol_driver", "mode": &"ping_pong"},
+"conditions": [{
+"key": "combat_awake",
+"op": "falsy"
+}, {
+"key": "has_patrol",
+"op": "truthy"
+}, {
+"key": "stunned",
+"op": "falsy"
+}]
+}, {
+"id": 40,
+"kind": "wait",
+"label": "Hold position",
+"duration": 0.18
+}]
+root_id = 0
+blackboard_schema = {
+"attack_driver": {"type": 25, "external": true},
+"attack_ready": {"type": 1, "external": true},
+"combat_awake": {"type": 1, "external": true},
+"has_last_seen_position": {"type": 1},
+"has_move_goal": {"type": 1, "external": true},
+"has_patrol": {"type": 1, "external": true},
+"last_seen_position": {"type": 9},
+"move_driver": {"type": 25, "external": true},
+"move_goal": {"type": 9, "external": true},
+"patrol_driver": {"type": 25, "external": true},
+"patrol_route": {"type": 28, "external": true},
+"stunned": {"type": 1, "external": true},
+"target_position": {"type": 9, "external": true},
+"target_visible": {"type": 1, "external": true}
+}
+blackboard_defaults = {
+"attack_ready": false,
+"combat_awake": false,
+"has_last_seen_position": false,
+"has_move_goal": false,
+"has_patrol": false,
+"last_seen_position": Vector3(0, 0, 0),
+"move_goal": Vector3(0, 0, 0),
+"patrol_route": [],
+"stunned": false,
+"target_position": Vector3(0, 0, 0),
+"target_visible": false
+}
+

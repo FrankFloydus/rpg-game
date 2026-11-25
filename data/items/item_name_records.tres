@@ -1,0 +1,29 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/items/item_name_records.gd" id="1_names"]
+
+[resource]
+script = ExtResource("1_names")
+rare_prefixes = Dictionary[String, PackedStringArray]({
+"accessory": PackedStringArray("Ashen", "Charnel", "Dusken", "Ember", "Fallow", "Gloam", "Harrow", "Hearth", "Hushed", "Marrow", "Morrow", "Oath", "Shroud", "Soot"),
+"armour": PackedStringArray("Barrow", "Cairn", "Charred", "Cinder", "Crag", "Graven", "Hewn", "Iron", "Mourn", "Pale", "Riven", "Sable", "Sallow", "Vesper"),
+"weapon": PackedStringArray("Ashwake", "Blackfen", "Bloodless", "Cinder", "Coffin", "Grave", "Gutter", "Harrow", "Hollow", "Mire", "Ossuary", "Rift", "Soot", "Thorn")
+})
+rare_suffixes = Dictionary[String, PackedStringArray]({
+"accessory": PackedStringArray("Burden", "Charm", "Clasp", "Covenant", "Emblem", "Embrace", "Keepsake", "Knot", "Penance", "Promise", "Reliquary", "Relic", "Seal", "Token"),
+"amulet": PackedStringArray("Beads", "Chain", "Cord", "Effigy", "Emblem", "Gorget", "Icon", "Locket", "Medal", "Pendant", "Saint", "Shrine", "Talisman", "Votive"),
+"axe": PackedStringArray("Adze", "Beak", "Bite", "Chopper", "Cleaver", "Cleft", "Crescent", "Edge", "Fang", "Feller", "Hewer", "Reaver", "Scythe", "Split"),
+"belt": PackedStringArray("Baldric", "Band", "Bind", "Braid", "Buckle", "Cinch", "Cord", "Girdle", "Harness", "Knot", "Lash", "Sash", "Strap", "Tie"),
+"boots": PackedStringArray("Descent", "Footfall", "Journey", "March", "Path", "Passage", "Pilgrimage", "Soles", "Step", "Stride", "Trace", "Trail", "Treads", "Wayfare"),
+"chest": PackedStringArray("Carapace", "Coat", "Cuirass", "Drape", "Hide", "Jack", "Mantle", "Pelt", "Raiment", "Shell", "Surcoat", "Tunic", "Vest", "Weave"),
+"dagger": PackedStringArray("Barb", "Conceit", "Fang", "Goad", "Incision", "Knife", "Needle", "Pin", "Prick", "Quietus", "Shard", "Shiv", "Splinter", "Thorn"),
+"focus": PackedStringArray("Ashes", "Book", "Censer", "Effigy", "Folio", "Lens", "Page", "Prayer", "Psalm", "Reliquary", "Script", "Tome", "Verse", "Vessel"),
+"gloves": PackedStringArray("Bracers", "Clasp", "Claws", "Cuffs", "Fingers", "Fists", "Grasp", "Grip", "Hands", "Knuckles", "Palm", "Reach", "Touch", "Wraps"),
+"helm": PackedStringArray("Brow", "Casque", "Circlet", "Coif", "Cowl", "Crest", "Crown", "Guard", "Hood", "Mask", "Peak", "Shroud", "Veil", "Visor"),
+"mace": PackedStringArray("Anvil", "Beater", "Bell", "Cudgel", "Knell", "Maul", "Mortar", "Pestle", "Pillar", "Pummel", "Ram", "Scepter", "Toll", "Weight"),
+"orb": PackedStringArray("Caul", "Eye", "Globe", "Heart", "Lens", "Moon", "Nucleus", "Pearl", "Pupil", "Seed", "Sphere", "Star", "Stone", "Vessel"),
+"ring": PackedStringArray("Band", "Circle", "Coil", "Covenant", "Eye", "Hoop", "Loop", "Pact", "Promise", "Seal", "Signet", "Twine", "Vow", "Wreath"),
+"shield": PackedStringArray("Aegis", "Bastion", "Bulwark", "Cover", "Door", "Escutcheon", "Gate", "Guard", "Rampart", "Screen", "Shelter", "Wall", "Ward", "Warden"),
+"staff": PackedStringArray("Bough", "Branch", "Crook", "Limb", "Pillar", "Pole", "Reach", "Rod", "Spindle", "Spire", "Stave", "Stem", "Thyrsus", "Wand"),
+"sword": PackedStringArray("Blade", "Edge", "Flamberge", "Glaive", "Gleam", "Hilt", "Point", "Razor", "Saber", "Severance", "Sliver", "Spine", "Temper", "Thrust")
+})

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/mire_spore_lob.gd" id="1_spell"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/venom_spray.tres" id="2_icon"]
+
+[resource]
+resource_name = "Spore Lob"
+script = ExtResource("1_spell")
+id = &"mire_spore_lob"
+display_name = "Spore Lob"
+icon = ExtResource("2_icon")
+icon_key = "venom"
+description = "The Mire Censer throws a pod at a marked patch of floor. It bursts on landing and leaves a pool that repeatedly deals Poison damage while you stand inside."
+action_key = "spore_lob"
+damage_type = "poison"
+windup = 0.72
+recovery = 1.23
+cooldown = 4.35
+mana_cost = 5.0
+damage_multiplier = 1.30
+execution_profile = {"attack_cost": 1.13}

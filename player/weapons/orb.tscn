@@ -1,0 +1,126 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://player/weapons/models/orb.glb" id="1_forged"]
+
+[sub_resource type="Animation" id="Animation_k45mq"]
+length = 0.01
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.58, -0.58, -0.88)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.101419576, -0.042797532, -0.08161851, 0.99056596)
+
+[sub_resource type="Animation" id="Animation_0u6kj"]
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.58, -0.58, -0.88, 0.44, 1, -0.71, -0.69, -0.85, 1, 1, -0.74, -0.73, -0.84)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.101419576, -0.042797532, -0.08161851, 0.99056596, 0.42, 1, -0.12836577, -0.13559279, -0.23689716, 0.9534237, 0.88, 1, -0.093624055, -0.081965566, -0.28748354, 0.94966805, 1, 1, -0.08282415, -0.071970895, -0.2734676, 0.9556023)
+
+[sub_resource type="Animation" id="Animation_f28v7"]
+length = 1.6
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.43, -0.44, -0.91, 0.8, 1, -0.43, -0.434, -0.919, 1.6, 1, -0.43, -0.44, -0.91)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.021718137, -0.29099596, -0.52815604, 0.7974339, 0.8, 1, -0.02081021, -0.28193521, -0.5315997, 0.79842424, 1.6, 1, -0.021718137, -0.29099596, -0.52815604, 0.7974339)
+
+[sub_resource type="Animation" id="Animation_5emr3"]
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.74, -0.73, -0.84, 0.62, 1, -0.74, -0.72, -0.85, 1, 1, -0.58, -0.58, -0.88)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.093624055, -0.081965566, -0.28748354, 0.94966805, 0.24, 1, -0.16100378, -0.06504975, -0.36891547, 0.91309786, 0.5, 1, -0.2452917, -0.19702712, -0.23822294, 0.9188375, 0.66, 1, -0.34181732, -0.24530363, -0.21226437, 0.8820039, 1, 1, -0.101419576, -0.042797532, -0.08161851, 0.99056596)
+
+[sub_resource type="Animation" id="Animation_hx517"]
+length = 2.4
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.58, -0.58, -0.88, 1.2, 1, -0.58, -0.571, -0.88, 2.4, 1, -0.58, -0.58, -0.88)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.101419576, -0.042797532, -0.08161851, 0.99056596, 1.2, 1, -0.09421634, -0.037662048, -0.074116156, 0.99207443, 2.4, 1, -0.101419576, -0.042797532, -0.08161851, 0.99056596)
+
+[sub_resource type="Animation" id="Animation_6visb"]
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.58, -0.58, -0.88, 0.17, 1, -0.72, -0.69, -0.85, 0.67, 1, -0.72, -0.69, -0.86, 1, 1, -0.58, -0.58, -0.88)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.101419576, -0.042797532, -0.08161851, 0.99056596, 0.26, 1, -0.18560265, 0.016669154, -0.26740494, 0.9453933, 0.5, 1, -0.21661629, -0.109131694, -0.19278033, 0.95079094, 0.7, 1, -0.3126076, -0.14429519, -0.11455113, 0.93184406, 1, 1, -0.101419576, -0.042797532, -0.08161851, 0.99056596)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_up0wg"]
+_data = {
+&"RESET": SubResource("Animation_k45mq"),
+&"charge": SubResource("Animation_0u6kj"),
+&"guard": SubResource("Animation_f28v7"),
+&"heavy": SubResource("Animation_5emr3"),
+&"idle": SubResource("Animation_hx517"),
+&"light": SubResource("Animation_6visb")
+}
+
+[node name="Orb" type="Node3D" unique_id=742948577]
+
+[node name="Pose" type="Node3D" parent="." unique_id=376221548]
+transform = Transform3D(0.8159013, 0.14141378, -0.056632664, -0.1270033, 0.8018672, 0.17256671, 0.08411468, -0.16096972, 0.80988485, -0.58, -0.58, -0.88)
+
+[node name="ForgedModel" parent="Pose" instance=ExtResource("1_forged")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1407458818]
+libraries/ = SubResource("AnimationLibrary_up0wg")
+
+[editable path="Pose/ForgedModel"]

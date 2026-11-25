@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_droplets.png" id="wall_droplets_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_droplets_normal.png" id="wall_droplets_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_droplets_orm.png" id="wall_droplets_orm"]
+
+[resource]
+resource_name = "Separated Droplet Cluster"
+transparency = 1
+albedo_texture = ExtResource("wall_droplets_albedo")
+orm_texture = ExtResource("wall_droplets_orm")
+normal_enabled = true
+normal_texture = ExtResource("wall_droplets_normal")
+ao_enabled = true
+texture_repeat = false

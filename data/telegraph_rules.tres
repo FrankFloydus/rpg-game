@@ -1,0 +1,7 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/telegraph_rules.gd" id="1_rules"]
+
+[resource]
+resource_name = "Floor Warning Timing"
+script = ExtResource("1_rules")

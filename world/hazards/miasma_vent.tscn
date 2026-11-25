@@ -1,0 +1,115 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/dungeon_hazard.gd" id="1_hcti1"]
+[ext_resource type="Texture2D" path="res://assets/rework/prop_materials.png" id="metal_atlas"]
+
+[ext_resource type="Shader" path="res://world/modules/flame_particles.gdshader" id="vent_particle_draw"]
+
+[ext_resource type="PackedScene" path="res://assets/models/hazards/miasma_vent.glb" id="fixture_art"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aamwj"]
+resource_local_to_scene = true
+albedo_color = Color(0.27, 0.24, 0.27, 1)
+albedo_texture = ExtResource("metal_atlas")
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.508, 0.008, 0)
+texture_repeat = false
+metallic = 0.1
+emission_enabled = true
+emission_energy_multiplier = 0.0
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="Gradient" id="VentFadeGradient"]
+offsets = PackedFloat32Array(0, 0.15, 0.49, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.74, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="VentFadeTexture"]
+gradient = SubResource("VentFadeGradient")
+
+[sub_resource type="Curve" id="VentScaleCurve"]
+_limits = [0.0, 1.6, 0.0, 1.0]
+_data = [Vector2(0, 0.45), 0.0, 0.0, 0, 0, Vector2(0.47, 1.0), 0.0, 0.0, 0, 0, Vector2(1, 1.45), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="VentScaleTexture"]
+curve = SubResource("VentScaleCurve")
+
+[sub_resource type="ParticleProcessMaterial" id="ToxicBillowsMotion"]
+resource_name = "Ground-hugging poison"
+lifetime_randomness = 0.23
+emission_shape = 3
+emission_box_extents = Vector3(0.57, 0.025, 0.57)
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 67.0
+initial_velocity_min = 0.4
+initial_velocity_max = 1.24
+angular_velocity_min = -185.0
+angular_velocity_max = 185.0
+gravity = Vector3(0, 0.2, 0)
+scale_min = 0.78
+scale_max = 1.33
+scale_curve = SubResource("VentScaleTexture")
+color_ramp = SubResource("VentFadeTexture")
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="ToxicBillowsDraw"]
+shader = ExtResource("vent_particle_draw")
+shader_parameter/layer = 3
+shader_parameter/density = 0.76
+
+[sub_resource type="QuadMesh" id="ToxicBillowsQuad"]
+material = SubResource("ToxicBillowsDraw")
+size = Vector2(0.48, 0.45)
+
+[sub_resource type="BoxMesh" id="WarningSurface"]
+size = Vector3(0.271, 0.01, 0.272)
+
+[sub_resource type="MultiMesh" id="WarningSurfaceInstances"]
+transform_format = 1
+instance_count = 9
+mesh = SubResource("WarningSurface")
+buffer = PackedFloat32Array(1, 0, 0, -0.55, 0, 1, 0, 0.024, 0, 0, 1, -0.55, 1, 0, 0, -0.55, 0, 1, 0, 0.024, 0, 0, 1, 0, 1, 0, 0, -0.55, 0, 1, 0, 0.024, 0, 0, 1, 0.55, 1, 0, 0, 0, 0, 1, 0, 0.024, 0, 0, 1, -0.55, 1, 0, 0, 0, 0, 1, 0, 0.024, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0.024, 0, 0, 1, 0.55, 1, 0, 0, 0.55, 0, 1, 0, 0.024, 0, 0, 1, -0.55, 1, 0, 0, 0.55, 0, 1, 0, 0.024, 0, 0, 1, 0, 1, 0, 0, 0.55, 0, 1, 0, 0.024, 0, 0, 1, 0.55)
+
+[node name="MiasmaVent" type="Node3D" unique_id=381538635]
+script = ExtResource("1_hcti1")
+
+[node name="Fixture" parent="." instance=ExtResource("fixture_art")]
+
+[node name="Apertures" type="MultiMeshInstance3D" parent="." unique_id=1650122442]
+material_override = SubResource("StandardMaterial3D_aamwj")
+cast_shadow = 0
+multimesh = SubResource("WarningSurfaceInstances")
+
+[node name="Discharge" type="Node3D" parent="." unique_id=2124265891]
+
+[node name="ToxicBillows" type="GPUParticles3D" parent="Discharge"]
+position = Vector3(0, 0.135, 0)
+cast_shadow = 0
+emitting = false
+amount = 48
+lifetime = 0.62
+one_shot = true
+explosiveness = 0.8
+randomness = 0.27
+fixed_fps = 60
+visibility_aabb = AABB(-1.40, -0.11, -1.40, 2.8, 2.3, 2.8)
+local_coords = true
+draw_order = 3
+process_material = SubResource("ToxicBillowsMotion")
+draw_pass_1 = SubResource("ToxicBillowsQuad")
+
+[node name="Flash" type="OmniLight3D" parent="." unique_id=1414147907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0)
+visible = false
+light_color = Color(0.6431373, 0.8627451, 0.5882353, 1)
+omni_range = 3.4
+omni_attenuation = 1.7
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="." unique_id=816767881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0)
+volume_db = -8.0
+unit_size = 2.5
+max_distance = 10.0

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://combat/effects/effect_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/stunned.tres" id="icon_art"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/stunned.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Stunned"
+script = ExtResource("1_definition")
+id = &"stunned"
+display_name = "Stunned"
+icon = ExtResource("icon_art")
+description = "Briefly interrupts movement and abilities."
+enemy_while_active_fx = ExtResource("loop_fx")

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DreadEffectDefinition" format=3 uid="uid://uihjbaipmay2"]
+
+[ext_resource type="Script" path="res://combat/effects/dread_effect_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/dread.tres" id="icon_art"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/dread.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Dread"
+script = ExtResource("1_definition")
+id = &"dread"
+display_name = "Dread"
+icon = ExtResource("icon_art")
+description = "Its slam can inflict Dread, briefly preventing you from sprinting."
+minimum_caster_level = 4
+enemy_while_active_fx = ExtResource("loop_fx")

@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://combat/effects/enemy_health.gdshader" id="1"]
+
+[sub_resource type="ShaderMaterial" id="HealthMaterial"]
+shader = ExtResource("1")
+
+[sub_resource type="QuadMesh" id="HealthQuad"]
+size = Vector2(0.65, 0.056)
+
+[node name="EnemyIndicator" type="Node3D"]
+
+[node name="Health" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+extra_cull_margin = 0.5
+visibility_range_end = 25.0
+material_override = SubResource("HealthMaterial")
+mesh = SubResource("HealthQuad")
+
+[node name="Title" type="Label3D" parent="."]
+position = Vector3(0, 0.13, 0)
+cast_shadow = 0
+visibility_range_end = 15.0
+pixel_size = 0.0028
+billboard = 1
+modulate = Color(0.894118, 0.905882, 0.921569, 1)
+outline_modulate = Color(0.044, 0.046, 0.050, 1)
+text = "Enemy Name · Lv 1"
+font_size = 31
+outline_size = 7

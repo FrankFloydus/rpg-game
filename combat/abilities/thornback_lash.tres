@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://dqkhs7r062lo"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_effect_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/bleed.tres" id="3_0mv85"]
+[ext_resource type="PackedScene" path="res://combat/effects/bleed_application_particles.tscn" id="4_idoqx"]
+[ext_resource type="Script" uid="uid://bh5qtisc30taa" path="res://combat/effects/bleed_effect_definition.gd" id="5_vmv04"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/thornback_lash.tres" id="icon_art"]
+
+[sub_resource type="Resource" id="Resource_3sl5e"]
+resource_name = "Bleeding"
+script = ExtResource("5_vmv04")
+id = &"bleed"
+display_name = "Bleeding"
+icon = ExtResource("3_0mv85")
+chance = 25.0
+duration = 5.0
+stacking = 1
+damage_type = "physical"
+on_applied_fx = ExtResource("4_idoqx")
+while_active_fx = ExtResource("4_idoqx")
+
+[resource]
+resource_name = "Thornback Lash"
+script = ExtResource("1_definition")
+id = &"thornback_lash"
+display_name = "Thornback Lash"
+icon = ExtResource("icon_art")
+icon_key = "sweep"
+description = "Strikes a wide arc in front after a deliberate swing."
+action_key = "sweep"
+damage_type = "physical"
+windup = 0.69
+recovery = 0.98
+damage_multiplier = 1.42
+execution_profile = {
+"arc": 86.0,
+"reach": 3.14,
+"shape": "arc",
+"start": 2.92
+}
+stun_buildup = 32.0
+on_hit_effects = Array[ExtResource("2_effect_definition")]([SubResource("Resource_3sl5e")])

@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="1_theme"]
+
+[sub_resource type="StyleBoxFlat" id="Frame"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.0431, 0.0471, 0.0549, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45098, 0.48627, 0.52157, 1)
+
+[node name="AchievementUnlock" type="PanelContainer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -362.0
+offset_top = 21.0
+offset_right = -22.0
+offset_bottom = 21.0
+grow_horizontal = 0
+mouse_filter = 2
+theme = ExtResource("1_theme")
+theme_override_styles/panel = SubResource("Frame")
+
+[node name="Contents" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Badge" type="PanelContainer" parent="Contents"]
+custom_minimum_size = Vector2(48, 42)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"GearWell"
+
+[node name="Points" type="Label" parent="Contents/Badge"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 17
+text = "+10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Labels" type="VBoxContainer" parent="Contents"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Caption" type="Label" parent="Contents/Labels"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6902, 0.7137, 0.7451, 1)
+theme_override_font_sizes/font_size = 12
+text = "Achievement Unlocked"
+
+[node name="Title" type="Label" parent="Contents/Labels"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+text = "Achievement"
+
+[node name="Description" type="Label" parent="Contents/Labels"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6902, 0.7137, 0.7451, 1)
+theme_override_font_sizes/font_size = 13
+text = "Achievement description"
+autowrap_mode = 3

@@ -1,0 +1,9 @@
+[configuration]
+
+entry_symbol = "godot_spatial_inventory_init"
+compatibility_minimum = "4.3"
+
+[libraries]
+
+windows.x86_64.single.debug = "./windows/godot-spatial-inventory.windows.template_debug.x86_64.dll"
+windows.x86_64.single.release = "./windows/godot-spatial-inventory.windows.template_release.x86_64.dll"

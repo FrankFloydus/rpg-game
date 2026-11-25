@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/player_weapon_balance.gd" id="1_balance"]
+
+[resource]
+resource_name = "Player Weapon Damage"
+script = ExtResource("1_balance")

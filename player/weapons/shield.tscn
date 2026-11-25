@@ -1,0 +1,138 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://player/weapons/models/shield.glb" id="1_forged"]
+
+[sub_resource type="Animation" id="Animation_jebw3"]
+resource_name = "Shield RESET"
+length = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.55, -0.355, -0.81)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178)
+
+[sub_resource type="Animation" id="Animation_kqqmo"]
+resource_name = "Shield charge"
+length = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.55, -0.355, -0.81, 0.68, 1, -0.76, -0.62, -0.84, 1, 1, -0.76, -0.62, -0.84)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178, 0.68, 1, -0.074616141, 0.25822248, -0.074616141, 0.96030517, 1, 1, -0.074616141, 0.25822248, -0.074616141, 0.96030517)
+
+[sub_resource type="Animation" id="Animation_um4nf"]
+resource_name = "Shield guard"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.405, -0.092, -0.84, 0.8, 1, -0.405, -0.084, -0.84, 1.6, 1, -0.405, -0.092, -0.84)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.0056934725, 0.13040196, -0.043246217, 0.99050123, 0.8, 1, 0.0056934725, 0.13040196, -0.043246217, 0.99050123, 1.6, 1, 0.0056934725, 0.13040196, -0.043246217, 0.99050123)
+
+[sub_resource type="Animation" id="Animation_tsmvl"]
+resource_name = "Shield heavy"
+length = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.76, -0.62, -0.84, 0.68, 1, -0.76, -0.62, -0.84, 1, 1, -0.55, -0.355, -0.81)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.074616141, 0.25822248, -0.074616141, 0.96030517, 0.68, 1, -0.074616141, 0.25822248, -0.074616141, 0.96030517, 1, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178)
+
+[sub_resource type="Animation" id="Animation_j2fxh"]
+resource_name = "Shield idle"
+length = 2.4
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.55, -0.355, -0.81, 1.2, 1, -0.55, -0.346, -0.81, 2.4, 1, -0.55, -0.355, -0.81)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178, 1.2, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178, 2.4, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178)
+
+[sub_resource type="Animation" id="Animation_3ftbi"]
+resource_name = "Shield light"
+length = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.55, -0.355, -0.81, 0.22, 1, -0.76, -0.62, -0.84, 0.68, 1, -0.76, -0.62, -0.84, 1, 1, -0.55, -0.355, -0.81)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178, 0.22, 1, -0.074616141, 0.25822248, -0.074616141, 0.96030517, 0.68, 1, -0.074616141, 0.25822248, -0.074616141, 0.96030517, 1, 1, -0.089073466, 0.18024116, -0.058748625, 0.9778178)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ufh3n"]
+_data = {
+&"RESET": SubResource("Animation_jebw3"),
+&"charge": SubResource("Animation_kqqmo"),
+&"guard": SubResource("Animation_um4nf"),
+&"heavy": SubResource("Animation_tsmvl"),
+&"idle": SubResource("Animation_j2fxh"),
+&"light": SubResource("Animation_3ftbi")
+}
+
+[node name="Shield" type="Node3D" unique_id=1320588628]
+
+[node name="Pose" type="Node3D" parent="." unique_id=299070538]
+transform = Transform3D(0.76570184, -0.12127526, -0.28216662, 0.068294731, 0.80621395, -0.16118279, 0.29943533, 0.12623935, 0.75830542, -0.55, -0.355, -0.81)
+
+[node name="ForgedModel" parent="Pose" instance=ExtResource("1_forged")]
+
+[node name="LeftWrist" type="Marker3D" parent="Pose"]
+position = Vector3(-0.07, -0.245, 0.02)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1440962743]
+libraries/ = SubResource("AnimationLibrary_ufh3n")
+
+[editable path="Pose/ForgedModel"]

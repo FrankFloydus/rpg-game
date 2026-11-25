@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://cxixkwunndn01"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_effect_definition"]
+[ext_resource type="Resource" uid="uid://bc73ob70365mp" path="res://combat/effects/bleed.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/butchers_slam.tres" id="icon_art"]
+
+[resource]
+resource_name = "Butcher's Slam"
+script = ExtResource("1_definition")
+id = &"butchers_slam"
+display_name = "Butcher's Slam"
+icon = ExtResource("icon_art")
+icon_key = "slam"
+description = "Strikes the ground after a long windup, hitting targets in the area marked in red."
+action_key = "slam"
+damage_type = "physical"
+windup = 0.87
+knockback_speed = 4.65
+recovery = 1.24
+damage_multiplier = 1.68
+stun_buildup = 57.0
+execution_profile = {
+"floor_warning": "always",
+"offset": 0.67,
+"reach": 2.74,
+"shape": "disc",
+"start": 3.15
+}
+on_hit_effects = Array[ExtResource("2_effect_definition")]([ExtResource("3_effect")])

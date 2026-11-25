@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://combat/effects/enemy_status_particle.gdshader" id="1"]
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.18, 0.63, 1)
+colors = PackedColorArray(0.75, 0.061, 0.095, 0, 0.75, 0.061, 0.095, 0.84, 0.75, 0.061, 0.095, 0.59, 0.75, 0.061, 0.095, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fade"]
+gradient = SubResource("Gradient_fade")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_status"]
+emission_shape = 1
+emission_sphere_radius = 0.24
+direction = Vector3(0, -1, 0)
+spread = 72.0
+gravity = Vector3(0, -3.4, 0)
+initial_velocity_min = 0.28
+initial_velocity_max = 0.78
+scale_min = 0.65
+scale_max = 1.36
+angle_min = -13.0
+angle_max = 13.0
+color_ramp = SubResource("GradientTexture1D_fade")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_status"]
+shader = ExtResource("1")
+shader_parameter/motif = 0
+shader_parameter/glow = 0.08
+
+[sub_resource type="QuadMesh" id="QuadMesh_status"]
+material = SubResource("ShaderMaterial_status")
+size = Vector2(0.045, 0.08)
+
+[node name="BleedLoop" type="GPUParticles3D"]
+position = Vector3(0, -0.05, 0)
+cast_shadow = 0
+visibility_range_end = 26.0
+visibility_range_end_margin = 2.0
+amount = 21
+lifetime = 0.73
+lifetime_randomness = 0.29
+randomness = 0.53
+local_coords = false
+visibility_aabb = AABB(-1.4, -2, -1.4, 2.8, 4.2, 2.8)
+process_material = SubResource("ParticleProcessMaterial_status")
+draw_pass_1 = SubResource("QuadMesh_status")

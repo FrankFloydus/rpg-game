@@ -1,0 +1,67 @@
+[gd_scene format=4 uid="uid://xgpukqn4lkq0"]
+
+[ext_resource type="Script" path="res://combat/enemies/thornback/thornback_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/briar_charge.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/thornback_lash.tres" id="4_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/thornback_guard.tres" id="5_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="6_qe38g"]
+[ext_resource type="Texture2D" path="res://assets/grounded/characters/accent_crackle.png" id="CrackedMineral"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/thornback/thornback_motion.tres" id="EditableMotion"]
+
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/thornback.glb" id="SkeletalArt"]
+
+[sub_resource type="StandardMaterial3D" id="GuardSpikeBaseGlow"]
+resource_name = "Guard Spike base glow"
+albedo_color = Color(0.556863, 0.125490, 0.094118, 1)
+roughness = 1.0
+albedo_texture = ExtResource("CrackedMineral")
+emission_operator = 1
+emission_texture = ExtResource("CrackedMineral")
+emission_enabled = true
+emission = Color(1, 0.14902, 0.054902, 1)
+emission_energy_multiplier = 1.2
+metallic_specular = 0.0
+
+[sub_resource type="StandardMaterial3D" id="GuardSpikeTipGlow"]
+resource_name = "Guard Spike tip glow"
+albedo_color = Color(0.992157, 0.227451, 0.152941, 1)
+roughness = 1.0
+albedo_texture = ExtResource("CrackedMineral")
+emission_operator = 1
+emission_texture = ExtResource("CrackedMineral")
+emission_enabled = true
+emission = Color(1, 0.215686, 0.109804, 1)
+emission_energy_multiplier = 2.1
+metallic_specular = 0.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lbwd8"]
+radius = 0.4
+height = 0.9718
+
+[node name="Thornback" type="CharacterBody3D" unique_id=31083013]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 26.0
+stun_threshold = 130.0
+base_attack_damage = 4.5
+base_move_speed = 3.69
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability"), ExtResource("5_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1208328776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4859, 0)
+shape = SubResource("CapsuleShape3D_lbwd8")
+
+[node name="Model" type="Node3D" parent="." unique_id=1821311053]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+script = ExtResource("6_qe38g")
+guard_base_glow = SubResource("GuardSpikeBaseGlow")
+guard_tip_glow = SubResource("GuardSpikeTipGlow")
+
+[node name="Rig" parent="Model" unique_id=1933570077 instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

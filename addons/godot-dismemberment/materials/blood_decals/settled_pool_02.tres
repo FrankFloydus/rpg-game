@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/settled_pool_02.png" id="settled_pool_02_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/settled_pool_02_orm.png" id="settled_pool_02_orm"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/settled_pool_02_normal.png" id="settled_pool_02_normal"]
+
+[resource]
+resource_name = "Two-Lobe Settled Pool"
+transparency = 1
+albedo_texture = ExtResource("settled_pool_02_albedo")
+orm_texture = ExtResource("settled_pool_02_orm")
+normal_enabled = true
+normal_texture = ExtResource("settled_pool_02_normal")
+ao_enabled = true
+texture_repeat = false

@@ -1,0 +1,107 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/modules/portal_vortex.gd" id="1_script"]
+[ext_resource type="Shader" path="res://world/modules/portal_veil.gdshader" id="2_veil"]
+[ext_resource type="Shader" path="res://world/modules/portal_particle_flow.gdshader" id="3_flow"]
+[ext_resource type="Shader" path="res://world/modules/portal_particle_draw.gdshader" id="4_draw"]
+
+[sub_resource type="ShaderMaterial" id="VeilMaterial"]
+resource_name = "Softly spiraling veil"
+shader = ExtResource("2_veil")
+
+[sub_resource type="QuadMesh" id="VeilMesh"]
+material = SubResource("VeilMaterial")
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="StrandProcess"]
+resource_name = "Curling currents"
+shader = ExtResource("3_flow")
+
+[sub_resource type="ShaderMaterial" id="MoteProcess"]
+resource_name = "Detached motes"
+shader = ExtResource("3_flow")
+shader_parameter/sparks = true
+
+[sub_resource type="ShaderMaterial" id="MistProcess"]
+resource_name = "Foreground portal vapor"
+shader = ExtResource("3_flow")
+shader_parameter/mist = true
+
+[sub_resource type="ShaderMaterial" id="StrandDraw"]
+shader = ExtResource("4_draw")
+render_priority = 1
+
+[sub_resource type="ShaderMaterial" id="MoteDraw"]
+shader = ExtResource("4_draw")
+render_priority = 2
+shader_parameter/sparks = true
+
+[sub_resource type="ShaderMaterial" id="MistDraw"]
+shader = ExtResource("4_draw")
+render_priority = 1
+shader_parameter/mist = true
+
+[sub_resource type="QuadMesh" id="StrandMesh"]
+material = SubResource("StrandDraw")
+size = Vector2(1, 1)
+
+[sub_resource type="QuadMesh" id="MoteMesh"]
+material = SubResource("MoteDraw")
+size = Vector2(1, 1)
+
+[sub_resource type="QuadMesh" id="MistMesh"]
+material = SubResource("MistDraw")
+size = Vector2(1, 1)
+
+[node name="PortalVortex" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Veil" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, -0.035)
+cast_shadow = 0
+mesh = SubResource("VeilMesh")
+
+[node name="CurlingStrands" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 48
+lifetime = 3.25
+preprocess = 3.3
+fixed_fps = 60
+visibility_aabb = AABB(-1.24, -1.24, -0.34, 2.48, 2.48, 0.72)
+local_coords = true
+draw_order = 2
+process_material = SubResource("StrandProcess")
+draw_pass_1 = SubResource("StrandMesh")
+
+[node name="DriftingMotes" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 30
+lifetime = 4.2
+preprocess = 4.3
+fixed_fps = 30
+visibility_aabb = AABB(-1.28, -1.28, -0.34, 2.56, 2.56, 0.88)
+local_coords = true
+draw_order = 2
+process_material = SubResource("MoteProcess")
+draw_pass_1 = SubResource("MoteMesh")
+
+[node name="ForegroundMist" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 16
+lifetime = 4.6
+preprocess = 4.7
+fixed_fps = 30
+visibility_aabb = AABB(-1.31, -1.31, -0.06, 2.62, 2.62, 0.70)
+local_coords = true
+draw_order = 2
+process_material = SubResource("MistProcess")
+draw_pass_1 = SubResource("MistMesh")
+
+[node name="Spill" type="OmniLight3D" parent="."]
+position = Vector3(0, 0.09, 0.42)
+light_color = Color(0.52, 0.75, 0.68, 1)
+light_energy = 0.48
+light_specular = 0.0
+omni_range = 4.5
+omni_attenuation = 1.5
+

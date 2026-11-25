@@ -1,0 +1,67 @@
+[gd_resource type="Resource" format=3 uid="uid://cvf4htyt3vocu"]
+
+[ext_resource type="Script" uid="uid://cg2wd8vnxvnni" path="res://combat/enemies/enemy_scaling.gd" id="1_scaling"]
+
+[sub_resource type="Curve" id="RecoveryByLevel"]
+resource_name = "Recovery Time per Enemy Level"
+_limits = [0.65, 1.25, 1.0, 50.0]
+_data = [Vector2(1, 1.15), 0.0, -0.025, 1, 1, Vector2(5, 1.05), -0.025, -0.024, 1, 1, Vector2(10, 0.93), -0.024, -0.015, 1, 1, Vector2(15, 0.855), -0.015, -0.0085, 1, 1, Vector2(25, 0.77), -0.0085, -0.004, 1, 1, Vector2(35, 0.73), -0.004, 0.0, 1, 1, Vector2(50, 0.73), 0.0, 0.0, 1, 1]
+point_count = 7
+
+[sub_resource type="Curve" id="WindupByLevel"]
+resource_name = "Windup Time per Enemy Level"
+_limits = [0.75, 1.25, 1.0, 50.0]
+_data = [Vector2(1, 1.1), 0.0, -0.025, 0, 0, Vector2(11, 0.85), -0.025, 0.0, 0, 0, Vector2(50, 0.85), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="DamageByLevel"]
+resource_name = "Attack Damage per Enemy Level"
+_limits = [0.0, 16.0, 1.0, 50.0]
+_data = [Vector2(1, 1), 0.0, 0.08, 1, 1, Vector2(3, 1.16), 0.08, 0.095, 1, 1, Vector2(5, 1.35), 0.095, 0.1433333, 1, 1, Vector2(8, 1.78), 0.1433333, 0.16, 1, 1, Vector2(10, 2.1), 0.16, 0.225, 1, 1, Vector2(12, 2.55), 0.225, 0.2666667, 1, 1, Vector2(15, 3.35), 0.2666667, 0.24, 1, 1, Vector2(20, 4.55), 0.24, 0.26, 1, 1, Vector2(25, 5.85), 0.26, 0.23, 1, 1, Vector2(30, 7), 0.23, 0.225, 1, 1, Vector2(40, 9.25), 0.225, 0.225, 1, 1, Vector2(50, 11.5), 0.225, 0.0, 1, 1]
+point_count = 12
+
+[sub_resource type="Curve" id="LifeByLevel"]
+resource_name = "Life per Enemy Level"
+_limits = [0.0, 50.0, 1.0, 50.0]
+_data = [Vector2(1, 1), 0.0, 0.105, 1, 1, Vector2(3, 1.21), 0.105, 0.295, 1, 1, Vector2(5, 1.8), 0.295, 0.4166667, 1, 1, Vector2(8, 3.05), 0.4166667, 0.35, 1, 1, Vector2(10, 3.75), 0.35, 0.45, 1, 1, Vector2(12, 4.65), 0.45, 0.5833333, 1, 1, Vector2(15, 6.4), 0.5833333, 0.68, 1, 1, Vector2(20, 9.8), 0.68, 0.84, 1, 1, Vector2(25, 14), 0.84, 0.9, 1, 1, Vector2(30, 18.5), 0.9, 1.05, 1, 1, Vector2(40, 29), 1.05, 1.3, 1, 1, Vector2(50, 42), 1.3, 0.0, 1, 1]
+point_count = 12
+
+[sub_resource type="Curve" id="MoveBonusByLevel"]
+resource_name = "Movement Bonus per Enemy Level"
+_limits = [0.0, 1.5, 1.0, 50.0]
+_data = [Vector2(1, 0), 0.0, 0.16, 0, 0, Vector2(8.6875, 1.23), 0.16, 0.0, 0, 0, Vector2(50, 1.23), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="ProjectileLeadByLevel"]
+resource_name = "Projectile Aim Lead per Enemy Level"
+_limits = [0.0, 1.0, 1.0, 50.0]
+_data = [Vector2(1, 0.96), 0.0, 0.004, 0, 0, Vector2(11, 1), 0.004, 0.0, 0, 0, Vector2(50, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="ProjectileLeadLimitByLevel"]
+resource_name = "Projectile Lead Limit per Enemy Level"
+_limits = [0.0, 5.0, 1.0, 50.0]
+_data = [Vector2(1, 3.6), 0.0, 0.09, 0, 0, Vector2(11, 4.5), 0.09, 0.0, 0, 0, Vector2(50, 4.5), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="ProjectileSpeedByLevel"]
+resource_name = "Projectile Speed per Enemy Level"
+_limits = [0.75, 1.5, 1.0, 50.0]
+_data = [Vector2(1, 1), 0.0, 0.018, 0, 0, Vector2(11, 1.18), 0.018, 0.0, 0, 0, Vector2(50, 1.18), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[resource]
+resource_name = "Enemy Scaling"
+script = ExtResource("1_scaling")
+life_by_level = SubResource("LifeByLevel")
+damage_by_level = SubResource("DamageByLevel")
+movement_bonus_by_level = SubResource("MoveBonusByLevel")
+attack_windup_by_level = SubResource("WindupByLevel")
+attack_recovery_by_level = SubResource("RecoveryByLevel")
+projectile_speed_by_level = SubResource("ProjectileSpeedByLevel")
+projectile_lead_by_level = SubResource("ProjectileLeadByLevel")
+projectile_lead_limit_by_level = SubResource("ProjectileLeadLimitByLevel")
+life_late_bonus = 63.0
+life_late_span = 45.0
+damage_late_bonus = 10.0
+damage_late_span = 44.0

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+
+[resource]
+resource_name = "Standard Sweep"
+script = ExtResource("1")
+id = &"standard_sweep"
+display_name = "Standard Sweep"
+icon_key = "sweep"
+description = "Drags the blade of its standard through the marked arc. Step around the flank or beyond the tip."
+action_key = "standard_sweep"
+damage_type = "physical"
+windup = 0.68
+recovery = 0.98
+damage_multiplier = 1.26
+stun_buildup = 22.0
+execution_profile = {"shape": "arc", "reach": 2.75, "start": 2.53, "arc": 66.0, "floor_warning": "always"}

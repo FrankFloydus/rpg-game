@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="theme"]
+
+[node name="Shortcut" type="HBoxContainer"]
+theme = ExtResource("theme")
+
+[node name="Key" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_type_variation = &"GearKeycap"
+
+[node name="Text" type="Label" parent="Key"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "Click"
+
+[node name="Meaning" type="Label" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+text = "Carry"
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)

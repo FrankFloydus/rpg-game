@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="1_theme"]
+
+[sub_resource type="SystemFont" id="Font_serif"]
+font_names = PackedStringArray("Georgia", "Palatino Linotype", "DejaVu Serif")
+
+[node name="AbilityGroup" type="VBoxContainer"]
+theme = ExtResource("1_theme")
+theme_override_constants/separation = 9
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("Font_serif")
+theme_override_font_sizes/font_size = 21
+text = "Moves"
+
+[node name="Chips" type="HFlowContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 7
+theme_override_constants/v_separation = 7

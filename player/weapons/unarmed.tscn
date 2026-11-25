@@ -1,0 +1,472 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://player/weapons/models/unarmed.glb" id="1_gc0hx"]
+
+[sub_resource type="Animation" id="Animation_aupvl"]
+length = 0.01
+step = 0.008333334
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0.415, -0.49, -0.7)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = false
+tracks/2/keys = PackedFloat32Array(0, 1, 0.33158046, -0.16839123, -0.4786321)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = PackedFloat32Array(0, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/keys = PackedFloat32Array(0, 1, 0.4, -0.45, -0.24)
+
+[sub_resource type="Animation" id="Animation_r4i7k"]
+length = 0.34
+step = 0.008333334
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0.415, -0.49, -0.7, 0.1088, 1, 0.4627, -0.3793, -0.6541, 0.2822, 1, 0.521, -0.244, -0.598, 0.34, 1, 0.521, -0.244, -0.598)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123, 0.1088, 1, -0.23467301, 0.14232278, -0.06383687, 0.95947784, 0.2822, 1, -0.20648234, 0.25452235, -0.17553926, 0.9283154, 0.34, 1, -0.20648234, 0.25452235, -0.17553926, 0.9283154)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = false
+tracks/2/keys = PackedFloat32Array(0, 1, 0.33158046, -0.16839123, -0.4786321, 0.1088, 1, 0.36145067, -0.17434216, -0.440143, 0.2822, 1, 0.37399703, -0.2509198, -0.34960774, 0.34, 1, 0.36974782, -0.25508973, -0.35272533)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = PackedFloat32Array(0, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427, 0.1088, 1, -0.007822003, -0.2977987, 0.16812484, 0.93967485, 0.2822, 1, -0.14169222, -0.3350565, 0.16569641, 0.91662705, 0.34, 1, -0.14380409, -0.3291614, 0.16196807, 0.9190971)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/keys = PackedFloat32Array(0, 1, 0.4, -0.45, -0.24, 0.1088, 1, 0.4231, -0.47604, -0.177, 0.2822, 1, 0.4407, -0.49588, -0.129, 0.34, 1, 0.44675, -0.5027, -0.1125)
+
+[sub_resource type="Animation" id="Animation_mcdka"]
+length = 1.6
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.28, -0.28, -0.84, 0.8, 1, 0.28, -0.274, -0.849, 1.6, 1, 0.28, -0.28, -0.84)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.042737305, -0.19710024, -0.47027373, 0.85916686, 0.8, 1, -0.041639358, -0.18772258, -0.47404516, 0.8592483, 1.6, 1, -0.042737305, -0.19710024, -0.47027373, 0.85916686)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.43036902, -0.012857914, 0.004919566, 0.8, 1, 0.42928517, -0.029923797, 0.007263653, 1.6, 1, 0.43036902, -0.012857914, 0.004919566)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -0.15421146, -0.68186337, 0.36088717, 0.6172857, 0.8, 1, -0.18109667, -0.6747733, 0.35210472, 0.6228221, 1.6, 1, -0.15421146, -0.68186337, 0.36088717, 0.6172857)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0.4066, -0.45744, -0.222, 0.8, 1, 0.4066, -0.45744, -0.222, 1.6, 1, 0.4066, -0.45744, -0.222)
+
+[sub_resource type="Animation" id="Animation_30nyi"]
+length = 0.53
+step = 0.008333334
+markers = [{
+"color": Color(0.4509804, 0.6901961, 0.4862745, 1),
+"name": &"Trace Start",
+"time": 0.071
+}, {
+"color": Color(0.9411765, 0.6392157, 0.38039216, 1),
+"name": &"Impact",
+"time": 0.118
+}, {
+"color": Color(0.8509804, 0.41960785, 0.40392157, 1),
+"name": &"Trace End",
+"time": 0.171
+}, {
+"color": Color(0.5058824, 0.65882355, 0.8156863, 1),
+"name": &"Input Buffer",
+"time": 0.35768
+}]
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0.521, -0.244, -0.598, 0.03053, 1, 0.4952, -0.2353, -0.6556, 0.05254, 1, 0.46854, -0.22631, -0.71512, 0.071, 1, 0.435, -0.215, -0.79, 0.118, 1, 0.053, -0.108, -1.1, 0.171, 1, 0.04, -0.159, -1.12, 0.2624732, 1, -0.031, -0.297, -1.02, 0.35768, 1, 0.0020000003, -0.325, -0.988, 0.453, 1, 0.28284, -0.4372, -0.79216, 0.53, 1, 0.415, -0.49, -0.7)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, -0.20648234, 0.25452235, -0.17553926, 0.9283154, 0.03053, 1, -0.23598126, 0.21803376, -0.11679555, 0.9397515, 0.05254, 1, -0.26502776, 0.17900668, -0.055388127, 0.9458589, 0.071, 1, -0.29922476, 0.12836826, 0.022305597, 0.94524527, 0.118, 1, -0.29543242, -0.13393028, 0.1849264, 0.927677, 0.171, 1, -0.28636083, -0.17361425, 0.21806583, 0.9166804, 0.2624732, 1, -0.2829258, -0.24501152, 0.25749266, 0.89085346, 0.35768, 1, -0.2642232, -0.18210268, 0.2766507, 0.90580857, 0.453, 1, -0.26002893, -0.026646192, 0.1100353, 0.95894065, 0.53, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = false
+tracks/2/keys = PackedFloat32Array(0, 1, 0.36974782, -0.25508973, -0.35272533, 0.03053, 1, 0.35004908, -0.22427705, -0.41933617, 0.05254, 1, 0.33341932, -0.17780435, -0.4717521, 0.071, 1, 0.30278838, -0.11545652, -0.5254298, 0.118, 1, 0.22090165, 0.06748688, -0.57956254, 0.171, 1, 0.1841483, 0.094837785, -0.58895296, 0.2624732, 1, 0.11638915, 0.18617201, -0.5730379, 0.35768, 1, 0.15191144, 0.1286428, -0.5892557, 0.453, 1, 0.27408637, -0.07334034, -0.51403165, 0.53, 1, 0.33158046, -0.16839123, -0.4786321)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = PackedFloat32Array(0, 1, -0.14380409, -0.3291614, 0.16196807, 0.9190971, 0.03053, 1, -0.07048833, -0.28905702, 0.15208507, 0.9425219, 0.05254, 1, 0.006861128, -0.2595927, 0.14897051, 0.95413435, 0.071, 1, 0.099321395, -0.21792969, 0.14158037, 0.9605191, 0.118, 1, 0.32315087, -0.13133824, 0.13181104, 0.92787373, 0.171, 1, 0.3593907, -0.09239701, 0.11604419, 0.92132235, 0.2624732, 1, 0.46627614, -0.026178155, 0.09722381, 0.8788907, 0.35768, 1, 0.4002561, -0.059710495, 0.10465413, 0.90844774, 0.453, 1, 0.14578763, -0.19702078, 0.13788296, 0.95964424, 0.53, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/keys = PackedFloat32Array(0, 1, 0.44675, -0.5027, -0.1125, 0.03053, 1, 0.4506, -0.50704, -0.102, 0.05254, 1, 0.4385, -0.4934, -0.135, 0.071, 1, 0.42035, -0.47294, -0.1845, 0.118, 1, 0.36095, -0.40598, -0.3465, 0.171, 1, 0.3483, -0.39172, -0.381, 0.2624732, 1, 0.345, -0.388, -0.39, 0.35768, 1, 0.36425, -0.4097, -0.3375, 0.453, 1, 0.38856, -0.437104, -0.2712, 0.53, 1, 0.4, -0.45, -0.24)
+
+[sub_resource type="Animation" id="Animation_in7yq"]
+length = 2.4
+loop_mode = 1
+step = 0.008333334
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.415, -0.49, -0.7, 1.2, 1, 0.417, -0.485, -0.704, 2.4, 1, 0.415, -0.49, -0.7)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123, 1.2, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123, 2.4, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.33158046, -0.16839123, -0.4786321, 1.2, 1, 0.33052862, -0.16754639, -0.48015308, 2.4, 1, 0.33158046, -0.16839123, -0.4786321)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427, 1.2, 1, 0.021913545, -0.2549336, 0.1489761, 0.95516217, 2.4, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0.4, -0.45, -0.24, 1.2, 1, 0.4, -0.45, -0.24, 2.4, 1, 0.4, -0.45, -0.24)
+
+[sub_resource type="Animation" id="Animation_1k8bm"]
+length = 0.48
+step = 0.008333334
+markers = [{
+"color": Color(0.4509804, 0.6901961, 0.4862745, 1),
+"name": &"Trace Start",
+"time": 0.1
+}, {
+"color": Color(0.9411765, 0.6392157, 0.38039216, 1),
+"name": &"Impact",
+"time": 0.15
+}, {
+"color": Color(0.8509804, 0.41960785, 0.40392157, 1),
+"name": &"Trace End",
+"time": 0.191
+}, {
+"color": Color(0.5058824, 0.65882355, 0.8156863, 1),
+"name": &"Input Buffer",
+"time": 0.34128
+}]
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0.415, -0.49, -0.7, 0.043, 1, 0.4584, -0.40600002, -0.6258, 0.074, 1, 0.477, -0.37, -0.594, 0.1, 1, 0.31, -0.24, -0.819, 0.15, 1, 0.102, -0.17, -1.088, 0.191, 1, 0.091, -0.197, -1.1, 0.2646372, 1, 0.126, -0.337, -0.96, 0.34128, 1, 0.162, -0.37300003, -0.93, 0.403, 1, 0.33404, -0.45256001, -0.7736, 0.48, 1, 0.415, -0.49, -0.7)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123, 0.043, 1, -0.23265229, 0.13732313, -0.062326234, 0.96079695, 0.074, 1, -0.22267446, 0.17517954, -0.10122003, 0.95366806, 0.1, 1, -0.32215554, 0.09352856, 0.02648541, 0.94168293, 0.15, 1, -0.34012264, -0.07854242, 0.09834789, 0.9319203, 0.191, 1, -0.33352685, -0.11770997, 0.1287678, 0.9264573, 0.2646372, 1, -0.29226372, -0.1868828, 0.16795196, 0.92273986, 0.34128, 1, -0.27598557, -0.10319193, 0.19354045, 0.93580204, 0.403, 1, -0.26189311, -0.00079795958, 0.082201346, 0.96158947, 0.48, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = false
+tracks/2/keys = PackedFloat32Array(0, 1, 0.33158046, -0.16839123, -0.4786321, 0.043, 1, 0.36692804, -0.16828048, -0.4363439, 0.074, 1, 0.3838393, -0.1796839, -0.4035346, 0.1, 1, 0.35319185, -0.04727447, -0.4904069, 0.15, 1, 0.28692374, 0.06064415, -0.54055715, 0.191, 1, 0.2533823, 0.10659778, -0.55002767, 0.2646372, 1, 0.19678245, 0.18045723, -0.54770017, 0.34128, 1, 0.22169375, 0.08830893, -0.5738387, 0.403, 1, 0.29641671, -0.086247179, -0.50909821, 0.48, 1, 0.33158046, -0.16839123, -0.4786321)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = PackedFloat32Array(0, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427, 0.043, 1, -0.003866421, -0.30509636, 0.17297702, 0.93647224, 0.074, 1, -0.03503454, -0.33254248, 0.18309633, 0.9244803, 0.1, 1, 0.15258853, -0.28400126, 0.1885926, 0.9276275, 0.15, 1, 0.29710862, -0.20923492, 0.17155167, 0.91570586, 0.191, 1, 0.35534805, -0.17472267, 0.16218987, 0.903822, 0.2646372, 1, 0.44654948, -0.11911602, 0.14664082, 0.87458646, 0.34128, 1, 0.34460935, -0.1345054, 0.13740239, 0.91884345, 0.403, 1, 0.12622402, -0.22011521, 0.14757417, 0.95594908, 0.48, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/keys = PackedFloat32Array(0, 1, 0.4, -0.45, -0.24, 0.043, 1, 0.4165, -0.4686, -0.195, 0.074, 1, 0.4374, -0.49216, -0.138, 0.1, 1, 0.42365, -0.47666, -0.1755, 0.15, 1, 0.36425, -0.4097, -0.3375, 0.191, 1, 0.34995, -0.39358, -0.3765, 0.2646372, 1, 0.345, -0.388, -0.39, 0.34128, 1, 0.3604, -0.40536, -0.348, 0.403, 1, 0.387328, -0.4357152, -0.27456, 0.48, 1, 0.4, -0.45, -0.24)
+
+[sub_resource type="Animation" id="Animation_light_2"]
+resource_name = "Second Light Strike"
+length = 0.48
+step = 0.008333334
+markers = [{
+"color": Color(0.4509804, 0.6901961, 0.4862745, 1),
+"name": &"Trace Start",
+"time": 0.1
+}, {
+"color": Color(0.9411765, 0.6392157, 0.38039216, 1),
+"name": &"Impact",
+"time": 0.15
+}, {
+"color": Color(0.8509804, 0.41960785, 0.40392157, 1),
+"name": &"Trace End",
+"time": 0.191
+}, {
+"color": Color(0.5058824, 0.65882355, 0.8156863, 1),
+"name": &"Input Buffer",
+"time": 0.34128
+}]
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0.415, -0.49, -0.7, 0.043, 1, 0.116, -0.4692, -0.6948, 0.074, 1, -0.24, -0.37, -0.8, 0.1, 1, -0.19, -0.27, -0.96, 0.15, 1, -0.02, -0.18, -1.14, 0.191, 1, 0.13, -0.16, -1.14, 0.2646372, 1, 0.26, -0.26, -1, 0.34128, 1, 0.2848, -0.3192, -0.952, 0.403, 1, 0.38245, -0.4711, -0.763, 0.48, 1, 0.415, -0.49, -0.7)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123, 0.043, 1, -0.22522942, -0.07715931, 0.15235344, 0.95922186, 0.074, 1, -0.35628997, -0.056962596, 0.25539522, 0.89698718, 0.1, 1, -0.46158287, -0.010427232, 0.12092038, 0.87875525, 0.15, 1, -0.43541388, -0.0053497944, -0.050833237, 0.89877812, 0.191, 1, -0.32519962, 0.045315375, -0.20172213, 0.92276753, 0.2646372, 1, -0.26031687, 0.088099983, -0.24629802, 0.92941423, 0.34128, 1, -0.26053036, 0.083847812, -0.21604073, 0.93724057, 0.403, 1, -0.25709056, 0.059129051, -0.046878077, 0.96343689, 0.48, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = false
+tracks/2/keys = PackedFloat32Array(0, 1, 0.33158046, -0.16839123, -0.4786321, 0.043, 1, 0.47492835, -0.1529314, -0.47288289, 0.074, 1, 0.51331072, -0.17940443, -0.717303, 0.1, 1, 0.51268078, -0.19492313, -0.82859603, 0.15, 1, 0.53896932, -0.39524477, -0.87034824, 0.191, 1, 0.45058417, -0.66550859, -0.70704815, 0.2646372, 1, 0.22022189, -0.6972051, -0.51982564, 0.34128, 1, 0.16025199, -0.65228964, -0.45635302, 0.403, 1, -0.0032353922, -0.53207401, -0.26917649, 0.48, 1, 0.33158046, -0.16839123, -0.4786321)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = PackedFloat32Array(0, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427, 0.043, 1, 0.026400979, -0.3273844, 0.19100714, 0.92500741, 0.074, 1, 0.088275922, -0.2407657, 0.15262843, 0.95443376, 0.1, 1, 0.10400693, -0.20237629, 0.13355471, 0.96456702, 0.15, 1, 0.0076641417, -0.18551087, 0.1069452, 0.97677516, 0.191, 1, -0.16466496, -0.15880825, 0.061320636, 0.97154782, 0.2646372, 1, -0.27983548, -0.079178317, -0.0043383188, 0.95676751, 0.34128, 1, -0.30826081, -0.057277229, -0.021822961, 0.94932521, 0.403, 1, -0.42776275, 0.038752754, -0.097581497, 0.8977723, 0.48, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/keys = PackedFloat32Array(0, 1, 0.4, -0.45, -0.24, 0.043, 1, 0.37192, -0.447088, -0.26481815, 0.074, 1, 0.334, -0.4332, -0.32600146, 0.1, 1, 0.3415, -0.4192, -0.34724207, 0.15, 1, 0.367, -0.4066, -0.34724207, 0.191, 1, 0.3895, -0.4038, -0.32600146, 0.2646372, 1, 0.409, -0.4178, -0.28772721, 0.34128, 1, 0.41272, -0.426088, -0.29894095, 0.403, 1, 0.4273675, -0.447354, -0.27068902, 0.48, 1, 0.4, -0.45, -0.24)
+
+[sub_resource type="Animation" id="Animation_heavy_2"]
+resource_name = "Second Charged Strike"
+length = 0.53
+step = 0.008333334
+markers = [{
+"color": Color(0.4509804, 0.6901961, 0.4862745, 1),
+"name": &"Trace Start",
+"time": 0.071
+}, {
+"color": Color(0.9411765, 0.6392157, 0.38039216, 1),
+"name": &"Impact",
+"time": 0.118
+}, {
+"color": Color(0.8509804, 0.41960785, 0.40392157, 1),
+"name": &"Trace End",
+"time": 0.171
+}, {
+"color": Color(0.5058824, 0.65882355, 0.8156863, 1),
+"name": &"Input Buffer",
+"time": 0.35768
+}]
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, -0.23, -0.39, -0.66, 0.03053, 1, -0.2342, -0.369, -0.6978, 0.05254, 1, -0.24, -0.34, -0.75, 0.071, 1, -0.2, -0.27, -0.91, 0.118, 1, -0.03, -0.15, -1.17, 0.171, 1, 0.16, -0.12, -1.16, 0.2624732, 1, 0.34, -0.22, -1.02, 0.35768, 1, 0.352, -0.2856, -0.9688, 0.453, 1, 0.39925, -0.4627, -0.7672, 0.53, 1, 0.415, -0.49, -0.7)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, -0.10421959, -0.27528261, 0.21832197, 0.9304264, 0.03053, 1, -0.14321553, -0.24006708, 0.22728666, 0.93284398, 0.05254, 1, -0.19637378, -0.19033376, 0.23859766, 0.93181627, 0.071, 1, -0.37630289, -0.04862311, 0.19235989, 0.90500254, 0.118, 1, -0.43425571, 0.029127777, -0.059926934, 0.89832194, 0.171, 1, -0.25940822, 0.082194302, -0.21008187, 0.93905116, 0.2624732, 1, -0.19678144, 0.14498844, -0.27974067, 0.92843986, 0.35768, 1, -0.20429444, 0.13467769, -0.24608032, 0.93785403, 0.453, 1, -0.24025105, 0.075130886, -0.056442154, 0.96615168, 0.53, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = false
+tracks/2/keys = PackedFloat32Array(0, 1, 0.696766, 0.013307933, -0.42753646, 0.03053, 1, 0.67307342, -0.032103461, -0.489855, 0.05254, 1, 0.6403551, -0.094814432, -0.57591395, 0.071, 1, 0.49172671, -0.21227488, -0.79275127, 0.118, 1, 0.51242674, -0.4292696, -0.92482689, 0.171, 1, 0.3541797, -0.77853356, -0.68551453, 0.2624732, 1, 0.071319118, -0.74802461, -0.5262092, 0.35768, 1, 0.033659841, -0.68869457, -0.45820418, 0.453, 1, -0.037250158, -0.53782739, -0.26260891, 0.53, 1, 0.33158046, -0.16839123, -0.4786321)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = PackedFloat32Array(0, 1, 0.12357504, -0.45064823, 0.27832498, 0.83915468, 0.03053, 1, 0.11252707, -0.41136868, 0.25401664, 0.86809505, 0.05254, 1, 0.096705421, -0.35505953, 0.2191723, 0.9036284, 0.071, 1, 0.087314552, -0.20302206, 0.13097516, 0.96643868, 0.118, 1, 0.0059488277, -0.16050792, 0.092410774, 0.98268106, 0.171, 1, -0.21681909, -0.11111033, 0.024963108, 0.96954671, 0.2624732, 1, -0.29887348, 0.0071557663, -0.056840592, 0.95257156, 0.35768, 1, -0.32357729, 0.024279264, -0.070948795, 0.9432256, 0.453, 1, -0.43350665, 0.068645315, -0.11561034, 0.89106344, 0.53, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/keys = PackedFloat32Array(0, 1, 0.3355, -0.436, -0.28772721, 0.03053, 1, 0.33487, -0.43306, -0.3038024, 0.05254, 1, 0.334, -0.429, -0.32600146, 0.071, 1, 0.34, -0.4192, -0.34724207, 0.118, 1, 0.3655, -0.4024, -0.34724207, 0.171, 1, 0.394, -0.3982, -0.32600146, 0.2624732, 1, 0.421, -0.4122, -0.28772721, 0.35768, 1, 0.4228, -0.421384, -0.29894095, 0.453, 1, 0.4298875, -0.446178, -0.27068902, 0.53, 1, 0.4, -0.45, -0.24)
+
+[sub_resource type="Animation" id="Animation_charge_2"]
+resource_name = "Second Charge"
+length = 0.34
+step = 0.008333334
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pose")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0.415, -0.49, -0.7, 0.0986, 1, 0.1183, -0.464, -0.6816, 0.2584, 1, -0.14615, -0.403, -0.6652, 0.34, 1, -0.23, -0.39, -0.66)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pose")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, -0.2530835, 0.047543142, 0.028967185, 0.96584123, 0.0986, 1, -0.18838973, -0.10325311, 0.11860838, 0.96942259, 0.2584, 1, -0.12510001, -0.23477397, 0.19510273, 0.94401594, 0.34, 1, -0.10421959, -0.27528261, 0.21832197, 0.9304264)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/2/interp = 2
+tracks/2/loop_wrap = false
+tracks/2/keys = PackedFloat32Array(0, 1, 0.33158046, -0.16839123, -0.4786321, 0.0986, 1, 0.3774258, -0.29627479, -0.20111877, 0.2584, 1, 0.6294213, -0.055365036, -0.35715175, 0.34, 1, 0.696766, 0.013307933, -0.42753646)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pose/ForgedModel/Sleeve Armature/Skeleton3D:Right Elbow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = PackedFloat32Array(0, 1, 0.020209746, -0.25637057, 0.14949325, 0.95473427, 0.0986, 1, -0.29955868, -0.39549988, 0.17222845, 0.85098872, 0.2584, 1, 0.052099757, -0.46785573, 0.27550011, 0.83815054, 0.34, 1, 0.12357504, -0.45064823, 0.27832498, 0.83915468)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightShoulder")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/keys = PackedFloat32Array(0, 1, 0.4, -0.45, -0.24, 0.0986, 1, 0.387745, -0.44636, -0.34461622, 0.2584, 1, 0.3480775, -0.43782, -0.32251222, 0.34, 1, 0.3355, -0.436, -0.28772721)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8b4tl"]
+_data = {
+&"RESET": SubResource("Animation_aupvl"),
+&"charge": SubResource("Animation_r4i7k"),
+&"guard": SubResource("Animation_mcdka"),
+&"heavy": SubResource("Animation_30nyi"),
+&"idle": SubResource("Animation_in7yq"),
+&"light": SubResource("Animation_1k8bm"),
+&"light_2": SubResource("Animation_light_2"),
+&"heavy_2": SubResource("Animation_heavy_2"),
+&"charge_2": SubResource("Animation_charge_2")
+}
+
+[node name="Unarmed" type="Node3D" unique_id=1672319798]
+metadata/authored_sleeves = true
+
+[node name="Pose" type="Node3D" parent="." unique_id=1233748842]
+transform = Transform3D(0.8248548, -0.06641674, 0.06405608, 0.026469225, 0.72228205, 0.40805396, -0.08839539, -0.40348172, 0.7199227, 0.415, -0.49, -0.7)
+
+[node name="ForgedModel" parent="Pose" unique_id=1275760903 instance=ExtResource("1_gc0hx")]
+
+[node name="Skeleton3D" parent="Pose/ForgedModel/Sleeve Armature" parent_id_path=PackedInt32Array(1275760903, 37027174) index="0" unique_id=339649860]
+bones/1/position = Vector3(0.33158046, -0.16839123, -0.4786321)
+bones/1/rotation = Quaternion(0.020209746, -0.25637057, 0.14949325, 0.95473427)
+
+[node name="RightWrist" type="Marker3D" parent="Pose" unique_id=1464831318]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.024, -0.186, 0.022)
+gizmo_extents = 0.09
+
+[node name="TraceRoot" type="Marker3D" parent="Pose" unique_id=777431777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015, -0.116, 0.018)
+gizmo_extents = 0.09
+
+[node name="TraceTip" type="Marker3D" parent="Pose" unique_id=2032494511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.052, -0.075, -0.041)
+gizmo_extents = 0.09
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=479906796]
+libraries/ = SubResource("AnimationLibrary_8b4tl")
+
+[node name="RightShoulder" type="Marker3D" parent="." unique_id=268344134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42, -0.48, -0.2)
+gizmo_extents = 0.09
+
+[editable path="Pose/ForgedModel"]

@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3]
+
+[ext_resource type="Shader" path="res://addons/godot-dismemberment/effects/blood_gpu_draw.gdshader" id="3_draw"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_particles/blood_spray_sheet.png" id="5_sheet"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_01.png" id="6_radial"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_particles/blood_spray_sheet_normal.png" id="7_sheet_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_particles/blood_radial_sheet_normal.png" id="8_radial_normal"]
+
+[resource]
+resource_name = "Blood Sheets"
+shader = ExtResource("3_draw")
+shader_parameter/particle_kind = 1
+shader_parameter/sprite_mask = ExtResource("5_sheet")
+shader_parameter/radial_mask = ExtResource("6_radial")
+shader_parameter/sheet_normal_map = ExtResource("7_sheet_normal")
+shader_parameter/radial_normal_map = ExtResource("8_radial_normal")

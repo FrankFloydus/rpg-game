@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_15_albedo.png" id="albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_15_normal.png" id="normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_15_orm.png" id="orm"]
+
+[resource]
+resource_name = "Porous Compact Strike"
+transparency = 1
+albedo_texture = ExtResource("albedo")
+orm_texture = ExtResource("orm")
+normal_enabled = true
+normal_texture = ExtResource("normal")
+ao_enabled = true
+texture_repeat = false

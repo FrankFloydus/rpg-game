@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="SecretChallengeRoute" format=3 uid="uid://dx1ubp2f6t1ra"]
+
+[ext_resource type="Script" uid="uid://d240lj3f4jnbt" path="res://world/secret_challenges/secret_challenge_route.gd" id="Route"]
+[ext_resource type="Script" uid="uid://dt56oec7d6bkk" path="res://world/secret_challenges/secret_challenge_socket.gd" id="Socket"]
+
+[sub_resource type="Resource" id="Trap_1"]
+script = ExtResource("Socket")
+phase = 0.43
+reach = 1.1
+
+[sub_resource type="Resource" id="Trap_2"]
+script = ExtResource("Socket")
+glyph = "2"
+kind = "ember_vent"
+alternate_kind = "spike_plate"
+phase = 0.81
+reach = 1.55
+
+[sub_resource type="Resource" id="Trap_3"]
+script = ExtResource("Socket")
+glyph = "3"
+kind = "miasma_vent"
+alternate_kind = "ember_vent"
+facing = Vector2i(0, 1)
+phase = 0.65
+reach = 1.72
+
+[sub_resource type="Resource" id="Trap_4"]
+script = ExtResource("Socket")
+glyph = "4"
+alternate_kind = "miasma_vent"
+phase = 0.05
+reach = 1.1
+
+[resource]
+resource_name = "Vault of the Last Teeth"
+script = ExtResource("Route")
+id = &"last_teeth"
+display_name = "Vault of the Last Teeth"
+min_depth = 7
+weight = 0.66
+rows = PackedStringArray("S.1........#", "##########.#", "####...2...#", "####.#######", "####3###...R", "####.###.###", "####...4.###", "######.#####")
+alternate_rows = PackedStringArray("S.1........#", "##########.#", "####...2...#", "####.#######", "####3#######", "####.#######", "####...R####", "######.#####")
+hazard_sockets = Array[ExtResource("Socket")]([SubResource("Trap_1"), SubResource("Trap_2"), SubResource("Trap_3"), SubResource("Trap_4")])

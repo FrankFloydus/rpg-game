@@ -1,0 +1,446 @@
+[gd_scene format=3 uid="uid://c88e4irmptli1"]
+
+[ext_resource type="Script" uid="uid://c8xlskmbcq8uo" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_scene.gd" id="1_scene"]
+[ext_resource type="Shader" uid="uid://cep625q10tlkv" path="res://addons/godot-dismemberment/effects/blood_gpu_liquid_draw.gdshader" id="2_4fpi6"]
+[ext_resource type="Script" uid="uid://dpr0g5okr6wev" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_emitter_layer.gd" id="2_layer"]
+[ext_resource type="Texture2D" uid="uid://71f1rfhga16h" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/forked_stump_film.png" id="3_3qdvd"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="3_process"]
+[ext_resource type="Texture2D" uid="uid://ch5rfh8ohlldg" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/distortion_noise.png" id="4_ong4j"]
+[ext_resource type="Texture2D" uid="uid://c2huo08oy4nfu" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/forked_sheet_normal.png" id="5_vl6xm"]
+[ext_resource type="Texture2D" uid="uid://sgjk8lxmhion" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/liquid_reflection.png" id="6_mfun5"]
+[ext_resource type="Texture2D" uid="uid://bomea5uoctinw" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/head_spray_filaments.png" id="9_glkkl"]
+[ext_resource type="Texture2D" uid="uid://fb3auptbqf3j" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/thin_directional_sheet_normal.png" id="10_4nx84"]
+[ext_resource type="Texture2D" uid="uid://cnma1qykb5y5i" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/head_crescent_film.png" id="11_6xtf1"]
+[ext_resource type="Texture2D" uid="uid://yt8tha8dibig" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/crescent_sheet_normal.png" id="12_ragav"]
+[ext_resource type="Texture2D" uid="uid://din64sxkbuu16" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/liquid_cell.png" id="13_ejsbb"]
+[ext_resource type="Texture2D" uid="uid://bksg0obtvovnp" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/liquid_cell_normal.png" id="14_bnb8g"]
+
+[sub_resource type="Curve" id="Curve_dissolve_DirectionalBurst001"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.7393728, 1.7393728, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_dissolve_DirectionalBurst001"]
+curve = SubResource("Curve_dissolve_DirectionalBurst001")
+
+[sub_resource type="Curve" id="Curve_size_DirectionalBurst001"]
+_limits = [0.0, 1.9999999, 0.0, 1.0]
+_data = [Vector2(0, 5.138897e-08), 8.357048, 8.357048, 0, 0, Vector2(0.22226356, 1.3650556), 1.9990026, 1.9990026, 0, 0, Vector2(1, 1.9999999), -0.081036404, -0.081036404, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Texture_size_DirectionalBurst001"]
+curve = SubResource("Curve_size_DirectionalBurst001")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n4d7m"]
+resource_name = "BloodDirection06Stump"
+render_priority = 0
+shader = ExtResource("2_4fpi6")
+shader_parameter/particle_kind = 1
+shader_parameter/normal_strength = 0.86
+shader_parameter/wet_roughness = 0.28
+shader_parameter/source_graph = true
+shader_parameter/source_masked = false
+shader_parameter/source_alpha_map = ExtResource("3_3qdvd")
+shader_parameter/source_normal_map = ExtResource("5_vl6xm")
+shader_parameter/source_normal_anisotropic = false
+shader_parameter/source_distortion_map = ExtResource("4_ong4j")
+shader_parameter/source_reflection_map = ExtResource("6_mfun5")
+shader_parameter/source_main_color = Vector3(0.166667, 0, 0)
+shader_parameter/source_secondary_color = Vector3(0.052083, 0, 0)
+shader_parameter/source_specular_tint = Vector3(1, 0.952554, 0.866602)
+shader_parameter/source_distort_intensity = 0.0099999998
+shader_parameter/source_distort_tiling = 5.0
+shader_parameter/source_distort_speed = Vector2(0, 0.5)
+shader_parameter/source_specular_value = 2.0
+shader_parameter/source_specular_power = 0.60000002
+shader_parameter/source_softness = 0.30000001
+shader_parameter/source_power = 0.80000001
+shader_parameter/source_normal_strength = 3.0
+shader_parameter/source_darkness = 1.5
+shader_parameter/source_rotation = 0.0
+shader_parameter/source_dissolve_test = false
+shader_parameter/source_test_dissolve = 0.0
+shader_parameter/source_smoke_fade_distance = 1.0
+shader_parameter/source_smoke_detail_randomization = 400.0
+shader_parameter/source_smoke_detail_opacity = 5.0
+shader_parameter/source_smoke_power = 0.6
+shader_parameter/has_dissolve_curve = true
+shader_parameter/has_alpha_curve = false
+shader_parameter/has_size_x_curve = true
+shader_parameter/has_size_y_curve = true
+shader_parameter/has_speed_scale_curve = false
+shader_parameter/source_dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst001")
+shader_parameter/source_size_x_curve = SubResource("Texture_size_DirectionalBurst001")
+shader_parameter/source_size_y_curve = SubResource("Texture_size_DirectionalBurst001")
+shader_parameter/source_speed_scale_min = Vector2(0.5, 0.5)
+shader_parameter/source_speed_scale_max = Vector2(1, 2)
+shader_parameter/source_speed_scale_threshold = 15.0
+shader_parameter/source_camera_offset = 0.0
+shader_parameter/source_smoke_frame_span = 63.0
+shader_parameter/source_sprite_pivot = Vector2(0.5, 0.8)
+shader_parameter/source_pixel_coverage = 0
+shader_parameter/source_pixel_coverage_blend = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_sprite"]
+
+[sub_resource type="Curve" id="Curve_dissolve_DirectionalBurst003"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.7594914, 1.7594914, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_dissolve_DirectionalBurst003"]
+curve = SubResource("Curve_dissolve_DirectionalBurst003")
+
+[sub_resource type="Curve" id="Curve_size_DirectionalBurst003"]
+_limits = [0.0, 2.9999998, 0.0, 1.0]
+_data = [Vector2(0, 7.7083456e-08), 12.535572, 12.535572, 0, 0, Vector2(0.22226356, 2.0475833), 2.998504, 2.998504, 0, 0, Vector2(1, 2.9999998), -0.121554606, -0.121554606, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Texture_size_DirectionalBurst003"]
+curve = SubResource("Curve_size_DirectionalBurst003")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y8egq"]
+resource_name = "MI_BloodDirection_09_Head"
+render_priority = 0
+shader = ExtResource("2_4fpi6")
+shader_parameter/particle_kind = 1
+shader_parameter/normal_strength = 0.86
+shader_parameter/wet_roughness = 0.28
+shader_parameter/source_graph = true
+shader_parameter/source_masked = false
+shader_parameter/source_alpha_map = ExtResource("9_glkkl")
+shader_parameter/source_normal_map = ExtResource("10_4nx84")
+shader_parameter/source_normal_anisotropic = false
+shader_parameter/source_distortion_map = ExtResource("4_ong4j")
+shader_parameter/source_reflection_map = ExtResource("6_mfun5")
+shader_parameter/source_main_color = Vector3(0.177083, 0, 0)
+shader_parameter/source_secondary_color = Vector3(0.052083, 0, 0)
+shader_parameter/source_specular_tint = Vector3(1, 0.955974, 0.863157)
+shader_parameter/source_distort_intensity = 0.039999999
+shader_parameter/source_distort_tiling = 1.0
+shader_parameter/source_distort_speed = Vector2(0, 0.5)
+shader_parameter/source_specular_value = 2.5
+shader_parameter/source_specular_power = 0.5
+shader_parameter/source_softness = 0.2
+shader_parameter/source_power = 0.5
+shader_parameter/source_normal_strength = 5.0
+shader_parameter/source_darkness = 2.0
+shader_parameter/source_rotation = -0.30000001
+shader_parameter/source_dissolve_test = false
+shader_parameter/source_test_dissolve = 0.0
+shader_parameter/source_smoke_fade_distance = 1.0
+shader_parameter/source_smoke_detail_randomization = 400.0
+shader_parameter/source_smoke_detail_opacity = 5.0
+shader_parameter/source_smoke_power = 0.6
+shader_parameter/has_dissolve_curve = true
+shader_parameter/has_alpha_curve = false
+shader_parameter/has_size_x_curve = true
+shader_parameter/has_size_y_curve = true
+shader_parameter/has_speed_scale_curve = false
+shader_parameter/source_dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst003")
+shader_parameter/source_size_x_curve = SubResource("Texture_size_DirectionalBurst003")
+shader_parameter/source_size_y_curve = SubResource("Texture_size_DirectionalBurst003")
+shader_parameter/source_speed_scale_min = Vector2(0.5, 0.5)
+shader_parameter/source_speed_scale_max = Vector2(1, 2)
+shader_parameter/source_speed_scale_threshold = 15.0
+shader_parameter/source_camera_offset = 0.2
+shader_parameter/source_smoke_frame_span = 63.0
+shader_parameter/source_sprite_pivot = Vector2(0.5, 1)
+shader_parameter/source_pixel_coverage = 0
+shader_parameter/source_pixel_coverage_blend = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4avdp"]
+resource_name = "BloodDirection08Head"
+render_priority = 0
+shader = ExtResource("2_4fpi6")
+shader_parameter/particle_kind = 1
+shader_parameter/normal_strength = 0.86
+shader_parameter/wet_roughness = 0.28
+shader_parameter/source_graph = true
+shader_parameter/source_masked = false
+shader_parameter/source_alpha_map = ExtResource("11_6xtf1")
+shader_parameter/source_normal_map = ExtResource("12_ragav")
+shader_parameter/source_normal_anisotropic = false
+shader_parameter/source_distortion_map = ExtResource("4_ong4j")
+shader_parameter/source_reflection_map = ExtResource("6_mfun5")
+shader_parameter/source_main_color = Vector3(0.223958, 0, 0)
+shader_parameter/source_secondary_color = Vector3(0.078125, 0, 0)
+shader_parameter/source_specular_tint = Vector3(1, 0.955974, 0.863157)
+shader_parameter/source_distort_intensity = 0.1
+shader_parameter/source_distort_tiling = 1.0
+shader_parameter/source_distort_speed = Vector2(0, 0.5)
+shader_parameter/source_specular_value = 2.5
+shader_parameter/source_specular_power = 0.60000002
+shader_parameter/source_softness = 0.30000001
+shader_parameter/source_power = 1.0
+shader_parameter/source_normal_strength = 2.0
+shader_parameter/source_darkness = 2.0
+shader_parameter/source_rotation = 0.0
+shader_parameter/source_dissolve_test = false
+shader_parameter/source_test_dissolve = 0.0
+shader_parameter/source_smoke_fade_distance = 1.0
+shader_parameter/source_smoke_detail_randomization = 400.0
+shader_parameter/source_smoke_detail_opacity = 5.0
+shader_parameter/source_smoke_power = 0.6
+shader_parameter/has_dissolve_curve = true
+shader_parameter/has_alpha_curve = false
+shader_parameter/has_size_x_curve = true
+shader_parameter/has_size_y_curve = true
+shader_parameter/has_speed_scale_curve = false
+shader_parameter/source_dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst003")
+shader_parameter/source_size_x_curve = SubResource("Texture_size_DirectionalBurst001")
+shader_parameter/source_size_y_curve = SubResource("Texture_size_DirectionalBurst001")
+shader_parameter/source_speed_scale_min = Vector2(0.5, 0.5)
+shader_parameter/source_speed_scale_max = Vector2(1, 6)
+shader_parameter/source_speed_scale_threshold = 15.0
+shader_parameter/source_camera_offset = 0.2
+shader_parameter/source_smoke_frame_span = 63.0
+shader_parameter/source_sprite_pivot = Vector2(0.5, 0.8)
+shader_parameter/source_pixel_coverage = 0
+shader_parameter/source_pixel_coverage_blend = 1.0
+
+[sub_resource type="Curve" id="Curve_alpha_Spots"]
+_limits = [0.0, 1.0000001, 0.0, 1.0]
+_data = [Vector2(0, 1.0000001), 0.0, -2.5483268e-07, 0, 1, Vector2(0.700852, 0.99999994), -2.5483268e-07, -0.040518202, 1, 0, Vector2(1, 0), -8.008901, -8.008901, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Texture_alpha_Spots"]
+curve = SubResource("Curve_alpha_Spots")
+
+[sub_resource type="Curve" id="Curve_dissolve_Spots"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.1), 0.20508365, 0.20508365, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_dissolve_Spots"]
+curve = SubResource("Curve_dissolve_Spots")
+
+[sub_resource type="Curve" id="Curve_size_Spots"]
+_limits = [0.0, 3.0000005, 0.0, 1.0]
+_data = [Vector2(0, 3.0000005), 0.0, -7.662103e-07, 0, 1, Vector2(0.700852, 2.9999998), -7.662103e-07, -0.121554606, 1, 0, Vector2(1, 0), -24.026703, -24.026703, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Texture_size_Spots"]
+curve = SubResource("Curve_size_Spots")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_144ac"]
+resource_name = "MI_CellSpot_01"
+render_priority = 0
+shader = ExtResource("2_4fpi6")
+shader_parameter/particle_kind = 2
+shader_parameter/normal_strength = 0.86
+shader_parameter/wet_roughness = 0.28
+shader_parameter/source_graph = true
+shader_parameter/source_masked = false
+shader_parameter/source_alpha_map = ExtResource("13_ejsbb")
+shader_parameter/source_normal_map = ExtResource("14_bnb8g")
+shader_parameter/source_normal_anisotropic = false
+shader_parameter/source_distortion_map = ExtResource("4_ong4j")
+shader_parameter/source_reflection_map = ExtResource("6_mfun5")
+shader_parameter/source_main_color = Vector3(0.057805, 0, 0)
+shader_parameter/source_secondary_color = Vector3(0.109462, 0, 0)
+shader_parameter/source_specular_tint = Vector3(1, 0.620544, 0.343006)
+shader_parameter/source_distort_intensity = 0.02
+shader_parameter/source_distort_tiling = 2.0
+shader_parameter/source_distort_speed = Vector2(0, 0.5)
+shader_parameter/source_specular_value = 5.0
+shader_parameter/source_specular_power = 1.0
+shader_parameter/source_softness = 0.2
+shader_parameter/source_power = -0.2
+shader_parameter/source_normal_strength = 1.0
+shader_parameter/source_darkness = 0.1
+shader_parameter/source_rotation = 0.0
+shader_parameter/source_dissolve_test = false
+shader_parameter/source_test_dissolve = 0.0
+shader_parameter/source_smoke_fade_distance = 1.0
+shader_parameter/source_smoke_detail_randomization = 400.0
+shader_parameter/source_smoke_detail_opacity = 5.0
+shader_parameter/source_smoke_power = 0.6
+shader_parameter/has_dissolve_curve = true
+shader_parameter/has_alpha_curve = true
+shader_parameter/has_size_x_curve = true
+shader_parameter/has_size_y_curve = true
+shader_parameter/has_speed_scale_curve = false
+shader_parameter/source_dissolve_curve = SubResource("Texture_dissolve_Spots")
+shader_parameter/source_alpha_curve = SubResource("Texture_alpha_Spots")
+shader_parameter/source_size_x_curve = SubResource("Texture_size_Spots")
+shader_parameter/source_size_y_curve = SubResource("Texture_size_Spots")
+shader_parameter/source_speed_scale_min = Vector2(0.5, 0.5)
+shader_parameter/source_speed_scale_max = Vector2(1, 5)
+shader_parameter/source_speed_scale_threshold = 15.0
+shader_parameter/source_camera_offset = 0.0
+shader_parameter/source_smoke_frame_span = 63.0
+shader_parameter/source_sprite_pivot = Vector2(0.5, 0.8)
+shader_parameter/source_pixel_coverage = 0
+shader_parameter/source_pixel_coverage_blend = 1.0
+
+[node name="NS_AmputatedHead" type="Node3D" unique_id=1147714740]
+script = ExtResource("1_scene")
+system_name = &"NS_AmputatedHead"
+family = &"amputated_head"
+preview_direction = Vector3(0, 1, 0)
+
+[node name="DirectionalBurst001" type="GPUParticles3D" parent="." unique_id=2028225633]
+material_override = SubResource("ShaderMaterial_n4d7m")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+visibility_aabb = AABB(-32, -28, -40, 64, 56, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst001"
+reference_material = &"MI_BloodDirection_06"
+alignment = 2
+emission_window = 0.2
+particle_lifetime = Vector2(0.4, 0.7)
+width = Vector2(0.1, 0.3)
+length = Vector2(0.28, 0.9)
+opacity = 2.0
+source_motion = true
+velocity_min = Vector3(-0.6, 0.3, -0.1)
+velocity_max = Vector3(0.6, 1, 0.1)
+gravity_min = Vector3(0, -3.5, 0)
+gravity_max = Vector3(0, -2.5, 0)
+drag_range = Vector2(1, 2)
+stream_rate = 2.0
+loop_duration = 0.2
+alignment_uses_initial_velocity = true
+uv_flip = 1
+dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst001")
+size_x_curve = SubResource("Texture_size_DirectionalBurst001")
+size_y_curve = SubResource("Texture_size_DirectionalBurst001")
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 2)
+speed_scale_threshold = 15.0
+sprite_pivot = Vector2(0.5, 0.8)
+
+[node name="DirectionalBurst003" type="GPUParticles3D" parent="." unique_id=599063939]
+material_override = SubResource("ShaderMaterial_y8egq")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+visibility_aabb = AABB(-32, -28, -40, 64, 56, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst003"
+reference_material = &"MI_BloodDirection_09"
+alignment = 2
+particle_count = 0
+emission_window = 5.0
+particle_lifetime = Vector2(0.4, 0.7)
+width = Vector2(0.15, 0.4)
+length = Vector2(0.45, 0.7)
+opacity = 2.0
+source_motion = true
+velocity_min = Vector3(0, 0.5, 0)
+velocity_max = Vector3(0, 1.2, 0)
+radial_speed = Vector2(0.5, 0.5)
+gravity_min = Vector3(0, -4.5, 0)
+gravity_max = Vector3(0, -4.5, 0)
+drag_range = Vector2(2, 2)
+stream_rate = 5.0
+loop_duration = 5.0
+alignment_uses_initial_velocity = true
+uv_flip = 1
+dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst003")
+size_x_curve = SubResource("Texture_size_DirectionalBurst003")
+size_y_curve = SubResource("Texture_size_DirectionalBurst003")
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 2)
+speed_scale_threshold = 15.0
+camera_offset = 0.2
+sprite_pivot = Vector2(0.5, 1)
+
+[node name="DirectionalBurst" type="GPUParticles3D" parent="." unique_id=1947704698]
+material_override = SubResource("ShaderMaterial_4avdp")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+visibility_aabb = AABB(-32, -28, -40, 64, 56, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst"
+reference_material = &"MI_BloodDirection_08"
+alignment = 2
+particle_count = 0
+emission_window = 5.0
+particle_lifetime = Vector2(0.4, 0.7)
+width = Vector2(0.15, 0.4)
+length = Vector2(0.45, 0.7)
+opacity = 2.0
+source_motion = true
+velocity_min = Vector3(-0.25, 0.25, -0.25)
+velocity_max = Vector3(0.25, 0.7, 0.25)
+radial_speed = Vector2(0.15, 0.15)
+gravity_min = Vector3(0, -4.5, 0)
+gravity_max = Vector3(0, -4.5, 0)
+drag_range = Vector2(2, 2)
+stream_rate = 5.0
+loop_duration = 5.0
+alignment_uses_initial_velocity = true
+uv_flip = 1
+dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst003")
+size_x_curve = SubResource("Texture_size_DirectionalBurst001")
+size_y_curve = SubResource("Texture_size_DirectionalBurst001")
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 6)
+speed_scale_threshold = 15.0
+camera_offset = 0.2
+sprite_pivot = Vector2(0.5, 0.8)
+
+[node name="Spots" type="GPUParticles3D" parent="." unique_id=185896908]
+material_override = SubResource("ShaderMaterial_144ac")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 3072
+lifetime = 2.25
+fixed_fps = 60
+visibility_aabb = AABB(-32, -28, -40, 64, 56, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"Spots"
+reference_material = &"MI_CellSpot_01"
+channel = 2
+particle_count = 0
+emission_window = 1.0
+particle_lifetime = Vector2(0.4, 1)
+width = Vector2(0.005, 0.007)
+length = Vector2(0.02, 0.03)
+spawn_radius = 0.01
+opacity = 1.0
+source_motion = true
+velocity_min = Vector3(0, 0.5, 0)
+velocity_max = Vector3(0, 2.5, 0)
+radial_speed = Vector2(0.1, 1.5)
+gravity_min = Vector3(0, -4.5, 0)
+gravity_max = Vector3(0, -4, 0)
+drag_range = Vector2(0.1, 2)
+spawn_surface_only = true
+stream_rate = 250.0
+loop_duration = 1.0
+rotation_range = Vector2(0, 1)
+source_world_sprite_size = true
+uv_flip = 1
+dissolve_curve = SubResource("Texture_dissolve_Spots")
+alpha_curve = SubResource("Texture_alpha_Spots")
+size_x_curve = SubResource("Texture_size_Spots")
+size_y_curve = SubResource("Texture_size_Spots")
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 5)
+speed_scale_threshold = 15.0
+sprite_pivot = Vector2(0.5, 0.8)

@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://combat/enemies/crypt_scurrer/crypt_scurrer_ai.gd" id="AI"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="Ability"]
+[ext_resource type="Resource" path="res://combat/abilities/scurrer_bite.tres" id="Action0"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="Model"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/crypt_scurrer.glb" id="Rig"]
+
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/crypt_scurrer/crypt_scurrer_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="Body"]
+radius = 0.19
+height = 0.44
+
+[node name="CryptScurrer" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("AI")
+base_life = 3
+base_attack_damage = 1.05
+base_move_speed = 3.32
+ability_loadout = Array[ExtResource("Ability")]([ExtResource("Action0")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.220, 0)
+shape = SubResource("Body")
+
+[node name="Model" type="Node3D" parent="."]
+script = ExtResource("Model")
+
+[node name="Rig" parent="Model" instance=ExtResource("Rig")]
+
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

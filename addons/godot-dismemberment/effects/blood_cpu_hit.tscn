@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/blood_cpu_preview.gd" id="Script_preview"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/cpu_impact_sheet.tres" id="cpu_impact_sheet"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/cpu_impact_drops.tres" id="cpu_impact_drops"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_BloodBurst"]
+material = ExtResource("cpu_impact_sheet")
+size = Vector2(0.34, 0.34)
+
+[sub_resource type="QuadMesh" id="QuadMesh_BloodParticle"]
+material = ExtResource("cpu_impact_drops")
+size = Vector2(0.008, 0.03)
+
+[node name="BloodCpuHit" type="Node3D"]
+script = ExtResource("Script_preview")
+
+[node name="BloodBurst" type="CPUParticles3D" parent="."]
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 4
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.55
+local_coords = false
+draw_order = 1
+mesh = SubResource("QuadMesh_BloodBurst")
+particle_flag_align_y = false
+direction = Vector3(0.928476691, 0.371390676, 0)
+spread = 18
+gravity = Vector3(0, -9.8, 0)
+initial_velocity_min = 0.65
+initial_velocity_max = 2.2
+angle_max = 360
+damping_min = 0
+damping_max = 0
+anim_offset_max = 1.0
+
+[node name="BloodParticle" type="CPUParticles3D" parent="."]
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 22
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.6
+local_coords = false
+draw_order = 1
+mesh = SubResource("QuadMesh_BloodParticle")
+particle_flag_align_y = true
+direction = Vector3(0.707106781, 0.707106781, 0)
+spread = 27.5
+gravity = Vector3(0, -9.8, 0)
+initial_velocity_min = 1
+initial_velocity_max = 3.5
+angle_max = 0
+damping_min = 0
+damping_max = 0
+anim_offset_max = 1.0

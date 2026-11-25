@@ -1,0 +1,37 @@
+[gd_scene format=4 uid="uid://bxcibtaeba1b1"]
+
+[ext_resource type="Script" path="res://combat/enemies/grave_thrall/grave_thrall_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/graveknife_cut.tres" id="3_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="4_dhekg"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/grave_thrall.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/grave_thrall/grave_thrall_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lwl8v"]
+radius = 0.29
+height = 1.5738
+
+[node name="GraveThrall" type="CharacterBody3D" unique_id=769085300]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 8.0
+base_attack_damage = 2.0
+base_move_speed = 3.0
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1670161326]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7869, 0)
+shape = SubResource("CapsuleShape3D_lwl8v")
+
+[node name="Model" type="Node3D" parent="." unique_id=82586041]
+script = ExtResource("4_dhekg")
+
+[editable path="Model"]
+
+[node name="Rig" parent="Model" instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

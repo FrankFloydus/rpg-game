@@ -1,0 +1,57 @@
+[gd_resource type="Resource" format=3 uid="uid://dkeemjsqgeoyy"]
+
+[ext_resource type="Script" uid="uid://64o4pf3cyo6n" path="res://data/enemy_naming_rules.gd" id="1"]
+[ext_resource type="Script" uid="uid://dmcvgjsxispyo" path="res://data/enemy_name_pool.gd" id="2"]
+
+[sub_resource type="Resource" id="Ossuary"]
+script = ExtResource("2")
+families = PackedStringArray("thrall", "skeleton", "golem", "burrower", "grave_reclaimer")
+beginnings = PackedStringArray("Rib", "Marrow", "Gravetallow", "Mortar", "Grisly", "Gravesalt")
+endings = PackedStringArray("raker", "graft", "knell", "rattle", "clatter", "scour")
+titles = PackedStringArray("the Sepulchral", "the Last Interred", "the Casket-Bound", "the Ossuary-Keeper")
+
+[sub_resource type="Resource" id="Beast"]
+script = ExtResource("2")
+families = PackedStringArray("hound", "thornback", "rat", "scurrer", "brute")
+beginnings = PackedStringArray("Briar", "Scree", "Wound", "Gorse", "Sable", "Grit")
+endings = PackedStringArray("snout", "gristle", "muzzle", "rend", "quill", "rasp")
+titles = PackedStringArray("the Fenceless", "the Carrion-Runner", "the Kennel-Breaker", "the Gaunt")
+
+[sub_resource type="Resource" id="Brood"]
+script = ExtResource("2")
+families = PackedStringArray("spider", "widow", "moth", "mire", "wax_brood", "manymouth")
+beginnings = PackedStringArray("Gossamer", "Siltskein", "Molt", "Gall", "Mire", "Tallow")
+endings = PackedStringArray("spindle", "drip", "skitter", "spinner", "sheath", "fray")
+titles = PackedStringArray("the Veiled Brood", "the Soot-Winged", "the Clutch-Keeper", "the Moulting")
+
+[sub_resource type="Resource" id="Defilers"]
+script = ExtResource("2")
+families = PackedStringArray("cultist", "cantor", "fiend", "ghoul", "husk")
+beginnings = PackedStringArray("Chalice", "Silt", "Votive", "Fester", "Vesper", "Fallow")
+endings = PackedStringArray("gullet", "sour", "tithe", "scrape", "mutter", "blight")
+titles = PackedStringArray("the Mire-Blessed", "the Ash-Tongued", "the Cup-Bearer", "the Unhallowed")
+
+[sub_resource type="Resource" id="Haunts"]
+script = ExtResource("2")
+families = PackedStringArray("wraith", "revenant")
+beginnings = PackedStringArray("Hush", "Emberwisp", "Coldwick", "Night", "Mourn", "Pall")
+endings = PackedStringArray("sigh", "haze", "shiver", "keening", "wane", "whisper")
+titles = PackedStringArray("the Last Lament", "the Unshriven", "the Unmoored", "the Faint")
+
+[sub_resource type="Resource" id="Ironbound"]
+script = ExtResource("2")
+families = PackedStringArray("knight", "dread", "reaper", "bell_warden", "hollow_standard")
+beginnings = PackedStringArray("Pewter", "Rust", "Dross", "Barrow", "Vault", "Clinker")
+endings = PackedStringArray("buckle", "maul", "mantle", "toll", "gauntlet", "hew")
+titles = PackedStringArray("the Gilt-Broken", "the Keeper of Ash", "the Cast-Iron", "the Last Sentry")
+
+[sub_resource type="Resource" id="Any"]
+script = ExtResource("2")
+beginnings = PackedStringArray("Dusk", "Cairn", "Gutter", "Pale", "Smolder", "Salt")
+endings = PackedStringArray("fallow", "scratch", "scar", "shard", "sear", "cairn")
+titles = PackedStringArray("the Scoured", "the Torchless", "the Wanderer Below", "the Unquiet")
+
+[resource]
+resource_name = "Enemy Naming"
+script = ExtResource("1")
+pools = Array[ExtResource("2")]([SubResource("Ossuary"), SubResource("Beast"), SubResource("Brood"), SubResource("Defilers"), SubResource("Haunts"), SubResource("Ironbound"), SubResource("Any")])

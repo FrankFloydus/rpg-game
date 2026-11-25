@@ -1,0 +1,38 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://combat/enemies/grave_moth/grave_moth_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/powdered_wing_fan.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/twin_dustbursts.tres" id="4_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/moth_cocoon.tres" id="5_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="6_agx7j"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/grave_moth.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/grave_moth/grave_moth_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_01qmm"]
+radius = 0.3
+height = 1.376
+
+[node name="GraveMoth" type="CharacterBody3D" unique_id=2067130782]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 8.0
+base_attack_damage = 2.1
+base_move_speed = 3.12
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability"), ExtResource("5_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1463410543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.688, 0)
+shape = SubResource("CapsuleShape3D_01qmm")
+
+[node name="Model" type="Node3D" parent="." unique_id=314084058]
+script = ExtResource("6_agx7j")
+
+[node name="Rig" parent="Model" unique_id=2016148189 instance=ExtResource("SkeletalArt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18, 0)
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

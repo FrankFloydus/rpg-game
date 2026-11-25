@@ -1,0 +1,72 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://world/modules/charred_coals.gdshader" id="1_charcoal"]
+[ext_resource type="Texture2D" path="res://assets/rework/prop_materials.png" id="2_grain"]
+
+[sub_resource type="ShaderMaterial" id="CharcoalMaterial"]
+resource_name = "Charcoal with hot fissures"
+shader = ExtResource("1_charcoal")
+shader_parameter/charcoal_grain = ExtResource("2_grain")
+
+[sub_resource type="CylinderMesh" id="PackedFuel"]
+material = SubResource("CharcoalMaterial")
+top_radius = 0.177
+bottom_radius = 0.187
+height = 0.028
+radial_segments = 18
+rings = 1
+
+[sub_resource type="SphereMesh" id="CoalFragment"]
+material = SubResource("CharcoalMaterial")
+radius = 0.05
+height = 0.10
+radial_segments = 7
+rings = 3
+
+[node name="CoalBed" type="Node3D"]
+
+[node name="PackedFuel" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("PackedFuel")
+
+[node name="Coal1" type="MeshInstance3D" parent="."]
+position = Vector3(-0.065, 0.016, 0.033)
+rotation = Vector3(-0.28, 0.57, 0.26)
+scale = Vector3(1.45, 0.55, 0.75)
+cast_shadow = 0
+mesh = SubResource("CoalFragment")
+
+[node name="Coal2" type="MeshInstance3D" parent="."]
+position = Vector3(0.037, 0.022, -0.028)
+rotation = Vector3(0.24, -0.44, -0.20)
+scale = Vector3(1.29, 0.63, 0.96)
+cast_shadow = 0
+mesh = SubResource("CoalFragment")
+
+[node name="Coal3" type="MeshInstance3D" parent="."]
+position = Vector3(0.085, 0.012, 0.059)
+rotation = Vector3(-0.22, 1.21, 0.18)
+scale = Vector3(1.00, 0.47, 0.57)
+cast_shadow = 0
+mesh = SubResource("CoalFragment")
+
+[node name="Coal4" type="MeshInstance3D" parent="."]
+position = Vector3(-0.077, 0.020, -0.077)
+rotation = Vector3(0.17, 0.39, -0.44)
+scale = Vector3(0.94, 0.61, 0.89)
+cast_shadow = 0
+mesh = SubResource("CoalFragment")
+
+[node name="Coal5" type="MeshInstance3D" parent="."]
+position = Vector3(0.009, 0.014, 0.092)
+rotation = Vector3(0.24, -1.25, 0.48)
+scale = Vector3(1.14, 0.43, 0.79)
+cast_shadow = 0
+mesh = SubResource("CoalFragment")
+
+[node name="Coal6" type="MeshInstance3D" parent="."]
+position = Vector3(0.081, 0.011, -0.096)
+rotation = Vector3(0.18, -0.27, 0.22)
+scale = Vector3(0.83, 0.51, 0.69)
+cast_shadow = 0
+mesh = SubResource("CoalFragment")

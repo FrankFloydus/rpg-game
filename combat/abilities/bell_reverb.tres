@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+
+[resource]
+resource_name = "Death Knell"
+script = ExtResource("1")
+id = &"bell_reverb"
+display_name = "Death Knell"
+icon_key = "slam"
+description = "Rings its iron bell into the floor. The shock breaks across the red band, leaving the space beside the bell and the far side of the ring safe."
+action_key = "bell_reverb"
+damage_type = "physical"
+windup = 0.88
+recovery = 1.24
+cooldown = 5.8
+damage_multiplier = 1.70
+stun_buildup = 48.0
+execution_profile = {"shape": "ring", "reach": 3.65, "inner_radius": 1.32, "start": 3.85, "floor_warning": "always"}

@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://world/modules/portal_vortex.tscn" id="1_vortex"]
+
+[node name="Portal" type="Node3D" unique_id=766837160]
+
+[node name="Body" type="Node3D" parent="." unique_id=1931040609]
+
+[node name="Vortex" parent="Body" instance=ExtResource("1_vortex")]
+position = Vector3(0, 1.34, 0)
+scale = Vector3(1, 1.33, 1)
+tint = Color(0.49, 0.76, 0.69, 1)
+light_energy = 0.62
+
+[node name="WorldLabel" type="Label3D" parent="." unique_id=1320648064]
+position = Vector3(0, 1.32, 0)
+pixel_size = 0.0025
+billboard = 1
+modulate = Color(0.6431373, 0.8666667, 0.8156863, 1)
+outline_modulate = Color(0.09019608, 0.0627451, 0.050980393, 1)
+text = "Return to Cinderhold"
+font_size = 36
+outline_size = 13

@@ -1,0 +1,12 @@
+# Merchant face textures
+
+Generated with the built-in ImageGen tool. Both maps are packed in the editable Blender scenes.
+
+## mara_face.png
+
+Create an original texture image for the continuous UV-mapped head of Mara, a middle-aged woman provisioner in a grounded retro 3D dark fantasy game. Square 1:1, absolutely straight-on centered symmetrical mugshot head texture. Fill the frame with the UV facial area, with crown at 4% height, eyebrows at 36%, eyes at 40%, nose at 55%, closed lips at 69%, chin at 82%, neck disappearing to bottom edge. A broad forehead, gentle strong nose, thoughtful dark brown eyes, olive-tan skin, natural age folds and a few freckles. Her dark brown hair is pulled back smoothly with only wisps at temples, and ears outside the main face. Express useful, weary resolve. Match softly handpainted late-1990s/early-2000s 3D albedo painting. Restrained warm midtones, eyes and lips readable at gameplay distance, smooth filtered brushwork and diffuse even lighting. No pixel art, no drop shadows, no specular gloss, no strong lighting shadows, no photorealistic pores, no jewelry, no collar, no outline, no lettering. Background blends to understated warm skin tone around the uncovered oval so its UV edges stay natural. Output a single square head surface texture with the face centered and fully visible.
+
+## orun_face.png
+
+Create an original texture image for the continuous UV-mapped head of Brother Orun, an older gruff blacksmith in a grounded retro 3D dark fantasy game. Square 1:1, absolutely straight-on centered symmetrical mugshot head texture. Fill the frame with the UV facial area, with crown at 4% height, eyebrows at 36%, eyes at 40%, nose at 55%, closed lips at 69%, chin at 82%, neck disappearing to bottom edge. Broad brow, weathered warm brown skin, crooked nose, deep dark eyes, short salt-and-pepper receding hair and close rough gray chin beard painted on the face, soot marks on temples. Express resolve, mouth closed. Match softly handpainted late-1990s/early-2000s 3D albedo painting. Restrained warm midtones, readable eyes and lips at gameplay distance, smooth brushwork and diffuse even lighting. No pixel art, no drop shadows, no specular gloss, no strong lighting shadows, no pore photography, no jewelry, no collar, no outline, no lettering. Background blends to understated warm skin tone around the uncovered oval so UV edges stay natural. Output a single square head surface texture with the face centered and fully visible.
+

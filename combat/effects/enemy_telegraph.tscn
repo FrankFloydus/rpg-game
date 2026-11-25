@@ -1,0 +1,26 @@
+[gd_scene format=4]
+
+[ext_resource type="Shader" path="res://combat/effects/enemy_telegraph.gdshader" id="1_yif4b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yloh0"]
+render_priority = 0
+shader = ExtResource("1_yif4b")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_gcrjg"]
+_surfaces = [{
+"aabb": AABB(-1.08, 0, -1.08, 2.16, 1e-05, 2.16),
+"attribute_data": PackedByteArray("cT2Kv3E9ir8AAAAAAAAAAHE9ij9xPYq/AAAAAAAAAABxPYo/cT2KPwAAAAAAAAAAcT2Kv3E9ir8AAAAAAAAAAHE9ij9xPYo/AAAAAAAAAABxPYq/cT2KPwAAAAAAAAAA"),
+"format": 34359738417,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("cT2KvwAAAABxPYo/cT2KPwAAAABxPYo/cT2KPwAAAABxPYq/cT2KvwAAAABxPYo/cT2KPwAAAABxPYq/cT2KvwAAAABxPYq/")
+}]
+
+[node name="AttackTelegraph" type="MeshInstance3D" unique_id=809834199]
+top_level = true
+material_override = SubResource("ShaderMaterial_yloh0")
+cast_shadow = 0
+visibility_range_end = 27.0
+instance_shader_parameters/windup = 0.7
+mesh = SubResource("ArrayMesh_gcrjg")

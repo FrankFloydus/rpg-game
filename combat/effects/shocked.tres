@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ShockEffectDefinition" format=3 uid="uid://y57241h0wtqk"]
+
+[ext_resource type="Script" path="res://combat/effects/shock_effect_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/shocked.tres" id="icon_art"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/shocked.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Shocked"
+script = ExtResource("1_definition")
+id = &"shocked"
+display_name = "Shocked"
+icon = ExtResource("icon_art")
+description = "Its hits can shock you, briefly increasing the damage you take from subsequent hits."
+damage_taken_multiplier = 1.22
+enemy_while_active_fx = ExtResource("loop_fx")

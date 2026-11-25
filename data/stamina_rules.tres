@@ -1,0 +1,16 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/stamina_rules.gd" id="1_rules"]
+
+[resource]
+resource_name = "Player Guard and Stamina"
+script = ExtResource("1_rules")
+base_recharge_per_second = 3.2
+bonus_capacity_recharge = 0.08
+guard_release_delay = 0.7
+hit_recharge_delay = 0.55
+broken_guard_delay = 2.0
+minimum_to_guard = 1.0
+base_block_cost = 2.0
+damage_cost_factor = 1.05
+shield_cost_multiplier = 0.75

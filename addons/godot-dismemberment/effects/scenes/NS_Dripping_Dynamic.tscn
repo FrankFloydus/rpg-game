@@ -1,0 +1,265 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_scene.gd" id="1_scene"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_emitter_layer.gd" id="2_layer"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="3_process"]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_contact_receiver.gd" id="4_contact"]
+[ext_resource type="ORMMaterial3D" path="res://addons/godot-dismemberment/materials/blood_decals/particle_contacts/splatter_04.tres" id="Contact_04"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_BloodSplash_Masked.tres" id="Niagara_BloodSplash_Masked"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/BloodDirection05Dripping.tres" id="Niagara_BloodDirection_05"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/BloodMasked01Dripping.tres" id="Niagara_BloodMasked_01"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sprite"]
+size = Vector2(1, 1)
+
+[sub_resource type="Curve" id="Curve_Splash_Size"]
+max_value = 2.0
+_data = [Vector2(0, 5.138896952e-08), 8.357048034, 8.357048034, 0, 0, Vector2(0.2222635597, 1.365055561), 1.999002576, 1.999002576, 0, 0, Vector2(1, 1.999999881), -0.081036404, -0.081036404, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Texture_Splash_Size"]
+curve = SubResource("Curve_Splash_Size")
+
+[sub_resource type="Curve" id="Curve_Flow_Size"]
+_data = [Vector2(0, 1), 0.000000000, 0.000000000, 0, 0, Vector2(1, 0.3000000119), -3.206860304, -3.206860304, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_Flow_Size"]
+curve = SubResource("Curve_Flow_Size")
+
+[sub_resource type="Curve" id="Curve_Dissolve"]
+_data = [Vector2(0, 0), 0.000000000, 0.000000000, 0, 0, Vector2(1, 1), 1.739372849, 1.739372849, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_Dissolve"]
+curve = SubResource("Curve_Dissolve")
+
+[sub_resource type="Curve" id="Curve_Flow_Dissolve"]
+_data = [Vector2(0, 0), 0.0, 0.0, 1, 1, Vector2(1, 0), 0.0, 0.0, 1, 1]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_Flow_Dissolve"]
+curve = SubResource("Curve_Flow_Dissolve")
+
+[sub_resource type="Curve" id="Curve_Squirt_Alpha"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_Squirt_Alpha"]
+curve = SubResource("Curve_Squirt_Alpha")
+
+[node name="NS_Dripping_Dynamic" type="Node3D"]
+script = ExtResource("1_scene")
+system_name = &"NS_Dripping_Dynamic"
+family = &"dynamic"
+intensity = 1
+
+[node name="BloodSplash" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodSplash_Masked")
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"BloodSplash"
+reference_material = &"MI_BloodSplash_Masked"
+uv_flip = 1
+channel = 1
+alignment = 2
+sprite_pivot = Vector2(0.5, 0.8)
+source_motion = true
+contact_source = &"Flow"
+contact_spawn_mid_tick = true
+particle_count = 1
+velocity_world_space = true
+velocity_min = Vector3(0, 0.2, 0)
+velocity_max = Vector3(0, 0.5, 0)
+radial_speed = Vector2(0.1, 0.15)
+radial_random_direction = true
+spawn_radius = 0.02
+spawn_shape_world_space = true
+spawn_shape_scale = Vector3(1, 0, 1)
+gravity_min = Vector3(0, -1.5, 0)
+gravity_max = Vector3(0, -1.0, 0)
+drag_range = Vector2(1.8, 2.0)
+particle_lifetime = Vector2(0.5, 0.6)
+width = Vector2(0.15, 0.15)
+length = Vector2(0.15, 0.2)
+alignment_uses_initial_velocity = true
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 2)
+speed_scale_threshold = 15.0
+opacity = 2.0
+size_x_curve = SubResource("Texture_Splash_Size")
+size_y_curve = SubResource("Texture_Splash_Size")
+dissolve_curve = SubResource("Texture_Dissolve")
+
+[node name="BloodSquirt" type="GPUParticles3D" parent="."]
+emitting = false
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"BloodSquirt"
+reference_material = &"MI_BloodDirection_05"
+uv_flip = 1
+channel = 1
+speed_stretch = true
+collision_events = false
+width = Vector2(0.12, 0.15)
+length = Vector2(0.2, 0.3)
+spawn_radius = 0.0
+particle_lifetime = Vector2(0.5, 0.6)
+material_override = ExtResource("Niagara_BloodDirection_05")
+source_motion = true
+alignment = 2
+sprite_pivot = Vector2(0.5, 0.8)
+particle_count = 1
+stream_rate = 12.0
+emission_window = 1.0
+loop_duration = 1.0
+velocity_min = Vector3(-0.3, -0.2, -0.2)
+velocity_max = Vector3(0.3, 0.2, 0.2)
+velocity_world_space = true
+gravity_min = Vector3(0, -3.5, 0)
+gravity_max = Vector3(0, -3.0, 0)
+drag_range = Vector2(2, 3)
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 2)
+speed_scale_threshold = 15.0
+alignment_uses_initial_velocity = true
+opacity = 1.0
+alpha_curve = SubResource("Texture_Squirt_Alpha")
+size_x_curve = SubResource("Texture_Splash_Size")
+size_y_curve = SubResource("Texture_Splash_Size")
+dissolve_curve = SubResource("Texture_Dissolve")
+
+[node name="Decal" type="Node3D" parent="."]
+script = ExtResource("4_contact")
+source_layer = &"Flow"
+reference_material = &"MI_BloodSplatterDecal_04"
+material = ExtResource("Contact_04")
+use_decal_library = true
+size_range = Vector2(0.05, 0.4)
+depth = 0.3
+lifetime_range = Vector2(10, 12)
+orientation = 2
+follow_collision_body = false
+dissolve_end_tangent = 3.109849
+
+[node name="Flow_VisualOnly" type="GPUParticles3D" parent="."]
+emitting = false
+cast_shadow = 0
+gi_mode = 0
+amount = 3500
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"Flow_VisualOnly"
+reference_material = &"MI_BloodMasked_01"
+channel = 2
+speed_stretch = false
+spawn_radius = 0.0
+particle_lifetime = Vector2(1.5, 2.0)
+material_override = ExtResource("Niagara_BloodMasked_01")
+source_motion = true
+alignment = 1
+particle_count = 0
+stream_rate = 50.0
+emission_window = 1.0
+loop_duration = 1.0
+velocity_world_space = true
+velocity_min = Vector3(0, 0, 0)
+velocity_max = Vector3(0, 0, 0)
+gravity_min = Vector3(0, -5, 0)
+gravity_max = Vector3(0, -5, 0)
+drag_range = Vector2(0, 0)
+width = Vector2(0.008, 0.015)
+length = Vector2(0.04, 0.05)
+rotation_range = Vector2(0, 1)
+inherit_velocity = 0.1
+continuous_inherit_velocity = 0.01
+continuous_inherit_velocity_limit = 10.0
+stream_spacing = 0.03
+stream_max_speed = 50.0
+opacity = 1.0
+collision_events = false
+collision_kill = true
+collision_scales_with_size = true
+lifetime = 3.05
+dissolve_curve = SubResource("Texture_Flow_Dissolve")
+size_x_curve = SubResource("Texture_Flow_Size")
+size_y_curve = SubResource("Texture_Flow_Size")
+
+[node name="Flow" type="GPUParticles3D" parent="."]
+emitting = false
+cast_shadow = 0
+gi_mode = 0
+amount = 3072
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"Flow"
+reference_material = &"MI_BloodMasked_01"
+channel = 2
+speed_stretch = false
+spawn_radius = 0.0
+particle_lifetime = Vector2(1.5, 2.0)
+material_override = ExtResource("Niagara_BloodMasked_01")
+source_motion = true
+alignment = 1
+particle_count = 0
+stream_rate = 8.0
+emission_window = 1.0
+loop_duration = 1.0
+velocity_world_space = true
+velocity_min = Vector3(0, 0, 0)
+velocity_max = Vector3(0, 0, 0)
+gravity_min = Vector3(0, -5, 0)
+gravity_max = Vector3(0, -5, 0)
+drag_range = Vector2(0, 0)
+width = Vector2(0.008, 0.015)
+length = Vector2(0.04, 0.05)
+rotation_range = Vector2(0, 1)
+inherit_velocity = 0.1
+continuous_inherit_velocity = 0.01
+continuous_inherit_velocity_limit = 10.0
+stream_spacing = 0.4
+stream_max_speed = 50.0
+opacity = 0.0
+collision_events = true
+collision_kill = true
+collision_scales_with_size = true
+lifetime = 3.05
+dissolve_curve = SubResource("Texture_Flow_Dissolve")
+size_x_curve = SubResource("Texture_Flow_Size")
+size_y_curve = SubResource("Texture_Flow_Size")
+
+[node name="BloodSplashReceiver" type="Node3D" parent="."]
+script = ExtResource("4_contact")
+source_layer = &"Flow"
+target_layer = &"BloodSplash"
+max_per_tick = 1

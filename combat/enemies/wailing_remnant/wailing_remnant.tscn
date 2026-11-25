@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://combat/enemies/wailing_remnant/wailing_remnant_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/cold_lament.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/echo_of_mourning.tres" id="4_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="5_g765v"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/wailing_remnant.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/wailing_remnant/wailing_remnant_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7sq15"]
+radius = 0.33
+height = 1.7458
+
+[node name="WailingRemnant" type="CharacterBody3D" unique_id=556288687]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 9.0
+base_attack_damage = 2.5
+base_move_speed = 3.02
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=147499443]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8729, 0)
+shape = SubResource("CapsuleShape3D_7sq15")
+
+[node name="Model" type="Node3D" parent="." unique_id=1748808194]
+script = ExtResource("5_g765v")
+
+[node name="Rig" parent="Model" unique_id=655379944 instance=ExtResource("SkeletalArt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://dh2gtlxfwggnc" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_03.png" id="pooled_03_albedo"]
+[ext_resource type="Texture2D" uid="uid://8srqd35sd14v" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_03_orm.png" id="pooled_03_orm"]
+[ext_resource type="Texture2D" uid="uid://bltpm7el6i4am" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_03_normal.png" id="pooled_03_normal"]
+
+[resource]
+resource_name = "Broken Double Impact"
+transparency = 1
+albedo_texture = ExtResource("pooled_03_albedo")
+orm_texture = ExtResource("pooled_03_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_03_normal")
+ao_enabled = true
+texture_repeat = false

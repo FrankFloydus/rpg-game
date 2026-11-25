@@ -1,0 +1,608 @@
+[gd_resource type="Resource" script_class="HearthSoundCatalogue" format=3 uid="uid://bwju5sppyjmni"]
+
+[ext_resource type="Script" uid="uid://cipskv3yq3cuw" path="res://systems/sound_catalogue.gd" id="1_catalogue"]
+[ext_resource type="Script" uid="uid://b7odvmr8uih4a" path="res://systems/sound_cue.gd" id="2_cue"]
+[ext_resource type="AudioStream" uid="uid://bcrl2mr6pbcy0" path="res://assets/audio/combat/swings/blade_heavy_01.wav" id="Clip_blade_heavy_01"]
+[ext_resource type="AudioStream" uid="uid://d22h658agcxgg" path="res://assets/audio/combat/swings/blade_heavy_02.wav" id="Clip_blade_heavy_02"]
+[ext_resource type="AudioStream" uid="uid://blj0hw31lp2jm" path="res://assets/audio/combat/swings/blade_heavy_03.wav" id="Clip_blade_heavy_03"]
+[ext_resource type="AudioStream" uid="uid://b88pavxfcc3wq" path="res://assets/audio/combat/swings/blade_light_01.wav" id="Clip_blade_light_01"]
+[ext_resource type="AudioStream" uid="uid://nk0qbstuqg6c" path="res://assets/audio/combat/swings/blade_light_02.wav" id="Clip_blade_light_02"]
+[ext_resource type="AudioStream" uid="uid://n4nw2pp24wk8" path="res://assets/audio/combat/swings/blade_light_03.wav" id="Clip_blade_light_03"]
+[ext_resource type="AudioStream" uid="uid://5hvh4adtk36q" path="res://assets/audio/block.ogg" id="Clip_block"]
+[ext_resource type="AudioStream" uid="uid://dtf3dhix4y4tr" path="res://assets/audio/combat/swings/blunt_01.wav" id="Clip_blunt_01"]
+[ext_resource type="AudioStream" uid="uid://drb2u85qu04a4" path="res://assets/audio/combat/swings/blunt_02.wav" id="Clip_blunt_02"]
+[ext_resource type="AudioStream" uid="uid://bumdwp1fqh4v6" path="res://assets/audio/combat/swings/blunt_03.wav" id="Clip_blunt_03"]
+[ext_resource type="AudioStream" uid="uid://bll82gashyjnv" path="res://assets/audio/ui/cards/card_hover.wav" id="Clip_card_hover"]
+[ext_resource type="AudioStream" uid="uid://d5566cs44pc7" path="res://assets/audio/ui/cards/card_use_buff.wav" id="Clip_card_use_buff"]
+[ext_resource type="AudioStream" uid="uid://bibsb0cffn7wu" path="res://assets/audio/ui/cards/card_use_cold.wav" id="Clip_card_use_cold"]
+[ext_resource type="AudioStream" uid="uid://cu4qn6haxkk35" path="res://assets/audio/ui/cards/card_use_fire.wav" id="Clip_card_use_fire"]
+[ext_resource type="AudioStream" uid="uid://dwbdw72no4hhn" path="res://assets/audio/ui/cards/card_use_guard.wav" id="Clip_card_use_guard"]
+[ext_resource type="AudioStream" uid="uid://c5b2fuaqry6ae" path="res://assets/audio/ui/cards/card_use_heal.wav" id="Clip_card_use_heal"]
+[ext_resource type="AudioStream" uid="uid://bqj2qrnlvdahh" path="res://assets/audio/ui/cards/card_use_lightning.wav" id="Clip_card_use_lightning"]
+[ext_resource type="AudioStream" uid="uid://duvd38i2mac4b" path="res://assets/audio/ui/cards/card_use_physical.wav" id="Clip_card_use_physical"]
+[ext_resource type="AudioStream" uid="uid://b285il2plu4ao" path="res://assets/audio/ui/cards/card_use_summon.wav" id="Clip_card_use_summon"]
+[ext_resource type="AudioStream" uid="uid://1imcsifur4g3" path="res://assets/audio/chest.ogg" id="Clip_chest"]
+[ext_resource type="AudioStream" uid="uid://brbqd3g280yhg" path="res://assets/audio/complete.ogg" id="Clip_complete"]
+[ext_resource type="AudioStream" uid="uid://br6yoyyjyinf6" path="res://assets/audio/craft.ogg" id="Clip_craft"]
+[ext_resource type="AudioStream" uid="uid://b7s3qsx8fh7w3" path="res://assets/audio/crate_break.wav" id="Clip_crate_break"]
+[ext_resource type="AudioStream" uid="uid://b1o8r77ecy0uo" path="res://assets/audio/death.ogg" id="Clip_death"]
+[ext_resource type="AudioStream" uid="uid://bon7ashouvnus" path="res://assets/audio/drink.ogg" id="Clip_drink"]
+[ext_resource type="AudioStream" uid="uid://ijxxw05aadt4" path="res://assets/audio/dungeon_ambience.ogg" id="Clip_dungeon_ambience"]
+[ext_resource type="AudioStream" uid="uid://d04gjnemuk6u" path="res://assets/audio/hazards/ember_vent_burst.wav" id="Clip_ember_vent_burst"]
+[ext_resource type="AudioStream" uid="uid://c24gi5heudxw8" path="res://assets/audio/hazards/ember_vent_warning.wav" id="Clip_ember_vent_warning"]
+[ext_resource type="AudioStream" uid="uid://dl5sm6v1nrwle" path="res://assets/audio/equip.ogg" id="Clip_equip"]
+[ext_resource type="AudioStream" uid="uid://btxxfba1cx4rc" path="res://assets/audio/error.ogg" id="Clip_error"]
+[ext_resource type="AudioStream" uid="uid://cv70kgnex6vcc" path="res://assets/audio/hit.ogg" id="Clip_hit"]
+[ext_resource type="AudioStream" uid="uid://dbsfla8pp0xu2" path="res://assets/audio/hub_ambience.ogg" id="Clip_hub_ambience"]
+[ext_resource type="AudioStream" uid="uid://cn0fojkctvjlg" path="res://assets/audio/ui/items/item_grab.wav" id="Clip_item_grab"]
+[ext_resource type="AudioStream" uid="uid://cc3x22mvibxct" path="res://assets/audio/ui/items/item_place_amulet.wav" id="Clip_item_place_amulet"]
+[ext_resource type="AudioStream" uid="uid://dqpvaqujq3s7" path="res://assets/audio/ui/items/item_place_axe_1h.wav" id="Clip_item_place_axe_1h"]
+[ext_resource type="AudioStream" uid="uid://1ee3fxwitj4c" path="res://assets/audio/ui/items/item_place_axe_2h.wav" id="Clip_item_place_axe_2h"]
+[ext_resource type="AudioStream" uid="uid://c6tfkwng0m3ls" path="res://assets/audio/ui/items/item_place_belt.wav" id="Clip_item_place_belt"]
+[ext_resource type="AudioStream" uid="uid://c7lfwxptfau5g" path="res://assets/audio/ui/items/item_place_boots.wav" id="Clip_item_place_boots"]
+[ext_resource type="AudioStream" uid="uid://oe37lo1mtfmo" path="res://assets/audio/ui/items/item_place_card.wav" id="Clip_item_place_card"]
+[ext_resource type="AudioStream" uid="uid://bwccixkxm0d7p" path="res://assets/audio/ui/items/item_place_chest.wav" id="Clip_item_place_chest"]
+[ext_resource type="AudioStream" uid="uid://bwni0q2wb2dy0" path="res://assets/audio/ui/items/item_place_dagger_1h.wav" id="Clip_item_place_dagger_1h"]
+[ext_resource type="AudioStream" uid="uid://dgte10v0n8221" path="res://assets/audio/ui/items/item_place_focus.wav" id="Clip_item_place_focus"]
+[ext_resource type="AudioStream" uid="uid://b5hofd3b3v44s" path="res://assets/audio/ui/items/item_place_generic.wav" id="Clip_item_place_generic"]
+[ext_resource type="AudioStream" uid="uid://bb16qgts2bcgk" path="res://assets/audio/ui/items/item_place_gloves.wav" id="Clip_item_place_gloves"]
+[ext_resource type="AudioStream" uid="uid://bg2d7fgrvjitu" path="res://assets/audio/ui/items/item_place_helm.wav" id="Clip_item_place_helm"]
+[ext_resource type="AudioStream" uid="uid://b5fovotknhckw" path="res://assets/audio/ui/items/item_place_key.wav" id="Clip_item_place_key"]
+[ext_resource type="AudioStream" uid="uid://c8q1jae8b38is" path="res://assets/audio/ui/items/item_place_mace_1h.wav" id="Clip_item_place_mace_1h"]
+[ext_resource type="AudioStream" uid="uid://ihacr7yq5t38" path="res://assets/audio/ui/items/item_place_mace_2h.wav" id="Clip_item_place_mace_2h"]
+[ext_resource type="AudioStream" uid="uid://dsksypl6s5eqd" path="res://assets/audio/ui/items/item_place_material.wav" id="Clip_item_place_material"]
+[ext_resource type="AudioStream" uid="uid://dm312xcxpjv3j" path="res://assets/audio/ui/items/item_place_orb.wav" id="Clip_item_place_orb"]
+[ext_resource type="AudioStream" uid="uid://j1ub7r48nb1y" path="res://assets/audio/ui/items/item_place_ring.wav" id="Clip_item_place_ring"]
+[ext_resource type="AudioStream" uid="uid://c01mk5ub5axjh" path="res://assets/audio/ui/items/item_place_scroll.wav" id="Clip_item_place_scroll"]
+[ext_resource type="AudioStream" uid="uid://cufqcx0hbn2vb" path="res://assets/audio/ui/items/item_place_shield.wav" id="Clip_item_place_shield"]
+[ext_resource type="AudioStream" uid="uid://nj2056tgymef" path="res://assets/audio/ui/items/item_place_staff.wav" id="Clip_item_place_staff"]
+[ext_resource type="AudioStream" uid="uid://cx3jyfwfty8q7" path="res://assets/audio/ui/items/item_place_sword_1h.wav" id="Clip_item_place_sword_1h"]
+[ext_resource type="AudioStream" uid="uid://ce5vlgvod776k" path="res://assets/audio/ui/items/item_place_sword_2h.wav" id="Clip_item_place_sword_2h"]
+[ext_resource type="AudioStream" uid="uid://c12xwa2ewrb5w" path="res://assets/audio/kill.ogg" id="Clip_kill"]
+[ext_resource type="AudioStream" uid="uid://cimodcsx1quog" path="res://assets/audio/loot.ogg" id="Clip_loot"]
+[ext_resource type="AudioStream" uid="uid://bw2y16nb1wcj7" path="res://assets/audio/hazards/miasma_vent_burst.wav" id="Clip_miasma_vent_burst"]
+[ext_resource type="AudioStream" uid="uid://b446mf4yqh1ud" path="res://assets/audio/hazards/miasma_vent_warning.wav" id="Clip_miasma_vent_warning"]
+[ext_resource type="AudioStream" uid="uid://cd8o7dtrhyh7c" path="res://assets/audio/movement/slate_jump_01.wav" id="Clip_move_jump_01"]
+[ext_resource type="AudioStream" uid="uid://dxn5js8btlijf" path="res://assets/audio/movement/slate_jump_02.wav" id="Clip_move_jump_02"]
+[ext_resource type="AudioStream" uid="uid://cui4e5lt3bpw2" path="res://assets/audio/movement/slate_jump_03.wav" id="Clip_move_jump_03"]
+[ext_resource type="AudioStream" uid="uid://c363t6xqc65x2" path="res://assets/audio/movement/slate_land_01.wav" id="Clip_move_land_01"]
+[ext_resource type="AudioStream" uid="uid://bshx8npcng2qs" path="res://assets/audio/movement/slate_land_02.wav" id="Clip_move_land_02"]
+[ext_resource type="AudioStream" uid="uid://ddhsxrdeehquv" path="res://assets/audio/movement/slate_land_03.wav" id="Clip_move_land_03"]
+[ext_resource type="AudioStream" uid="uid://dq3a7mp8br7xr" path="res://assets/audio/movement/slate_sprint_01.wav" id="Clip_move_sprint_01"]
+[ext_resource type="AudioStream" uid="uid://hsj54xuxvh5o" path="res://assets/audio/movement/slate_sprint_02.wav" id="Clip_move_sprint_02"]
+[ext_resource type="AudioStream" uid="uid://jliermxs5jka" path="res://assets/audio/movement/slate_sprint_03.wav" id="Clip_move_sprint_03"]
+[ext_resource type="AudioStream" uid="uid://bratrgxn2e6dv" path="res://assets/audio/movement/slate_sprint_04.wav" id="Clip_move_sprint_04"]
+[ext_resource type="AudioStream" uid="uid://k4hhs8f3moid" path="res://assets/audio/movement/slate_walk_01.wav" id="Clip_move_walk_01"]
+[ext_resource type="AudioStream" uid="uid://bgcg1mmlu4ve" path="res://assets/audio/movement/slate_walk_02.wav" id="Clip_move_walk_02"]
+[ext_resource type="AudioStream" uid="uid://cfxe7wefj1nli" path="res://assets/audio/movement/slate_walk_03.wav" id="Clip_move_walk_03"]
+[ext_resource type="AudioStream" uid="uid://s4wabii55yvm" path="res://assets/audio/movement/slate_walk_04.wav" id="Clip_move_walk_04"]
+[ext_resource type="AudioStream" uid="uid://be4ut1vqoiv82" path="res://assets/audio/player_hit.ogg" id="Clip_player_hit"]
+[ext_resource type="AudioStream" uid="uid://bpgihl1mluq3o" path="res://assets/audio/portal.ogg" id="Clip_portal"]
+[ext_resource type="AudioStream" uid="uid://b2wo1nou6bh5s" path="res://assets/audio/pottery_break.wav" id="Clip_pottery_break"]
+[ext_resource type="AudioStream" uid="uid://dljlfuhh76cm" path="res://assets/audio/hazards/spike_plate_burst.wav" id="Clip_spike_plate_burst"]
+[ext_resource type="AudioStream" uid="uid://dqxitg0v0i8og" path="res://assets/audio/hazards/spike_plate_warning.wav" id="Clip_spike_plate_warning"]
+[ext_resource type="AudioStream" uid="uid://diqvcwv4dtcm0" path="res://assets/audio/step.ogg" id="Clip_step"]
+[ext_resource type="AudioStream" uid="uid://c1cnxgeq3i4km" path="res://assets/audio/swing.ogg" id="Clip_swing"]
+[ext_resource type="AudioStream" uid="uid://7vmkbe4pyrqe" path="res://assets/audio/trade.ogg" id="Clip_trade"]
+[ext_resource type="AudioStream" uid="uid://db6nij0505iqn" path="res://assets/audio/combat/swings/unarmed_01.wav" id="Clip_unarmed_01"]
+[ext_resource type="AudioStream" uid="uid://c2blbkhhget0c" path="res://assets/audio/combat/swings/unarmed_02.wav" id="Clip_unarmed_02"]
+[ext_resource type="AudioStream" uid="uid://cdb6yt8j32itl" path="res://assets/audio/combat/swings/unarmed_03.wav" id="Clip_unarmed_03"]
+
+[sub_resource type="Resource" id="Cue_block"]
+resource_name = "Block"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_block")])
+volume_db = -2.0
+pitch_variation = 0.1
+
+[sub_resource type="Resource" id="Cue_blunt_swing"]
+resource_name = "Blunt Swing"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_blunt_01"), ExtResource("Clip_blunt_02"), ExtResource("Clip_blunt_03")])
+volume_db = -0.5
+pitch_variation = 0.06
+
+[sub_resource type="Resource" id="Cue_card_hover"]
+resource_name = "Card hover"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_hover")])
+volume_db = -16.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_card_use_buff"]
+resource_name = "Card use — Attack buff"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_buff")])
+volume_db = -9.0
+pitch_variation = 0.03
+
+[sub_resource type="Resource" id="Cue_card_use_cold"]
+resource_name = "Card use — Cold"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_cold")])
+volume_db = -5.0
+pitch_variation = 0.035
+
+[sub_resource type="Resource" id="Cue_card_use_fire"]
+resource_name = "Card use — Fire"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_fire")])
+volume_db = -6.5
+pitch_variation = 0.035
+
+[sub_resource type="Resource" id="Cue_card_use_guard"]
+resource_name = "Card use — Guard and recovery"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_guard")])
+volume_db = -7.0
+pitch_variation = 0.035
+
+[sub_resource type="Resource" id="Cue_card_use_heal"]
+resource_name = "Card use — Healing"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_heal")])
+volume_db = -10.0
+pitch_variation = 0.03
+
+[sub_resource type="Resource" id="Cue_card_use_lightning"]
+resource_name = "Card use — Lightning"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_lightning")])
+volume_db = -5.0
+pitch_variation = 0.03
+
+[sub_resource type="Resource" id="Cue_card_use_physical"]
+resource_name = "Card use — Physical"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_physical")])
+volume_db = -5.5
+pitch_variation = 0.045
+
+[sub_resource type="Resource" id="Cue_card_use_summon"]
+resource_name = "Card use — Summoning"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_card_use_summon")])
+volume_db = -8.0
+pitch_variation = 0.035
+
+[sub_resource type="Resource" id="Cue_chest"]
+resource_name = "Chest"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_chest")])
+volume_db = -1.0
+pitch_variation = 0.06
+
+[sub_resource type="Resource" id="Cue_complete"]
+resource_name = "Complete"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_complete")])
+
+[sub_resource type="Resource" id="Cue_craft"]
+resource_name = "Craft"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_craft")])
+volume_db = -1.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_crate_break"]
+resource_name = "Crate Break"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_crate_break")])
+volume_db = -6.0
+
+[sub_resource type="Resource" id="Cue_death"]
+resource_name = "Death"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_death")])
+volume_db = 1.0
+
+[sub_resource type="Resource" id="Cue_drink"]
+resource_name = "Drink"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_drink")])
+volume_db = -4.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_dungeon_ambience"]
+resource_name = "Dungeon Ambience"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_dungeon_ambience")])
+volume_db = -2.0
+
+[sub_resource type="Resource" id="Cue_ember_vent_burst"]
+resource_name = "Ember Vent Burst"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_ember_vent_burst")])
+volume_db = -8.0
+
+[sub_resource type="Resource" id="Cue_ember_vent_warning"]
+resource_name = "Ember Vent Warning"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_ember_vent_warning")])
+volume_db = -8.0
+
+[sub_resource type="Resource" id="Cue_equip"]
+resource_name = "Equip"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_equip")])
+volume_db = -5.0
+pitch_variation = 0.1
+
+[sub_resource type="Resource" id="Cue_error"]
+resource_name = "Error"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_error")])
+volume_db = -6.0
+
+[sub_resource type="Resource" id="Cue_heavy_blade_swing"]
+resource_name = "Heavy Blade Swing"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_blade_heavy_01"), ExtResource("Clip_blade_heavy_02"), ExtResource("Clip_blade_heavy_03")])
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_hit"]
+resource_name = "Hit"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_hit")])
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_hub_ambience"]
+resource_name = "Hub Ambience"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_hub_ambience")])
+volume_db = -3.0
+
+[sub_resource type="Resource" id="Cue_item_grab"]
+resource_name = "Lift item"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_grab")])
+volume_db = 5.0
+pitch_variation = 0.07
+
+[sub_resource type="Resource" id="Cue_item_place_amulet"]
+resource_name = "Set down amulet"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_amulet")])
+volume_db = 2.0
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_axe_1h"]
+resource_name = "Set down one-handed axe"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_axe_1h")])
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_axe_2h"]
+resource_name = "Set down two-handed axe"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_axe_2h")])
+volume_db = -2.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_belt"]
+resource_name = "Set down belt"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_belt")])
+volume_db = 2.0
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_boots"]
+resource_name = "Set down boots"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_boots")])
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_card"]
+resource_name = "Set down expedition card"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_card")])
+volume_db = 5.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_chest"]
+resource_name = "Set down body armour"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_chest")])
+volume_db = -2.0
+pitch_variation = 0.04
+
+[sub_resource type="Resource" id="Cue_item_place_dagger_1h"]
+resource_name = "Set down dagger"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_dagger_1h")])
+pitch_variation = 0.045
+
+[sub_resource type="Resource" id="Cue_item_place_focus"]
+resource_name = "Set down focus"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_focus")])
+volume_db = 2.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_generic"]
+resource_name = "Set down other item"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_generic")])
+volume_db = 2.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_gloves"]
+resource_name = "Set down gloves"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_gloves")])
+volume_db = 2.0
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_helm"]
+resource_name = "Set down helm"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_helm")])
+volume_db = -1.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_key"]
+resource_name = "Set down key"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_key")])
+volume_db = 2.0
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_mace_1h"]
+resource_name = "Set down one-handed mace"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_mace_1h")])
+volume_db = -0.5
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_mace_2h"]
+resource_name = "Set down two-handed mace"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_mace_2h")])
+volume_db = -2.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_material"]
+resource_name = "Set down crafting material"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_material")])
+volume_db = 2.0
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_orb"]
+resource_name = "Set down orb"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_orb")])
+volume_db = 2.0
+pitch_variation = 0.045
+
+[sub_resource type="Resource" id="Cue_item_place_ring"]
+resource_name = "Set down ring"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_ring")])
+volume_db = 3.0
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_scroll"]
+resource_name = "Set down scroll"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_scroll")])
+volume_db = 4.0
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_item_place_shield"]
+resource_name = "Set down shield"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_shield")])
+volume_db = -1.0
+pitch_variation = 0.04
+
+[sub_resource type="Resource" id="Cue_item_place_staff"]
+resource_name = "Set down staff"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_staff")])
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_sword_1h"]
+resource_name = "Set down one-handed sword"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_sword_1h")])
+volume_db = -0.5
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_item_place_sword_2h"]
+resource_name = "Set down two-handed sword"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_item_place_sword_2h")])
+volume_db = -2.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_move_jump"]
+resource_name = "Jump takeoff"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_move_jump_01"), ExtResource("Clip_move_jump_02"), ExtResource("Clip_move_jump_03")])
+volume_db = -9.5
+pitch_variation = 0.055
+
+[sub_resource type="Resource" id="Cue_kill"]
+resource_name = "Kill"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_kill")])
+volume_db = -2.0
+pitch_variation = 0.07
+
+[sub_resource type="Resource" id="Cue_move_land"]
+resource_name = "Boot landing"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_move_land_01"), ExtResource("Clip_move_land_02"), ExtResource("Clip_move_land_03")])
+volume_db = -6.5
+pitch_variation = 0.065
+
+[sub_resource type="Resource" id="Cue_light_blade_swing"]
+resource_name = "Light Blade Swing"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_blade_light_01"), ExtResource("Clip_blade_light_02"), ExtResource("Clip_blade_light_03")])
+volume_db = -1.0
+pitch_variation = 0.06
+
+[sub_resource type="Resource" id="Cue_loot"]
+resource_name = "Loot"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_loot")])
+volume_db = -3.0
+pitch_variation = 0.05
+
+[sub_resource type="Resource" id="Cue_miasma_vent_burst"]
+resource_name = "Miasma Vent Burst"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_miasma_vent_burst")])
+volume_db = -8.0
+
+[sub_resource type="Resource" id="Cue_miasma_vent_warning"]
+resource_name = "Miasma Vent Warning"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_miasma_vent_warning")])
+volume_db = -8.0
+
+[sub_resource type="Resource" id="Cue_player_hit"]
+resource_name = "Player Hit"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_player_hit")])
+volume_db = 1.0
+pitch_variation = 0.09
+
+[sub_resource type="Resource" id="Cue_portal"]
+resource_name = "Portal"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_portal")])
+pitch_variation = 0.02
+
+[sub_resource type="Resource" id="Cue_pottery_break"]
+resource_name = "Pottery Break"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_pottery_break")])
+volume_db = -6.0
+
+[sub_resource type="Resource" id="Cue_spell_cast"]
+resource_name = "Spell Cast"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_swing")])
+volume_db = -1.0
+pitch_variation = 0.1
+
+[sub_resource type="Resource" id="Cue_spike_plate_burst"]
+resource_name = "Spike Plate Burst"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_spike_plate_burst")])
+volume_db = -8.0
+
+[sub_resource type="Resource" id="Cue_spike_plate_warning"]
+resource_name = "Spike Plate Warning"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_spike_plate_warning")])
+volume_db = -8.0
+
+[sub_resource type="Resource" id="Cue_move_sprint"]
+resource_name = "Sprint on slate"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_move_sprint_01"), ExtResource("Clip_move_sprint_02"), ExtResource("Clip_move_sprint_03"), ExtResource("Clip_move_sprint_04")])
+volume_db = -8.5
+pitch_variation = 0.07
+
+[sub_resource type="Resource" id="Cue_step"]
+resource_name = "Step"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_step")])
+volume_db = -11.0
+pitch_variation = 0.13
+
+[sub_resource type="Resource" id="Cue_trade"]
+resource_name = "Trade"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_trade")])
+volume_db = -5.0
+pitch_variation = 0.06
+
+[sub_resource type="Resource" id="Cue_unarmed_swing"]
+resource_name = "Unarmed Swing"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_unarmed_01"), ExtResource("Clip_unarmed_02"), ExtResource("Clip_unarmed_03")])
+volume_db = -2.0
+pitch_variation = 0.07
+
+[sub_resource type="Resource" id="Cue_move_walk"]
+resource_name = "Walk on slate"
+script = ExtResource("2_cue")
+clips = Array[AudioStream]([ExtResource("Clip_move_walk_01"), ExtResource("Clip_move_walk_02"), ExtResource("Clip_move_walk_03"), ExtResource("Clip_move_walk_04")])
+volume_db = -11.0
+pitch_variation = 0.075
+
+[resource]
+resource_name = "Hearth Below Sound Catalogue"
+script = ExtResource("1_catalogue")
+light_blade_swing = SubResource("Cue_light_blade_swing")
+heavy_blade_swing = SubResource("Cue_heavy_blade_swing")
+blunt_swing = SubResource("Cue_blunt_swing")
+unarmed_swing = SubResource("Cue_unarmed_swing")
+hit = SubResource("Cue_hit")
+player_hit = SubResource("Cue_player_hit")
+block = SubResource("Cue_block")
+spell_cast = SubResource("Cue_spell_cast")
+kill = SubResource("Cue_kill")
+death = SubResource("Cue_death")
+drink = SubResource("Cue_drink")
+walk = SubResource("Cue_move_walk")
+sprint = SubResource("Cue_move_sprint")
+jump = SubResource("Cue_move_jump")
+land = SubResource("Cue_move_land")
+step = SubResource("Cue_step")
+portal = SubResource("Cue_portal")
+chest = SubResource("Cue_chest")
+loot = SubResource("Cue_loot")
+complete = SubResource("Cue_complete")
+trade = SubResource("Cue_trade")
+craft = SubResource("Cue_craft")
+equip = SubResource("Cue_equip")
+error = SubResource("Cue_error")
+item_grab = SubResource("Cue_item_grab")
+item_place_dagger_1h = SubResource("Cue_item_place_dagger_1h")
+item_place_sword_1h = SubResource("Cue_item_place_sword_1h")
+item_place_sword_2h = SubResource("Cue_item_place_sword_2h")
+item_place_axe_1h = SubResource("Cue_item_place_axe_1h")
+item_place_axe_2h = SubResource("Cue_item_place_axe_2h")
+item_place_mace_1h = SubResource("Cue_item_place_mace_1h")
+item_place_mace_2h = SubResource("Cue_item_place_mace_2h")
+item_place_staff = SubResource("Cue_item_place_staff")
+item_place_shield = SubResource("Cue_item_place_shield")
+item_place_focus = SubResource("Cue_item_place_focus")
+item_place_orb = SubResource("Cue_item_place_orb")
+item_place_helm = SubResource("Cue_item_place_helm")
+item_place_chest = SubResource("Cue_item_place_chest")
+item_place_gloves = SubResource("Cue_item_place_gloves")
+item_place_boots = SubResource("Cue_item_place_boots")
+item_place_belt = SubResource("Cue_item_place_belt")
+item_place_amulet = SubResource("Cue_item_place_amulet")
+item_place_ring = SubResource("Cue_item_place_ring")
+item_place_material = SubResource("Cue_item_place_material")
+item_place_key = SubResource("Cue_item_place_key")
+item_place_scroll = SubResource("Cue_item_place_scroll")
+item_place_card = SubResource("Cue_item_place_card")
+item_place_generic = SubResource("Cue_item_place_generic")
+card_hover = SubResource("Cue_card_hover")
+card_use_heal = SubResource("Cue_card_use_heal")
+card_use_fire = SubResource("Cue_card_use_fire")
+card_use_cold = SubResource("Cue_card_use_cold")
+card_use_lightning = SubResource("Cue_card_use_lightning")
+card_use_physical = SubResource("Cue_card_use_physical")
+card_use_buff = SubResource("Cue_card_use_buff")
+card_use_guard = SubResource("Cue_card_use_guard")
+card_use_summon = SubResource("Cue_card_use_summon")
+crate_break = SubResource("Cue_crate_break")
+pottery_break = SubResource("Cue_pottery_break")
+spike_plate_warning = SubResource("Cue_spike_plate_warning")
+spike_plate_burst = SubResource("Cue_spike_plate_burst")
+ember_vent_warning = SubResource("Cue_ember_vent_warning")
+ember_vent_burst = SubResource("Cue_ember_vent_burst")
+miasma_vent_warning = SubResource("Cue_miasma_vent_warning")
+miasma_vent_burst = SubResource("Cue_miasma_vent_burst")
+hub_ambience = SubResource("Cue_hub_ambience")
+dungeon_ambience = SubResource("Cue_dungeon_ambience")

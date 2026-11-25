@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/echo_of_mourning.tres" id="2_icon"]
+
+[resource]
+resource_name = "Raise the Fallen"
+script = ExtResource("1_definition")
+id = &"raise_the_fallen"
+display_name = "Raise the Fallen"
+icon = ExtResource("2_icon")
+icon_key = "bolt"
+description = "Channels energy into a fallen enemy nearby to return it to the fight. Stun or defeat the Reclaimer to interrupt the channel."
+action_key = "raise_the_fallen"
+damage_type = "physical"
+windup = 2.05
+recovery = 0.86
+cooldown = 3.7
+damage_multiplier = 0.0
+execution_profile = {
+"shape": "ray",
+"reach": 16.0,
+"start": 16.0,
+"speed": 8.0,
+"revival_range": 8.5
+}

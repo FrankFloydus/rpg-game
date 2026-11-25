@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://dspbr5p5seyp4" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_02.png" id="pooled_02_albedo"]
+[ext_resource type="Texture2D" uid="uid://co0xsiyn5um7f" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_02_orm.png" id="pooled_02_orm"]
+[ext_resource type="Texture2D" uid="uid://tbrulr2ai38e" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_02_normal.png" id="pooled_02_normal"]
+
+[resource]
+resource_name = "Long Slashing Streak"
+transparency = 1
+albedo_texture = ExtResource("pooled_02_albedo")
+orm_texture = ExtResource("pooled_02_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_02_normal")
+ao_enabled = true
+texture_repeat = false

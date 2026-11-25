@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/modules/breakable_prop.gd" id="1_break"]
+[ext_resource type="PackedScene" path="res://assets/models/dressing/crate_intact.glb" id="2_intact"]
+[ext_resource type="PackedScene" path="res://assets/models/dressing/crate_debris.glb" id="3_debris"]
+
+[sub_resource type="BoxShape3D" id="Collision"]
+size = Vector3(0.642, 0.635, 0.583)
+
+[node name="WeatheredBreakableCrate" type="StaticBody3D" groups=["breakable_props"]]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_break")
+debris_scene = ExtResource("3_debris")
+
+[node name="Intact" parent="." instance=ExtResource("2_intact")]
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.319, 0)
+shape = SubResource("Collision")
+

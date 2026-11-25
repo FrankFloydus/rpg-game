@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="SecretChallengeRoute" format=3 uid="uid://biv34oes366ye"]
+
+[ext_resource type="Script" uid="uid://d240lj3f4jnbt" path="res://world/secret_challenges/secret_challenge_route.gd" id="Route"]
+[ext_resource type="Script" uid="uid://dt56oec7d6bkk" path="res://world/secret_challenges/secret_challenge_socket.gd" id="Socket"]
+
+[sub_resource type="Resource" id="Trap_1"]
+script = ExtResource("Socket")
+kind = "miasma_vent"
+phase = 0.81
+reach = 1.72
+
+[sub_resource type="Resource" id="Trap_2"]
+script = ExtResource("Socket")
+glyph = "2"
+phase = 0.65
+reach = 1.1
+optional = true
+
+[sub_resource type="Resource" id="Trap_3"]
+script = ExtResource("Socket")
+glyph = "3"
+alternate_kind = "ember_vent"
+phase = 0.05
+reach = 1.1
+
+[sub_resource type="Resource" id="Trap_4"]
+script = ExtResource("Socket")
+glyph = "4"
+kind = "miasma_vent"
+alternate_kind = "ember_vent"
+phase = 0.25
+reach = 1.72
+optional = true
+
+[sub_resource type="Resource" id="Trap_5"]
+script = ExtResource("Socket")
+glyph = "5"
+kind = "ember_vent"
+facing = Vector2i(0, 1)
+phase = 0.43
+reach = 1.55
+
+[resource]
+resource_name = "Red Recesses"
+script = ExtResource("Route")
+id = &"red_recesses"
+display_name = "Red Recesses"
+min_depth = 4
+rows = PackedStringArray("##....2.####", "##.#########", "S1.....3...#", "##.#######.#", "##.4.#####.#", "##########5#", "##########.#", "##########.R")
+hazard_sockets = Array[ExtResource("Socket")]([SubResource("Trap_1"), SubResource("Trap_2"), SubResource("Trap_3"), SubResource("Trap_4"), SubResource("Trap_5")])

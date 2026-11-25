@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://ui/combat_floater.tscn" id="1"]
+
+[node name="CombatFloater" instance=ExtResource("1")]
+modulate = Color(0.905882, 0.874510, 0.819608, 1)
+font_size = 26

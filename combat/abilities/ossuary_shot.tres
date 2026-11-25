@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://gc8u7dk123kf"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_ftxsg"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/ossuary_shot.tres" id="icon_art"]
+
+[resource]
+resource_name = "Ossuary Shot"
+script = ExtResource("1_definition")
+id = &"ossuary_shot"
+display_name = "Ossuary Shot"
+icon = ExtResource("icon_art")
+icon_key = "arrow"
+description = "Fires a single aimed projectile."
+action_key = "arrow"
+damage_type = "physical"
+windup = 0.65
+recovery = 0.98
+damage_multiplier = 1.12
+stun_buildup = 9.0
+execution_profile = {
+"shape": "ray",
+"reach": 13.0,
+"start": 12.6,
+"speed": 15.0
+}

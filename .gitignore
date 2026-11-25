@@ -1,0 +1,6 @@
+# Godot's generated editor and asset import cache.
+.godot/
+
+# Atomic scene writes and native extension hot-reload copies.
+*.[Tt][Mm][Pp]
+**/~*.dll

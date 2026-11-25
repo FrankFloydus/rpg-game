@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://ckt6qak0sr4ge" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_07.png" id="pooled_07_albedo"]
+[ext_resource type="Texture2D" uid="uid://ddxqqkdts714d" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_07_orm.png" id="pooled_07_orm"]
+[ext_resource type="Texture2D" uid="uid://bhq2hebkmdjxl" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_07_normal.png" id="pooled_07_normal"]
+
+[resource]
+resource_name = "Heavy Compact Strike"
+transparency = 1
+albedo_texture = ExtResource("pooled_07_albedo")
+orm_texture = ExtResource("pooled_07_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_07_normal")
+ao_enabled = true
+texture_repeat = false

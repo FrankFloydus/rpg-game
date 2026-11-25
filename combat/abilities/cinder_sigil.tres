@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/cinder_bolt.tres" id="2"]
+
+[resource]
+resource_name = "Cinder Sigil"
+script = ExtResource("1")
+id = &"cinder_sigil"
+display_name = "Cinder Sigil"
+icon = ExtResource("2")
+description = "The acolyte holds a sigil over a narrow line. After the line fills, flames erupt along it once, stopping at solid cover. Step to either side."
+action_key = "cinder_sigil"
+damage_type = "fire"
+cooldown = 6.8
+windup = 1.03
+recovery = 1.16
+damage_multiplier = 2.15
+execution_profile = {
+"floor_warning": "always",
+"reach": 9.0,
+"shape": "lane",
+"speed": 10.0,
+"start": 8.70,
+"width": 0.70
+}

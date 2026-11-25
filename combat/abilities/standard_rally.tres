@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+
+[resource]
+resource_name = "Last Colours"
+script = ExtResource("1")
+id = &"standard_rally"
+display_name = "Last Colours"
+icon_key = "enrage"
+description = "Raises the standard and rouses up to three nearby members of its pack. They strike faster and harder for five seconds."
+action_key = "standard_rally"
+windup = 0.80
+recovery = 0.74
+cooldown = 9.0
+damage_multiplier = 0.0
+execution_profile = {"shape": "ray", "reach": 6.5, "start": 5.2, "speed": 10.0}

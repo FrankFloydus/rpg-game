@@ -1,0 +1,9 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/combat_feedback.gd" id="1"]
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/thornback.tscn" id="2"]
+
+[resource]
+resource_name = "Enemy Hit Reactions"
+script = ExtResource("1")
+thornback_guard_loop = ExtResource("2")

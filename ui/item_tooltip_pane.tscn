@@ -1,0 +1,93 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="theme"]
+[ext_resource type="Texture2D" path="res://assets/items/base_icons/oath_blade.png" id="sample"]
+
+[node name="ItemTooltipPane" type="PanelContainer"]
+theme = ExtResource("theme")
+theme_type_variation = &"GearTooltip"
+size_flags_vertical = 0
+custom_minimum_size = Vector2(328, 0)
+mouse_filter = 2
+
+[node name="Body" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="IconFrame" type="PanelContainer" parent="Body/Header"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"GearWell"
+size_flags_vertical = 4
+
+[node name="Icon" type="TextureRect" parent="Body/Header/IconFrame"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(46, 56)
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("sample")
+
+[node name="Heading" type="VBoxContainer" parent="Body/Header"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="Title" type="Label" parent="Body/Header/Heading"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 22
+text = "Oath Blade"
+theme_type_variation = &"GearHeading"
+autowrap_mode = 3
+
+[node name="Subtitle" type="Label" parent="Body/Header/Heading"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+text = "One-handed sword"
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Rows" type="VBoxContainer" parent="Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Price" type="VBoxContainer" parent="Body"]
+layout_mode = 2
+mouse_filter = 2
+visible = false
+theme_override_constants/separation = 4
+
+[node name="Rule" type="HSeparator" parent="Body/Price"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Pair" type="HBoxContainer" parent="Body/Price"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Caption" type="Label" parent="Body/Price/Pair"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "Price"
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Value" type="Label" parent="Body/Price/Pair"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "24 gold"
+theme_type_variation = &"GearValue"
+horizontal_alignment = 2

@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://combat/effects/rime_fracture_particles.gdshader" id="1_process"]
+[ext_resource type="Shader" path="res://combat/effects/rime_fracture_shard.gdshader" id="2_shard"]
+
+[sub_resource type="ShaderMaterial" id="Process_fracture"]
+resource_local_to_scene = true
+shader = ExtResource("1_process")
+
+[sub_resource type="ShaderMaterial" id="Material_shard"]
+shader = ExtResource("2_shard")
+
+[sub_resource type="QuadMesh" id="Mesh_shard"]
+size = Vector2(0.054, 0.181)
+material = SubResource("Material_shard")
+
+[node name="RimeFracture" type="GPUParticles3D"]
+cast_shadow = 0
+emitting = false
+amount = 28
+lifetime = 0.56
+one_shot = true
+explosiveness = 0.96
+randomness = 0.10
+local_coords = true
+visibility_aabb = AABB(-6, -0.2, -6, 12, 2.2, 12)
+process_material = SubResource("Process_fracture")
+draw_pass_1 = SubResource("Mesh_shard")
+
+[connection signal="finished" from="." to="." method="queue_free"]

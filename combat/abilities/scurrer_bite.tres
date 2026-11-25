@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/ashen_bite.tres" id="2"]
+
+[resource]
+resource_name = "Scurrer Bite"
+script = ExtResource("1")
+id = &"scurrer_bite"
+display_name = "Scurrer Bite"
+icon = ExtResource("2")
+description = "A close, quick bite. One scurrer is weak, but several can attack from different sides."
+action_key = "scurrer_bite"
+damage_type = "physical"
+cooldown = 0.86
+windup = 0.31
+recovery = 0.92
+damage_multiplier = 0.94
+execution_profile = {
+"arc": 49.0,
+"attack_cost": 0.64,
+"reach": 1.36,
+"shape": "arc",
+"start": 1.23
+}

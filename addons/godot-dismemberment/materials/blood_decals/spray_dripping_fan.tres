@@ -1,0 +1,12 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://bonve054xry5p" path="res://addons/godot-dismemberment/textures/blood_deposits/spray_dripping_fan.png" id="spray_dripping_fan_albedo"]
+[ext_resource type="Texture2D" uid="uid://bvbh68x6ykpou" path="res://addons/godot-dismemberment/textures/blood_deposits/spray_dripping_fan_orm.png" id="spray_dripping_fan_orm"]
+
+[resource]
+resource_name = "Dripping Fan"
+transparency = 1
+albedo_texture = ExtResource("spray_dripping_fan_albedo")
+orm_texture = ExtResource("spray_dripping_fan_orm")
+ao_enabled = true
+texture_repeat = false

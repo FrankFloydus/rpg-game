@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="SecretChallengeRoute" format=3 uid="uid://b8udae5rghaal"]
+
+[ext_resource type="Script" uid="uid://d240lj3f4jnbt" path="res://world/secret_challenges/secret_challenge_route.gd" id="Route"]
+[ext_resource type="Script" uid="uid://dt56oec7d6bkk" path="res://world/secret_challenges/secret_challenge_socket.gd" id="Socket"]
+
+[sub_resource type="Resource" id="Trap_1"]
+script = ExtResource("Socket")
+alternate_kind = "miasma_vent"
+phase = 0.43
+reach = 1.1
+
+[sub_resource type="Resource" id="Trap_2"]
+script = ExtResource("Socket")
+glyph = "2"
+kind = "ember_vent"
+facing = Vector2i(0, 1)
+phase = 0.81
+reach = 1.55
+
+[sub_resource type="Resource" id="Trap_3"]
+script = ExtResource("Socket")
+glyph = "3"
+alternate_kind = "ember_vent"
+phase = 0.65
+reach = 1.1
+
+[resource]
+resource_name = "Ashward Return"
+script = ExtResource("Route")
+id = &"ashward_return"
+display_name = "Ashward Return"
+min_depth = 3
+rows = PackedStringArray("########.R", "########.#", "####...3.#", "####.#####", "####2#####", "S.1..#####", "###.######", "###...####")
+hazard_sockets = Array[ExtResource("Socket")]([SubResource("Trap_1"), SubResource("Trap_2"), SubResource("Trap_3")])

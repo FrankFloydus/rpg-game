@@ -1,0 +1,36 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://combat/enemies/mire_husk/mire_husk_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/drowned_pole_sweep.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/mire_rush.tres" id="4_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="5_252ty"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/mire_husk.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/mire_husk/mire_husk_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pnwfv"]
+radius = 0.37
+height = 1.6168
+
+[node name="MireHusk" type="CharacterBody3D" unique_id=1547510443]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 14.0
+base_attack_damage = 3.0
+base_move_speed = 2.84
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1487108205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8084, 0)
+shape = SubResource("CapsuleShape3D_pnwfv")
+
+[node name="Model" type="Node3D" parent="." unique_id=918494295]
+script = ExtResource("5_252ty")
+
+[node name="Rig" parent="Model" unique_id=384136584 instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

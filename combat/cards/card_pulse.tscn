@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://combat/cards/card_pulse.gdshader" id="1"]
+[ext_resource type="Shader" path="res://combat/cards/card_cinders.gdshader" id="2_cinders"]
+[ext_resource type="Shader" path="res://combat/effects/projectile_trail.gdshader" id="3_draw"]
+
+[sub_resource type="ShaderMaterial" id="Material_ring"]
+shader = ExtResource("1")
+
+[sub_resource type="PlaneMesh" id="Plane_ring"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="Process_cinders"]
+resource_local_to_scene = true
+shader = ExtResource("2_cinders")
+
+[sub_resource type="ShaderMaterial" id="Material_cinders"]
+shader = ExtResource("3_draw")
+
+[sub_resource type="QuadMesh" id="Mesh_cinders"]
+size = Vector2(0.018, 0.047)
+material = SubResource("Material_cinders")
+
+[node name="CardPulse" type="MeshInstance3D"]
+cast_shadow = 0
+material_override = SubResource("Material_ring")
+mesh = SubResource("Plane_ring")
+
+[node name="Cinders" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+emitting = false
+amount = 22
+lifetime = 0.62
+one_shot = true
+explosiveness = 0.86
+randomness = 0.22
+fixed_fps = 60
+local_coords = true
+visibility_aabb = AABB(-1.16, -0.08, -1.16, 2.32, 0.78, 2.32)
+process_material = SubResource("Process_cinders")
+draw_pass_1 = SubResource("Mesh_cinders")

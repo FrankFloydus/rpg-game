@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SecretChallengeRoute" format=3 uid="uid://dwwci34o4tgki"]
+
+[ext_resource type="Script" uid="uid://d240lj3f4jnbt" path="res://world/secret_challenges/secret_challenge_route.gd" id="Route"]
+[ext_resource type="Script" uid="uid://dt56oec7d6bkk" path="res://world/secret_challenges/secret_challenge_socket.gd" id="Socket"]
+
+[sub_resource type="Resource" id="Trap_1"]
+script = ExtResource("Socket")
+phase = 0.65
+reach = 1.1
+
+[sub_resource type="Resource" id="Trap_2"]
+script = ExtResource("Socket")
+glyph = "2"
+kind = "miasma_vent"
+phase = 0.05
+reach = 1.72
+optional = true
+
+[sub_resource type="Resource" id="Trap_3"]
+script = ExtResource("Socket")
+glyph = "3"
+kind = "ember_vent"
+phase = 0.25
+reach = 1.55
+
+[sub_resource type="Resource" id="Trap_4"]
+script = ExtResource("Socket")
+glyph = "4"
+alternate_kind = "ember_vent"
+phase = 0.43
+reach = 1.1
+optional = true
+
+[resource]
+resource_name = "Saint's Duct"
+script = ExtResource("Route")
+id = &"saints_duct"
+display_name = "Saint's Duct"
+min_depth = 3
+rows = PackedStringArray("##..2...##", "##.#######", "S1..3....R", "##.#######", "##...4...#")
+alternate_rows = PackedStringArray("##..2...##", "##.#######", "S1..3...R#", "##.#######", "##...4...#")
+hazard_sockets = Array[ExtResource("Socket")]([SubResource("Trap_1"), SubResource("Trap_2"), SubResource("Trap_3"), SubResource("Trap_4")])

@@ -1,0 +1,35 @@
+extends RefCounted
+## Roll ranges used by saved items before the first combat balance pass.
+
+const TIER_MULTIPLIERS := [1.0, 1.5, 2.15, 3.0]
+const RANGES := {
+	"hale": {"max_health": Vector2(8, 14)},
+	"lucid": {"max_mana": Vector2(6, 11)},
+	"mending": {"life_regen": Vector2(0.5, 0.9)},
+	"sere": {"mana_regen": Vector2(0.5, 0.8)},
+	"honed": {"damage_min": Vector2(2, 4), "damage_max": Vector2(4, 7)},
+	"braced": {"armor": Vector2(8, 15)},
+	"votive": {"ward": Vector2(6, 11)},
+	"searing": {"fire_damage": Vector2(2, 5)},
+	"rimed": {"cold_damage": Vector2(2, 5)},
+	"crackling": {"lightning_damage": Vector2(2, 5)},
+	"venomous": {"poison_damage": Vector2(2, 5)},
+	"draining": {"life_leech": Vector2(1, 2)},
+	"reaping": {"life_on_kill": Vector2(3, 5)},
+	"siphoning": {"mana_on_kill": Vector2(2, 4)},
+	"of_cinders": {"fire_resist": Vector2(7, 12)},
+	"of_the_tarn": {"cold_resist": Vector2(7, 12)},
+	"of_the_spire": {"lightning_resist": Vector2(7, 12)},
+	"of_antidotes": {"poison_resist": Vector2(7, 12)},
+	"of_fury": {"attack_speed": Vector2(4, 7)},
+	"of_veins": {"crit_chance": Vector2(2, 4)},
+	"of_ruin": {"crit_multiplier": Vector2(10, 16)},
+	"of_the_road": {"move_speed": Vector2(4, 8)},
+	"of_the_sentry": {"block_chance": Vector2(3, 5)},
+	"of_mists": {"dodge_chance": Vector2(2, 5)},
+	"of_the_chime": {"cooldown_recovery": Vector2(4, 8)},
+	"of_omens": {"loot_rarity": Vector2(6, 11)},
+	"of_tithes": {"gold_find": Vector2(6, 12)},
+	"of_shattering": {"stun_power": Vector2(7, 12)},
+	"of_open_wounds": {"bleed_chance": Vector2(6, 10)},
+}

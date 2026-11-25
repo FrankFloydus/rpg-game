@@ -1,0 +1,38 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://combat/effects/moth_cocoon_visual.gd" id="1_n0pjk"]
+[ext_resource type="Shader" path="res://combat/effects/enemy_health.gdshader" id="2_ewm23"]
+[ext_resource type="PackedScene" path="res://assets/models/loot/moth_cocoon.glb" id="3_woven_model"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kfx34"]
+render_priority = 0
+shader = ExtResource("2_ewm23")
+
+[sub_resource type="QuadMesh" id="QuadMesh_52u5m"]
+size = Vector2(0.72, 0.061)
+
+[node name="MothCocoon" type="Node3D" unique_id=1786972811]
+script = ExtResource("1_n0pjk")
+
+[node name="WovenShell" parent="." instance=ExtResource("3_woven_model")]
+
+[node name="CastTimer" type="MeshInstance3D" parent="." unique_id=623298118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.46, 0)
+material_override = SubResource("ShaderMaterial_kfx34")
+cast_shadow = 0
+extra_cull_margin = 0.5
+visibility_range_end = 25.0
+instance_shader_parameters/bar_color = Color(0.5019608, 0.8627451, 0.80784315, 1)
+instance_shader_parameters/health_fraction = 0.35
+mesh = SubResource("QuadMesh_52u5m")
+
+[node name="HatchCountdown" type="Label3D" parent="." unique_id=564238654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59, 0)
+visibility_range_end = 25.0
+pixel_size = 0.0029
+billboard = 1
+modulate = Color(0.7372549, 0.96862745, 0.9137255, 1)
+outline_modulate = Color(0.06666667, 0.09411765, 0.078431375, 1)
+text = "Hatching 4.0s"
+font_size = 34
+outline_size = 8

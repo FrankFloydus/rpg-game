@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+
+[resource]
+resource_name = "Sevenfold Volley"
+script = ExtResource("1")
+id = &"sevenfold_volley"
+display_name = "Sevenfold Volley"
+icon_key = "volley"
+description = "Seven mouths draw back and each fires one glob of venom. The fixed fan is hardest to dodge up close."
+action_key = "sevenfold_volley"
+damage_type = "poison"
+windup = 1.04
+recovery = 1.42
+cooldown = 3.15
+damage_multiplier = 1.20
+execution_profile = {"shape": "arc", "reach": 6.1, "start": 6.1, "arc": 33.0, "speed": 10.9, "floor_warning": "always"}

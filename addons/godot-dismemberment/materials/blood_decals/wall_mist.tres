@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_mist.png" id="wall_mist_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_mist_normal.png" id="wall_mist_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_mist_orm.png" id="wall_mist_orm"]
+
+[resource]
+resource_name = "Fine Impact Mist"
+transparency = 1
+albedo_texture = ExtResource("wall_mist_albedo")
+orm_texture = ExtResource("wall_mist_orm")
+normal_enabled = true
+normal_texture = ExtResource("wall_mist_normal")
+ao_enabled = true
+texture_repeat = false

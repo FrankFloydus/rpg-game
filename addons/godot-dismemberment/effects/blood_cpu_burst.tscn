@@ -1,0 +1,111 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/blood_cpu_preview.gd" id="Script_preview"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/cpu_burst_sheet_01.tres" id="cpu_burst_sheet_01"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/cpu_burst_sheet_02.tres" id="cpu_burst_sheet_02"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/cpu_burst_sheet_03.tres" id="cpu_burst_sheet_03"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/cpu_burst_drops.tres" id="cpu_burst_drops"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_BloodBurst"]
+material = ExtResource("cpu_burst_sheet_01")
+size = Vector2(1.5, 1.5)
+
+[sub_resource type="QuadMesh" id="QuadMesh_BloodBurst001"]
+material = ExtResource("cpu_burst_sheet_02")
+size = Vector2(0.75, 0.5)
+
+[sub_resource type="QuadMesh" id="QuadMesh_BloodBurst002"]
+material = ExtResource("cpu_burst_sheet_03")
+size = Vector2(0.9, 0.9)
+
+[sub_resource type="QuadMesh" id="QuadMesh_BloodParticle"]
+material = ExtResource("cpu_burst_drops")
+size = Vector2(0.01, 0.045)
+
+[node name="BloodCpuBurst" type="Node3D"]
+script = ExtResource("Script_preview")
+
+[node name="BloodBurst" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 10
+lifetime = 1
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.5
+local_coords = false
+draw_order = 1
+mesh = SubResource("QuadMesh_BloodBurst")
+particle_flag_align_y = false
+direction = Vector3(0.928476691, 0.371390676, 0)
+spread = 5
+gravity = Vector3(0, -9.8, 0)
+initial_velocity_min = 1
+initial_velocity_max = 5
+angle_max = 360
+damping_min = 0
+damping_max = 0
+anim_offset_max = 1.0
+
+[node name="BloodBurst001" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 10
+lifetime = 2
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.65
+local_coords = false
+draw_order = 1
+mesh = SubResource("QuadMesh_BloodBurst001")
+particle_flag_align_y = false
+direction = Vector3(0.928476691, 0.371390676, 0)
+spread = 5
+gravity = Vector3(0, -9.8, 0)
+initial_velocity_min = 1
+initial_velocity_max = 5
+angle_max = 0
+damping_min = 0
+damping_max = 0
+anim_offset_max = 1.0
+metadata/scale_particle_count = true
+
+[node name="BloodBurst002" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 7
+lifetime = 1
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.7
+local_coords = false
+draw_order = 1
+mesh = SubResource("QuadMesh_BloodBurst002")
+particle_flag_align_y = false
+direction = Vector3(0, 1, 0)
+spread = 27.5
+gravity = Vector3(0, -9.8, 0)
+initial_velocity_min = 1
+initial_velocity_max = 4.5
+angle_max = 360
+damping_min = 1
+damping_max = 1
+anim_offset_max = 1.0
+
+[node name="BloodParticle" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 100
+lifetime = 1
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.7
+local_coords = false
+draw_order = 1
+mesh = SubResource("QuadMesh_BloodParticle")
+particle_flag_align_y = true
+direction = Vector3(0.707106781, 0.707106781, 0)
+spread = 27.5
+gravity = Vector3(0, -9.8, 0)
+initial_velocity_min = 1
+initial_velocity_max = 5
+angle_max = 0
+damping_min = 0
+damping_max = 0
+anim_offset_max = 1.0

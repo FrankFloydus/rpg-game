@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/defensive_legendary_rules.gd" id="1_rules"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/block.tres" id="2_counter"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/dawnward.tres" id="3_bell"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/phasewalk.tres" id="4_stone"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/briar_guard.tres" id="5_buttress"]
+
+[resource]
+script = ExtResource("1_rules")
+counterweight_icon = ExtResource("2_counter")
+still_bell_icon = ExtResource("3_bell")
+stonewake_icon = ExtResource("4_stone")
+buttress_icon = ExtResource("5_buttress")

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3]
+
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/mire_rush.tres" id="2"]
+
+[resource]
+resource_name = "Grave Tunnel"
+script = ExtResource("1")
+id = &"grave_tunnel"
+display_name = "Grave Tunnel"
+icon = ExtResource("2")
+description = "Burrows in the marked direction, stopping at walls. When it surfaces, it bites anyone still near the mouth of the tunnel."
+action_key = "grave_tunnel"
+damage_type = "physical"
+cooldown = 7.4
+windup = 0.81
+recovery = 1.30
+damage_multiplier = 2.10
+execution_profile = {
+"dash_speed": 7.3,
+"floor_warning": "always",
+"impact_radius": 1.17,
+"minimum_distance": 3.25,
+"reach": 6.75,
+"rise_seconds": 0.27,
+"shape": "lane",
+"start": 7.1,
+"width": 1.17
+}

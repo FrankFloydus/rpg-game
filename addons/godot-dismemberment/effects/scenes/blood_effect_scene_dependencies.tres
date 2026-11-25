@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=7 format=3]
+
+; Selected-scene exports do not always traverse GDScript preloads or shader includes.
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_collision_particles.gd" id="1_collision"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_contact_receiver.gd" id="2_receiver"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_schedule.gd" id="3_schedule"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_inherited_motion.gd" id="4_motion"]
+[ext_resource type="ShaderInclude" path="res://addons/godot-dismemberment/effects/blood_gpu_draw.gdshaderinc" id="5_include"]
+[ext_resource type="Shader" path="res://addons/godot-dismemberment/effects/blood_gpu_smoke_draw.gdshader" id="6_smoke"]
+
+[resource]
+metadata/_collision = ExtResource("1_collision")
+metadata/_receiver = ExtResource("2_receiver")
+metadata/_schedule = ExtResource("3_schedule")
+metadata/_motion = ExtResource("4_motion")
+metadata/_draw_include = ExtResource("5_include")
+metadata/_smoke_shader = ExtResource("6_smoke")

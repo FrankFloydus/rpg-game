@@ -1,0 +1,1057 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/architecture/training_ruin_pillar.glb" id="93_pillar"]
+
+[ext_resource type="PackedScene" path="res://assets/models/architecture/training_ruin_wall.glb" id="94_wall"]
+
+[ext_resource type="PackedScene" path="res://assets/models/architecture/crypt_forged_sconce.glb" id="95_mount"]
+
+[ext_resource type="PackedScene" path="res://world/modules/coal_bed.tscn" id="92_coal_bed"]
+[ext_resource type="PackedScene" path="res://world/modules/torch_flame.tscn" id="91_gpu_fire"]
+[ext_resource type="Texture2D" path="res://assets/rework/prop_materials.png" id="90_art"]
+
+[ext_resource type="Script" path="res://world/training_ground.gd" id="1_mcr85"]
+[ext_resource type="Texture2D" path="res://assets/rework/courtyard_stone.png" id="2_67ygc"]
+[ext_resource type="Texture2D" path="res://assets/rework/crypt_wall.png" id="3_rafax"]
+[ext_resource type="Shader" path="res://world/modules/blood_floor.gdshader" id="4_blood_floor"]
+[ext_resource type="PackedScene" path="res://world/modules/blood_floor_projection.tscn" id="5_blood_projection"]
+[ext_resource type="Mesh" path="res://assets/models/architecture/training_court_floor.obj" id="6_court_floor"]
+[ext_resource type="PackedScene" path="res://world/modules/training_swim_basin.tscn" id="7_swim_basin"]
+[ext_resource type="PackedScene" path="res://world/modules/basin_water.tscn" id="8_water"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i56e8"]
+sky_top_color = Color(0.05882353, 0.07450981, 0.14117648, 1)
+sky_horizon_color = Color(0.1882353, 0.19215687, 0.24313726, 1)
+ground_bottom_color = Color(0.07058824, 0.07450981, 0.1254902, 1)
+ground_horizon_color = Color(0.1882353, 0.19215687, 0.24313726, 1)
+sun_angle_max = 0.0
+
+[sub_resource type="Sky" id="Sky_7aqh4"]
+sky_material = SubResource("ProceduralSkyMaterial_i56e8")
+
+[sub_resource type="Environment" id="Environment_1x87o"]
+background_mode = 2
+sky = SubResource("Sky_7aqh4")
+ambient_light_source = 2
+ambient_light_color = Color(0.6509804, 0.70980394, 0.7921569, 1)
+ambient_light_energy = 0.64
+tonemap_mode = 2
+ssao_enabled = true
+ssao_radius = 0.86
+ssao_intensity = 1.37
+glow_enabled = true
+glow_intensity = 0.16
+
+[sub_resource type="BoxShape3D" id="CourtFloorWest"]
+size = Vector3(22.2, 0.6, 18)
+
+[sub_resource type="BoxShape3D" id="CourtFloorNorth"]
+size = Vector3(5.8, 0.6, 13.2)
+
+[sub_resource type="BoxShape3D" id="CourtFloorSouth"]
+size = Vector3(5.8, 0.6, 1.1)
+
+[sub_resource type="BoxShape3D" id="CourtFloorEast"]
+size = Vector3(0.9, 0.6, 3.7)
+
+[sub_resource type="ShaderMaterial" id="StandardMaterial3D_vup5y"]
+resource_name = "Court Floor"
+shader = ExtResource("4_blood_floor")
+shader_parameter/stone_tint = Color(0.6784314, 0.6392157, 0.5882353, 1)
+shader_parameter/stone_albedo = ExtResource("2_67ygc")
+shader_parameter/world_texture_scale = 0.43
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sat8y"]
+size = Vector3(0.78, 4.55, 19.56)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xvldj"]
+resource_name = "Court Wall"
+albedo_color = Color(0.49019608, 0.45490196, 0.4627451, 1)
+albedo_texture = ExtResource("3_rafax")
+uv1_scale = Vector3(0.62, 0.62, 0.62)
+uv1_triplanar = true
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_7b7wk"]
+size = Vector3(0.78, 4.55, 19.56)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dcewm"]
+size = Vector3(28, 4.55, 0.78)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pxsth"]
+size = Vector3(28, 4.55, 0.78)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b6w4y"]
+resource_name = "Border Trim"
+albedo_color = Color(0.38431373, 0.3372549, 0.31764707, 1)
+albedo_texture = ExtResource("3_rafax")
+uv1_scale = Vector3(0.79, 0.79, 0.79)
+uv1_triplanar = true
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_kqyax"]
+size = Vector3(1.04, 0.21, 19.74)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uhw5t"]
+size = Vector3(28, 0.21, 1.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_meqdk"]
+size = Vector3(0.19, 0.022, 17.48)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5w3ex"]
+size = Vector3(27.52, 0.022, 0.19)
+
+[sub_resource type="BoxMesh" id="BoxMesh_whpn6"]
+size = Vector3(0.17, 0.48, 18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gbi22"]
+size = Vector3(28, 0.48, 0.17)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iqw43"]
+resource_name = "Brazier Iron"
+albedo_color = Color(0.21960784, 0.21568628, 0.22352941, 1)
+metallic = 0.64
+albedo_texture = ExtResource("90_art")
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.508, 0.008, 0)
+texture_repeat = false
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ossjq"]
+resource_name = "Brazier Feet"
+albedo_color = Color(0.5803922, 0.46666667, 0.34509805, 1)
+metallic = 0.57
+albedo_texture = ExtResource("90_art")
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.008, 0.508, 0)
+texture_repeat = false
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nehrq"]
+size = Vector3(0.78, 4.55, 19.56)
+
+[sub_resource type="BoxMesh" id="BoxMesh_34jbe"]
+size = Vector3(0.78, 4.55, 19.56)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_svu4o"]
+size = Vector3(28, 4.55, 0.78)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4l6f2"]
+size = Vector3(28, 4.55, 0.78)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8nh55"]
+size = Vector3(1.04, 0.21, 19.74)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dcr3y"]
+size = Vector3(28, 0.21, 1.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_58cyx"]
+size = Vector3(0.19, 0.022, 17.48)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xtwq1"]
+size = Vector3(27.52, 0.022, 0.19)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3i82l"]
+size = Vector3(0.17, 0.48, 18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5124y"]
+size = Vector3(28, 0.48, 0.17)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_op465"]
+resource_name = "Portal Inlay"
+albedo_color = Color(0.31, 0.28, 0.29, 1)
+albedo_texture = ExtResource("90_art")
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.508, 0.008, 0)
+texture_repeat = false
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_g8mbh"]
+size = Vector3(4.65, 2.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8kjj"]
+resource_name = "Pillar Ashlar"
+albedo_color = Color(0.64705884, 0.5921569, 0.54509807, 1)
+albedo_texture = ExtResource("3_rafax")
+uv1_scale = Vector3(0.58, 0.58, 0.58)
+uv1_triplanar = true
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_4y2jw"]
+size = Vector3(0.37, 2.16, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ftwj2"]
+size = Vector3(0.58, 0.24, 0.24)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nxwbf"]
+size = Vector3(0.49, 0.21, 0.23)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ykwo3"]
+size = Vector3(0.37, 2.16, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4m333"]
+size = Vector3(0.58, 0.24, 0.24)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1083q"]
+size = Vector3(0.49, 0.21, 0.23)
+
+[sub_resource type="BoxMesh" id="BoxMesh_avld1"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3rpwu"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dcvlg"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f13ug"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nafyi"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_40qdr"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cpxom"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyrw3"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jr4lc"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bg8a3"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e1fup"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t0ly8"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7lbje"]
+size = Vector3(0.4, 0.58, 0.31)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qkmfr"]
+size = Vector3(0.055, 3.3491933, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5t1jp"]
+size = Vector3(0.055, 3.6548316, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sy86q"]
+size = Vector3(0.055, 3.8614557, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_82glv"]
+size = Vector3(0.055, 3.99718, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iiybx"]
+size = Vector3(0.055, 4.074731, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7kn1x"]
+size = Vector3(0.055, 4.1, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p8c0f"]
+size = Vector3(0.055, 4.074731, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g7yod"]
+size = Vector3(0.055, 3.99718, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_m3o7f"]
+size = Vector3(0.055, 3.8614557, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p2bxs"]
+size = Vector3(0.055, 3.6548316, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_epgra"]
+size = Vector3(0.055, 3.3491933, 0.078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_is448"]
+size = Vector3(3.56, 0.067, 0.074)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d5qro"]
+size = Vector3(3.56, 0.067, 0.074)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dm0hq"]
+size = Vector3(3.56, 0.067, 0.074)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s7q8q"]
+size = Vector3(0.65, 0.65, 0.12)
+
+[sub_resource type="TorusMesh" id="TorusMesh_lmlua"]
+inner_radius = 0.91
+outer_radius = 1.02
+rings = 12
+ring_segments = 4
+
+[sub_resource type="BoxMesh" id="BoxMesh_86i31"]
+size = Vector3(0.44, 0.02, 0.07)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1t6wy"]
+size = Vector3(0.44, 0.02, 0.07)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r13vc"]
+height = 0.68
+radius = 1.76
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6tgq0"]
+height = 4.04
+radius = 1.47
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_oaqb0"]
+height = 0.68
+radius = 1.76
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rwlb0"]
+height = 4.04
+radius = 1.47
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_g81ob"]
+vertices = PackedVector3Array(-13.35, 0, -8.35, -13.35, 0, -3.6, -10.85, 0, -3.6, -10.85, 0, -8.35, -13.35, 0, 0, -10.85, 0, 0, -13.35, 0, 3.6, -10.85, 0, 3.6, -13.35, 0, 8.35, -10.85, 0, 8.35, -7.25, 0, -3.6, -7.25, 0, -8.35, -7.25, 0, 8.35, -7.25, 0, 3.6, -3.65, 0, -3.6, -3.65, 0, -8.35, -3.65, 0, 8.35, -3.65, 0, 3.6, 3.65, 0, -3.6, 3.65, 0, -8.35, -3.65, 0, 0, 3.65, 0, 0, 3.65, 0, 3.6, 3.65, 0, 8.35, 7.25, 0, -3.6, 7.25, 0, -8.35, 7.25, 0, 8.35, 7.25, 0, 3.6, 10.85, 0, -3.6, 10.85, 0, -8.35, 10.85, 0, 8.35, 10.85, 0, 3.6, 13.35, 0, -3.6, 13.35, 0, -8.35, 10.85, 0, 0, 13.35, 0, 0, 13.35, 0, 3.6, 13.35, 0, 8.35, -4.6414347, 0, 0, -5.405466, 0, 1.844534, -7.25, 0, 2.608565, -9.094534, 0, 1.844534, -9.858565, 0, 0, -9.094534, 0, -1.844534, -7.25, 0, -2.608565, -5.405466, 0, -1.844534, 9.858565, 0, 0, 9.094534, 0, 1.844534, 7.25, 0, 2.608565, 5.405466, 0, 1.844534, 4.6414347, 0, 0, 5.405466, 0, -1.844534, 7.25, 0, -2.608565, 9.094534, 0, -1.844534, 7.55, 0, 3.6, 7.55, 0, 8.35)
+polygons = [PackedInt32Array(0, 1, 2, 3), PackedInt32Array(1, 4, 5, 2), PackedInt32Array(4, 6, 7, 5), PackedInt32Array(6, 8, 9, 7), PackedInt32Array(3, 2, 10, 11), PackedInt32Array(7, 9, 12, 13), PackedInt32Array(11, 10, 14, 15), PackedInt32Array(13, 12, 16, 17), PackedInt32Array(15, 14, 18, 19), PackedInt32Array(14, 20, 21, 18), PackedInt32Array(20, 17, 22, 21), PackedInt32Array(17, 16, 23, 22), PackedInt32Array(19, 18, 24, 25), PackedInt32Array(22, 23, 26, 27), PackedInt32Array(25, 24, 28, 29), PackedInt32Array(27, 26, 55, 54), PackedInt32Array(29, 28, 32, 33), PackedInt32Array(28, 34, 35, 32), PackedInt32Array(34, 31, 36, 35), PackedInt32Array(17, 20, 38, 39), PackedInt32Array(13, 17, 39, 40), PackedInt32Array(7, 13, 40, 41), PackedInt32Array(5, 7, 41, 42), PackedInt32Array(2, 5, 42, 43), PackedInt32Array(10, 2, 43, 44), PackedInt32Array(14, 10, 44, 45), PackedInt32Array(20, 14, 45, 38), PackedInt32Array(31, 34, 46, 47), PackedInt32Array(27, 54, 48), PackedInt32Array(54, 31, 47, 48), PackedInt32Array(22, 27, 48, 49), PackedInt32Array(21, 22, 49, 50), PackedInt32Array(18, 21, 50, 51), PackedInt32Array(24, 18, 51, 52), PackedInt32Array(28, 24, 52, 53), PackedInt32Array(34, 28, 53, 46)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"training_navigation_geometry"
+agent_radius = 0.65
+
+[sub_resource type="Animation" id="Animation_t2h1i"]
+length = 3.141592653589793
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Courtyard/AnimatedLight1:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.59, 1.8242971173699962, 1.8641580260591502, 1.6996510079041152, 1.4946000313758852, 1.4073330584250154, 1.4507580173807135, 1.531979167890896, 1.59, 1.648020898866306, 1.7292420493764884, 1.7726670083321867, 1.6854000353813172, 1.4803490588530868, 1.315842040698052, 1.3557029493872057, 1.5900000333786009, 1.8242971173699962, 1.8641580260591502, 1.6996510079041158, 1.4946000313758852, 1.4073330584250154, 1.4507580173807135, 1.531979167890896, 1.59, 1.648020898866306, 1.7292420493764886, 1.7726670083321867, 1.6854000353813172, 1.4803490588530872, 1.3158420406980529, 1.3557029493872055]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Courtyard/AnimatedLight2:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.6794117687272494, 1.5649947427964042, 1.5115284888871015, 1.4837954190458935, 1.4564858341208418, 1.4803296209141819, 1.6094977211830905, 1.785743714964341, 1.8510183244976888, 1.7077187856181617, 1.4491581862927665, 1.2933352132752376, 1.3730842061686244, 1.6069569841856566, 1.789815737151446, 1.797125786228933, 1.6794117687272498, 1.5649947427964044, 1.511528488887101, 1.4837954190458937, 1.456485834120842, 1.4803296209141819, 1.6094977211830899, 1.7857437149643405, 1.8510183244976888, 1.707718785618162, 1.4491581862927665, 1.2933352132752376, 1.3730842061686241, 1.606956984185656, 1.7898157371514454, 1.797125786228933]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Courtyard/AnimatedLight3:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.479104806650733, 1.36890428979086, 1.4049272590793929, 1.6108227645062987, 1.8348509980579017, 1.8772033266696446, 1.6917135977777875, 1.4392693754200365, 1.329081055937184, 1.4204067423682387, 1.5943692804480052, 1.704312957871962, 1.7169632728685855, 1.6934857746856609, 1.6689899962092183, 1.6055950357161066, 1.4791048066507335, 1.3689042897908599, 1.4049272590793929, 1.6108227645062976, 1.8348509980579017, 1.8772033266696448, 1.6917135977777888, 1.4392693754200365, 1.3290810559371842, 1.4204067423682387, 1.5943692804480052, 1.7043129578719618, 1.7169632728685855, 1.6934857746856609, 1.668989996209218, 1.6055950357161066]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Courtyard/AnimatedLight4:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.6322622508313223, 1.8447828035868097, 1.8471448805866046, 1.6653796574181383, 1.4747320368144927, 1.4120997046924377, 1.464704238502514, 1.5386508636179423, 1.5918110910602603, 1.657033726191542, 1.7438991176356664, 1.7741078489269717, 1.661194754808329, 1.4460838990436147, 1.3042518967896188, 1.3818617635513513, 1.6322622508313223, 1.8447828035868101, 1.8471448805866046, 1.6653796574181392, 1.4747320368144927, 1.4120997046924377, 1.464704238502514, 1.5386508636179423, 1.5918110910602603, 1.657033726191542, 1.7438991176356669, 1.7741078489269717, 1.661194754808329, 1.446083899043615, 1.3042518967896193, 1.3818617635513513]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Courtyard/AnimatedLight5:light_energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.659832061406796, 1.558300473879287, 1.5118790245391012, 1.4790430449926681, 1.4500361741074486, 1.4883790384652713, 1.6362137387261642, 1.80985678334156, 1.8452194652297629, 1.670934062943148, 1.4126976376412494, 1.290499308799207, 1.4049124327703972, 1.6423865582266977, 1.7992097326078897, 1.7806009963809695, 1.659832061406796, 1.5583004738792874, 1.5118790245391016, 1.479043044992668, 1.4500361741074486, 1.488379038465271, 1.636213738726164, 1.80985678334156, 1.8452194652297629, 1.6709340629431484, 1.4126976376412488, 1.290499308799207, 1.404912432770397, 1.6423865582266977, 1.7992097326078902, 1.7806009963809695]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Courtyard/AnimatedLight6:light_energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.456330027983832, 1.3583316995885728, 1.4250064824895716, 1.6499575012300727, 1.8579872306116283, 1.861338871601345, 1.6510388820293043, 1.4108085765683067, 1.334709794085213, 1.4476130150045523, 1.614959676847106, 1.7060600666250012, 1.7109730808337307, 1.6927165473199342, 1.6689950921484233, 1.5931739890910237, 1.456330027983832, 1.3583316995885724, 1.425006482489572, 1.6499575012300725, 1.8579872306116283, 1.861338871601345, 1.651038882029305, 1.4108085765683067, 1.3347097940852133, 1.4476130150045523, 1.6149596768471055, 1.7060600666250012, 1.7109730808337311, 1.6927165473199342, 1.6689950921484225, 1.5931739890910244]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u81yl"]
+_data = {
+&"flicker": SubResource("Animation_t2h1i")
+}
+
+[sub_resource type="BoxShape3D" id="PortalBackingContact"]
+size = Vector3(4.65, 2.1, 0.1)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar1"]
+size = Vector3(0.055, 3.3491933, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar2"]
+size = Vector3(0.055, 3.6548316, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar3"]
+size = Vector3(0.055, 3.8614557, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar4"]
+size = Vector3(0.055, 3.99718, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar5"]
+size = Vector3(0.055, 4.074731, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar6"]
+size = Vector3(0.055, 4.1, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar7"]
+size = Vector3(0.055, 4.074731, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar8"]
+size = Vector3(0.055, 3.99718, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar9"]
+size = Vector3(0.055, 3.8614557, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar10"]
+size = Vector3(0.055, 3.6548316, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar11"]
+size = Vector3(0.055, 3.3491933, 0.078)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar12"]
+size = Vector3(3.56, 0.067, 0.074)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar13"]
+size = Vector3(3.56, 0.067, 0.074)
+
+[sub_resource type="BoxShape3D" id="PortcullisBar14"]
+size = Vector3(3.56, 0.067, 0.074)
+
+
+[node name="TrainingGround" type="Node3D" unique_id=1718413021]
+script = ExtResource("1_mcr85")
+
+[node name="Atmosphere" type="Node3D" parent="." unique_id=891416417]
+
+[node name="WorldEnvironment1" type="WorldEnvironment" parent="Atmosphere" unique_id=1786620344]
+environment = SubResource("Environment_1x87o")
+
+[node name="DirectionalLight3D1" type="DirectionalLight3D" parent="Atmosphere" unique_id=1266068423]
+transform = Transform3D(0.7880108, 0.49168915, -0.37051433, 0, 0.60181504, 0.7986356, 0.6156615, -0.62933344, 0.4742367, 0, 0, 0)
+light_color = Color(0.6901961, 0.7764706, 0.92941177, 1)
+light_energy = 0.51
+shadow_enabled = true
+
+[node name="Courtyard" type="Node3D" parent="." unique_id=395997650 groups=["training_navigation_geometry"]]
+
+[node name="WeatheredWallCoping" parent="Courtyard" instance=ExtResource("94_wall")]
+
+[node name="StaticBody3D1" type="StaticBody3D" parent="Courtyard" unique_id=830669399]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+collision_mask = 0
+
+[node name="WestFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1" unique_id=1889468752]
+position = Vector3(-2.9, 0, 0)
+shape = SubResource("CourtFloorWest")
+
+[node name="NorthFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1"]
+position = Vector3(11.1, 0, -2.4)
+shape = SubResource("CourtFloorNorth")
+
+[node name="SouthFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1"]
+position = Vector3(11.1, 0, 8.45)
+shape = SubResource("CourtFloorSouth")
+
+[node name="EastFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1"]
+position = Vector3(13.55, 0, 6.05)
+shape = SubResource("CourtFloorEast")
+
+[node name="CourtFloorBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=386077736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+material_override = SubResource("StandardMaterial3D_vup5y")
+mesh = ExtResource("6_court_floor")
+
+[node name="BloodProjection" parent="Courtyard" node_paths=PackedStringArray("collision_body", "receiver_mesh") instance=ExtResource("5_blood_projection")]
+collision_body = NodePath("../StaticBody3D1")
+receiver_mesh = NodePath("../CourtFloorBoxMesh1")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Courtyard" unique_id=2116317368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.39, 2.275, 0)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="Courtyard/StaticBody3D2" unique_id=2122573298]
+shape = SubResource("BoxShape3D_sat8y")
+
+[node name="CourtWallBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=144487610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.39, 2.275, 0)
+material_override = SubResource("StandardMaterial3D_xvldj")
+mesh = SubResource("BoxMesh_7b7wk")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Courtyard" unique_id=117079263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.275, -9.39)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="Courtyard/StaticBody3D3" unique_id=1906394322]
+shape = SubResource("BoxShape3D_dcewm")
+
+[node name="CourtWallBoxMesh2" type="MeshInstance3D" parent="Courtyard" unique_id=1522605703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.275, -9.39)
+material_override = SubResource("StandardMaterial3D_xvldj")
+mesh = SubResource("BoxMesh_pxsth")
+
+[node name="BorderTrimBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=855812518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.39, 4.55, 0)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_kqyax")
+
+[node name="BorderTrimBoxMesh2" type="MeshInstance3D" parent="Courtyard" unique_id=1346954229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.55, -9.39)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_uhw5t")
+
+[node name="BorderTrimBoxMesh3" type="MeshInstance3D" parent="Courtyard" unique_id=217285774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.66, 0.011, 0)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_meqdk")
+
+[node name="BorderTrimBoxMesh4" type="MeshInstance3D" parent="Courtyard" unique_id=1901484023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011, -8.66)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_5w3ex")
+
+[node name="BorderTrimBoxMesh5" type="MeshInstance3D" parent="Courtyard" unique_id=1592183287]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.96, 0.24, 0)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_whpn6")
+
+[node name="BorderTrimBoxMesh6" type="MeshInstance3D" parent="Courtyard" unique_id=1988384516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, -8.96)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_gbi22")
+
+[node name="WallFitting1" parent="Courtyard" instance=ExtResource("95_mount")]
+position = Vector3(-5.4, -1.03, -8.53)
+rotation = Vector3(0, 0.00000000, 0)
+scale = Vector3(1.5, 1.5, 1.5)
+
+[node name="CoalBed1" parent="Courtyard" unique_id=1272773358 instance=ExtResource("92_coal_bed")]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, -5.4, 2.46, -8.53)
+
+[node name="AnimatedFlame1" parent="Courtyard" unique_id=1286963300 instance=ExtResource("91_gpu_fire")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -5.4, 2.48, -8.53)
+
+[node name="AnimatedLight1" type="OmniLight3D" parent="Courtyard" unique_id=2041929532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 2.8799999, -8.53)
+light_color = Color(1, 0.7647059, 0.5411765, 1)
+light_energy = 1.59
+omni_range = 8.5
+omni_attenuation = 1.04
+
+[node name="WallFitting2" parent="Courtyard" instance=ExtResource("95_mount")]
+position = Vector3(-5.4, -1.03, 8.53)
+rotation = Vector3(0, 3.14159265, 0)
+scale = Vector3(1.5, 1.5, 1.5)
+
+[node name="CoalBed2" parent="Courtyard" unique_id=1137254135 instance=ExtResource("92_coal_bed")]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, -5.4, 2.46, 8.53)
+
+[node name="AnimatedFlame2" parent="Courtyard" unique_id=890896668 instance=ExtResource("91_gpu_fire")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -5.4, 2.48, 8.53)
+
+[node name="AnimatedLight2" type="OmniLight3D" parent="Courtyard" unique_id=750678347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 2.8799999, 8.53)
+light_color = Color(1, 0.7647059, 0.5411765, 1)
+light_energy = 1.59
+omni_range = 8.5
+omni_attenuation = 1.04
+
+[node name="WallFitting3" parent="Courtyard" instance=ExtResource("95_mount")]
+position = Vector3(-13.52, -1.03, 0)
+rotation = Vector3(0, 1.57079633, 0)
+scale = Vector3(1.5, 1.5, 1.5)
+
+[node name="CoalBed3" parent="Courtyard" unique_id=2030504812 instance=ExtResource("92_coal_bed")]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, -13.52, 2.46, 0)
+
+[node name="AnimatedFlame3" parent="Courtyard" unique_id=1216359703 instance=ExtResource("91_gpu_fire")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -13.52, 2.48, 0)
+
+[node name="AnimatedLight3" type="OmniLight3D" parent="Courtyard" unique_id=1899495351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.52, 2.8799999, 0)
+light_color = Color(1, 0.7647059, 0.5411765, 1)
+light_energy = 1.59
+omni_range = 8.5
+omni_attenuation = 1.04
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Courtyard" unique_id=319845354]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.39, 2.275, 0)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="Courtyard/StaticBody3D4" unique_id=1503615101]
+shape = SubResource("BoxShape3D_nehrq")
+
+[node name="CourtWallBoxMesh3" type="MeshInstance3D" parent="Courtyard" unique_id=1860938299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.39, 2.275, 0)
+material_override = SubResource("StandardMaterial3D_xvldj")
+mesh = SubResource("BoxMesh_34jbe")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="Courtyard" unique_id=344904344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.275, 9.39)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="Courtyard/StaticBody3D5" unique_id=146673465]
+shape = SubResource("BoxShape3D_svu4o")
+
+[node name="CourtWallBoxMesh4" type="MeshInstance3D" parent="Courtyard" unique_id=405310746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.275, 9.39)
+material_override = SubResource("StandardMaterial3D_xvldj")
+mesh = SubResource("BoxMesh_4l6f2")
+
+[node name="BorderTrimBoxMesh7" type="MeshInstance3D" parent="Courtyard" unique_id=2117290436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.39, 4.55, 0)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_8nh55")
+
+[node name="BorderTrimBoxMesh8" type="MeshInstance3D" parent="Courtyard" unique_id=1062992729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.55, 9.39)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_dcr3y")
+
+[node name="BorderTrimBoxMesh9" type="MeshInstance3D" parent="Courtyard" unique_id=613085647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.66, 0.011, 0)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_58cyx")
+
+[node name="BorderTrimBoxMesh10" type="MeshInstance3D" parent="Courtyard" unique_id=695258358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011, 8.66)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_xtwq1")
+
+[node name="BorderTrimBoxMesh11" type="MeshInstance3D" parent="Courtyard" unique_id=1004552870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.96, 0.24, 0)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_3i82l")
+
+[node name="BorderTrimBoxMesh12" type="MeshInstance3D" parent="Courtyard" unique_id=790762482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, 8.96)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_5124y")
+
+[node name="WallFitting4" parent="Courtyard" instance=ExtResource("95_mount")]
+position = Vector3(5.4, -1.03, -8.53)
+rotation = Vector3(0, 0.00000000, 0)
+scale = Vector3(1.5, 1.5, 1.5)
+
+[node name="CoalBed4" parent="Courtyard" unique_id=261776481 instance=ExtResource("92_coal_bed")]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 5.4, 2.46, -8.53)
+
+[node name="AnimatedFlame4" parent="Courtyard" unique_id=634586951 instance=ExtResource("91_gpu_fire")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 5.4, 2.48, -8.53)
+
+[node name="AnimatedLight4" type="OmniLight3D" parent="Courtyard" unique_id=309377076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 2.8799999, -8.53)
+light_color = Color(1, 0.7647059, 0.5411765, 1)
+light_energy = 1.59
+omni_range = 8.5
+omni_attenuation = 1.04
+
+[node name="WallFitting5" parent="Courtyard" instance=ExtResource("95_mount")]
+position = Vector3(5.4, -1.03, 8.53)
+rotation = Vector3(0, 3.14159265, 0)
+scale = Vector3(1.5, 1.5, 1.5)
+
+[node name="CoalBed5" parent="Courtyard" unique_id=943173307 instance=ExtResource("92_coal_bed")]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 5.4, 2.46, 8.53)
+
+[node name="AnimatedFlame5" parent="Courtyard" unique_id=1332256217 instance=ExtResource("91_gpu_fire")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 5.4, 2.48, 8.53)
+
+[node name="AnimatedLight5" type="OmniLight3D" parent="Courtyard" unique_id=643594121]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 2.8799999, 8.53)
+light_color = Color(1, 0.7647059, 0.5411765, 1)
+light_energy = 1.59
+omni_range = 8.5
+omni_attenuation = 1.04
+
+[node name="WallFitting6" parent="Courtyard" instance=ExtResource("95_mount")]
+position = Vector3(13.52, -1.03, 0)
+rotation = Vector3(0, -1.57079633, 0)
+scale = Vector3(1.5, 1.5, 1.5)
+
+[node name="CoalBed6" parent="Courtyard" unique_id=1736372321 instance=ExtResource("92_coal_bed")]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 13.52, 2.46, 0)
+
+[node name="AnimatedFlame6" parent="Courtyard" unique_id=1053471467 instance=ExtResource("91_gpu_fire")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 13.52, 2.48, 0)
+
+[node name="AnimatedLight6" type="OmniLight3D" parent="Courtyard" unique_id=580792846]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.52, 2.8799999, 0)
+light_color = Color(1, 0.7647059, 0.5411765, 1)
+light_energy = 1.59
+omni_range = 8.5
+omni_attenuation = 1.04
+
+[node name="PortalInlayBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=215031655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, -8.88)
+material_override = SubResource("StandardMaterial3D_op465")
+mesh = SubResource("BoxMesh_g8mbh")
+
+[node name="PillarAshlarBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=266852248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 1.08, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_4y2jw")
+
+[node name="BorderTrimBoxMesh13" type="MeshInstance3D" parent="Courtyard" unique_id=1269506454]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 0.12, -8.89)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_ftwj2")
+
+[node name="BorderTrimBoxMesh14" type="MeshInstance3D" parent="Courtyard" unique_id=673190217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 2.08, -8.89)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_nxwbf")
+
+[node name="PillarAshlarBoxMesh2" type="MeshInstance3D" parent="Courtyard" unique_id=1258241391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 1.08, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_ykwo3")
+
+[node name="BorderTrimBoxMesh15" type="MeshInstance3D" parent="Courtyard" unique_id=576830590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0.12, -8.89)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_4m333")
+
+[node name="BorderTrimBoxMesh16" type="MeshInstance3D" parent="Courtyard" unique_id=582365573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 2.08, -8.89)
+material_override = SubResource("StandardMaterial3D_b6w4y")
+mesh = SubResource("BoxMesh_1083q")
+
+[node name="PillarAshlarBoxMesh3" type="MeshInstance3D" parent="Courtyard" unique_id=130786756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 2.1, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_avld1")
+
+[node name="PillarAshlarBoxMesh4" type="MeshInstance3D" parent="Courtyard" unique_id=1622700448]
+transform = Transform3D(0.9659258, -0.25881904, 0, 0.25881904, 0.9659258, 0, 0, 0, 1, 2.2216294, 2.6952837, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_3rpwu")
+
+[node name="PillarAshlarBoxMesh5" type="MeshInstance3D" parent="Courtyard" unique_id=1585574148]
+transform = Transform3D(0.8660254, -0.5, 0, 0.5, 0.8660254, 0, 0, 0, 1, 1.9918584, 3.25, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_dcvlg")
+
+[node name="PillarAshlarBoxMesh6" type="MeshInstance3D" parent="Courtyard" unique_id=926773615]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 1.6263455, 3.7263455, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_f13ug")
+
+[node name="PillarAshlarBoxMesh7" type="MeshInstance3D" parent="Courtyard" unique_id=549589534]
+transform = Transform3D(0.49999997, -0.86602545, 0, 0.86602545, 0.49999997, 0, 0, 0, 1, 1.15, 4.0918584, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_nafyi")
+
+[node name="PillarAshlarBoxMesh8" type="MeshInstance3D" parent="Courtyard" unique_id=2040000762]
+transform = Transform3D(0.25881907, -0.9659258, 0, 0.9659258, 0.25881907, 0, 0, 0, 1, 0.5952838, 4.3216295, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_40qdr")
+
+[node name="PillarAshlarBoxMesh9" type="MeshInstance3D" parent="Courtyard" unique_id=1963089923]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1.4082972e-16, 4.3999996, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_cpxom")
+
+[node name="PillarAshlarBoxMesh10" type="MeshInstance3D" parent="Courtyard" unique_id=1435737462]
+transform = Transform3D(-0.25881904, -0.9659258, 0, 0.9659258, -0.25881904, 0, 0, 0, 1, -0.5952838, 4.3216295, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_gyrw3")
+
+[node name="PillarAshlarBoxMesh11" type="MeshInstance3D" parent="Courtyard" unique_id=1895734950]
+transform = Transform3D(-0.50000006, -0.8660254, 0, 0.8660254, -0.50000006, 0, 0, 0, 1, -1.15, 4.0918584, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_jr4lc")
+
+[node name="PillarAshlarBoxMesh12" type="MeshInstance3D" parent="Courtyard" unique_id=1927935256]
+transform = Transform3D(-0.70710677, -0.70710677, 0, 0.70710677, -0.70710677, 0, 0, 0, 1, -1.6263455, 3.7263455, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_bg8a3")
+
+[node name="PillarAshlarBoxMesh13" type="MeshInstance3D" parent="Courtyard" unique_id=99434793]
+transform = Transform3D(-0.8660254, -0.50000006, 0, 0.50000006, -0.8660254, 0, 0, 0, 1, -1.9918584, 3.25, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_e1fup")
+
+[node name="PillarAshlarBoxMesh14" type="MeshInstance3D" parent="Courtyard" unique_id=361715800]
+transform = Transform3D(-0.9659258, -0.25881913, 0, 0.25881913, -0.9659258, 0, 0, 0, 1, -2.2216294, 2.6952837, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_t0ly8")
+
+[node name="PillarAshlarBoxMesh15" type="MeshInstance3D" parent="Courtyard" unique_id=2004834729]
+transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, -2.3, 2.1, -8.89)
+material_override = SubResource("StandardMaterial3D_l8kjj")
+mesh = SubResource("BoxMesh_7lbje")
+
+[node name="BrazierIronBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=1211622444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 1.9445966, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_qkmfr")
+
+[node name="BrazierIronBoxMesh2" type="MeshInstance3D" parent="Courtyard" unique_id=1529634016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.36, 2.0974157, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_5t1jp")
+
+[node name="BrazierIronBoxMesh3" type="MeshInstance3D" parent="Courtyard" unique_id=1753087292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02, 2.200728, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_sy86q")
+
+[node name="BrazierIronBoxMesh4" type="MeshInstance3D" parent="Courtyard" unique_id=685811087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68, 2.26859, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_82glv")
+
+[node name="BrazierIronBoxMesh5" type="MeshInstance3D" parent="Courtyard" unique_id=628282731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34, 2.3073654, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_iiybx")
+
+[node name="BrazierIronBoxMesh6" type="MeshInstance3D" parent="Courtyard" unique_id=1212031587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.32, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_7kn1x")
+
+[node name="BrazierIronBoxMesh7" type="MeshInstance3D" parent="Courtyard" unique_id=456655943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, 2.3073654, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_p8c0f")
+
+[node name="BrazierIronBoxMesh8" type="MeshInstance3D" parent="Courtyard" unique_id=1032347237]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.68, 2.26859, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_g7yod")
+
+[node name="BrazierIronBoxMesh9" type="MeshInstance3D" parent="Courtyard" unique_id=1083052745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02, 2.200728, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_m3o7f")
+
+[node name="BrazierIronBoxMesh10" type="MeshInstance3D" parent="Courtyard" unique_id=1719156198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36, 2.0974157, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_p2bxs")
+
+[node name="BrazierIronBoxMesh11" type="MeshInstance3D" parent="Courtyard" unique_id=661566931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 1.9445966, -8.79)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_epgra")
+
+[node name="BrazierIronBoxMesh12" type="MeshInstance3D" parent="Courtyard" unique_id=1621505706]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8.73)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_is448")
+
+[node name="BrazierIronBoxMesh13" type="MeshInstance3D" parent="Courtyard" unique_id=1505858666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.92, -8.73)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_d5qro")
+
+[node name="BrazierIronBoxMesh14" type="MeshInstance3D" parent="Courtyard" unique_id=1020090206]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83, -8.73)
+material_override = SubResource("StandardMaterial3D_iqw43")
+mesh = SubResource("BoxMesh_dm0hq")
+
+[node name="BrazierFeetBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=829405628]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 0, 3.01, -8.63)
+material_override = SubResource("StandardMaterial3D_ossjq")
+mesh = SubResource("BoxMesh_s7q8q")
+
+[node name="BrazierFeetTorusMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=1810553570]
+transform = Transform3D(1, 0, 0, 0, 0.11, 0, 0, 0, 1, 0, 0.014, 8.05)
+material_override = SubResource("StandardMaterial3D_ossjq")
+mesh = SubResource("TorusMesh_lmlua")
+
+[node name="BrazierFeetBoxMesh2" type="MeshInstance3D" parent="Courtyard" unique_id=1975020470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3, 0.01, 8.05)
+material_override = SubResource("StandardMaterial3D_ossjq")
+mesh = SubResource("BoxMesh_86i31")
+
+[node name="BrazierFeetBoxMesh3" type="MeshInstance3D" parent="Courtyard" unique_id=475298573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3, 0.01, 8.05)
+material_override = SubResource("StandardMaterial3D_ossjq")
+mesh = SubResource("BoxMesh_1t6wy")
+
+[node name="PortcullisContact" type="StaticBody3D" parent="Courtyard"]
+collision_mask = 0
+metadata/impact_surface = &"metal"
+
+[node name="PortcullisBar1Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 1.9445966, -8.79)
+shape = SubResource("PortcullisBar1")
+
+[node name="PortcullisBar2Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.36, 2.0974157, -8.79)
+shape = SubResource("PortcullisBar2")
+
+[node name="PortcullisBar3Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02, 2.200728, -8.79)
+shape = SubResource("PortcullisBar3")
+
+[node name="PortcullisBar4Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68, 2.26859, -8.79)
+shape = SubResource("PortcullisBar4")
+
+[node name="PortcullisBar5Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34, 2.3073654, -8.79)
+shape = SubResource("PortcullisBar5")
+
+[node name="PortcullisBar6Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.32, -8.79)
+shape = SubResource("PortcullisBar6")
+
+[node name="PortcullisBar7Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, 2.3073654, -8.79)
+shape = SubResource("PortcullisBar7")
+
+[node name="PortcullisBar8Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.68, 2.26859, -8.79)
+shape = SubResource("PortcullisBar8")
+
+[node name="PortcullisBar9Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02, 2.200728, -8.79)
+shape = SubResource("PortcullisBar9")
+
+[node name="PortcullisBar10Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36, 2.0974157, -8.79)
+shape = SubResource("PortcullisBar10")
+
+[node name="PortcullisBar11Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 1.9445966, -8.79)
+shape = SubResource("PortcullisBar11")
+
+[node name="PortcullisBar12Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8.73)
+shape = SubResource("PortcullisBar12")
+
+[node name="PortcullisBar13Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.92, -8.73)
+shape = SubResource("PortcullisBar13")
+
+[node name="PortcullisBar14Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83, -8.73)
+shape = SubResource("PortcullisBar14")
+
+[node name="PortalBackingContact" type="StaticBody3D" parent="Courtyard"]
+collision_mask = 0
+
+[node name="PortalBackingContactShape" type="CollisionShape3D" parent="Courtyard/PortalBackingContact"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, -8.88)
+shape = SubResource("PortalBackingContact")
+
+[node name="WestPillar" type="Node3D" parent="." unique_id=674500494 groups=["training_navigation_geometry"]]
+
+[node name="AshlarDrums" parent="WestPillar" instance=ExtResource("93_pillar")]
+position = Vector3(-7.25, 0, 0)
+
+[node name="StaticBody3D1" type="StaticBody3D" parent="WestPillar" unique_id=659491065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.25, 0.34, 0)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="WestPillar/StaticBody3D1" unique_id=1557000728]
+shape = SubResource("CylinderShape3D_r13vc")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="WestPillar" unique_id=76625779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.25, 2.7, 0)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="WestPillar/StaticBody3D2" unique_id=306870989]
+shape = SubResource("CylinderShape3D_6tgq0")
+
+[node name="EastPillar" type="Node3D" parent="." unique_id=1648135120 groups=["training_navigation_geometry"]]
+
+[node name="AshlarDrums" parent="EastPillar" instance=ExtResource("93_pillar")]
+position = Vector3(7.25, 0, 0)
+
+[node name="StaticBody3D1" type="StaticBody3D" parent="EastPillar" unique_id=2071231878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.25, 0.34, 0)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="EastPillar/StaticBody3D1" unique_id=44214997]
+shape = SubResource("CylinderShape3D_oaqb0")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="EastPillar" unique_id=670185103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.25, 2.7, 0)
+collision_mask = 0
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="EastPillar/StaticBody3D2" unique_id=978706479]
+shape = SubResource("CylinderShape3D_rwlb0")
+
+[node name="SwimmingPool" parent="." instance=ExtResource("7_swim_basin")]
+position = Vector3(10.65, 0, 6.05)
+
+[node name="Water" parent="SwimmingPool" instance=ExtResource("8_water")]
+position = Vector3(0, -0.14, 0)
+extent = Vector3(4.9, 2.02, 3.7)
+
+[node name="TrainingNavigation" type="NavigationRegion3D" parent="." unique_id=2017208733]
+navigation_mesh = SubResource("NavigationMesh_g81ob")
+use_edge_connections = false
+
+[node name="PlayerSpawn" type="Marker3D" parent="." unique_id=359273783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 6.5)
+
+[node name="ReturnPortal" type="Marker3D" parent="." unique_id=1966570221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.05)
+
+[node name="EnemySpawns" type="Node3D" parent="." unique_id=559442795]
+
+[node name="Spawn1" type="Marker3D" parent="EnemySpawns" unique_id=1246374426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -3)
+
+[node name="Spawn2" type="Marker3D" parent="EnemySpawns" unique_id=1779453006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.08, -4)
+
+[node name="Spawn3" type="Marker3D" parent="EnemySpawns" unique_id=165911863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.08, -4)
+
+[node name="Spawn4" type="Marker3D" parent="EnemySpawns" unique_id=243019135]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.08, -4.1)
+
+[node name="Spawn5" type="Marker3D" parent="EnemySpawns" unique_id=1103384501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.08, -4.1)
+
+[node name="Spawn6" type="Marker3D" parent="EnemySpawns" unique_id=1430617323]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6, 0.08, 2.75)
+
+[node name="Spawn7" type="Marker3D" parent="EnemySpawns" unique_id=1784904197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.6, 0.08, 2.75)
+
+[node name="Spawn8" type="Marker3D" parent="EnemySpawns" unique_id=1170146938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7, 0.08, 1)
+
+[node name="Spawn9" type="Marker3D" parent="EnemySpawns" unique_id=1264448076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7, 0.08, 1)
+
+[node name="Firelight" type="AnimationPlayer" parent="." unique_id=1098136990]
+libraries/ = SubResource("AnimationLibrary_u81yl")
+autoplay = &"flicker"

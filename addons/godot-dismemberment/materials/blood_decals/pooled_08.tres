@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://4ab53cp5308h" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_08.png" id="pooled_08_albedo"]
+[ext_resource type="Texture2D" uid="uid://dvab600dyao8b" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_08_orm.png" id="pooled_08_orm"]
+[ext_resource type="Texture2D" uid="uid://1esmqei26d2l" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_08_normal.png" id="pooled_08_normal"]
+
+[resource]
+resource_name = "Wide Three-Lobe Impact"
+transparency = 1
+albedo_texture = ExtResource("pooled_08_albedo")
+orm_texture = ExtResource("pooled_08_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_08_normal")
+ao_enabled = true
+texture_repeat = false

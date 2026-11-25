@@ -1,0 +1,18 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://combat/effects/enrage_effect_definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/enrage.tres" id="2"]
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/enrage.tscn" id="3"]
+
+[resource]
+resource_name = "Rallied"
+script = ExtResource("1")
+id = &"enrage"
+display_name = "Rallied"
+beneficial = true
+icon = ExtResource("2")
+description = "The Hollow Standard rallies nearby members of its pack for a short time."
+duration = 5.0
+enemy_while_active_fx = ExtResource("3")
+attack_speed_bonus_percent = 14.0
+damage_bonus_percent = 16.0

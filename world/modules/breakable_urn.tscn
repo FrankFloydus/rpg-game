@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/modules/breakable_prop.gd" id="1_break"]
+[ext_resource type="PackedScene" path="res://assets/models/dressing/ash_urn_intact.glb" id="2_intact"]
+[ext_resource type="PackedScene" path="res://assets/models/dressing/ash_urn_debris.glb" id="3_debris"]
+
+[sub_resource type="CylinderShape3D" id="Collision"]
+height = 0.554
+radius = 0.177
+
+[node name="BreakableAshUrn" type="StaticBody3D" groups=["breakable_props"]]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_break")
+impact_surface = &"ceramic"
+debris_scene = ExtResource("3_debris")
+break_cue = &"pottery_break"
+
+[node name="Intact" parent="." instance=ExtResource("2_intact")]
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.279, 0)
+shape = SubResource("Collision")
+

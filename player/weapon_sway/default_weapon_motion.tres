@@ -1,0 +1,86 @@
+[gd_resource type="Resource" format=3 uid="uid://cl1s2ryj1ay5a"]
+
+[ext_resource type="Resource" uid="uid://cys0r3ik4f74r" path="res://player/weapon_sway/styles/heavy_braced.tres" id="11_lgqa7"]
+[ext_resource type="Script" uid="uid://cosjonrrpc406" path="res://player/weapon_sway/weapon_sway_settings.gd" id="18_sway_settings"]
+[ext_resource type="Script" uid="uid://h3q4v8eolu3b" path="res://player/weapon_sway/weapon_air_motion.gd" id="19_air_motion"]
+
+[sub_resource type="Curve" id="Curve_run_step"]
+resource_name = "Run Step"
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.11, -1), 0.0, 0.0, 0, 0, Vector2(0.27, -0.62), 3.0, 3.0, 0, 0, Vector2(0.63, 0.32), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_walk_step"]
+resource_name = "Walk Step"
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.19, -0.72), 0.0, 0.0, 0, 0, Vector2(0.61, 0.42), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_idle_breath"]
+resource_name = "Inhale and Exhale"
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.34, 1), 0.0, 0.0, 0, 0, Vector2(0.82, -0.22), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_landing_motion"]
+resource_name = "Absorb and Settle"
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.17, 1), 0.0, 0.0, 0, 0, Vector2(0.33539602, 0.8229666), -2.7, -2.7, 0, 0, Vector2(0.6101485, -0.06698561), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Resource" id="AirMotion_landing"]
+resource_name = "Landing Compression"
+script = ExtResource("19_air_motion")
+duration = 0.4
+envelope = SubResource("Curve_landing_motion")
+position = Vector3(0, -0.048, 0)
+rotation_degrees = Vector3(-2.4, 0, 0)
+
+[sub_resource type="Curve" id="Curve_takeoff_motion"]
+resource_name = "Takeoff Grip Lag"
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 2.0, 0, 0, Vector2(0.16, 1), 0.0, 0.0, 0, 0, Vector2(0.39, 0.45), -3.1, -3.1, 0, 0, Vector2(0.69, -0.13), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_takeoff_wrist"]
+resource_name = "Takeoff Wrist Follow"
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1, 0.09), 2.4, 2.4, 0, 0, Vector2(0.27, 1), 0.0, 0.0, 0, 0, Vector2(0.63, 0.21), -2.1, -2.1, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Resource" id="AirMotion_takeoff"]
+resource_name = "Jump Weight Lag"
+script = ExtResource("19_air_motion")
+duration = 0.4
+envelope = SubResource("Curve_takeoff_motion")
+rotation_envelope = SubResource("Curve_takeoff_wrist")
+position = Vector3(0, -0.023, 0)
+rotation_degrees = Vector3(-1.2, 0, 0)
+
+[resource]
+script = ExtResource("18_sway_settings")
+look_response_time = 0.105
+inward_position = Vector3(-0.01, -0.003, 0.002)
+inward_rotation = Vector3(0, 2.8, 1.2)
+outward_position = Vector3(0.006, -0.002, -0.004)
+outward_rotation = Vector3(0, -2.1, -0.7)
+up_position = Vector3(0, 0.007, -0.005)
+up_rotation = Vector3(2.2, 0, 0)
+down_position = Vector3(0, -0.006, 0.002)
+down_rotation = Vector3(-1.8, 0, 0)
+directional_carry_forward_position = Vector3(0.001, -0.002, -0.008)
+directional_carry_forward_rotation = Vector3(-0.32, 0, 0)
+directional_carry_backward_position = Vector3(-0.004, 0.002, 0.012)
+directional_carry_backward_rotation = Vector3(0.36, -0.12, 0.06)
+directional_carry_leading_position = Vector3(0.009, -0.003, -0.007)
+directional_carry_leading_rotation = Vector3(-0.12, 0.28, -0.24)
+directional_carry_trailing_position = Vector3(-0.005, 0.001, 0.007)
+directional_carry_trailing_rotation = Vector3(0.1, -0.1, 0.12)
+bob_style = ExtResource("11_lgqa7")
+bob_walk_step = SubResource("Curve_walk_step")
+bob_run_step = SubResource("Curve_run_step")
+breath_curve = SubResource("Curve_idle_breath")
+breath_period = 3.0
+takeoff_motion = SubResource("AirMotion_takeoff")
+landing_motion = SubResource("AirMotion_landing")
+landing_full_speed = 10.0

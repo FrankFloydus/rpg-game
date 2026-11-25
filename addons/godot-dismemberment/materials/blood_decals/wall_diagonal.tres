@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_diagonal.png" id="wall_diagonal_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_diagonal_normal.png" id="wall_diagonal_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_diagonal_orm.png" id="wall_diagonal_orm"]
+
+[resource]
+resource_name = "Narrow Diagonal Scatter"
+transparency = 1
+albedo_texture = ExtResource("wall_diagonal_albedo")
+orm_texture = ExtResource("wall_diagonal_orm")
+normal_enabled = true
+normal_texture = ExtResource("wall_diagonal_normal")
+ao_enabled = true
+texture_repeat = false

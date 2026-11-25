@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="theme"]
+
+[node name="StatCard" type="PanelContainer"]
+theme = ExtResource("theme")
+theme_type_variation = &"GearWell"
+size_flags_horizontal = 3
+
+[node name="Body" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 11
+text = "Physical Damage"
+theme_override_colors/font_color = Color(0.69, 0.71, 0.75, 1)
+
+[node name="Value" type="Label" parent="Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+theme_type_variation = &"GearValue"

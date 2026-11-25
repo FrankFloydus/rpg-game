@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="1"]
+
+[node name="DestroyItemDialog" type="ConfirmationDialog"]
+title = "Destroy Item"
+initial_position = 2
+visible = false
+transient = true
+exclusive = true
+theme = ExtResource("1")
+ok_button_text = "Destroy"
+cancel_button_text = "Keep Item"
+dialog_text = "Destroy this item? This permanently removes the item."

@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://addons/godot-dismemberment/shaders/blood_burst.gdshader" id="1_shader"]
+
+[resource]
+resource_name = "CPU Burst Drops"
+shader = ExtResource("1_shader")
+shader_parameter/velocity_aligned = true
+shader_parameter/minimum_size_ratio = Vector2(0.5, 0.555555556)
+shader_parameter/size_curve = Vector3(0, 0, 0)
+shader_parameter/size_curve_tangent = 0.0
+shader_parameter/erosion_range = Vector2(0, 0)
+shader_parameter/erosion_from_lifetime = false
+shader_parameter/maximum_lifetime = 1.0
+shader_parameter/thinness = 1.0
+shader_parameter/softness = 0.0
+shader_parameter/linear_red = 0.0625

@@ -1,0 +1,409 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/items/affix_records.gd" id="1_i5nwg"]
+
+[resource]
+script = ExtResource("1_i5nwg")
+tier_levels = Array[int]([1, 3, 6, 10])
+tier_multipliers = Array[float]([1.0, 1.5, 2.15, 3.0])
+prefixes = Array[Dictionary]([{
+"id": "hale",
+"name": "Hale",
+"stats": {
+"max_health": [1, 3]
+},
+"weight": 20
+}, {
+"id": "lucid",
+"name": "Lucid",
+"stats": {
+"max_mana": [1, 2]
+},
+"weight": 14
+}, {
+"id": "mending",
+"name": "Mending",
+"stats": {
+"life_regen": [0.1, 0.2]
+},
+"weight": 10
+}, {
+"id": "sere",
+"name": "Sere",
+"stats": {
+"mana_regen": [0.1, 0.3]
+},
+"weight": 10
+}, {
+"id": "honed",
+"name": "Honed",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"damage_max": [0.7, 1.1],
+"damage_min": [0.3, 0.6]
+},
+"weight": 18
+}, {
+"id": "braced",
+"name": "Braced",
+"slots": ["helm", "chest", "gloves", "boots", "belt", "off_hand"],
+"stats": {
+"armor": [1, 2]
+},
+"weight": 18
+}, {
+"id": "votive",
+"name": "Votive",
+"slots": ["helm", "chest", "belt", "off_hand", "ring", "amulet"],
+"stats": {
+"ward": [1, 2]
+},
+"weight": 14
+}, {
+"id": "searing",
+"name": "Searing",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"fire_damage": [0.3, 0.8]
+},
+"weight": 11
+}, {
+"id": "rimed",
+"name": "Rimed",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"cold_damage": [0.3, 0.8]
+},
+"weight": 11
+}, {
+"id": "crackling",
+"name": "Crackling",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"lightning_damage": [0.3, 0.8]
+},
+"weight": 11
+}, {
+"id": "venomous",
+"name": "Venomous",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"poison_damage": [0.3, 0.8]
+},
+"weight": 11
+}, {
+"id": "draining",
+"name": "Draining",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"life_leech": [1, 2]
+},
+"weight": 7
+}, {
+"id": "reaping",
+"name": "Reaping",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"life_on_kill": [1, 2]
+},
+"weight": 10
+}, {
+"id": "siphoning",
+"name": "Siphoning",
+"slots": ["helm", "chest", "off_hand", "ring", "amulet"],
+"stats": {
+"mana_on_kill": [1, 2]
+},
+"weight": 10
+}])
+suffixes = Array[Dictionary]([{
+"id": "of_cinders",
+"name": "of Cinders",
+"stats": {
+"fire_resist": [3, 7]
+},
+"weight": 16
+}, {
+"id": "of_the_tarn",
+"name": "of the Tarn",
+"stats": {
+"cold_resist": [3, 7]
+},
+"weight": 16
+}, {
+"id": "of_the_spire",
+"name": "of the Spire",
+"stats": {
+"lightning_resist": [3, 7]
+},
+"weight": 16
+}, {
+"id": "of_antidotes",
+"name": "of Antidotes",
+"stats": {
+"poison_resist": [3, 7]
+},
+"weight": 16
+}, {
+"id": "of_fury",
+"name": "of Fury",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"attack_speed": [3, 5]
+},
+"weight": 12
+}, {
+"id": "of_veins",
+"name": "of Veins",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"crit_chance": [1, 3]
+},
+"weight": 10
+}, {
+"id": "of_ruin",
+"name": "of Ruin",
+"slots": ["one_hand", "main_hand", "off_hand", "gloves", "ring", "amulet"],
+"stats": {
+"crit_multiplier": [6, 11]
+},
+"weight": 10
+}, {
+"id": "of_the_road",
+"name": "of the Road",
+"slots": ["boots", "gloves", "ring", "amulet"],
+"stats": {
+"move_speed": [2, 5]
+},
+"weight": 12
+}, {
+"id": "of_the_sentry",
+"name": "of the Sentry",
+"slots": ["off_hand", "chest", "belt", "ring"],
+"stats": {
+"max_stamina": [1, 2]
+},
+"weight": 8
+}, {
+"id": "of_mists",
+"name": "of Mists",
+"slots": ["boots", "gloves", "ring", "amulet"],
+"stats": {
+"dodge_chance": [1, 3]
+},
+"weight": 8
+}, {
+"id": "of_the_chime",
+"name": "of the Chime",
+"slots": ["helm", "chest", "belt", "off_hand", "ring", "amulet"],
+"stats": {
+"cooldown_recovery": [3, 6]
+},
+"weight": 9
+}, {
+"id": "of_omens",
+"name": "of Omens",
+"stats": {
+"loot_rarity": [6, 11]
+},
+"weight": 6
+}, {
+"id": "of_tithes",
+"name": "of Tithes",
+"stats": {
+"gold_find": [6, 12]
+},
+"weight": 8
+}, {
+"id": "of_shattering",
+"name": "of Shattering",
+"slots": ["one_hand", "main_hand", "off_hand"],
+"stats": {
+"stun_power": [5, 9]
+},
+"weight": 9
+}, {
+"id": "of_open_wounds",
+"name": "of Open Wounds",
+"slots": ["one_hand", "main_hand"],
+"stats": {
+"bleed_chance": [4, 8]
+},
+"weight": 9
+}])
+materials = {
+"black_ichor": {
+"level": 3,
+"name": "Black Ichor"
+},
+"bone_shard": {
+"level": 1,
+"name": "Bone Shard"
+},
+"carrion_eye": {
+"level": 1,
+"name": "Carrion Eye"
+},
+"cursed_ember": {
+"level": 4,
+"name": "Cursed Ember"
+},
+"ghoul_tongue": {
+"level": 1,
+"name": "Ghoul Tongue"
+},
+"grave_moss": {
+"level": 1,
+"name": "Grave Moss"
+},
+"horn_fragment": {
+"level": 3,
+"name": "Horn Fragment"
+},
+"iron_scale": {
+"level": 4,
+"name": "Iron Scale"
+},
+"marrow": {
+"level": 1,
+"name": "Black Marrow"
+},
+"plague_gland": {
+"level": 2,
+"name": "Plague Gland"
+},
+"spider_silk": {
+"level": 1,
+"name": "Widow Silk"
+},
+"venom_sac": {
+"level": 2,
+"name": "Venom Sac"
+},
+"wraith_dust": {
+"level": 3,
+"name": "Wraith Dust"
+}
+}
+material_order = PackedStringArray("bone_shard", "marrow", "ghoul_tongue", "carrion_eye", "spider_silk", "venom_sac", "plague_gland", "wraith_dust", "black_ichor", "horn_fragment", "iron_scale", "cursed_ember", "grave_moss")
+recipes = Array[Dictionary]([{
+"affix_id": "braced",
+"description": "Adds Braced for armour.",
+"id": "bone_temper",
+"materials": {
+"bone_shard": 2,
+"grave_moss": 1
+},
+"name": "Bone Temper",
+"side": "prefix"
+}, {
+"affix_id": "hale",
+"description": "Adds Hale for maximum Life.",
+"id": "marrow_inlay",
+"materials": {
+"grave_moss": 2,
+"marrow": 2
+},
+"name": "Marrow Inlay",
+"side": "prefix"
+}, {
+"affix_id": "honed",
+"description": "Adds Honed for physical damage.",
+"id": "carrion_hone",
+"materials": {
+"bone_shard": 2,
+"carrion_eye": 1
+},
+"name": "Carrion Hone",
+"side": "prefix"
+}, {
+"affix_id": "of_fury",
+"description": "Adds an attack speed suffix.",
+"id": "widow_wrap",
+"materials": {
+"ghoul_tongue": 1,
+"spider_silk": 2
+},
+"name": "Widow Wrap",
+"side": "suffix"
+}, {
+"affix_id": "venomous",
+"description": "Adds Venomous for poison damage.",
+"id": "venom_etching",
+"materials": {
+"plague_gland": 1,
+"venom_sac": 2
+},
+"name": "Venom Etching",
+"side": "prefix"
+}, {
+"affix_id": "searing",
+"description": "Adds Searing for fire damage.",
+"id": "ash_quench",
+"materials": {
+"cursed_ember": 2,
+"iron_scale": 1
+},
+"name": "Ash Quench",
+"side": "prefix"
+}, {
+"affix_id": "of_the_tarn",
+"description": "Adds a cold resistance suffix.",
+"id": "rime_quench",
+"materials": {
+"grave_moss": 2,
+"wraith_dust": 2
+},
+"name": "Rime Quench",
+"side": "suffix"
+}, {
+"affix_id": "votive",
+"description": "Adds Votive for Ward.",
+"id": "ichor_seal",
+"materials": {
+"black_ichor": 2,
+"wraith_dust": 1
+},
+"name": "Ichor Seal",
+"side": "prefix"
+}, {
+"affix_id": "of_antidotes",
+"description": "Adds a poison resistance suffix.",
+"id": "plague_wax",
+"materials": {
+"plague_gland": 2,
+"spider_silk": 1
+},
+"name": "Plague Wax",
+"side": "suffix"
+}, {
+"affix_id": "of_shattering",
+"description": "Adds a stun power suffix.",
+"id": "dreadnail_press",
+"materials": {
+"horn_fragment": 2,
+"iron_scale": 1
+},
+"name": "Dreadnail Press",
+"side": "suffix"
+}, {
+"affix_id": "draining",
+"description": "Adds Draining for Life leech.",
+"id": "ghoul_infusion",
+"materials": {
+"black_ichor": 1,
+"ghoul_tongue": 2
+},
+"name": "Ghoul Infusion",
+"side": "prefix"
+}, {
+"affix_id": "of_omens",
+"description": "Adds a loot rarity suffix.",
+"id": "seer_solder",
+"materials": {
+"carrion_eye": 2,
+"cursed_ember": 1
+},
+"name": "Seer Solder",
+"side": "suffix"
+}])

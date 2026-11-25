@@ -1,0 +1,535 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://ui/dungeon_map.gd" id="3_dungeon_map"]
+[ext_resource type="PackedScene" path="res://ui/hud_menus.tscn" id="4_menus"]
+[ext_resource type="PackedScene" path="res://ui/hud_achievement_toast.tscn" id="5_toast"]
+[ext_resource type="PackedScene" path="res://ui/status_effect_badge.tscn" id="6_badge"]
+
+[sub_resource type="StyleBoxFlat" id="Style_plate"]
+bg_color = Color(0.0431, 0.0471, 0.0549, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3333, 0.3569, 0.3843, 1)
+
+
+[sub_resource type="StyleBoxFlat" id="Style_discovery"]
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+bg_color = Color(0.0431, 0.0471, 0.0549, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3333, 0.3569, 0.3843, 1)
+
+
+[sub_resource type="StyleBoxFlat" id="Style_bar_empty"]
+bg_color = Color(0.079, 0.080, 0.085, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.25, 0.27, 1)
+
+
+[sub_resource type="StyleBoxFlat" id="Style_life"]
+bg_color = Color(0.541, 0.153, 0.137, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.795, 0.331, 0.257, 1)
+
+
+[sub_resource type="StyleBoxFlat" id="Style_mana"]
+bg_color = Color(0.208, 0.352, 0.486, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.348, 0.557, 0.706, 1)
+
+
+[sub_resource type="StyleBoxFlat" id="Style_stamina"]
+bg_color = Color(0.402, 0.495, 0.271, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.662, 0.762, 0.521, 1)
+
+
+[sub_resource type="StyleBoxFlat" id="Style_charge"]
+bg_color = Color(0.695, 0.472, 0.226, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.950, 0.733, 0.417, 1)
+
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_hud")
+
+
+[node name="WorldContent" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+
+[node name="Map" type="Control" parent="WorldContent"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_dungeon_map")
+
+
+[node name="Header" type="Panel" parent="WorldContent"]
+offset_left = 18.0
+offset_top = 17.0
+offset_right = 376.0
+offset_bottom = 119.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_plate")
+
+
+[node name="TitleRule" type="ColorRect" parent="WorldContent/Header"]
+anchor_right = 1.0
+offset_left = 21.0
+offset_top = 39.0
+offset_right = -21.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(0.2353, 0.2549, 0.2784, 1)
+
+
+[node name="Zone" type="Label" parent="WorldContent/Header"]
+offset_left = 21.0
+offset_top = 9.0
+offset_right = 340.0
+offset_bottom = 39.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 24
+text = "Cinderhold Refuge"
+horizontal_alignment = 0
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+
+[node name="Objective" type="Label" parent="WorldContent/Header"]
+offset_left = 22.0
+offset_top = 46.0
+offset_right = 336.0
+offset_bottom = 67.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 15
+text = "Deepest gate unlocked · 01"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+
+[node name="RoomName" type="Label" parent="WorldContent/Header"]
+offset_left = 22.0
+offset_top = 71.0
+offset_right = 340.0
+offset_bottom = 92.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6902, 0.7137, 0.7451, 1)
+theme_override_font_sizes/font_size = 14
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+
+[node name="Gold" type="Label" parent="WorldContent"]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -272.0
+offset_top = 21.0
+offset_right = -22.0
+offset_bottom = 43.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.8157, 0.6588, 0.4431, 1)
+theme_override_font_sizes/font_size = 15
+text = "0 gold"
+horizontal_alignment = 2
+vertical_alignment = 1
+visible = false
+
+
+[node name="DiscoveryToast" type="PanelContainer" parent="WorldContent"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -355.0
+offset_top = 50.0
+offset_right = -22.0
+offset_bottom = 76.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_discovery")
+
+
+[node name="DiscoveryText" type="Label" parent="WorldContent/DiscoveryToast"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+
+[node name="Vitals" type="Panel" parent="WorldContent"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_top = -101.0
+offset_right = 175.0
+offset_bottom = -13.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_plate")
+
+
+[node name="LifeCaption" type="Label" parent="WorldContent/Vitals"]
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 84.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.949, 0.668, 0.624, 1)
+theme_override_font_sizes/font_size = 12
+text = "LIFE"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+
+[node name="Life" type="ProgressBar" parent="WorldContent/Vitals"]
+offset_left = 78.0
+offset_top = 16.0
+offset_right = 271.0
+offset_bottom = 24.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("Style_bar_empty")
+theme_override_styles/fill = SubResource("Style_life")
+max_value = 24.0
+step = 0.0
+value = 24.0
+show_percentage = false
+
+
+[node name="LifeValue" type="Label" parent="WorldContent/Vitals"]
+offset_left = 280.0
+offset_top = 8.0
+offset_right = 336.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "24 / 24"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+
+[node name="ManaCaption" type="Label" parent="WorldContent/Vitals"]
+offset_left = 14.0
+offset_top = 31.0
+offset_right = 84.0
+offset_bottom = 53.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.643, 0.769, 0.894, 1)
+theme_override_font_sizes/font_size = 12
+text = "MANA"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+
+[node name="Mana" type="ProgressBar" parent="WorldContent/Vitals"]
+offset_left = 78.0
+offset_top = 39.0
+offset_right = 271.0
+offset_bottom = 47.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("Style_bar_empty")
+theme_override_styles/fill = SubResource("Style_mana")
+max_value = 12.0
+step = 0.0
+value = 12.0
+show_percentage = false
+
+
+[node name="ManaValue" type="Label" parent="WorldContent/Vitals"]
+offset_left = 280.0
+offset_top = 31.0
+offset_right = 336.0
+offset_bottom = 53.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "12 / 12"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+
+[node name="StaminaCaption" type="Label" parent="WorldContent/Vitals"]
+offset_left = 14.0
+offset_top = 54.0
+offset_right = 84.0
+offset_bottom = 76.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.779, 0.860, 0.706, 1)
+theme_override_font_sizes/font_size = 11
+text = "STAMINA"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+
+[node name="Stamina" type="ProgressBar" parent="WorldContent/Vitals"]
+offset_left = 78.0
+offset_top = 63.0
+offset_right = 271.0
+offset_bottom = 67.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("Style_bar_empty")
+theme_override_styles/fill = SubResource("Style_stamina")
+max_value = 12.0
+step = 0.0
+value = 12.0
+show_percentage = false
+
+
+[node name="StaminaValue" type="Label" parent="WorldContent/Vitals"]
+offset_left = 280.0
+offset_top = 54.0
+offset_right = 336.0
+offset_bottom = 76.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = "12 / 12"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+
+[node name="ActiveEffects" type="HFlowContainer" parent="WorldContent/Vitals"]
+visible = false
+anchor_right = 1.0
+offset_left = 3.0
+offset_top = -48.0
+offset_right = -3.0
+offset_bottom = -9.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 5
+alignment = 1
+
+
+[node name="BleedBadge" parent="WorldContent/Vitals/ActiveEffects" instance=ExtResource("6_badge")]
+layout_mode = 2
+
+
+[node name="Ward" type="Label" parent="WorldContent/Vitals"]
+offset_left = -106.0
+offset_top = -24.0
+offset_right = -8.0
+offset_bottom = -3.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.784, 0.681, 0.871, 1)
+theme_override_font_sizes/font_size = 12
+text = ""
+horizontal_alignment = 2
+vertical_alignment = 1
+theme_override_colors/font_outline_color = Color(0.02, 0.022, 0.026, 1)
+theme_override_constants/outline_size = 3
+
+
+[node name="Controls" type="Label" parent="WorldContent"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -33.0
+offset_right = -22.0
+offset_bottom = -11.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+text = ""
+horizontal_alignment = 2
+vertical_alignment = 1
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+
+
+[node name="Pointer" type="Control" parent="WorldContent"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+
+[node name="Reticle" type="Control" parent="WorldContent/Pointer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+mouse_filter = 2
+
+
+[node name="Left" type="Line2D" parent="WorldContent/Pointer/Reticle"]
+points = PackedVector2Array(-9, 0, -4, 0)
+width = 1.0
+default_color = Color(0.92, 0.85, 0.75, 0.83)
+antialiased = true
+
+
+[node name="Right" type="Line2D" parent="WorldContent/Pointer/Reticle"]
+points = PackedVector2Array(4, 0, 9, 0)
+width = 1.0
+default_color = Color(0.92, 0.85, 0.75, 0.83)
+antialiased = true
+
+
+[node name="Up" type="Line2D" parent="WorldContent/Pointer/Reticle"]
+points = PackedVector2Array(0, -9, 0, -4)
+width = 1.0
+default_color = Color(0.92, 0.85, 0.75, 0.83)
+antialiased = true
+
+
+[node name="Down" type="Line2D" parent="WorldContent/Pointer/Reticle"]
+points = PackedVector2Array(0, 4, 0, 9)
+width = 1.0
+default_color = Color(0.92, 0.85, 0.75, 0.83)
+antialiased = true
+
+
+[node name="AimDot" type="Polygon2D" parent="WorldContent/Pointer/Reticle"]
+color = Color(0.951, 0.883, 0.772, 1)
+polygon = PackedVector2Array(-1, 0, 0, -1, 1, 0, 0, 1)
+
+
+[node name="GuardGauge" type="Panel" parent="WorldContent/Pointer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.0
+offset_top = 15.0
+offset_right = 29.0
+offset_bottom = 29.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_plate")
+accessibility_name = "Block stamina"
+
+
+[node name="Shield" type="Polygon2D" parent="WorldContent/Pointer/GuardGauge"]
+position = Vector2(8, 7)
+color = Color(0.768, 0.801, 0.628, 1)
+polygon = PackedVector2Array(-4, -4, 4, -4, 4, 1, 0, 5, -4, 1)
+
+
+[node name="BreakMark" type="Line2D" parent="WorldContent/Pointer/GuardGauge"]
+visible = false
+position = Vector2(8, 7)
+points = PackedVector2Array(-4, -4, 0, 0, 4, -4, 0, 0, 4, 4, 0, 0, -4, 4)
+width = 1.2
+default_color = Color(0.961, 0.572, 0.412, 1)
+antialiased = true
+
+
+[node name="Meter" type="ProgressBar" parent="WorldContent/Pointer/GuardGauge"]
+offset_left = 16.0
+offset_top = 5.0
+offset_right = 54.0
+offset_bottom = 9.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("Style_bar_empty")
+theme_override_styles/fill = SubResource("Style_stamina")
+max_value = 12.0
+step = 0.0
+value = 12.0
+show_percentage = false
+
+
+[node name="ChargeGauge" type="ProgressBar" parent="WorldContent/Pointer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = 17.0
+offset_right = 24.0
+offset_bottom = 21.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("Style_bar_empty")
+theme_override_styles/fill = SubResource("Style_charge")
+max_value = 1.0
+step = 0.0
+value = 0.0
+show_percentage = false
+
+
+[node name="Prompt" type="Label" parent="WorldContent"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+anchor_right = 1.0
+offset_top = 35.0
+offset_bottom = 61.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_outline_color = Color(0.020, 0.022, 0.026, 1)
+theme_override_constants/outline_size = 7
+
+
+[node name="Notice" type="Label" parent="WorldContent"]
+anchor_top = 0.68
+anchor_bottom = 0.68
+anchor_right = 1.0
+offset_top = 0.0
+offset_bottom = 29.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 19
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_outline_color = Color(0.020, 0.022, 0.026, 1)
+theme_override_constants/outline_size = 7
+
+
+[node name="Overlay" parent="." instance=ExtResource("4_menus")]
+visible = false
+
+[node name="AchievementUnlock" parent="." instance=ExtResource("5_toast")]
+visible = false
+
+[node name="EffectRefresh" type="Timer" parent="."]
+wait_time = 0.085
+autostart = true
+ignore_time_scale = true

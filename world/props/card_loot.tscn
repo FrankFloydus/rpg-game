@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/grounded/worn_linen.png" id="1_paper"]
+[ext_resource type="Texture2D" path="res://assets/rework/ui/card_casing.png" id="2_back"]
+
+[sub_resource type="StandardMaterial3D" id="Material_back"]
+albedo_color = Color(0.69, 0.49, 0.31, 1)
+albedo_texture = ExtResource("1_paper")
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="Mesh_back"]
+size = Vector3(0.23, 0.35, 0.018)
+material = SubResource("Material_back")
+
+[sub_resource type="StandardMaterial3D" id="Material_face"]
+albedo_texture = ExtResource("2_back")
+roughness = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="QuadMesh" id="Mesh_face"]
+size = Vector2(0.2, 0.295)
+
+[node name="ExpeditionCardLoot" type="Node3D"]
+
+[node name="Body" type="Node3D" parent="."]
+position = Vector3(0, 0.15, 0)
+
+[node name="CardStock" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 0.18, 0)
+rotation = Vector3(-0.28, 0, 0)
+mesh = SubResource("Mesh_back")
+
+[node name="Illustration" type="MeshInstance3D" parent="Body/CardStock"]
+position = Vector3(0, 0.005, 0.01)
+material_override = SubResource("Material_face")
+mesh = SubResource("Mesh_face")
+
+[node name="WorldLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.64, 0)
+pixel_size = 0.0027
+billboard = 1
+font_size = 42
+outline_size = 12

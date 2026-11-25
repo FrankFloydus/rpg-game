@@ -1,0 +1,5 @@
+[gd_scene format=3]
+
+[node name="EnemyStatusIcon" type="Sprite3D"]
+visibility_range_end = 15.0
+billboard = 1

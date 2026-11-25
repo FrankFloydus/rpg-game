@@ -1,0 +1,197 @@
+[gd_scene format=3 uid="uid://cfs6kmf3nlvov"]
+
+[ext_resource type="Script" uid="uid://cdognjfqapmps" path="res://world/dungeon_hazard.gd" id="1_3egl0"]
+[ext_resource type="PackedScene" uid="uid://cls3ienie42y7" path="res://assets/models/hazards/ember_vent.glb" id="fixture_art"]
+[ext_resource type="Texture2D" uid="uid://bk2x4a8e0ixmg" path="res://assets/rework/prop_materials.png" id="metal_atlas"]
+[ext_resource type="Shader" uid="uid://dcufijy3ciinr" path="res://world/modules/flame_particles.gdshader" id="vent_particle_draw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwl8x"]
+resource_local_to_scene = true
+albedo_color = Color(0.27, 0.24, 0.27, 1)
+albedo_texture = ExtResource("metal_atlas")
+metallic = 0.1
+metallic_specular = 0.0
+emission_enabled = true
+emission_energy_multiplier = 0.0
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.508, 0.008, 0)
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="WarningSurface"]
+size = Vector3(0.389, 0.01, 0.154)
+
+[sub_resource type="MultiMesh" id="WarningSurfaceInstances"]
+transform_format = 1
+instance_count = 9
+mesh = SubResource("WarningSurface")
+buffer = PackedFloat32Array(1, 0, 0, -0.55, 0, 1, 0, 0.024, 0, 0, 1, -0.55, 1, 0, 0, -0.55, 0, 1, 0, 0.024, 0, 0, 1, 0, 1, 0, 0, -0.55, 0, 1, 0, 0.024, 0, 0, 1, 0.55, 1, 0, 0, 0, 0, 1, 0, 0.024, 0, 0, 1, -0.55, 1, 0, 0, 0, 0, 1, 0, 0.024, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0.024, 0, 0, 1, 0.55, 1, 0, 0, 0.55, 0, 1, 0, 0.024, 0, 0, 1, -0.55, 1, 0, 0, 0.55, 0, 1, 0, 0.024, 0, 0, 1, 0, 1, 0, 0, 0.55, 0, 1, 0, 0.024, 0, 0, 1, 0.55)
+
+[sub_resource type="Gradient" id="VentFadeGradient"]
+offsets = PackedFloat32Array(0, 0.07, 0.49, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.7, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="VentFadeTexture"]
+gradient = SubResource("VentFadeGradient")
+
+[sub_resource type="Curve" id="VentScaleCurve"]
+_limits = [0.0, 1.3, 0.0, 1.0]
+_data = [Vector2(0, 0.52), 0.0, 0.0, 0, 0, Vector2(0.47, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.64), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="VentScaleTexture"]
+curve = SubResource("VentScaleCurve")
+
+[sub_resource type="ParticleProcessMaterial" id="FlameJetsMotion"]
+resource_name = "Fire from the grate"
+lifetime_randomness = 0.17
+emission_shape = 3
+emission_box_extents = Vector3(0.66, 0.025, 0.66)
+direction = Vector3(0, 1, 0)
+spread = 15.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.3
+gravity = Vector3(0, -2.8, 0)
+scale_min = 0.73
+scale_max = 1.27
+scale_curve = SubResource("VentScaleTexture")
+color_ramp = SubResource("VentFadeTexture")
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="FlameJetsDraw"]
+render_priority = 0
+shader = ExtResource("vent_particle_draw")
+shader_parameter/layer = 0
+shader_parameter/density = 0.89
+
+[sub_resource type="QuadMesh" id="FlameJetsQuad"]
+material = SubResource("FlameJetsDraw")
+size = Vector2(0.4, 0.71)
+
+[sub_resource type="ParticleProcessMaterial" id="FlyingEmbersMotion"]
+resource_name = "Hot cinders"
+lifetime_randomness = 0.31
+emission_shape = 3
+emission_box_extents = Vector3(0.6, 0.025, 0.6)
+angle_min = -34.0
+angle_max = 34.0
+direction = Vector3(0, 1, 0)
+spread = 23.0
+initial_velocity_min = 1.85
+initial_velocity_max = 3.06
+angular_velocity_min = -54.0
+angular_velocity_max = 54.0
+gravity = Vector3(0, -3.45, 0)
+scale_min = 0.5
+scale_max = 1.35
+scale_curve = SubResource("VentScaleTexture")
+color_ramp = SubResource("VentFadeTexture")
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="FlyingEmbersDraw"]
+render_priority = 0
+shader = ExtResource("vent_particle_draw")
+shader_parameter/layer = 1
+shader_parameter/density = 0.9
+
+[sub_resource type="QuadMesh" id="FlyingEmbersQuad"]
+material = SubResource("FlyingEmbersDraw")
+size = Vector2(0.023, 0.036)
+
+[sub_resource type="ParticleProcessMaterial" id="SootMotion"]
+resource_name = "Thin soot from the fire"
+lifetime_randomness = 0.19
+emission_shape = 3
+emission_box_extents = Vector3(0.64, 0.025, 0.64)
+direction = Vector3(0, 1, 0)
+spread = 28.0
+initial_velocity_min = 0.62
+initial_velocity_max = 1.28
+gravity = Vector3(0, 0.1, 0)
+scale_min = 0.66
+scale_max = 1.37
+scale_curve = SubResource("VentScaleTexture")
+color_ramp = SubResource("VentFadeTexture")
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="SootDraw"]
+render_priority = 0
+shader = ExtResource("vent_particle_draw")
+shader_parameter/layer = 2
+shader_parameter/density = 0.37
+
+[sub_resource type="QuadMesh" id="SootQuad"]
+material = SubResource("SootDraw")
+size = Vector2(0.58, 0.68)
+
+[node name="EmberVent" type="Node3D" unique_id=441099046]
+script = ExtResource("1_3egl0")
+
+[node name="Fixture" parent="." unique_id=1009232061 instance=ExtResource("fixture_art")]
+
+[node name="Apertures" type="MultiMeshInstance3D" parent="." unique_id=1550314956]
+material_override = SubResource("StandardMaterial3D_gwl8x")
+cast_shadow = 0
+multimesh = SubResource("WarningSurfaceInstances")
+
+[node name="Discharge" type="Node3D" parent="." unique_id=36260188]
+
+[node name="FlameJets" type="GPUParticles3D" parent="Discharge" unique_id=1247699850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0)
+cast_shadow = 0
+emitting = false
+amount = 32
+lifetime = 0.45
+one_shot = true
+explosiveness = 0.66
+randomness = 0.27
+fixed_fps = 60
+visibility_aabb = AABB(-1.4, -0.11, -1.4, 2.8, 2.3, 2.8)
+local_coords = true
+draw_order = 3
+process_material = SubResource("FlameJetsMotion")
+draw_pass_1 = SubResource("FlameJetsQuad")
+
+[node name="FlyingEmbers" type="GPUParticles3D" parent="Discharge" unique_id=1007471723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.135, 0)
+cast_shadow = 0
+emitting = false
+amount = 22
+lifetime = 0.71
+one_shot = true
+explosiveness = 0.94
+randomness = 0.27
+fixed_fps = 60
+visibility_aabb = AABB(-1.4, -0.11, -1.4, 2.8, 2.3, 2.8)
+local_coords = true
+draw_order = 3
+process_material = SubResource("FlyingEmbersMotion")
+draw_pass_1 = SubResource("FlyingEmbersQuad")
+
+[node name="Soot" type="GPUParticles3D" parent="Discharge" unique_id=1471227601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0)
+cast_shadow = 0
+emitting = false
+amount = 17
+lifetime = 0.82
+one_shot = true
+explosiveness = 0.72
+randomness = 0.27
+fixed_fps = 60
+visibility_aabb = AABB(-1.4, -0.11, -1.4, 2.8, 2.3, 2.8)
+local_coords = true
+draw_order = 3
+process_material = SubResource("SootMotion")
+draw_pass_1 = SubResource("SootQuad")
+
+[node name="Flash" type="OmniLight3D" parent="." unique_id=586087530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0)
+visible = false
+light_color = Color(1, 0.5803922, 0.34509805, 1)
+omni_range = 3.4
+omni_attenuation = 1.7
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="." unique_id=1229033589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0)
+volume_db = -8.0
+unit_size = 2.5
+max_distance = 10.0

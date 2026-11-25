@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_heavy.png" id="wall_heavy_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_heavy_normal.png" id="wall_heavy_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/wall_heavy_orm.png" id="wall_heavy_orm"]
+
+[resource]
+resource_name = "Heavy Ruffled Strike"
+transparency = 1
+albedo_texture = ExtResource("wall_heavy_albedo")
+orm_texture = ExtResource("wall_heavy_orm")
+normal_enabled = true
+normal_texture = ExtResource("wall_heavy_normal")
+ao_enabled = true
+texture_repeat = false

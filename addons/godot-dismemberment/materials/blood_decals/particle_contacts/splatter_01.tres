@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_09_albedo.png" id="1_mask"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_09_normal.png" id="2_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_09_orm.png" id="3_orm"]
+
+[resource]
+resource_name = "Particle Contact Splatter 01"
+transparency = 1
+albedo_color = Color(0.177083, 0.006, 0.011471, 1)
+albedo_texture = ExtResource("1_mask")
+orm_texture = ExtResource("3_orm")
+normal_enabled = true
+normal_texture = ExtResource("2_normal")
+texture_repeat = false

@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://world/modules/flame_particles.gdshader" id="1_particle"]
+
+[sub_resource type="ShaderMaterial" id="Material_soul"]
+shader = ExtResource("1_particle")
+shader_parameter/layer = 1
+shader_parameter/density = 0.85
+
+[sub_resource type="QuadMesh" id="Mesh_soul"]
+material = SubResource("Material_soul")
+size = Vector2(0.034, 0.125)
+
+[sub_resource type="Gradient" id="Gradient_ash"]
+offsets = PackedFloat32Array(0, 0.12, 0.56, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.9, 1, 1, 1, 0.62, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="Texture_ash"]
+gradient = SubResource("Gradient_ash")
+
+[sub_resource type="ParticleProcessMaterial" id="Process_ash"]
+emission_shape = 3
+emission_box_extents = Vector3(0.39, 0.06, 0.38)
+direction = Vector3(0, 1, 0)
+spread = 27.0
+initial_velocity_min = 0.64
+initial_velocity_max = 1.14
+gravity = Vector3(0, 0.58, 0)
+scale_min = 0.47
+scale_max = 1.22
+lifetime_randomness = 0.37
+color_ramp = SubResource("Texture_ash")
+anim_offset_max = 1.0
+
+[node name="GraveLevy" type="GPUParticles3D"]
+position = Vector3(0, 0.1, 0)
+emitting = false
+amount = 32
+lifetime = 1.2
+fixed_fps = 60
+randomness = 0.3
+local_coords = true
+cast_shadow = 0
+visibility_aabb = AABB(-0.8, -0.1, -0.8, 1.6, 2.35, 1.6)
+instance_shader_parameters/flame_tint = Color(0.46, 0.87, 0.92, 0.87)
+process_material = SubResource("Process_ash")
+draw_pass_1 = SubResource("Mesh_soul")

@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://player/weapons/materials/gem_inclusions.png" id="1_gem"]
+
+[resource]
+resource_name = "Gem"
+albedo_color = Color(0.6627451, 0.39607844, 0.3372549, 1)
+albedo_texture = ExtResource("1_gem")
+metallic = 0.26
+roughness = 1.0
+emission_enabled = true
+emission = Color(0.6627451, 0.39607844, 0.3372549, 1)
+emission_energy_multiplier = 0.43
+emission_operator = 1
+emission_texture = ExtResource("1_gem")
+metallic_specular = 0.0

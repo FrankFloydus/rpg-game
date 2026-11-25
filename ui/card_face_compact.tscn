@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://ui/card_face.tscn" id="1"]
+
+[node name="CompactCard" instance=ExtResource("1")]
+custom_minimum_size = Vector2(171, 259)
+offset_right = 171.0
+offset_bottom = 259.0
+size_flags_horizontal = 6
+
+[node name="Heading" parent="." index="0"]
+offset_left = 16.0
+offset_right = -16.0
+theme_override_font_sizes/font_size = 17
+
+[node name="Illustration" parent="." index="1"]
+offset_left = 16.0
+offset_right = -16.0
+
+[node name="Rarity" parent="." index="2"]
+offset_left = 16.0
+offset_right = -16.0
+theme_override_font_sizes/font_size = 12
+
+[node name="Description" parent="." index="3"]
+offset_left = 14.0
+offset_right = -14.0
+theme_override_constants/line_spacing = -2
+theme_override_font_sizes/font_size = 13

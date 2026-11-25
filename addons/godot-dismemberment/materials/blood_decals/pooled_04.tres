@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" uid="uid://bp35h033e5pam" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_04.png" id="pooled_04_albedo"]
+[ext_resource type="Texture2D" uid="uid://cp2j36sc3o6et" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_04_orm.png" id="pooled_04_orm"]
+[ext_resource type="Texture2D" uid="uid://binuo7oki5ol0" path="res://addons/godot-dismemberment/textures/blood_deposits/pooled_04_normal.png" id="pooled_04_normal"]
+
+[resource]
+resource_name = "Twin Deposits"
+transparency = 1
+albedo_texture = ExtResource("pooled_04_albedo")
+orm_texture = ExtResource("pooled_04_orm")
+normal_enabled = true
+normal_texture = ExtResource("pooled_04_normal")
+ao_enabled = true
+texture_repeat = false

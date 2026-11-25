@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/loot/unveiling_scroll.glb" id="1_scroll"]
+
+[node name="UnveilingScroll" type="Node3D"]
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="ScribesSeal" parent="Body" instance=ExtResource("1_scroll")]
+
+[node name="WorldLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.39, 0)
+pixel_size = 0.0025
+billboard = 1
+text = "Scribe's Seal"
+font_size = 36

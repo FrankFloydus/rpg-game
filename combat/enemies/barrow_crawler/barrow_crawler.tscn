@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://combat/enemies/barrow_crawler/barrow_crawler_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/mandible_snip.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/low_skitter.tres" id="4_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/cobweb_trap.tres" id="5_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="6_j27w5"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/barrow_crawler.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/barrow_crawler/barrow_crawler_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ehef4"]
+radius = 0.27
+height = 0.6278
+
+[node name="BarrowCrawler" type="CharacterBody3D" unique_id=703034927]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 6.0
+base_attack_damage = 1.4
+base_move_speed = 3.29
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability"), ExtResource("5_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1519175959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3139, 0)
+shape = SubResource("CapsuleShape3D_ehef4")
+
+[node name="Model" type="Node3D" parent="." unique_id=170748300]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
+script = ExtResource("6_j27w5")
+
+[node name="Rig" parent="Model" unique_id=1002376224 instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

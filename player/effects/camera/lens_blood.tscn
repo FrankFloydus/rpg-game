@@ -1,0 +1,70 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://player/effects/camera/lens_blood.gd" id="1_lens_blood"]
+[ext_resource type="Texture2D" path="res://player/effects/camera/textures/lens_blood_atlas.png" id="2_atlas"]
+[ext_resource type="Texture2D" path="res://player/effects/camera/textures/lens_blood_spray_atlas.png" id="3_spray"]
+[ext_resource type="Shader" path="res://player/effects/camera/lens_blood_spray.gdshader" id="4_shader"]
+[ext_resource type="Shader" path="res://player/effects/camera/lens_blood_drop.gdshader" id="5_drop_shader"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drop_1"]
+resource_name = "Drop 1"
+atlas = ExtResource("2_atlas")
+region = Rect2(101, 101, 241, 241)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drop_2"]
+resource_name = "Drop 2"
+atlas = ExtResource("2_atlas")
+region = Rect2(544, 101, 241, 241)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drop_3"]
+resource_name = "Drop 3"
+atlas = ExtResource("2_atlas")
+region = Rect2(988, 101, 241, 241)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drop_4"]
+resource_name = "Drop 4"
+atlas = ExtResource("2_atlas")
+region = Rect2(1431, 101, 241, 241)
+filter_clip = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_drop"]
+resource_name = "Lens Drop Tint"
+shader = ExtResource("5_drop_shader")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smear_1"]
+resource_name = "Smear 1"
+atlas = ExtResource("3_spray")
+region = Rect2(12, 12, 603, 603)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smear_2"]
+resource_name = "Smear 2"
+atlas = ExtResource("3_spray")
+region = Rect2(639, 12, 603, 603)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smear_3"]
+resource_name = "Smear 3"
+atlas = ExtResource("3_spray")
+region = Rect2(12, 639, 603, 603)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smear_4"]
+resource_name = "Smear 4"
+atlas = ExtResource("3_spray")
+region = Rect2(639, 639, 603, 603)
+filter_clip = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_spray"]
+shader = ExtResource("4_shader")
+
+[node name="LensBlood" type="Node2D" unique_id=47841101]
+physics_interpolation_mode = 2
+script = ExtResource("1_lens_blood")
+drop_textures = Array[Texture2D]([SubResource("AtlasTexture_drop_1"), SubResource("AtlasTexture_drop_2"), SubResource("AtlasTexture_drop_3"), SubResource("AtlasTexture_drop_4")])
+drop_material = SubResource("ShaderMaterial_drop")
+smear_textures = Array[Texture2D]([SubResource("AtlasTexture_smear_1"), SubResource("AtlasTexture_smear_2"), SubResource("AtlasTexture_smear_3"), SubResource("AtlasTexture_smear_4")])
+smear_material = SubResource("ShaderMaterial_spray")

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="SecretChallengeRoute" format=3 uid="uid://btc3vb2qqqory"]
+
+[ext_resource type="Script" uid="uid://d240lj3f4jnbt" path="res://world/secret_challenges/secret_challenge_route.gd" id="Route"]
+[ext_resource type="Script" uid="uid://dt56oec7d6bkk" path="res://world/secret_challenges/secret_challenge_socket.gd" id="Socket"]
+
+[sub_resource type="Resource" id="Trap_1"]
+script = ExtResource("Socket")
+kind = "miasma_vent"
+alternate_kind = "spike_plate"
+phase = 0.25
+reach = 1.72
+
+[sub_resource type="Resource" id="Trap_2"]
+script = ExtResource("Socket")
+glyph = "2"
+kind = "ember_vent"
+alternate_kind = "miasma_vent"
+phase = 0.43
+reach = 1.55
+optional = true
+
+[resource]
+resource_name = "Choking Loop"
+script = ExtResource("Route")
+id = &"choking_loop"
+display_name = "Choking Loop"
+min_depth = 3
+rows = PackedStringArray("####....##", "####.##.##", "S.1..##..R", "####.##.##", "####..2.##")
+hazard_sockets = Array[ExtResource("Socket")]([SubResource("Trap_1"), SubResource("Trap_2")])

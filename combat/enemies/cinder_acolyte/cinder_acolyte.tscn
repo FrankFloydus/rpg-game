@@ -1,0 +1,38 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://combat/enemies/cinder_acolyte/cinder_acolyte_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/cinder_bolt.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/cinder_sigil.tres" id="4_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="5_yhaj6"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/cinder_acolyte.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/cinder_acolyte/cinder_acolyte_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_p2rmr"]
+radius = 0.3
+height = 1.6856
+
+[node name="CinderAcolyte" type="CharacterBody3D" unique_id=816351018]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 7.0
+base_attack_damage = 1.7
+base_move_speed = 2.42
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1978209714]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8428, 0)
+shape = SubResource("CapsuleShape3D_p2rmr")
+
+[node name="Model" type="Node3D" parent="." unique_id=1025612771]
+script = ExtResource("5_yhaj6")
+
+[editable path="Model"]
+
+[node name="Rig" parent="Model" instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/screen_blood_rules.gd" id="1_rules"]
+
+[resource]
+resource_name = "Camera Blood Splatter"
+script = ExtResource("1_rules")

@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://combat/effects/enemy_cobweb.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://combat/effects/cobweb_silk.tscn" id="2_silk"]
+
+[node name="CobwebProjectile" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Silk" parent="." instance=ExtResource("2_silk")]
+scale = Vector3(0.36, 0.36, 0.36)

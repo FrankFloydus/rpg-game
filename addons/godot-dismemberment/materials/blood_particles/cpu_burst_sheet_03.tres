@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://addons/godot-dismemberment/shaders/blood_burst.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_03.png" id="2_mask"]
+
+[resource]
+resource_name = "CPU Burst Sheet 3"
+shader = ExtResource("1_shader")
+shader_parameter/splatter_mask = ExtResource("2_mask")
+shader_parameter/velocity_aligned = false
+shader_parameter/minimum_size_ratio = Vector2(0.5, 0.5)
+shader_parameter/size_curve = Vector3(0.2, 1, 0.7)
+shader_parameter/size_curve_tangent = 0.7
+shader_parameter/erosion_range = Vector2(1, 1)
+shader_parameter/erosion_from_lifetime = true
+shader_parameter/maximum_lifetime = 1.0
+shader_parameter/thinness = 0.3
+shader_parameter/softness = 0.0
+shader_parameter/linear_red = 0.05

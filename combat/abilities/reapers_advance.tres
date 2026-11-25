@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://csp8nna8sq8j5"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_14ngt"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/reapers_advance.tres" id="icon_art"]
+
+[resource]
+resource_name = "Reaper's Advance"
+script = ExtResource("1_definition")
+id = &"reapers_advance"
+display_name = "Reaper's Advance"
+icon = ExtResource("icon_art")
+icon_key = "pounce"
+description = "Surges forward in a committed line and strikes the first target in its path."
+action_key = "pounce"
+damage_type = "physical"
+windup = 0.58
+recovery = 0.94
+damage_multiplier = 1.33
+stun_buildup = 40.0
+execution_profile = {
+"shape": "lane",
+"reach": 4.38,
+"start": 4.19,
+"width": 0.76,
+"dash_speed": 13.6
+}

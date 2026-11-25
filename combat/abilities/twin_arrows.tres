@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://ca6jq0c4tab1y"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_off5t"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/twin_arrows.tres" id="icon_art"]
+
+[resource]
+resource_name = "Twin Arrows"
+script = ExtResource("1_definition")
+id = &"twin_arrows"
+display_name = "Twin Arrows"
+icon = ExtResource("icon_art")
+icon_key = "doublet"
+description = "Fires two aimed projectiles in quick succession."
+action_key = "doublet"
+damage_type = "physical"
+windup = 0.63
+recovery = 1.05
+damage_multiplier = 0.92
+stun_buildup = 7.0
+execution_profile = {
+"shape": "ray",
+"reach": 13.6,
+"start": 13.25,
+"speed": 15.8,
+"second": 0.25
+}

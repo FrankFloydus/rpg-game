@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d6uw0ynhks03"]
+
+[resource]
+resource_name = "Cocoon Hit Flash"
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.43, 0.31, 0.2)

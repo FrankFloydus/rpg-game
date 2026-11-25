@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BleedEffectDefinition" format=3 uid="uid://bc73ob70365mp"]
+
+[ext_resource type="Script" uid="uid://bh5qtisc30taa" path="res://combat/effects/bleed_effect_definition.gd" id="1_definition"]
+[ext_resource type="PackedScene" path="res://combat/effects/bleed_application_particles.tscn" id="2_particles"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/bleed.tres" id="3_icon"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/bleed.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Bleeding"
+script = ExtResource("1_definition")
+on_applied_fx = ExtResource("2_particles")
+id = &"bleed"
+display_name = "Bleeding"
+icon = ExtResource("3_icon")
+duration = 5.0
+stacking = 1
+damage_type = "physical"
+enemy_while_active_fx = ExtResource("loop_fx")

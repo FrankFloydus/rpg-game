@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/hub/merchants/brother_orun.glb" id="1_orun"]
+[ext_resource type="PackedScene" path="res://assets/hub/merchants/masonry_forge.glb" id="2_forge"]
+
+[node name="Blacksmith" type="Node3D"]
+
+[node name="ForgeAndTools" parent="." instance=ExtResource("2_forge")]
+
+[node name="BrotherOrun" parent="." instance=ExtResource("1_orun")]

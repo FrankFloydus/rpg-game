@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://combat/effects/enrage_effect_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/enrage.tres" id="icon_art"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/enrage.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Enrage"
+script = ExtResource("1_definition")
+id = &"enrage"
+display_name = "Enrage"
+beneficial = true
+icon = ExtResource("icon_art")
+description = "Enraged creatures attack faster and deal more attack damage."
+duration = 5.0
+enemy_while_active_fx = ExtResource("loop_fx")

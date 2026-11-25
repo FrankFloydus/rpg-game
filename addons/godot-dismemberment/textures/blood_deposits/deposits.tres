@@ -1,0 +1,265 @@
+[gd_resource type="BloodDecalLibrary" format=3 uid="uid://dtpckkhw05gcl"]
+
+[ext_resource type="Texture2D" uid="uid://bt3i8vjahx3ir" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_01_albedo.png" id="1_7oa0d"]
+[ext_resource type="Texture2D" uid="uid://bj3gdxscema3d" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_01_normal.png" id="3_3lxr3"]
+[ext_resource type="Texture2D" uid="uid://b54bj4guaaein" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_02_albedo.png" id="5_66o5b"]
+[ext_resource type="Texture2D" uid="uid://dc3j6nf25lfxf" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_02_normal.png" id="7_rcbwj"]
+[ext_resource type="Texture2D" uid="uid://dweop4bggmccj" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_03_albedo.png" id="8_r3j1t"]
+[ext_resource type="Texture2D" uid="uid://580gxonjpij8" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_03_normal.png" id="10_04pgl"]
+[ext_resource type="Texture2D" uid="uid://bv3xgomwpba0g" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_04_albedo.png" id="11_hq3x5"]
+[ext_resource type="Texture2D" uid="uid://b64k6oiau52d7" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_04_normal.png" id="13_qqbky"]
+[ext_resource type="Texture2D" uid="uid://ckm2vit8h8rl1" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_05_albedo.png" id="14_phcep"]
+[ext_resource type="Texture2D" uid="uid://l83lfl815y86" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_05_normal.png" id="16_i5m73"]
+[ext_resource type="Texture2D" uid="uid://dtlo5qnurgr48" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_06_albedo.png" id="17_70dje"]
+[ext_resource type="Texture2D" uid="uid://cvx7mg20eu3jc" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_06_normal.png" id="19_6ie2t"]
+[ext_resource type="Texture2D" uid="uid://cuc5wb0pqunm4" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_09_albedo.png" id="20_887n3"]
+[ext_resource type="Texture2D" uid="uid://bm2fw5q2v24sl" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_09_normal.png" id="22_o05qt"]
+[ext_resource type="Texture2D" uid="uid://c5rqamhr215ps" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_10_albedo.png" id="23_hkcjf"]
+[ext_resource type="Texture2D" uid="uid://bckrshdarmiw0" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_10_normal.png" id="25_845s3"]
+[ext_resource type="Texture2D" uid="uid://bq4lkmxjolvag" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_11_albedo.png" id="26_6qef5"]
+[ext_resource type="Texture2D" uid="uid://b5pw7b5hhec0j" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_11_normal.png" id="28_wugkr"]
+[ext_resource type="Texture2D" uid="uid://bajnhrpkluoy8" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_12_albedo.png" id="29_ri15d"]
+[ext_resource type="Texture2D" uid="uid://2x7vsh8rcvv3" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_12_normal.png" id="31_uoch0"]
+[ext_resource type="Texture2D" uid="uid://bgino4tku3ko7" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_13_albedo.png" id="32_80wuf"]
+[ext_resource type="Texture2D" uid="uid://dhf35olpglkvq" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_13_normal.png" id="34_nixwf"]
+[ext_resource type="Texture2D" uid="uid://c5c721a4k0w3o" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_14_albedo.png" id="35_kieyw"]
+[ext_resource type="Texture2D" uid="uid://ncnd2c3gip05" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_14_normal.png" id="37_7hjay"]
+[ext_resource type="Texture2D" uid="uid://c3fhiunt7klcj" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_15_albedo.png" id="38_hltnk"]
+[ext_resource type="Texture2D" uid="uid://c3f40vyl6huvg" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_15_normal.png" id="40_qmuj2"]
+[ext_resource type="Texture2D" uid="uid://bol4qpbshh3sc" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_16_albedo.png" id="41_v43dx"]
+[ext_resource type="Texture2D" uid="uid://bvwkqjd8vg5is" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_16_normal.png" id="43_r825r"]
+[ext_resource type="Texture2D" uid="uid://7qoh3vsn8unh" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_17_albedo.png" id="44_ppqoh"]
+[ext_resource type="Texture2D" uid="uid://cstnm3e5x3gpt" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_17_normal.png" id="46_eixuk"]
+[ext_resource type="Texture2D" uid="uid://78klhjerudid" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_18_albedo.png" id="47_nhfya"]
+[ext_resource type="Texture2D" uid="uid://vkvoygxl63ex" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_18_normal.png" id="49_vie17"]
+[ext_resource type="Texture2D" uid="uid://ilcacf3uxqxl" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_20_albedo.png" id="50_d7xnl"]
+[ext_resource type="Texture2D" uid="uid://vfbof56drhdm" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_20_normal.png" id="52_5hj37"]
+[ext_resource type="Texture2D" uid="uid://bubije4rcuum8" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_07_albedo.png" id="53_tverr"]
+[ext_resource type="Texture2D" uid="uid://nk3vlysqfw7s" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_07_normal.png" id="55_bkdjq"]
+[ext_resource type="Texture2D" uid="uid://b6g84scl5d0pt" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_08_albedo.png" id="56_14t6j"]
+[ext_resource type="Texture2D" uid="uid://cxdriu3uugxf0" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_08_normal.png" id="58_cxfib"]
+[ext_resource type="Texture2D" uid="uid://c4qkbwt0m1yvp" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_19_albedo.png" id="59_2p710"]
+[ext_resource type="Texture2D" uid="uid://h2cn5qmy7u2b" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_19_normal.png" id="61_imgvl"]
+[ext_resource type="Texture2D" uid="uid://e6vijmc4coh0" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_01_orm.png" id="orm_01"]
+[ext_resource type="Texture2D" uid="uid://b57hdo2vpke7i" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_02_orm.png" id="orm_02"]
+[ext_resource type="Texture2D" uid="uid://dy2ie1871xsgt" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_03_orm.png" id="orm_03"]
+[ext_resource type="Texture2D" uid="uid://bjxpme10dntmu" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_04_orm.png" id="orm_04"]
+[ext_resource type="Texture2D" uid="uid://jurfytj3ujqg" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_05_orm.png" id="orm_05"]
+[ext_resource type="Texture2D" uid="uid://d13ug333fqsiw" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_06_orm.png" id="orm_06"]
+[ext_resource type="Texture2D" uid="uid://brlv6u65tbowu" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_07_orm.png" id="orm_07"]
+[ext_resource type="Texture2D" uid="uid://bbnxlqs2rjgul" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_08_orm.png" id="orm_08"]
+[ext_resource type="Texture2D" uid="uid://dgyhn63f6cs4f" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_09_orm.png" id="orm_09"]
+[ext_resource type="Texture2D" uid="uid://byonpd1ncabp6" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_10_orm.png" id="orm_10"]
+[ext_resource type="Texture2D" uid="uid://dvm7gl5l2jnwi" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_11_orm.png" id="orm_11"]
+[ext_resource type="Texture2D" uid="uid://dx788m4obcxee" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_12_orm.png" id="orm_12"]
+[ext_resource type="Texture2D" uid="uid://dr1bq1v6whcpn" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_13_orm.png" id="orm_13"]
+[ext_resource type="Texture2D" uid="uid://d2gkl2hra0xhd" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_14_orm.png" id="orm_14"]
+[ext_resource type="Texture2D" uid="uid://c34elol8aqm20" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_15_orm.png" id="orm_15"]
+[ext_resource type="Texture2D" uid="uid://dqm3i05rw2q78" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_16_orm.png" id="orm_16"]
+[ext_resource type="Texture2D" uid="uid://b4nijyqb50an1" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_17_orm.png" id="orm_17"]
+[ext_resource type="Texture2D" uid="uid://ccgww2403yk6" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_18_orm.png" id="orm_18"]
+[ext_resource type="Texture2D" uid="uid://dsaituy8b0bw3" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_19_orm.png" id="orm_19"]
+[ext_resource type="Texture2D" uid="uid://bnf3hvyhw4cme" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/splatter_20_orm.png" id="orm_20"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_01.tres" id="splatter_01"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_02.tres" id="splatter_02"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_03.tres" id="splatter_03"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_04.tres" id="splatter_04"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_05.tres" id="splatter_05"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_06.tres" id="splatter_06"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_07.tres" id="splatter_07"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_08.tres" id="splatter_08"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_09.tres" id="splatter_09"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_10.tres" id="splatter_10"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_11.tres" id="splatter_11"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_12.tres" id="splatter_12"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_13.tres" id="splatter_13"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_14.tres" id="splatter_14"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_15.tres" id="splatter_15"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_16.tres" id="splatter_16"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_17.tres" id="splatter_17"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_18.tres" id="splatter_18"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_19.tres" id="splatter_19"]
+[ext_resource type="Material" path="res://addons/godot-dismemberment/materials/blood_decals/splatter_20.tres" id="splatter_20"]
+
+[sub_resource type="BloodDecalVariant" id="splatter_01"]
+material = ExtResource("splatter_01")
+albedo = ExtResource("1_7oa0d")
+orm = ExtResource("orm_01")
+normal = ExtResource("3_3lxr3")
+deposit_type = 2
+resource_name = "Fine Impact Cloud"
+
+[sub_resource type="BloodDecalVariant" id="splatter_02"]
+material = ExtResource("splatter_02")
+albedo = ExtResource("5_66o5b")
+orm = ExtResource("orm_02")
+normal = ExtResource("7_rcbwj")
+deposit_type = 2
+resource_name = "Curved Sweep"
+
+[sub_resource type="BloodDecalVariant" id="splatter_03"]
+material = ExtResource("splatter_03")
+albedo = ExtResource("8_r3j1t")
+orm = ExtResource("orm_03")
+normal = ExtResource("10_04pgl")
+deposit_type = 2
+resource_name = "Compact Ragged Impact"
+
+[sub_resource type="BloodDecalVariant" id="splatter_04"]
+material = ExtResource("splatter_04")
+albedo = ExtResource("11_hq3x5")
+orm = ExtResource("orm_04")
+normal = ExtResource("13_qqbky")
+deposit_type = 2
+resource_name = "Diffuse Diagonal Spray"
+
+[sub_resource type="BloodDecalVariant" id="splatter_05"]
+material = ExtResource("splatter_05")
+albedo = ExtResource("14_phcep")
+orm = ExtResource("orm_05")
+normal = ExtResource("16_i5m73")
+deposit_type = 2
+resource_name = "Grazing Surface Spray"
+
+[sub_resource type="BloodDecalVariant" id="splatter_06"]
+material = ExtResource("splatter_06")
+albedo = ExtResource("17_70dje")
+orm = ExtResource("orm_06")
+normal = ExtResource("19_6ie2t")
+deposit_type = 2
+resource_name = "Heavy Oblique Impact"
+
+[sub_resource type="BloodDecalVariant" id="splatter_09"]
+material = ExtResource("splatter_09")
+albedo = ExtResource("20_887n3")
+orm = ExtResource("orm_09")
+normal = ExtResource("22_o05qt")
+deposit_type = 3
+resource_name = "Directional Fan"
+
+[sub_resource type="BloodDecalVariant" id="splatter_10"]
+material = ExtResource("splatter_10")
+albedo = ExtResource("23_hkcjf")
+orm = ExtResource("orm_10")
+normal = ExtResource("25_845s3")
+deposit_type = 2
+resource_name = "Fine Airborne Mist"
+
+[sub_resource type="BloodDecalVariant" id="splatter_11"]
+material = ExtResource("splatter_11")
+albedo = ExtResource("26_6qef5")
+orm = ExtResource("orm_11")
+normal = ExtResource("28_wugkr")
+deposit_type = 2
+resource_name = "Arched Impact"
+
+[sub_resource type="BloodDecalVariant" id="splatter_12"]
+material = ExtResource("splatter_12")
+albedo = ExtResource("29_ri15d")
+orm = ExtResource("orm_12")
+normal = ExtResource("31_uoch0")
+deposit_type = 2
+resource_name = "Broken Grazing Spray"
+
+[sub_resource type="BloodDecalVariant" id="splatter_13"]
+material = ExtResource("splatter_13")
+albedo = ExtResource("32_80wuf")
+orm = ExtResource("orm_13")
+normal = ExtResource("34_nixwf")
+deposit_type = 2
+resource_name = "Dense Broad Strike"
+
+[sub_resource type="BloodDecalVariant" id="splatter_14"]
+material = ExtResource("splatter_14")
+albedo = ExtResource("35_kieyw")
+orm = ExtResource("orm_14")
+normal = ExtResource("37_7hjay")
+deposit_type = 3
+resource_name = "Directional Bent Swipe"
+
+[sub_resource type="BloodDecalVariant" id="splatter_15"]
+material = ExtResource("splatter_15")
+albedo = ExtResource("38_hltnk")
+orm = ExtResource("orm_15")
+normal = ExtResource("40_qmuj2")
+deposit_type = 2
+resource_name = "Porous Compact Strike"
+
+[sub_resource type="BloodDecalVariant" id="splatter_16"]
+material = ExtResource("splatter_16")
+albedo = ExtResource("41_v43dx")
+orm = ExtResource("orm_16")
+normal = ExtResource("43_r825r")
+deposit_type = 2
+resource_name = "Radial Impact"
+
+[sub_resource type="BloodDecalVariant" id="splatter_17"]
+material = ExtResource("splatter_17")
+albedo = ExtResource("44_ppqoh")
+orm = ExtResource("orm_17")
+normal = ExtResource("46_eixuk")
+deposit_type = 3
+resource_name = "Directional Feathered Impact"
+
+[sub_resource type="BloodDecalVariant" id="splatter_18"]
+material = ExtResource("splatter_18")
+albedo = ExtResource("47_nhfya")
+orm = ExtResource("orm_18")
+normal = ExtResource("49_vie17")
+deposit_type = 2
+resource_name = "Broad Diffuse Spray"
+
+[sub_resource type="BloodDecalVariant" id="splatter_20"]
+material = ExtResource("splatter_20")
+albedo = ExtResource("50_d7xnl")
+orm = ExtResource("orm_20")
+normal = ExtResource("52_5hj37")
+deposit_type = 2
+resource_name = "Heavy Compact Impact"
+
+[sub_resource type="BloodDecalVariant" id="settled_pool_03"]
+material = ExtResource("splatter_03")
+albedo = ExtResource("8_r3j1t")
+orm = ExtResource("orm_03")
+normal = ExtResource("10_04pgl")
+deposit_type = 1
+resource_name = "Small Settled Deposit"
+
+[sub_resource type="BloodDecalVariant" id="settled_pool_20"]
+material = ExtResource("splatter_20")
+albedo = ExtResource("50_d7xnl")
+orm = ExtResource("orm_20")
+normal = ExtResource("52_5hj37")
+deposit_type = 1
+resource_name = "Broad Settled Deposit"
+
+[sub_resource type="BloodDecalVariant" id="splatter_07"]
+material = ExtResource("splatter_07")
+albedo = ExtResource("53_tverr")
+orm = ExtResource("orm_07")
+normal = ExtResource("55_bkdjq")
+deposit_type = 4
+resource_name = "Light Curved Runoff"
+
+[sub_resource type="BloodDecalVariant" id="splatter_08"]
+material = ExtResource("splatter_08")
+albedo = ExtResource("56_14t6j")
+orm = ExtResource("orm_08")
+normal = ExtResource("58_cxfib")
+deposit_type = 4
+resource_name = "Curved Wet Runoff"
+
+[sub_resource type="BloodDecalVariant" id="splatter_19"]
+material = ExtResource("splatter_19")
+albedo = ExtResource("59_2p710")
+orm = ExtResource("orm_19")
+normal = ExtResource("61_imgvl")
+deposit_type = 4
+resource_name = "Heavy Swept Runoff"
+
+[resource]
+floor_variants = Array[BloodDecalVariant]([SubResource("splatter_01"), SubResource("splatter_02"), SubResource("splatter_03"), SubResource("splatter_04"), SubResource("splatter_05"), SubResource("splatter_06"), SubResource("splatter_09"), SubResource("splatter_10"), SubResource("splatter_11"), SubResource("splatter_12"), SubResource("splatter_13"), SubResource("splatter_14"), SubResource("splatter_15"), SubResource("splatter_16"), SubResource("splatter_17"), SubResource("splatter_18"), SubResource("splatter_20"), SubResource("settled_pool_03"), SubResource("settled_pool_20")])
+wall_variants = Array[BloodDecalVariant]([SubResource("splatter_01"), SubResource("splatter_02"), SubResource("splatter_03"), SubResource("splatter_04"), SubResource("splatter_05"), SubResource("splatter_06"), SubResource("splatter_07"), SubResource("splatter_08"), SubResource("splatter_09"), SubResource("splatter_10"), SubResource("splatter_11"), SubResource("splatter_12"), SubResource("splatter_13"), SubResource("splatter_14"), SubResource("splatter_15"), SubResource("splatter_16"), SubResource("splatter_17"), SubResource("splatter_18"), SubResource("splatter_19"), SubResource("splatter_20")])
+dark_tint = Color(0.14455244, 0.0095986, 0.00960284, 1)
+light_tint = Color(0.22187573, 0.024087328, 0.030122276, 1)
+resource_name = "Blood Deposits"

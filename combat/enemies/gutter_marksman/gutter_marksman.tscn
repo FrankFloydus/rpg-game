@@ -1,0 +1,38 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://combat/enemies/gutter_marksman/gutter_marksman_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/gutter_doublet.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/crossbow_shot.tres" id="4_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/rime_snare.tres" id="5_snare"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="5_q24f0"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/gutter_marksman.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/gutter_marksman/gutter_marksman_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_svurx"]
+radius = 0.29
+height = 1.3072
+
+[node name="GutterMarksman" type="CharacterBody3D" unique_id=1436919286]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 8.0
+base_attack_damage = 2.2
+base_move_speed = 2.77
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("4_ability"), ExtResource("5_snare"), ExtResource("3_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1940350449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6536, 0)
+shape = SubResource("CapsuleShape3D_svurx")
+
+[node name="Model" type="Node3D" parent="." unique_id=2084896194]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+script = ExtResource("5_q24f0")
+
+[node name="Rig" parent="Model" unique_id=1042061293 instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

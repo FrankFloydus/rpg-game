@@ -1,0 +1,420 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_scene.gd" id="1_scene"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_emitter_layer.gd" id="2_layer"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="3_process"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_BloodDirection_06.tres" id="Niagara_BloodDirection_06"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_BloodDirection_11.tres" id="Niagara_BloodDirection_11"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_BloodDirection_10.tres" id="Niagara_BloodDirection_10"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_Smoke.tres" id="Niagara_Smoke"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_CellSpot_01.tres" id="Niagara_CellSpot_01"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sprite"]
+size = Vector2(1, 1)
+
+[sub_resource type="Curve" id="Curve_Size1"]
+resource_name = "Size"
+_limits = [0.0, 3.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.0000001), 12.5355721, 12.5355721, 0, 0, Vector2(0.2222636, 2.0475833), 2.9985039, 2.9985039, 0, 0, Vector2(1.0, 2.9999998), -0.1215546, -0.1215546, 0, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Size1"]
+resource_name = "Size"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Size1")
+
+[sub_resource type="Curve" id="Curve_Alpha2"]
+resource_name = "Alpha"
+_limits = [0.0, 2.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 2.0), 0.0, 0.0, 0, 1, Vector2(1.0, 2.0), 0.0, 0.0, 1, 1]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Alpha2"]
+resource_name = "Alpha"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Alpha2")
+
+[sub_resource type="Curve" id="Curve_Dissolve3"]
+resource_name = "Dissolve"
+_limits = [0.0, 1.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.0), 0.0, 0.0, 0, 0, Vector2(1.0, 1.0), 1.7393728, 1.7393728, 0, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Dissolve3"]
+resource_name = "Dissolve"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Dissolve3")
+
+[sub_resource type="Curve" id="Curve_Dissolve4"]
+resource_name = "Dissolve"
+_limits = [0.0, 1.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.0), 0.0, 0.0, 0, 0, Vector2(0.5, 0.0), 0.0, 2.0, 0, 1, Vector2(1.0, 1.0), 2.0, 1.759491, 1, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Dissolve4"]
+resource_name = "Dissolve"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Dissolve4")
+
+[sub_resource type="Curve" id="Curve_Dissolve5"]
+resource_name = "Dissolve"
+_limits = [0.0, 1.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.0), 0.0, 0.0, 0, 0, Vector2(0.6, 0.0000001), 0.0, 2.49999975, 0, 1, Vector2(1.0, 1.0), 2.49999975, 1.7594914, 1, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Dissolve5"]
+resource_name = "Dissolve"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Dissolve5")
+
+[sub_resource type="Curve" id="Curve_Size6"]
+resource_name = "Size"
+_limits = [0.0, 2.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.0), 5.4320812, 5.4320812, 0, 0, Vector2(0.2222636, 0.8872861), 1.2993517, 1.2993517, 0, 0, Vector2(1.0, 1.2999999), -0.0526737, -0.0526737, 0, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Size6"]
+resource_name = "Size"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Size6")
+
+[sub_resource type="Curve" id="Curve_Alpha7"]
+resource_name = "Alpha"
+_limits = [0.0, 1.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.7500001), 0.0, -1.426834766e-07, 0, 1, Vector2(0.700852, 0.75), -1.426834766e-07, -0.0303887, 1, 0, Vector2(1.0, 0.0), -6.0066755, -6.0066755, 0, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Alpha7"]
+resource_name = "Alpha"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Alpha7")
+
+[sub_resource type="Curve" id="Curve_Dissolve8"]
+resource_name = "Dissolve"
+_limits = [0.0, 1.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.0), 0.0, 1.0, 0, 1, Vector2(1.0, 1.0), 1.0, 0.0, 1, 1]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Dissolve8"]
+resource_name = "Dissolve"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Dissolve8")
+
+[sub_resource type="Curve" id="Curve_Size9"]
+resource_name = "Size"
+_limits = [0.0, 4.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 3.0000004), 0.0, -8.5610086e-07, 0, 1, Vector2(0.700852, 2.9999998), -8.5610086e-07, -0.1215546, 1, 0, Vector2(1.0, 0.0), -24.0267019, -24.0267019, 0, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Size9"]
+resource_name = "Size"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Size9")
+
+[sub_resource type="Curve" id="Curve_Alpha10"]
+resource_name = "Alpha"
+_limits = [0.0, 2.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 1.0000001), 0.0, -2.853669534e-07, 0, 1, Vector2(0.700852, 0.9999999), -2.853669534e-07, -0.0405182, 1, 0, Vector2(1.0, 0.0), -8.0089006, -8.0089006, 0, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Alpha10"]
+resource_name = "Alpha"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Alpha10")
+
+[sub_resource type="Curve" id="Curve_Dissolve11"]
+resource_name = "Dissolve"
+_limits = [0.0, 1.0, 0.0, 1.0]
+bake_resolution = 512
+_data = [Vector2(0.0, 0.0), 0.0, 0.0, 0, 0, Vector2(1.0, 0.1), 0.2050837, 0.2050837, 0, 0]
+
+[sub_resource type="CurveTexture" id="CurveTexture_Dissolve11"]
+resource_name = "Dissolve"
+width = 512
+texture_mode = 1
+curve = SubResource("Curve_Dissolve11")
+
+[node name="NS_BrainBurst" type="Node3D"]
+script = ExtResource("1_scene")
+system_name = &"NS_BrainBurst"
+family = &"brain_burst"
+intensity = 1
+
+[node name="DirectionalBurst" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodDirection_06")
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst"
+reference_material = &"MI_BloodDirection_06"
+uv_flip = 1
+channel = 1
+alignment = 2
+sprite_pivot = Vector2(0.5, 0.8)
+emission_shape = 1
+speed_stretch = true
+collision_events = false
+particle_count = 5
+stream_count = 0
+emission_window = 0.0
+spawn_delay = 0.0
+cone_degrees = 0.0
+speed = Vector2(0.0, 0.0)
+width = Vector2(0.1, 0.5)
+length = Vector2(0.6, 1.2)
+spawn_radius = 0.02
+gravity = 0.0
+drag = 0.0
+opacity = 1.0
+particle_lifetime = Vector2(0.4, 0.8)
+source_motion = true
+uniform_sprite_size = false
+spawn_offset = Vector3(0.0, 0.0, 0.0)
+spawn_shape_scale = Vector3(1.0, 1.0, 1.0)
+spawn_surface_only = true
+radial_speed = Vector2(0.1, 0.3)
+radial_origin = Vector3(0.0, 0.0, 0.0)
+gravity_min = Vector3(0.0, -4.5, 0.0)
+gravity_max = Vector3(0.0, -4.0, 0.0)
+drag_range = Vector2(0.75, 1.0)
+alignment_uses_initial_velocity = true
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1.0, 2.0)
+speed_scale_threshold = 15.0
+size_x_curve = SubResource("CurveTexture_Size1")
+size_y_curve = SubResource("CurveTexture_Size1")
+alpha_curve = SubResource("CurveTexture_Alpha2")
+dissolve_curve = SubResource("CurveTexture_Dissolve3")
+
+[node name="DirectionalBurst001" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodDirection_11")
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst001"
+reference_material = &"MI_BloodDirection_11"
+uv_flip = 1
+channel = 1
+alignment = 2
+sprite_pivot = Vector2(0.5, 1)
+emission_shape = 1
+speed_stretch = true
+collision_events = false
+particle_count = 5
+stream_count = 0
+emission_window = 0.0
+spawn_delay = 0.0
+cone_degrees = 0.0
+speed = Vector2(0.0, 0.0)
+width = Vector2(0.1, 0.35)
+length = Vector2(0.35, 0.9)
+spawn_radius = 0.02
+gravity = 0.0
+drag = 0.0
+opacity = 1.0
+particle_lifetime = Vector2(0.8, 1.0)
+source_motion = true
+uniform_sprite_size = false
+spawn_offset = Vector3(0.0, 0.0, 0.0)
+spawn_shape_scale = Vector3(1.0, 1.0, 1.0)
+spawn_surface_only = true
+radial_speed = Vector2(0.9, 0.9)
+radial_origin = Vector3(0.0, 0.0, 0.0)
+velocity_add_min = Vector3(-1.5, 0.0, 0.0)
+velocity_add_max = Vector3(-0.5, 0.0, 0.0)
+gravity_min = Vector3(0.0, -4.0, 0.0)
+gravity_max = Vector3(0.0, -3.0, 0.0)
+drag_range = Vector2(0.75, 1.0)
+alignment_uses_initial_velocity = true
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1.0, 2.0)
+speed_scale_threshold = 15.0
+size_x_curve = SubResource("CurveTexture_Size1")
+size_y_curve = SubResource("CurveTexture_Size1")
+alpha_curve = SubResource("CurveTexture_Alpha2")
+dissolve_curve = SubResource("CurveTexture_Dissolve4")
+
+[node name="DirectionalBurst002" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodDirection_10")
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst002"
+reference_material = &"MI_BloodDirection_10"
+uv_flip = 1
+channel = 1
+alignment = 2
+sprite_pivot = Vector2(0.5, 1)
+emission_shape = 1
+speed_stretch = true
+collision_events = false
+particle_count = 5
+stream_count = 0
+emission_window = 0.0
+spawn_delay = 0.0
+cone_degrees = 0.0
+speed = Vector2(0.0, 0.0)
+width = Vector2(0.25, 0.8)
+length = Vector2(0.25, 0.7)
+spawn_radius = 0.0
+gravity = 0.0
+drag = 0.0
+opacity = 1.0
+particle_lifetime = Vector2(0.4, 1.0)
+source_motion = true
+uniform_sprite_size = false
+spawn_offset = Vector3(0.0, 0.0, 0.0)
+spawn_shape_scale = Vector3(1.0, 1.0, 1.0)
+spawn_surface_only = true
+radial_speed = Vector2(0.15, 0.15)
+radial_origin = Vector3(0.0, 0.0, 0.0)
+velocity_add_min = Vector3(-0.6, 0.0, 0.0)
+velocity_add_max = Vector3(0.0, 0.01, 0.01)
+gravity_min = Vector3(0.0, -4.5, 0.0)
+gravity_max = Vector3(0.0, -4.5, 0.0)
+drag_range = Vector2(2.0, 2.0)
+camera_offset = 0.2
+alignment_uses_initial_velocity = true
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1.0, 2.0)
+speed_scale_threshold = 15.0
+size_x_curve = SubResource("CurveTexture_Size1")
+size_y_curve = SubResource("CurveTexture_Size1")
+alpha_curve = SubResource("CurveTexture_Alpha2")
+dissolve_curve = SubResource("CurveTexture_Dissolve5")
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_Smoke")
+cast_shadow = 0
+gi_mode = 0
+amount = 256
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"Smoke"
+reference_material = &"MI_Smoke"
+uv_flip = 3
+channel = 0
+alignment = 0
+emission_shape = 0
+speed_stretch = false
+collision_events = false
+particle_count = 1
+stream_count = 0
+emission_window = 0.0
+spawn_delay = 0.0
+cone_degrees = 0.0
+speed = Vector2(0.0, 0.0)
+width = Vector2(1.2, 1.3)
+length = Vector2(1.4, 1.5)
+spawn_radius = 0.0
+gravity = 0.0
+drag = 0.0
+opacity = 1.0
+particle_lifetime = Vector2(0.9, 1.0)
+source_motion = true
+follow_source_transform = true
+uniform_sprite_size = false
+smoke_color = Vector3(0.166667, 0.0, 0.0)
+drag_range = Vector2(2.0, 2.0)
+size_x_curve = SubResource("CurveTexture_Size6")
+size_y_curve = SubResource("CurveTexture_Size6")
+alpha_curve = SubResource("CurveTexture_Alpha7")
+dissolve_curve = SubResource("CurveTexture_Dissolve8")
+
+[node name="Spots" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_CellSpot_01")
+cast_shadow = 0
+gi_mode = 0
+amount = 3072
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"Spots"
+reference_material = &"MI_CellSpot_01"
+uv_flip = 1
+channel = 2
+alignment = 1
+sprite_pivot = Vector2(0.5, 0.8)
+emission_shape = 1
+speed_stretch = true
+collision_events = false
+particle_count = 250
+stream_count = 0
+emission_window = 0.0
+spawn_delay = 0.0
+cone_degrees = 0.0
+speed = Vector2(0.0, 0.0)
+width = Vector2(0.005, 0.02)
+length = Vector2(0.005, 0.02)
+spawn_radius = 0.2
+gravity = 0.0
+drag = 0.0
+opacity = 1.0
+particle_lifetime = Vector2(0.4, 2.0)
+source_motion = true
+uniform_sprite_size = true
+rotation_range = Vector2(0.0, 1.0)
+spawn_shape_scale = Vector3(1.0, 1.0, 1.0)
+spawn_surface_only = true
+radial_speed = Vector2(0.5, 2.5)
+radial_origin = Vector3(0.0, 0.0, 0.0)
+gravity_min = Vector3(0.0, -4.5, 0.0)
+gravity_max = Vector3(0.0, -4.0, 0.0)
+drag_range = Vector2(0.1, 2.0)
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1.0, 6.0)
+speed_scale_threshold = 15.0
+size_x_curve = SubResource("CurveTexture_Size9")
+size_y_curve = SubResource("CurveTexture_Size9")
+alpha_curve = SubResource("CurveTexture_Alpha10")
+dissolve_curve = SubResource("CurveTexture_Dissolve11")

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DamageOverTimeEffectDefinition" format=3 uid="uid://tvih6gcpvjg4"]
+
+[ext_resource type="Script" path="res://combat/effects/damage_over_time_effect_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/poisoned.tres" id="icon_art"]
+
+[ext_resource type="PackedScene" path="res://combat/effects/status_loops/poisoned.tscn" id="loop_fx"]
+
+[resource]
+resource_name = "Poisoned"
+script = ExtResource("1_definition")
+id = &"poisoned"
+display_name = "Poisoned"
+icon = ExtResource("icon_art")
+description = "Its hits can poison you, dealing damage over time."
+damage_type = "poison"
+hit_damage_percent = 41.6
+enemy_while_active_fx = ExtResource("loop_fx")

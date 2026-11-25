@@ -1,0 +1,563 @@
+[gd_resource type="Resource" format=3 uid="uid://bnu5vbna2ig2l"]
+
+[ext_resource type="Script" uid="uid://w4ieq7iaxh0i" path="res://data/items/legendary_records.gd" id="1_rem7k"]
+
+[resource]
+script = ExtResource("1_rem7k")
+legendaries = Array[Dictionary]([{
+"affix_tier": 4,
+"base_id": "chapel_sabre",
+"description": "Landed attacks restore Life.",
+"effect": "bloodletting",
+"id": "the_open_vein",
+"level": 4,
+"name": "The Open Vein",
+"stat_ranges": {
+"attack_speed": Vector2(10, 14),
+"life_leech": Vector2(2, 4),
+"max_health": Vector2(4, 6)
+},
+"stats": {
+"attack_speed": 12,
+"life_leech": 3,
+"max_health": 5
+}
+}, {
+"affix_tier": 4,
+"base_id": "carrion_treads",
+"description": "Evading a hit grants a brief burst of movement speed.",
+"effect": "phasewalk",
+"id": "widows_passage",
+"level": 4,
+"name": "Widow's Passage",
+"stat_ranges": {
+"dodge_chance": Vector2(9, 13),
+"move_speed": Vector2(10, 14),
+"poison_resist": Vector2(18, 26)
+},
+"stats": {
+"dodge_chance": 11,
+"move_speed": 12,
+"poison_resist": 22
+}
+}, {
+"affix_tier": 4,
+"base_id": "verger_mace",
+"description": "Every fourth landed strike arcs lightning to a nearby enemy.",
+"effect": "stormcall",
+"id": "bell_of_the_lost",
+"level": 5,
+"name": "Bell of the Lost",
+"stat_ranges": {
+"cooldown_recovery": Vector2(11, 17),
+"fire_damage": Vector2(1, 2),
+"lightning_damage": Vector2(2, 4),
+"max_mana": Vector2(4, 6)
+},
+"stats": {
+"cooldown_recovery": 14,
+"fire_damage": 1.8,
+"lightning_damage": 2.6,
+"max_mana": 5
+}
+}, {
+"affix_tier": 4,
+"base_id": "wrought_heater",
+"description": "Blocking a hit chills its attacker.",
+"effect": "frostguard",
+"id": "the_pale_door",
+"level": 5,
+"name": "The Pale Door",
+"stat_ranges": {
+"armor": Vector2(5, 9),
+"cold_resist": Vector2(12, 20),
+"max_stamina": Vector2(3, 5)
+},
+"stats": {
+"armor": 7,
+"cold_resist": 16,
+"max_stamina": 4
+}
+}, {
+"affix_tier": 4,
+"base_id": "brine_loop",
+"description": "Treasure chests yield additional gold.",
+"effect": "deep_pockets",
+"id": "undertakers_tithe",
+"level": 6,
+"name": "Undertaker's Tithe",
+"stat_ranges": {
+"gold_find": Vector2(26, 38),
+"loot_rarity": Vector2(24, 34),
+"max_mana": Vector2(3, 5)
+},
+"stats": {
+"gold_find": 32,
+"loot_rarity": 29,
+"max_mana": 4
+}
+}, {
+"affix_tier": 4,
+"base_id": "mourning_lock",
+"description": "Kills briefly increase attack speed.",
+"effect": "soul_hunger",
+"id": "hunger_below",
+"level": 7,
+"name": "Hunger Below",
+"stat_ranges": {
+"attack_speed": Vector2(11, 17),
+"crit_chance": Vector2(5, 9),
+"life_on_kill": Vector2(3, 5)
+},
+"stats": {
+"attack_speed": 14,
+"crit_chance": 7,
+"life_on_kill": 4
+}
+}, {
+"affix_tier": 4,
+"base_id": "grave_bardiche",
+"description": "Heavy attacks release a burst of fire around their first target.",
+"effect": "ashwake",
+"id": "pyre_of_the_unburied",
+"level": 8,
+"name": "Pyre of the Unburied",
+"stat_ranges": {
+"fire_damage": Vector2(4, 6),
+"fire_resist": Vector2(17, 25),
+"stun_power": Vector2(19, 29)
+},
+"stats": {
+"fire_damage": 4.8,
+"fire_resist": 21,
+"stun_power": 24
+}
+}, {
+"affix_tier": 4,
+"base_id": "gloam_zweihander",
+"description": "Deal more damage to badly wounded enemies.",
+"effect": "execution",
+"id": "last_sentence",
+"level": 8,
+"name": "Last Sentence",
+"stat_ranges": {
+"crit_multiplier": Vector2(20, 30),
+"damage_max": Vector2(3, 5),
+"damage_min": Vector2(2, 3)
+},
+"stats": {
+"crit_multiplier": 25,
+"damage_max": 4.0,
+"damage_min": 2.4
+}
+}, {
+"affix_tier": 4,
+"base_id": "black_lamellar",
+"description": "Take less damage while low on Life.",
+"effect": "dawnward",
+"id": "the_vigil_unbroken",
+"level": 9,
+"name": "The Vigil Unbroken",
+"stat_ranges": {
+"armor": Vector2(10, 14),
+"max_health": Vector2(7, 11),
+"ward": Vector2(5, 7)
+},
+"stats": {
+"armor": 12,
+"max_health": 9,
+"ward": 6
+}
+}, {
+"affix_tier": 4,
+"base_id": "iron_belt",
+"description": "Kills restore additional Life and Mana.",
+"effect": "grave_echo",
+"id": "a_grave_for_two",
+"level": 10,
+"name": "A Grave for Two",
+"stat_ranges": {
+"life_on_kill": Vector2(3, 5),
+"mana_on_kill": Vector2(2, 4),
+"ward": Vector2(5, 7)
+},
+"stats": {
+"life_on_kill": 4,
+"mana_on_kill": 3,
+"ward": 6
+}
+}, {
+"affix_tier": 4,
+"base_id": "vigil_dirk",
+"description": "While single-wielding, land three distinct light-chain steps on the same enemy. Your next charged hit against it deals 12% more Physical damage.",
+"drop_weight": 1,
+"effect": "latchknife",
+"id": "latchknife",
+"level": 6,
+"name": "Latchknife",
+"stat_ranges": {
+"attack_speed": Vector2(6, 10),
+"crit_chance": Vector2(4, 6)
+},
+"stats": {
+"attack_speed": 8,
+"crit_chance": 5
+}
+}, {
+"affix_tier": 4,
+"base_id": "charnel_mallet",
+"description": "A charged strike from Stillstone that stuns a living enemy returns 2 Stamina. Once every four seconds.",
+"drop_weight": 0.85,
+"effect": "stillstone",
+"id": "stillstone",
+"level": 7,
+"name": "Stillstone",
+"stat_ranges": {
+"max_stamina": Vector2(1, 3),
+"stun_power": Vector2(12, 16)
+},
+"stats": {
+"max_stamina": 2,
+"stun_power": 14
+}
+}, {
+"affix_tier": 4,
+"base_id": "sable_bearded_axe",
+"description": "Interrupting a damaging cast with a charged hit Chills the enemy for two seconds. Once every five seconds.",
+"drop_weight": 0.85,
+"effect": "gravegate",
+"id": "gravegate",
+"level": 8,
+"name": "Gravegate",
+"stat_ranges": {
+"armor": Vector2(4, 6),
+"crit_chance": Vector2(4, 8)
+},
+"stats": {
+"armor": 5,
+"crit_chance": 6
+}
+}, {
+"affix_tier": 4,
+"base_id": "chapel_sabre",
+"description": "Land light strikes with both weapons, then land a two-weapon charge to recover up to 3 Ward. Once every six seconds.",
+"drop_weight": 0.75,
+"effect": "unmatched_pair",
+"id": "unmatched_pair",
+"level": 9,
+"name": "The Unmatched Pair",
+"stat_ranges": {
+"attack_speed": Vector2(5, 9),
+"max_stamina": Vector2(1, 3),
+"ward": Vector2(3, 5)
+},
+"stats": {
+"attack_speed": 7,
+"max_stamina": 2,
+"ward": 4
+}
+}, {
+"affix_tier": 3,
+"base_id": "sealed_tower_shield",
+"description": "After blocking without breaking guard, release it within 1.8 seconds to restore 3 Stamina. Can restore Stamina once every ten seconds.",
+"drop_weight": 0.85,
+"effect": "counterweight_gate",
+"id": "counterweight_gate",
+"level": 16,
+"name": "Counterweight Gate",
+"stat_ranges": {
+"armor": Vector2(6, 10),
+"cold_resist": Vector2(8, 12),
+"max_stamina": Vector2(2, 4)
+},
+"stats": {
+"armor": 8,
+"cold_resist": 10,
+"max_stamina": 3
+}
+}, {
+"affix_tier": 3,
+"base_id": "votive_barbute",
+"description": "Shortens an incoming stun by 30%. Can trigger once every fifteen seconds.",
+"drop_weight": 0.8,
+"effect": "still_bell",
+"id": "crown_of_the_still_bell",
+"level": 18,
+"name": "Crown of the Still Bell",
+"stat_ranges": {
+"armor": Vector2(5, 7),
+"max_health": Vector2(5, 8),
+"ward": Vector2(4, 6)
+},
+"stats": {
+"armor": 6,
+"max_health": 6.5,
+"ward": 5
+}
+}, {
+"affix_tier": 3,
+"base_id": "black_lamellar",
+"description": "",
+"drop_weight": 1,
+"effect": "",
+"id": "ribvault_carapace",
+"level": 13,
+"name": "Ribvault Carapace",
+"stat_ranges": {
+"armor": Vector2(13, 19),
+"max_health": Vector2(8, 12),
+"poison_resist": Vector2(14, 22),
+"ward": Vector2(4, 6)
+},
+"stats": {
+"armor": 16,
+"max_health": 10,
+"poison_resist": 18,
+"ward": 5
+}
+}, {
+"affix_tier": 3,
+"base_id": "ironstep_greaves",
+"description": "A direct hit that removes Life grants 15% increased movement speed for 1.25 seconds. Once every twelve seconds.",
+"drop_weight": 0.85,
+"effect": "stonewake_spurs",
+"id": "stonewake_spurs",
+"level": 12,
+"name": "Stonewake Spurs",
+"stat_ranges": {
+"armor": Vector2(3, 5),
+"max_stamina": Vector2(1, 3),
+"move_speed": Vector2(4, 6)
+},
+"stats": {
+"armor": 4,
+"max_stamina": 2,
+"move_speed": 5
+}
+}, {
+"affix_tier": 3,
+"base_id": "pale_vesper_staff",
+"description": "Staff hits Chill. Hitting a chilled enemy sends a fracture into other nearby enemies. Can fracture once every three seconds.",
+"drop_weight": 0.85,
+"effect": "rime_that_rings",
+"id": "rime_that_rings",
+"level": 14,
+"name": "Rime That Rings",
+"stat_ranges": {
+"cold_damage": Vector2(4, 6),
+"cold_resist": Vector2(14, 22),
+"max_mana": Vector2(9, 13)
+},
+"stats": {
+"cold_damage": 5,
+"cold_resist": 18,
+"max_mana": 11
+}
+}, {
+"affix_tier": 2,
+"base_id": "sable_signet",
+"description": "Spending 38 Mana on staff abilities primes the next staff hit to arc to two nearby enemies, at most once every five seconds.",
+"drop_weight": 0.7,
+"effect": "tithe_of_sparks",
+"id": "tithe_of_sparks",
+"level": 24,
+"name": "Tithe of Sparks",
+"stat_ranges": {
+"lightning_damage": Vector2(3, 5),
+"lightning_resist": Vector2(14, 22),
+"max_mana": Vector2(7, 10)
+},
+"stats": {
+"lightning_damage": 4,
+"lightning_resist": 18,
+"max_mana": 8.5
+}
+}, {
+"affix_tier": 1,
+"base_id": "saints_bell",
+"description": "Your first rare kill in each expedition raises one Oathbound skeleton. If Oathbound allies are already active, it instead extends their service.",
+"drop_weight": 0.48,
+"effect": "cairn_oath",
+"id": "cairn_oath",
+"level": 31,
+"name": "Cairn Oath",
+"stat_ranges": {
+"max_health": Vector2(7, 11),
+"max_mana": Vector2(8, 12),
+"ward": Vector2(6, 10)
+},
+"stats": {
+"max_health": 9,
+"max_mana": 10,
+"ward": 8
+}
+}, {
+"affix_tier": 4,
+"base_id": "bone_charm",
+"description": "Breaking a destructible briefly reveals cracks in a nearby unopened secret wall. Each passage can be revealed this way once per expedition.",
+"drop_weight": 0.9,
+"effect": "masons_listener",
+"id": "masons_listener",
+"level": 6,
+"name": "Mason's Listener",
+"stat_ranges": {
+"cold_resist": Vector2(6, 10),
+"max_mana": Vector2(3, 5)
+},
+"stats": {
+"cold_resist": 8,
+"max_mana": 4
+}
+}, {
+"affix_tier": 4,
+"base_id": "tallow_band",
+"description": "Recover the first Treasure Key you spend on a locked coffer each expedition.",
+"drop_weight": 0.9,
+"effect": "tollkeepers_mercy",
+"id": "tollkeepers_mercy",
+"level": 8,
+"name": "Tollkeeper's Mercy",
+"stat_ranges": {
+"loot_rarity": Vector2(5, 8),
+"poison_resist": Vector2(6, 10)
+},
+"stats": {
+"loot_rarity": 6.5,
+"poison_resist": 8
+}
+}, {
+"affix_tier": 3,
+"base_id": "rusted_vambraces",
+"description": "Blocking a melee hit while leaving at least half your Stamina grants briefly shortened incoming stuns. Once every eight seconds.",
+"drop_weight": 0.85,
+"effect": "buttress_hands",
+"id": "hands_of_the_buttress",
+"level": 10,
+"name": "Hands of the Buttress",
+"stat_ranges": {
+"armor": Vector2(3, 6),
+"max_stamina": Vector2(1, 3)
+},
+"stats": {
+"armor": 4.5,
+"max_stamina": 2
+}
+}, {
+"affix_tier": 3,
+"base_id": "votive_barbute",
+"description": "",
+"drop_weight": 0.9,
+"effect": "",
+"id": "crooked_benediction",
+"level": 18,
+"name": "Crooked Benediction",
+"stat_ranges": {
+"max_health": Vector2(-5, -3),
+"physical_dot_reduction": Vector2(15, 21),
+"poison_resist": Vector2(20, 28),
+"ward": Vector2(7, 10)
+},
+"stats": {
+"max_health": -4,
+"physical_dot_reduction": 18,
+"poison_resist": 24,
+"ward": 8.5
+}
+}, {
+"affix_tier": 3,
+"base_id": "sexton_gauntlets",
+"description": "",
+"drop_weight": 0.85,
+"effect": "",
+"id": "pallbearers_grip",
+"level": 16,
+"name": "Pallbearer's Grip",
+"stat_ranges": {
+"attack_speed": Vector2(-10, -6),
+"damage_max": Vector2(2, 4),
+"damage_min": Vector2(1, 3),
+"stun_power": Vector2(26, 36)
+},
+"stats": {
+"attack_speed": -8,
+"damage_max": 3,
+"damage_min": 2,
+"stun_power": 31
+}
+}, {
+"affix_tier": 3,
+"base_id": "hide_belt",
+"description": "",
+"drop_weight": 0.95,
+"effect": "",
+"id": "pilgrims_last_knot",
+"level": 14,
+"name": "Pilgrim's Last Knot",
+"stat_ranges": {
+"life_regen": Vector2(0.6, 1),
+"max_stamina": Vector2(5, 7),
+"move_speed": Vector2(-7, -5)
+},
+"stats": {
+"life_regen": 0.8,
+"max_stamina": 6,
+"move_speed": -6
+}
+}, {
+"affix_tier": 3,
+"base_id": "mournsteel_stiletto",
+"description": "Deals more damage to enemies below 35% Life.",
+"drop_weight": 0.11,
+"effect": "execution",
+"id": "tithe_of_the_last_breath",
+"level": 18,
+"name": "Tithe of the Last Breath",
+"stat_ranges": {
+"attack_speed": Vector2(5, 8),
+"crit_chance": Vector2(5, 7),
+"crit_multiplier": Vector2(18, 26)
+},
+"stats": {
+"attack_speed": 6.5,
+"crit_chance": 6,
+"crit_multiplier": 22
+}
+}, {
+"affix_tier": 2,
+"base_id": "sealed_tower_shield",
+"description": "Take less damage while at or below 30% Life.",
+"drop_weight": 0.08,
+"effect": "dawnward",
+"id": "the_gate_that_held",
+"level": 28,
+"name": "The Gate That Held",
+"stat_ranges": {
+"armor": Vector2(9, 13),
+"max_stamina": Vector2(4, 6),
+"ward": Vector2(4, 7)
+},
+"stats": {
+"armor": 11,
+"max_stamina": 5,
+"ward": 5.5
+}
+}, {
+"affix_tier": 1,
+"base_id": "sable_signet",
+"description": "Charged attacks release a Fire burst around their first target.",
+"drop_weight": 0.055,
+"effect": "ashwake",
+"id": "kiln_preserved_oath",
+"level": 42,
+"name": "Kiln-Preserved Oath",
+"stat_ranges": {
+"fire_damage": Vector2(6, 9),
+"fire_resist": Vector2(13, 20),
+"stun_power": Vector2(10, 15)
+},
+"stats": {
+"fire_damage": 7.5,
+"fire_resist": 16.5,
+"stun_power": 12.5
+}
+}])

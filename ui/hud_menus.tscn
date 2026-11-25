@@ -1,0 +1,275 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="1_theme"]
+[ext_resource type="PackedScene" path="res://ui/hud_menu_button.tscn" id="2_action"]
+
+[sub_resource type="StyleBoxFlat" id="Frame"]
+content_margin_left = 25.0
+content_margin_top = 22.0
+content_margin_right = 25.0
+content_margin_bottom = 22.0
+bg_color = Color(0.0431, 0.0471, 0.0549, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3333, 0.3569, 0.3843, 1)
+
+[node name="Overlay" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+color = Color(0.021, 0.023, 0.026, 0.77)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Center"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("Frame")
+
+[node name="Contents" type="VBoxContainer" parent="Center/Frame"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Heading" type="Label" parent="Center/Frame/Contents"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 36
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="Divider" type="HSeparator" parent="Center/Frame/Contents"]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="Center/Frame/Contents"]
+visible = false
+custom_minimum_size = Vector2(396, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.6902, 0.7137, 0.7451, 1)
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
+[node name="Menus" type="VBoxContainer" parent="Center/Frame/Contents"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Pause" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+custom_minimum_size = Vector2(348, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Resume" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "Resume"
+
+[node name="Cards" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
+layout_mode = 2
+text = "Deck"
+
+[node name="CombatLog" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
+layout_mode = 2
+text = "Combat Log"
+
+[node name="Recap" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
+visible = false
+layout_mode = 2
+text = "Expedition Recap"
+
+[node name="Achievements" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
+visible = false
+layout_mode = 2
+text = "Achievements"
+
+[node name="Settings" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Log Out"
+
+[node name="Settings" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(411, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="DisplayHeading" type="Label" parent="Center/Frame/Contents/Menus/Settings"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 17
+text = "Display"
+
+[node name="Fullscreen" type="CheckButton" parent="Center/Frame/Contents/Menus/Settings"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 16
+text = "Fullscreen"
+
+[node name="EmbeddedHelp" type="Label" parent="Center/Frame/Contents/Menus/Settings"]
+visible = false
+custom_minimum_size = Vector2(415, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.5882, 0.6157, 0.651, 1)
+theme_override_font_sizes/font_size = 14
+text = "In Godot's Game tab, turn off Embed Game on Next Play and restart to use fullscreen."
+autowrap_mode = 3
+
+[node name="Divider" type="HSeparator" parent="Center/Frame/Contents/Menus/Settings"]
+layout_mode = 2
+
+[node name="Bestiary" parent="Center/Frame/Contents/Menus/Settings" instance=ExtResource("2_action")]
+layout_mode = 2
+text = "Bestiary"
+
+[node name="Lifetime" parent="Center/Frame/Contents/Menus/Settings" instance=ExtResource("2_action")]
+visible = false
+layout_mode = 2
+text = "Lifetime Statistics"
+
+[node name="Back" parent="Center/Frame/Contents/Menus/Settings" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Back"
+
+[node name="Depths" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(411, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Scroll" type="ScrollContainer" parent="Center/Frame/Contents/Menus/Depths"]
+custom_minimum_size = Vector2(0, 242)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Contents/Menus/Depths/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Back" parent="Center/Frame/Contents/Menus/Depths" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Back"
+
+[node name="SealVault" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(411, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Confirm" parent="Center/Frame/Contents/Menus/SealVault" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"DangerButton"
+text = "Close Dungeon"
+
+[node name="Back" parent="Center/Frame/Contents/Menus/SealVault" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Keep Gate Open"
+
+[node name="BloodAltar" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(490, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Offers" type="VBoxContainer" parent="Center/Frame/Contents/Menus/BloodAltar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Back" parent="Center/Frame/Contents/Menus/BloodAltar" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Leave Altar"
+
+[node name="Recap" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(411, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Contents/Menus/Recap"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Back" parent="Center/Frame/Contents/Menus/Recap" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Back"
+
+[node name="Lifetime" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(510, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Scroll" type="ScrollContainer" parent="Center/Frame/Contents/Menus/Lifetime"]
+custom_minimum_size = Vector2(0, 388)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Contents/Menus/Lifetime/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 7
+
+[node name="Back" parent="Center/Frame/Contents/Menus/Lifetime" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Back"
+
+[node name="Achievements" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(510, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Scroll" type="ScrollContainer" parent="Center/Frame/Contents/Menus/Achievements"]
+custom_minimum_size = Vector2(0, 388)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Rows" type="VBoxContainer" parent="Center/Frame/Contents/Menus/Achievements/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 7
+
+[node name="Back" parent="Center/Frame/Contents/Menus/Achievements" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Back"
+
+[node name="SaveError" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
+visible = false
+custom_minimum_size = Vector2(411, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Back" parent="Center/Frame/Contents/Menus/SaveError" instance=ExtResource("2_action")]
+layout_mode = 2
+theme_type_variation = &"QuietButton"
+text = "Back"

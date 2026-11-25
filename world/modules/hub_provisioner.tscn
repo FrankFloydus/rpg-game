@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/hub/merchants/mara.glb" id="1_mara"]
+[ext_resource type="PackedScene" path="res://assets/hub/merchants/provisioner_stall.glb" id="2_stall"]
+
+[node name="Provisioner" type="Node3D"]
+
+[node name="StallAndSupplies" parent="." instance=ExtResource("2_stall")]
+
+[node name="Mara" parent="." instance=ExtResource("1_mara")]

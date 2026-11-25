@@ -1,0 +1,37 @@
+[gd_scene format=4 uid="uid://cxkvkoh2slmy8"]
+
+[ext_resource type="Script" path="res://combat/enemies/ashen_hound/ashen_hound_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/ember_pounce.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/ashen_bite.tres" id="4_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="5_ai8v0"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/ashen_hound.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/ashen_hound/ashen_hound_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gedyu"]
+radius = 0.28
+height = 0.7654
+
+[node name="AshenHound" type="CharacterBody3D" unique_id=1309438397]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 7.0
+base_attack_damage = 1.7
+base_move_speed = 3.99
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("3_ability"), ExtResource("4_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=1028990251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3827, 0)
+shape = SubResource("CapsuleShape3D_gedyu")
+
+[node name="Model" type="Node3D" parent="." unique_id=1764448333]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 0, 0, 0)
+script = ExtResource("5_ai8v0")
+
+[node name="Rig" parent="Model" unique_id=840830093 instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

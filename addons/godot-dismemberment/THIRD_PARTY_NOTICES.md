@@ -1,0 +1,73 @@
+# Source provenance
+
+The repository began with `godotengine/godot-cpp-template`. Its original
+`LICENSE.md` is retained and applies to the upstream template. The original
+template instructions are retained in `docs/TEMPLATE.md`.
+
+The pinned `godot-cpp` submodule is Godot Engine's C++ binding library, under
+its included MIT license. The source archive includes the pinned binding
+sources so it can be built without a separate download.
+
+The behavior reference is the user's installed EnGore: Procedural Dismemberment
+1.3.3 plugin by Brock Marsh / SovereignDev, including local IMPERIUM changes.
+Its source headers state all rights reserved. The upstream template license
+does not relicense EnGore. No Unreal Engine source files, binaries, `.uasset`
+or `.umap` files are included in these packages. The three blood splatter masks
+and seamless cloud noise tile in `project/addons/godot-dismemberment/textures`
+were generated procedurally for this port from independent geometry and noise.
+Reference-product texture exports remain private development artifacts. The
+Godot shaders, editor shell, demonstration environment and physical-body
+configuration are authored for this port. The realistic humanoid mesh has the
+separate provenance below.
+
+The slice-cap maps in `project/addons/godot-dismemberment/textures/slice_cap/`
+use the organic tissue textures from [SkinGore](https://github.com/zulubo/SkinGore)
+by zulubo, copyright 2020, at commit `e21aeaf809f97518af788093291910d9239dde74`.
+The albedo and normal maps come from the original `GoreTileable` textures.
+The Godot roughness map inverts the alpha channel of
+`GoreTileable_MetallicSmoothness.png` and maps it to 0.19 through 0.84 to
+retain variation under the range lighting. Metallic is black. The MIT
+notice is distributed alongside the maps as `SKINGORE_LICENSE.txt`.
+The optional surface wound shader adapts SkinGore's mask breakup and rim
+shading and uses the same credited tissue maps.
+
+The FPS demo's clothed humanoid is the rigged **Man Base Mesh** from
+[Grab3D](https://grab3d.com/models/characters/man-base-character/). Grab3D publishes
+the asset, its textures and supplied walk/run animations under
+[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). The
+download's [LICENSE.txt](https://grab3d.com/dl/man-base-character/LICENSE.txt),
+manifest and local provenance record are retained in
+`project/demo/assets/humanoid/` as `LICENSE.txt`, `manifest.json` and `ORIGIN.json`.
+The origin disclosure identifies AI-assisted mesh/texture generation using Meshy
+followed by cleanup, scaling, texturing and checks in Blender.
+
+The downloaded rigged GLB is retained as `humanoid.glb`. The Godot demo derives
+metre-sized bone rests and inverse binds while preserving the original Skin bind
+slot mapping; it also includes imported PBR textures, a saved Godot body mesh and
+17 authored physical bodies with a default combined mass of 75 kg. These Godot
+setup changes do not alter the asset's stated CC0 provenance. The original
+download SHA-256 is recorded in `ORIGIN.json`.
+The demo's `skin_gore_fabric_mask.png` is a grayscale shirt and shorts mask
+derived from that same mesh, its albedo texture and first UV channel.
+
+The mass range's `body_mesh_mass_range.res` derives from the same CC0
+humanoid. It was simplified offline with meshoptimizer 1.1.1, preserving
+the retained vertices' UVs, normals, skin weights and material. The
+simplifier is a build-time tool and is outside the runtime addon.
+
+The range HUD uses Barlow Semi Condensed and IBM Plex Mono under the SIL Open
+Font License 1.1. The license files accompany the fonts in
+`project/demo/assets/hud_fonts/`.
+
+The first-person shotgun derives from [Bullpup Shotgun, Fitted by 3DAssets.dev](https://3dassets.dev/assets/mega-weapon-pack-bullpup-shotgun-loadout-0f97efcb),
+which the publisher identifies as AI-assisted and releases under
+[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
+The demo fits it to the camera and applies Godot materials for first-person use.
+
+The bundled shotgun recordings, hiking boot footsteps, room tone, and body
+impact Foley are CC0 1.0. The recordings, creator links, and processing notes
+are listed in `project/demo/assets/audio/PROVENANCE.md`.
+
+Godot-specific implementations and engine adaptations are documented in
+`docs/PARITY.md`; this package does not grant rights to the original EnGore
+product or its content.

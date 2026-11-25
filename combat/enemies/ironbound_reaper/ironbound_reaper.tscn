@@ -1,0 +1,37 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://combat/enemies/ironbound_reaper/ironbound_reaper_ai.gd" id="1_enemy_ai"]
+[ext_resource type="Script" path="res://combat/abilities/ability_definition.gd" id="2_ability_definition"]
+[ext_resource type="Resource" path="res://combat/abilities/ironbound_sweep.tres" id="3_ability"]
+[ext_resource type="Resource" path="res://combat/abilities/reapers_advance.tres" id="4_ability"]
+[ext_resource type="Script" path="res://combat/enemies/enemy_model.gd" id="5_w2twv"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_rigs/ironbound_reaper.glb" id="SkeletalArt"]
+[ext_resource type="AnimationLibrary" path="res://combat/enemies/ironbound_reaper/ironbound_reaper_motion.tres" id="EditableMotion"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tsprg"]
+radius = 0.37
+height = 1.9866
+
+[node name="IronboundReaper" type="CharacterBody3D" unique_id=771390219]
+collision_layer = 4
+collision_mask = 7
+floor_snap_length = 0.22
+script = ExtResource("1_enemy_ai")
+base_life = 17.0
+base_attack_damage = 3.6
+base_move_speed = 2.99
+ability_loadout = Array[ExtResource("2_ability_definition")]([ExtResource("3_ability"), ExtResource("4_ability")])
+
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=485736389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9933, 0)
+shape = SubResource("CapsuleShape3D_tsprg")
+
+[node name="Model" type="Node3D" parent="." unique_id=2062452286]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 0, 0, 0)
+script = ExtResource("5_w2twv")
+
+[node name="Rig" parent="Model" unique_id=779281612 instance=ExtResource("SkeletalArt")]
+[node name="AnimationPlayer" parent="Model/Rig" index="1"]
+libraries/ = ExtResource("EditableMotion")
+
+[editable path="Model/Rig"]

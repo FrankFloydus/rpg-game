@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://v6qemmxs5w7j"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_3vhx8"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/thornback_guard.tres" id="icon_art"]
+
+[resource]
+resource_name = "Briar Guard"
+script = ExtResource("1_definition")
+id = &"thornback_guard"
+display_name = "Briar Guard"
+icon = ExtResource("icon_art")
+icon_key = "briar_guard"
+description = "Glowing spikes reflect damage from direct melee hits as physical damage while the guard is active."
+cooldown = 9.0
+action_key = "thornback_guard"
+damage_type = "physical"
+execution_profile = {
+"duration": 3.0,
+"first_delay": 3.0
+}

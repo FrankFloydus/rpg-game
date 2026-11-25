@@ -1,0 +1,33 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3]
+
+[ext_resource type="Shader" path="res://addons/godot-dismemberment/effects/blood_gpu_liquid_draw.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/forked_stump_film.png" id="2_map"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/forked_sheet_normal.png" id="3_map"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/distortion_noise.png" id="4_map"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_particles/niagara/liquid_reflection.png" id="5_map"]
+
+[resource]
+resource_name = "BloodDirection06Stump"
+shader = ExtResource("1_shader")
+shader_parameter/source_graph = true
+shader_parameter/source_alpha_map = ExtResource("2_map")
+shader_parameter/source_normal_map = ExtResource("3_map")
+shader_parameter/source_distortion_map = ExtResource("4_map")
+shader_parameter/source_reflection_map = ExtResource("5_map")
+shader_parameter/particle_kind = 1
+shader_parameter/source_masked = false
+shader_parameter/source_dissolve_test = false
+shader_parameter/source_distort_speed = Vector2(0, 0.5)
+shader_parameter/source_distort_intensity = 0.0099999998
+shader_parameter/source_distort_tiling = 5.0
+shader_parameter/source_specular_value = 2.0
+shader_parameter/source_specular_power = 0.60000002
+shader_parameter/source_softness = 0.30000001
+shader_parameter/source_power = 0.80000001
+shader_parameter/source_normal_strength = 3.0
+shader_parameter/source_darkness = 1.5
+shader_parameter/source_rotation = 0.0
+shader_parameter/source_test_dissolve = 0.0
+shader_parameter/source_main_color = Vector3(0.166667, 0.000000, 0.000000)
+shader_parameter/source_secondary_color = Vector3(0.052083, 0.000000, 0.000000)
+shader_parameter/source_specular_tint = Vector3(1.000000, 0.952554, 0.866602)

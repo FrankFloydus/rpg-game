@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/modules/blood_floor_projection.gd" id="1_receiver"]
+[ext_resource type="Resource" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/projection/surface_finish_atlas.tres" id="2_atlas"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/splatter/shared_grunge.png" id="3_grunge"]
+
+[node name="BloodProjection" type="Node3D"]
+script = ExtResource("1_receiver")
+atlas = ExtResource("2_atlas")
+surface_finish_enabled = true
+grunge = ExtResource("3_grunge")

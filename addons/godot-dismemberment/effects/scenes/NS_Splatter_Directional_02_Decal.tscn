@@ -1,0 +1,109 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_scene.gd" id="1_scene"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_emitter_layer.gd" id="2_layer"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="3_process"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_CellSpot_01.tres" id="Niagara_CellSpot_01"]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_contact_receiver.gd" id="4_contact"]
+[ext_resource type="ORMMaterial3D" path="res://addons/godot-dismemberment/materials/blood_decals/particle_contacts/splatter_03.tres" id="Contact_03"]
+[ext_resource type="ORMMaterial3D" path="res://addons/godot-dismemberment/materials/blood_decals/particle_contacts/splatter_04.tres" id="Contact_04"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sprite"]
+size = Vector2(1, 1)
+
+[sub_resource type="Curve" id="Curve_Spots_Fade"]
+_data = [Vector2(0, 1), 0.000000000, 0.000000000, 0, 1, Vector2(0.7008519769, 0.9999999404), -8.503935497e-08, -0.040518202, 1, 0, Vector2(1, 0), -8.008900642, -8.008900642, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Texture_Spots_Fade"]
+curve = SubResource("Curve_Spots_Fade")
+
+[sub_resource type="Curve" id="Curve_Spots_Dissolve"]
+_data = [Vector2(0, 0), 0.000000000, 0.000000000, 0, 0, Vector2(1, 0.1), 0.2050836563, 0.2050836563, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_Spots_Dissolve"]
+curve = SubResource("Curve_Spots_Dissolve")
+
+[node name="NS_Splatter_Directional_02_Decal" type="Node3D"]
+script = ExtResource("1_scene")
+system_name = &"NS_Splatter_Directional_02_Decal"
+family = &"splatter"
+intensity = 1
+
+[node name="Decal001" type="Node3D" parent="."]
+script = ExtResource("4_contact")
+source_layer = &"Spots"
+reference_material = &"MI_BloodSplatterDecal_03"
+material = ExtResource("Contact_03")
+use_decal_library = true
+size_range = Vector2(0.35, 0.5)
+depth = 0.3
+dissolve_end_tangent = 2.8506953716
+orientation = 2
+follow_collision_body = false
+
+[node name="Decal" type="Node3D" parent="."]
+script = ExtResource("4_contact")
+source_layer = &"Spots"
+reference_material = &"MI_BloodSplatterDecal_04"
+material = ExtResource("Contact_04")
+use_decal_library = true
+size_range = Vector2(0.2, 0.4)
+depth = 0.3
+dissolve_end_tangent = 3.109849453
+orientation = 2
+follow_collision_body = false
+
+[node name="Spots" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_CellSpot_01")
+cast_shadow = 0
+gi_mode = 0
+amount = 3072
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"Spots"
+uniform_sprite_size = true
+reference_material = &"MI_CellSpot_01"
+uv_flip = 1
+channel = 2
+alignment = 1
+sprite_pivot = Vector2(0.5, 0.8)
+speed_stretch = true
+source_motion = true
+particle_count = 5
+stream_rate = 0.0
+emission_window = 0.0
+loop_duration = 0.0
+lifetime = 5.05
+particle_lifetime = Vector2(5, 5)
+spawn_radius = 0.4
+gravity_min = Vector3(0, -9.8, 0)
+gravity_max = Vector3(0, -9.8, 0)
+drag_range = Vector2(1, 2)
+rotation_range = Vector2(0, 1)
+width = Vector2(0.015, 0.03)
+length = Vector2(0.015, 0.03)
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1, 6)
+speed_scale_threshold = 15.0
+alpha_curve = SubResource("Texture_Spots_Fade")
+size_x_curve = SubResource("Texture_Spots_Fade")
+size_y_curve = SubResource("Texture_Spots_Fade")
+dissolve_curve = SubResource("Texture_Spots_Dissolve")
+opacity = 1.0
+collision_events = true
+contact_after_force_solve = true
+use_source_collision_rays = true
+source_ray_timing = 2
+collision_kill = true
+radial_speed = Vector2(0.2, 0.9)
+velocity_add_min = Vector3(0, 5, 0)
+velocity_add_max = Vector3(0, 5, 0)

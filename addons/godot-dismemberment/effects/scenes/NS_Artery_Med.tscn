@@ -1,0 +1,115 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_scene.gd" id="1_scene"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_emitter_layer.gd" id="2_layer"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/process.tres" id="3_process"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_BloodSplash_07.tres" id="Niagara_BloodSplash_07"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_particles/niagara/MI_BloodDirection_04.tres" id="Niagara_BloodDirection_04"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sprite"]
+size = Vector2(1, 1)
+
+[sub_resource type="Curve" id="Curve_size_DirectionalBurst001"]
+max_value = 1.999999881
+_data = [Vector2(0.0, 5.138896952e-08), 8.357048035, 8.357048035, 0, 0, Vector2(0.2222635597, 1.365055561), 1.999002576, 1.999002576, 0, 0, Vector2(1.0, 1.999999881), -0.08103640378, -0.08103640378, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Texture_size_DirectionalBurst001"]
+curve = SubResource("Curve_size_DirectionalBurst001")
+
+[sub_resource type="Curve" id="Curve_dissolve_DirectionalBurst001"]
+_data = [Vector2(0.0, 0.0), 0.000000000, 0.000000000, 0, 0, Vector2(1.0, 1.0), 1.739372849, 1.739372849, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="Texture_dissolve_DirectionalBurst001"]
+curve = SubResource("Curve_dissolve_DirectionalBurst001")
+
+[node name="NS_Artery_Med" type="Node3D"]
+script = ExtResource("1_scene")
+system_name = &"NS_Artery_Med"
+family = &"artery"
+intensity = 1
+
+[node name="DirectionalBurst001" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodSplash_07")
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst001"
+reference_material = &"MI_BloodSplash_07"
+uv_flip = 1
+channel = 1
+alignment = 2
+sprite_pivot = Vector2(0.5, 0.8)
+source_motion = true
+particle_count = 1
+stream_rate = 2.0
+loop_duration = 0.2
+emission_window = 0.2
+velocity_min = Vector3(-0.8, 0.3, -0.1)
+velocity_max = Vector3(0.1, 1.0, 0.1)
+gravity_min = Vector3(0.0, -3.0, 0.0)
+gravity_max = Vector3(0.0, -2.0, 0.0)
+drag_range = Vector2(1.0, 2.0)
+width = Vector2(0.05, 0.1)
+length = Vector2(0.15, 0.5)
+particle_lifetime = Vector2(0.4, 0.7)
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1.0, 2.0)
+speed_scale_threshold = 15.0
+opacity = 2.0
+alignment_uses_initial_velocity = true
+size_x_curve = SubResource("Texture_size_DirectionalBurst001")
+size_y_curve = SubResource("Texture_size_DirectionalBurst001")
+dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst001")
+
+[node name="DirectionalBurst" type="GPUParticles3D" parent="."]
+emitting = false
+material_override = ExtResource("Niagara_BloodDirection_04")
+cast_shadow = 0
+gi_mode = 0
+amount = 768
+lifetime = 2.25
+fixed_fps = 60
+local_coords = false
+visibility_aabb = AABB(-32, -24, -40, 64, 48, 80)
+draw_order = 3
+process_material = ExtResource("3_process")
+draw_pass_1 = SubResource("QuadMesh_sprite")
+script = ExtResource("2_layer")
+emitter_name = &"DirectionalBurst"
+reference_material = &"MI_BloodDirection_04"
+uv_flip = 1
+channel = 1
+alignment = 2
+sprite_pivot = Vector2(0.5, 0.8)
+source_motion = true
+particle_count = 1
+stream_rate = 8.0
+loop_duration = 0.2
+emission_window = 0.2
+velocity_min = Vector3(-0.1, 0.3, -0.1)
+velocity_max = Vector3(0.1, 1.0, 0.1)
+gravity_min = Vector3(0.0, -3.0, 0.0)
+gravity_max = Vector3(0.0, -2.0, 0.0)
+drag_range = Vector2(1.0, 2.0)
+width = Vector2(0.05, 0.1)
+length = Vector2(0.15, 0.5)
+particle_lifetime = Vector2(0.4, 0.6)
+speed_scale_min = Vector2(0.5, 0.5)
+speed_scale_max = Vector2(1.0, 2.0)
+speed_scale_threshold = 15.0
+opacity = 2.0
+alignment_uses_initial_velocity = true
+size_x_curve = SubResource("Texture_size_DirectionalBurst001")
+size_y_curve = SubResource("Texture_size_DirectionalBurst001")
+dissolve_curve = SubResource("Texture_dissolve_DirectionalBurst001")

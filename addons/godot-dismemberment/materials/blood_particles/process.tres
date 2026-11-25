@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://addons/godot-dismemberment/effects/blood_gpu_process.gdshader" id="2_process"]
+[ext_resource type="Resource" path="res://addons/godot-dismemberment/effects/scenes/blood_effect_scene_dependencies.tres" id="3_scene_dependencies"]
+
+[resource]
+resource_name = "GPU Particle Simulation"
+shader = ExtResource("2_process")
+metadata/_scene_dependencies = ExtResource("3_scene_dependencies")

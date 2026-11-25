@@ -1,0 +1,35 @@
+[gd_scene load_steps=15 format=3]
+
+; A scene manifest gives the export dependency scanner real resource references.
+; GDScript preloads of GDExtension descriptors are not dependency-scanned in all
+; supported Godot versions. These resources are also loaded by native C++ paths.
+[ext_resource type="GDExtension" path="res://addons/godot-dismemberment/godot-dismemberment.gdextension" id="1_extension"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_skin.tres" id="2_skin"]
+[ext_resource type="ShaderMaterial" path="res://addons/godot-dismemberment/materials/blood_pool_compatibility.tres" id="3_pool"]
+[ext_resource type="PackedScene" path="res://addons/godot-dismemberment/effects/blood_cpu_hit.tscn" id="4_cpu_hit"]
+[ext_resource type="PackedScene" path="res://addons/godot-dismemberment/effects/blood_cpu_burst.tscn" id="5_cpu_burst"]
+[ext_resource type="StandardMaterial3D" path="res://addons/godot-dismemberment/materials/slice_cap.tres" id="9_slice_cap"]
+[ext_resource type="BloodDecalLibrary" path="res://addons/godot-dismemberment/textures/blood_deposits/deposits.tres" id="10_blood_deposits"]
+[ext_resource type="PackedScene" path="res://addons/godot-dismemberment/effects/blood_gpu_effects.tscn" id="11_blood_gpu_effects"]
+[ext_resource type="Resource" path="res://addons/godot-dismemberment/materials/blood_particles/gpu_materials.tres" id="13_gpu_materials"]
+[ext_resource type="Resource" path="res://addons/godot-dismemberment/effects/scenes/realistic_blood_library.tres" id="14_scenes"]
+[ext_resource type="ShaderInclude" path="res://addons/godot-dismemberment/effects/blood_gpu_draw.gdshaderinc" id="15_blood_shader_include"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_effect_schedule.gd" id="16_blood_schedule"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_collision_particles.gd" id="17_blood_collision_particles"]
+[ext_resource type="Script" path="res://addons/godot-dismemberment/effects/scenes/blood_gpu_inherited_motion.gd" id="18_blood_inherited_motion"]
+
+[node name="GodotDismembermentRuntime" type="Node"]
+metadata/native_extension = ExtResource("1_extension")
+metadata/blood_skin_material = ExtResource("2_skin")
+metadata/blood_pool_material = ExtResource("3_pool")
+metadata/cpu_hit_effect = ExtResource("4_cpu_hit")
+metadata/cpu_burst_effect = ExtResource("5_cpu_burst")
+metadata/slice_cap_material = ExtResource("9_slice_cap")
+metadata/blood_deposits = ExtResource("10_blood_deposits")
+metadata/blood_gpu_effects = ExtResource("11_blood_gpu_effects")
+metadata/blood_gpu_materials = ExtResource("13_gpu_materials")
+metadata/blood_effect_library = ExtResource("14_scenes")
+metadata/blood_shader_include = ExtResource("15_blood_shader_include")
+metadata/blood_schedule = ExtResource("16_blood_schedule")
+metadata/blood_collision_particles = ExtResource("17_blood_collision_particles")
+metadata/blood_inherited_motion = ExtResource("18_blood_inherited_motion")

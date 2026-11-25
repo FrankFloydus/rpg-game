@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://c3rwpe0tjtqyq"]
+
+[ext_resource type="Script" uid="uid://c31cit7ltypa1" path="res://combat/abilities/ability_definition.gd" id="1_definition"]
+[ext_resource type="Script" uid="uid://vwpgt8m4nfgc" path="res://combat/effects/effect_definition.gd" id="2_qowya"]
+[ext_resource type="Texture2D" path="res://assets/rework/icons/moth_cocoon.tres" id="icon_art"]
+
+[resource]
+resource_name = "Metamorphosis"
+script = ExtResource("1_definition")
+id = &"moth_cocoon"
+display_name = "Metamorphosis"
+icon = ExtResource("icon_art")
+icon_key = "cocoon"
+description = "Forms a cocoon upon defeat and revives stronger if it hatches. Destroy the cocoon to finish the kill."
+action_key = "cocoon"
+execution_profile = {
+"hatch_seconds": 4.0,
+"health_fraction": 0.34
+}

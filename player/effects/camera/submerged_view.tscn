@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://player/effects/camera/submerged_view.gdshader" id="1"]
+
+[sub_resource type="ShaderMaterial" id="Submerged"]
+resource_local_to_scene = true
+shader = ExtResource("1")
+
+[node name="SubmergedView" type="CanvasLayer"]
+layer = -1
+
+[node name="WaterTint" type="ColorRect" parent="."]
+visible = false
+material = SubResource("Submerged")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

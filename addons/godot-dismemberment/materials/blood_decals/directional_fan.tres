@@ -1,0 +1,15 @@
+[gd_resource type="ORMMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_fan.png" id="directional_fan_albedo"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_fan_normal.png" id="directional_fan_normal"]
+[ext_resource type="Texture2D" path="res://addons/godot-dismemberment/textures/blood_deposits/directional_fan_orm.png" id="directional_fan_orm"]
+
+[resource]
+resource_name = "Directional Feathered Fan"
+transparency = 1
+albedo_texture = ExtResource("directional_fan_albedo")
+normal_texture = ExtResource("directional_fan_normal")
+orm_texture = ExtResource("directional_fan_orm")
+normal_enabled = true
+ao_enabled = true
+texture_repeat = false

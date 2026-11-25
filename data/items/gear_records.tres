@@ -1,0 +1,705 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/items/gear_records.gd" id="1_0kcos"]
+
+[resource]
+script = ExtResource("1_0kcos")
+types = {
+"amulet": {
+"name": "Amulet",
+"size": Vector2i(1, 1),
+"slot": "amulet"
+},
+"axe_1h": {
+"name": "One-handed axe",
+"size": Vector2i(2, 3),
+"slot": "one_hand"
+},
+"axe_2h": {
+"name": "Two-handed axe",
+"size": Vector2i(2, 4),
+"slot": "main_hand",
+"two_handed": true
+},
+"belt": {
+"name": "Belt",
+"size": Vector2i(2, 1),
+"slot": "belt"
+},
+"boots": {
+"name": "Boots",
+"size": Vector2i(2, 2),
+"slot": "boots"
+},
+"chest": {
+"name": "Body armour",
+"size": Vector2i(2, 3),
+"slot": "chest"
+},
+"dagger_1h": {
+"name": "Dagger",
+"size": Vector2i(1, 2),
+"slot": "one_hand"
+},
+"focus": {
+"name": "Focus",
+"size": Vector2i(1, 2),
+"slot": "off_hand"
+},
+"gloves": {
+"name": "Gloves",
+"size": Vector2i(2, 2),
+"slot": "gloves"
+},
+"helm": {
+"name": "Helm",
+"size": Vector2i(2, 2),
+"slot": "helm"
+},
+"mace_1h": {
+"name": "One-handed mace",
+"size": Vector2i(2, 3),
+"slot": "one_hand"
+},
+"mace_2h": {
+"name": "Two-handed mace",
+"size": Vector2i(2, 4),
+"slot": "main_hand",
+"two_handed": true
+},
+"orb": {
+"name": "Orb",
+"size": Vector2i(1, 1),
+"slot": "off_hand"
+},
+"ring": {
+"name": "Ring",
+"size": Vector2i(1, 1),
+"slot": "ring"
+},
+"shield": {
+"name": "Shield",
+"size": Vector2i(2, 2),
+"slot": "off_hand"
+},
+"staff": {
+"name": "Staff",
+"size": Vector2i(2, 4),
+"slot": "main_hand",
+"two_handed": true
+},
+"sword_1h": {
+"name": "One-handed sword",
+"size": Vector2i(2, 3),
+"slot": "one_hand"
+},
+"sword_2h": {
+"name": "Two-handed sword",
+"size": Vector2i(2, 4),
+"slot": "main_hand",
+"two_handed": true
+}
+}
+base_footprints = {
+"chapel_sabre": Vector2i(1, 3),
+"funeral_rapier": Vector2i(1, 4),
+"grave_hatchet": Vector2i(1, 3),
+"oath_blade": Vector2i(1, 3),
+"pilgrim_cudgel": Vector2i(1, 3),
+"sealed_tower_shield": Vector2i(2, 4),
+"wrought_heater": Vector2i(2, 3),
+"yew_crook": Vector2i(1, 4)
+}
+bases = Array[Dictionary]([{
+"id": "oath_blade",
+"implicit": {
+"crit_chance": 2
+},
+"level": 1,
+"name": "Oath Blade",
+"stats": {
+"damage_max": 3,
+"damage_min": 1
+},
+"type": "sword_1h"
+}, {
+"id": "chapel_sabre",
+"implicit": {
+"crit_chance": 4
+},
+"level": 4,
+"name": "Chapel Sabre",
+"stats": {
+"damage_max": 5,
+"damage_min": 3
+},
+"type": "sword_1h"
+}, {
+"id": "funeral_rapier",
+"implicit": {
+"crit_chance": 7
+},
+"level": 8,
+"name": "Funeral Rapier",
+"stats": {
+"damage_max": 10,
+"damage_min": 6
+},
+"type": "sword_1h"
+}, {
+"id": "crypt_knife",
+"implicit": {
+"crit_chance": 3
+},
+"level": 1,
+"name": "Crypt Knife",
+"stats": {
+"damage_max": 2,
+"damage_min": 1
+},
+"type": "dagger_1h"
+}, {
+"id": "vigil_dirk",
+"implicit": {
+"crit_chance": 5
+},
+"level": 4,
+"name": "Vigil Dirk",
+"stats": {
+"damage_max": 4,
+"damage_min": 2
+},
+"type": "dagger_1h"
+}, {
+"id": "mournsteel_stiletto",
+"implicit": {
+"crit_chance": 8
+},
+"level": 8,
+"name": "Mournsteel Stiletto",
+"stats": {
+"damage_max": 8,
+"damage_min": 5
+},
+"type": "dagger_1h"
+}, {
+"id": "pilgrim_cudgel",
+"implicit": {
+"stun_power": 9
+},
+"level": 1,
+"name": "Pilgrim Cudgel",
+"stats": {
+"damage_max": 3,
+"damage_min": 2
+},
+"type": "mace_1h"
+}, {
+"id": "verger_mace",
+"implicit": {
+"stun_power": 14
+},
+"level": 4,
+"name": "Verger Mace",
+"stats": {
+"damage_max": 6,
+"damage_min": 4
+},
+"type": "mace_1h"
+}, {
+"id": "bell_iron_morningstar",
+"implicit": {
+"stun_power": 21
+},
+"level": 8,
+"name": "Bell-Iron Morningstar",
+"stats": {
+"damage_max": 12,
+"damage_min": 8
+},
+"type": "mace_1h"
+}, {
+"id": "grave_hatchet",
+"implicit": {
+"life_on_kill": 1
+},
+"level": 1,
+"name": "Grave Hatchet",
+"stats": {
+"damage_max": 4,
+"damage_min": 2
+},
+"type": "axe_1h"
+}, {
+"id": "sable_bearded_axe",
+"implicit": {
+"life_on_kill": 2
+},
+"level": 4,
+"name": "Sable Bearded Axe",
+"stats": {
+"damage_max": 7,
+"damage_min": 4
+},
+"type": "axe_1h"
+}, {
+"id": "ossuary_falx",
+"implicit": {
+"life_on_kill": 3
+},
+"level": 8,
+"name": "Ossuary Falx",
+"stats": {
+"damage_max": 12,
+"damage_min": 7
+},
+"type": "axe_1h"
+}, {
+"id": "vigil_greatsword",
+"implicit": {
+"crit_multiplier": 12
+},
+"level": 1,
+"name": "Vigil Greatsword",
+"stats": {
+"damage_max": 5,
+"damage_min": 3
+},
+"type": "sword_2h"
+}, {
+"id": "reliquary_flamesword",
+"implicit": {
+"crit_multiplier": 18
+},
+"level": 4,
+"name": "Reliquary Flamesword",
+"stats": {
+"damage_max": 9,
+"damage_min": 5
+},
+"type": "sword_2h"
+}, {
+"id": "gloam_zweihander",
+"implicit": {
+"crit_multiplier": 26
+},
+"level": 8,
+"name": "Gloam Zweihander",
+"stats": {
+"damage_max": 15,
+"damage_min": 10
+},
+"type": "sword_2h"
+}, {
+"id": "quarry_maul",
+"implicit": {
+"stun_power": 15
+},
+"level": 1,
+"name": "Quarry Maul",
+"stats": {
+"damage_max": 6,
+"damage_min": 4
+},
+"type": "mace_2h"
+}, {
+"id": "charnel_mallet",
+"implicit": {
+"stun_power": 23
+},
+"level": 4,
+"name": "Charnel Mallet",
+"stats": {
+"damage_max": 10,
+"damage_min": 6
+},
+"type": "mace_2h"
+}, {
+"id": "vault_breaker",
+"implicit": {
+"stun_power": 32
+},
+"level": 8,
+"name": "Vault Breaker",
+"stats": {
+"damage_max": 19,
+"damage_min": 13
+},
+"type": "mace_2h"
+}, {
+"id": "tithe_cleaver",
+"implicit": {
+"life_leech": 2
+},
+"level": 1,
+"name": "Tithe Cleaver",
+"stats": {
+"damage_max": 7,
+"damage_min": 3
+},
+"type": "axe_2h"
+}, {
+"id": "cinderwood_greataxe",
+"implicit": {
+"life_leech": 3
+},
+"level": 4,
+"name": "Cinderwood Greataxe",
+"stats": {
+"damage_max": 11,
+"damage_min": 5
+},
+"type": "axe_2h"
+}, {
+"id": "grave_bardiche",
+"implicit": {
+"life_leech": 4
+},
+"level": 8,
+"name": "Grave Bardiche",
+"stats": {
+"damage_max": 20,
+"damage_min": 10
+},
+"type": "axe_2h"
+}, {
+"id": "yew_crook",
+"implicit": {
+"mana_regen": 1.2
+},
+"level": 1,
+"name": "Yew Crook",
+"stats": {
+"cold_damage": 1,
+"damage_max": 2,
+"damage_min": 1
+},
+"type": "staff"
+}, {
+"id": "choir_rod",
+"implicit": {
+"mana_regen": 1.8
+},
+"level": 4,
+"name": "Choir Rod",
+"stats": {
+"damage_max": 5,
+"damage_min": 3,
+"lightning_damage": 1
+},
+"type": "staff"
+}, {
+"id": "pale_vesper_staff",
+"implicit": {
+"mana_regen": 2.6
+},
+"level": 8,
+"name": "Pale Vesper Staff",
+"stats": {
+"cold_damage": 2,
+"damage_max": 8,
+"damage_min": 6
+},
+"type": "staff"
+}, {
+"id": "riveted_buckler",
+"implicit": {
+"max_stamina": 3
+},
+"level": 1,
+"name": "Riveted Buckler",
+"stats": {
+"armor": 3
+},
+"type": "shield"
+}, {
+"id": "wrought_heater",
+"implicit": {
+"max_stamina": 5
+},
+"level": 4,
+"name": "Wrought Heater",
+"stats": {
+"armor": 6
+},
+"type": "shield"
+}, {
+"id": "sealed_tower_shield",
+"implicit": {
+"max_stamina": 7
+},
+"level": 8,
+"name": "Sealed Tower Shield",
+"stats": {
+"armor": 12
+},
+"type": "shield"
+}, {
+"id": "knot_talisman",
+"implicit": {
+"cooldown_recovery": 4
+},
+"level": 1,
+"name": "Knot Talisman",
+"stats": {
+"max_mana": 2
+},
+"type": "focus"
+}, {
+"id": "penitent_censer",
+"implicit": {
+"cooldown_recovery": 6
+},
+"level": 4,
+"name": "Penitent Censer",
+"stats": {
+"fire_damage": 1,
+"max_mana": 4
+},
+"type": "focus"
+}, {
+"id": "coro_reliquary",
+"implicit": {
+"cooldown_recovery": 9
+},
+"level": 8,
+"name": "Choirmaster's Reliquary",
+"stats": {
+"fire_damage": 1.8,
+"max_mana": 7
+},
+"type": "focus"
+}, {
+"id": "clouded_sphere",
+"implicit": {
+"ward": 1
+},
+"level": 1,
+"name": "Clouded Sphere",
+"stats": {
+"cold_damage": 0.6
+},
+"type": "orb"
+}, {
+"id": "mortuary_globe",
+"implicit": {
+"ward": 2
+},
+"level": 4,
+"name": "Mortuary Globe",
+"stats": {
+"poison_damage": 1.4
+},
+"type": "orb"
+}, {
+"id": "starless_eye",
+"implicit": {
+"ward": 4
+},
+"level": 8,
+"name": "Starless Eye",
+"stats": {
+"lightning_damage": 2.3
+},
+"type": "orb"
+}, {
+"id": "stitched_coif",
+"level": 1,
+"name": "Stitched Coif",
+"stats": {
+"armor": 1
+},
+"type": "helm"
+}, {
+"id": "ashwood_bascinet",
+"level": 5,
+"name": "Ashwood Bascinet",
+"stats": {
+"armor": 4,
+"fire_resist": 3
+},
+"type": "helm"
+}, {
+"id": "votive_barbute",
+"level": 8,
+"name": "Votive Barbute",
+"stats": {
+"armor": 7,
+"ward": 2
+},
+"type": "helm"
+}, {
+"id": "rough_gambeson",
+"level": 1,
+"name": "Rough Gambeson",
+"stats": {
+"armor": 3,
+"max_health": 1
+},
+"type": "chest"
+}, {
+"id": "tombkeeper_mail",
+"level": 4,
+"name": "Tombkeeper Mail",
+"stats": {
+"armor": 7,
+"max_health": 2
+},
+"type": "chest"
+}, {
+"id": "black_lamellar",
+"level": 8,
+"name": "Black Lamellar",
+"stats": {
+"armor": 12,
+"max_health": 4
+},
+"type": "chest"
+}, {
+"id": "quilted_wraps",
+"level": 1,
+"name": "Quilted Wraps",
+"stats": {
+"armor": 1
+},
+"type": "gloves"
+}, {
+"id": "rusted_vambraces",
+"level": 4,
+"name": "Rusted Vambraces",
+"stats": {
+"armor": 3,
+"attack_speed": 3
+},
+"type": "gloves"
+}, {
+"id": "sexton_gauntlets",
+"level": 8,
+"name": "Sexton Gauntlets",
+"stats": {
+"armor": 5,
+"attack_speed": 5
+},
+"type": "gloves"
+}, {
+"id": "pilgrim_treads",
+"level": 1,
+"name": "Pilgrim Treads",
+"stats": {
+"armor": 1,
+"move_speed": 2
+},
+"type": "boots"
+}, {
+"id": "carrion_treads",
+"level": 4,
+"name": "Carrion Treads",
+"stats": {
+"armor": 3,
+"move_speed": 4
+},
+"type": "boots"
+}, {
+"id": "ironstep_greaves",
+"level": 8,
+"name": "Ironstep Greaves",
+"stats": {
+"armor": 5,
+"move_speed": 7
+},
+"type": "boots"
+}, {
+"id": "iron_band",
+"level": 1,
+"name": "Iron Band",
+"stats": {
+"armor": 1
+},
+"type": "ring"
+}, {
+"id": "tallow_band",
+"level": 3,
+"name": "Tallow Band",
+"stats": {
+"fire_resist": 5
+},
+"type": "ring"
+}, {
+"id": "brine_loop",
+"level": 6,
+"name": "Brine Loop",
+"stats": {
+"cold_resist": 8
+},
+"type": "ring"
+}, {
+"id": "sable_signet",
+"level": 9,
+"name": "Sable Signet",
+"stats": {
+"lightning_resist": 8,
+"poison_resist": 8
+},
+"type": "ring"
+}, {
+"id": "bone_charm",
+"level": 1,
+"name": "Bone Charm",
+"stats": {
+"max_health": 1
+},
+"type": "amulet"
+}, {
+"id": "amber_teardrop",
+"level": 3,
+"name": "Amber Teardrop",
+"stats": {
+"max_mana": 2
+},
+"type": "amulet"
+}, {
+"id": "mourning_lock",
+"level": 6,
+"name": "Mourning Lock",
+"stats": {
+"life_regen": 0.3
+},
+"type": "amulet"
+}, {
+"id": "saints_bell",
+"level": 9,
+"name": "Saint's Bell",
+"stats": {
+"crit_multiplier": 9,
+"loot_rarity": 6
+},
+"type": "amulet"
+}, {
+"id": "cord_belt",
+"implicit": {
+"max_health": 1
+},
+"level": 1,
+"name": "Pilgrim's Cord",
+"stats": {},
+"type": "belt"
+}, {
+"id": "hide_belt",
+"implicit": {
+"max_stamina": 2
+},
+"level": 4,
+"name": "Tanned Hide Belt",
+"stats": {},
+"type": "belt"
+}, {
+"id": "iron_belt",
+"implicit": {
+"armor": 3
+},
+"level": 7,
+"name": "Ironbound Girdle",
+"stats": {},
+"type": "belt"
+}])
+power_by_level = Array[Vector3]([Vector3(10, 1, 1), Vector3(15, 1.4, 1.2), Vector3(20, 1.85, 1.45), Vector3(25, 2.4, 1.7), Vector3(30, 3, 2), Vector3(40, 4.6, 2.55), Vector3(50, 6.5, 3.2), Vector3(75, 9.25, 4), Vector3(100, 11.5, 4.6)])
