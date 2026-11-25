@@ -9,7 +9,7 @@ Use this guide when changing session entry, character slots, save data, dungeon 
 | Title screen | `_show_title()` obtains slot summaries through [CharacterSlots](../../systems/character_slots.gd). `_select_character(slot)` loads the selected slot. |
 | Create a character | `_create_character(slot, name)` requires the title session and a free slot. Names are trimmed, must contain 1–24 characters, and reject ASCII control characters. The slot number is the identity. A fresh campaign receives 30 gold, a starter weapon, and a stocked hub vendor. |
 | Resume a character | `_begin_campaign()` restores inventory, deck, progression, lifetime statistics, bestiary, and a retained expedition if one exists. Equipment and progression are applied before saved Life, Mana, Ward, and Stamina are clamped to the current caps. Login starts at the hub. |
-| Enter Training | Title entry creates a `PRACTICE` session. A character entering from the hub temporarily receives a separate inventory, progression object, and card deck. Leaving restores the campaign bindings, vitals, and card effects. Training unlocks the bestiary view and allows test weapon drops, enemies, and card use. Practice does not advance the campaign. |
+| Enter Training | Title entry creates a `PRACTICE` session. A character entering from the hub temporarily receives a separate inventory, progression object, and card deck. Leaving restores the campaign bindings, vitals, and card effects. Training unlocks the bestiary view and allows test weapon drops, enemies, and card use. Practice progress stays in the temporary session. |
 
 [CharacterSlots](../../systems/character_slots.gd) translates zero-based slots 0–9 into `character_01` through `character_10` beneath `SaveStore.SAVE_DIRECTORY` (`user://checkpoints`). Give tests their own `main.save_directory`. `main.save_enabled` is the persistence switch, and an isolated temporary directory is required when testing writes or reloading a slot. Avoid binding fixtures to personal characters.
 
@@ -79,7 +79,7 @@ Magic and rare enemy rewards use the existing deterministic drop path and skip d
 
 ## Verification entry points
 
-Run the focused Godot scripts from the project root with a Godot 4 console executable. These tests create isolated state and exercise the real owners. For example:
+Run the focused Godot scripts from the project root with a Godot 4.7 console executable. The command below runs the integration fixture in an isolated session.
 
 ```text
 godot --headless --path . --script res://tests/integration.gd
