@@ -32,8 +32,8 @@ func definition() -> Dictionary:
 
 func setup(player: Node3D, spawn_level: int, rank: String, rng: RandomNumberGenerator,
 		route: Callable = Callable(), ability_details: Callable = Callable(),
-		selected_affixes: Array[String] = [], depth_multiplier := 1.0) -> void:
-	super.setup(player, spawn_level, rank, rng, route, ability_details, selected_affixes, depth_multiplier)
+		selected_affixes: Array[String] = []) -> void:
+	super.setup(player, spawn_level, rank, rng, route, ability_details, selected_affixes)
 	max_health = 1.0
 	health = 1.0
 	# This invader exists to raise the levy. Elite side effects must not turn it into a damage dealer.

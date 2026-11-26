@@ -21,7 +21,7 @@ metallic_specular = 0.0
 [sub_resource type="QuadMesh" id="Mesh_face"]
 size = Vector2(0.2, 0.295)
 
-[node name="ExpeditionCardLoot" type="Node3D"]
+[node name="CardLoot" type="Node3D"]
 
 [node name="Body" type="Node3D" parent="."]
 position = Vector3(0, 0.15, 0)

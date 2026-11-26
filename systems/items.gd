@@ -9,10 +9,12 @@ const LegendaryData = preload("res://data/items/legendaries.gd")
 const OriginalAffixes = preload("res://data/items/original_affix_ranges.gd")
 const Progression = preload("res://systems/character_progression.gd")
 const WeaponRoles := preload("res://combat/weapons/weapon_roles.gd")
-const ITEM_BALANCE_VERSION := 5
+const ITEM_BALANCE_VERSION := 6
+const PHYSICAL_WEAPON_BASE_BALANCE_VERSION := 5
 const ITEM_LEVEL_POWER_BALANCE_VERSION := 3
 const WEAPON_SLOTS := ["one_hand", "main_hand", "off_hand"]
 const SUPPRESSED_DROPS := ["focus", "orb"]
+const RETIRED_EXPEDITION_EFFECTS := ["deep_pockets", "cairn_oath", "masons_listener", "tollkeepers_mercy"]
 const STAMINA_BALANCE_VERSION := 2
 const FIRST_BALANCE_SENTRY_RANGES := {"of_the_sentry": {"block_chance": Vector2(2, 4)}}
 const BASE_MELEE_CRITICAL_DAMAGE := 200.0
@@ -61,23 +63,6 @@ static var VENDOR_UPGRADE_LEVEL: int:
 	get:
 		return LOOT.vendor_upgrade_level
 
-static var DROP_CHANCE_MAX_DEPTH: int:
-	get:
-		return LOOT.chance_max_depth
-# Gear, crafting part and key chances interpolate from Depth 1 to the authored depth cap.
-static var ENEMY_DROP_CHANCES: Dictionary:
-	get:
-		return LOOT.enemy_chances
-static var SIDE_CACHE_GEAR_CHANCE: float:
-	get:
-		return LOOT.side_cache_gear_chance
-static var PROTECTED_COFFER_BONUS_DEPTH: int:
-	get:
-		return LOOT.protected_coffer_bonus_depth
-static var PROTECTED_COFFER_BONUS_GEAR_CHANCE: float:
-	get:
-		return LOOT.protected_coffer_bonus_gear_chance
-
 # The first two chances are mutually exclusive. The legendary chance is a separate gated roll.
 static var DROP_PROFILES: Dictionary:
 	get:
@@ -125,7 +110,7 @@ static func training_weapon_item(choice_id: String, instance_id: String, request
 		return _make_legendary(base, legendary, maxi(int(legendary.level), requested_level), instance_id, rng)
 	var level := maxi(int(base.level), requested_level)
 	if rng != null:
-		# An explicit practice spawn uses the dungeon's magic-enemy drop profile.
+		# An explicit practice spawn uses the magic-enemy drop profile.
 		var rolled := roll_item(level, "magic", rng, loot_rarity, base)
 		rolled["id"] = instance_id
 		return rolled
@@ -144,6 +129,9 @@ static func visible_name(item: Dictionary) -> String:
 
 static func restore_item(saved: Dictionary) -> Dictionary:
 	var item := saved.duplicate(true)
+	if item.get("effect", "") in RETIRED_EXPEDITION_EFFECTS:
+		item["effect"] = ""
+		item["effect_description"] = ""
 	if item.get("type", "") in WeaponRoles.ONE_HANDED_WEAPONS:
 		item["slot"] = "one_hand"
 	var version := int(item.get("balance_version", 0))
@@ -154,7 +142,9 @@ static func restore_item(saved: Dictionary) -> Dictionary:
 	):
 		if version < ITEM_LEVEL_POWER_BALANCE_VERSION and _has_item_stat_parts(item):
 			_apply_item_level_power(item)
-		_restore_weapon_base_damage(item)
+		if version < PHYSICAL_WEAPON_BASE_BALANCE_VERSION:
+			_restore_weapon_base_damage(item)
+		_restore_base_defense(item)
 		_sync_item_stats(item)
 		item["balance_version"] = ITEM_BALANCE_VERSION
 		return item
@@ -188,6 +178,21 @@ static func restore_item(saved: Dictionary) -> Dictionary:
 	_sync_item_stats(item)
 	item["balance_version"] = ITEM_BALANCE_VERSION
 	return item
+
+
+static func _restore_base_defense(item: Dictionary) -> void:
+	var base := _find_by_id(BaseData.BASES, str(item.get("base_id", "")))
+	if base.is_empty():
+		return
+	var defense_power := BaseData.power_at_item_level(int(item.get("item_level", 1))).y
+	for section in ["base_stats", "implicit"]:
+		var saved: Variant = item.get(section)
+		if not saved is Dictionary:
+			continue
+		var authored: Dictionary = base.get("stats" if section == "base_stats" else "implicit", {})
+		for stat in DEFENSIVE_CORE_STATS:
+			if saved.has(stat) and authored.has(stat):
+				saved[stat] = snappedf(float(authored[stat]) * defense_power, 1.0)
 
 
 static func _restore_weapon_base_damage(item: Dictionary) -> void:
@@ -241,19 +246,12 @@ static func _restore_affix_rolls(saved_rolls: Array, definitions: Array, old_ran
 			stats.merge(balanced["stats"], true)
 
 
-static func enemy_drop_chance(depth: int, source: String, reward: String) -> float:
-	var profile: Dictionary = ENEMY_DROP_CHANCES.get(source, ENEMY_DROP_CHANCES["normal"])
-	var bounds: Vector2 = profile[reward]
-	var progression := inverse_lerp(1.0, float(DROP_CHANCE_MAX_DEPTH), clampf(depth, 1, DROP_CHANCE_MAX_DEPTH))
-	return lerpf(bounds.x, bounds.y, progression)
-
-
 static func roll_item(level: int, source: String, rng: RandomNumberGenerator, loot_rarity: float = 0.0,
 		selected_base: Dictionary = {}) -> Dictionary:
 	level = maxi(1, level)
 	var profile: Dictionary = DROP_PROFILES.get(source, DROP_PROFILES["normal"])
-	var depth_bonus := 1.0 + 0.025 * mini(level - 1, 20)
-	var rarity_multiplier := clampf((1.0 + loot_rarity / 100.0) * depth_bonus, 0.5, 3.0)
+	var level_bonus := 1.0 + 0.025 * mini(level - 1, 20)
+	var rarity_multiplier := clampf((1.0 + loot_rarity / 100.0) * level_bonus, 0.5, 3.0)
 	if level >= 4 and rng.randf() < float(profile["legendary"]) * sqrt(rarity_multiplier):
 		var legendary := _roll_legendary(level, rng, selected_base)
 		if not legendary.is_empty():
@@ -285,25 +283,6 @@ static func roll_vendor(level: int, rng: RandomNumberGenerator, count: int = 10)
 		var recent_base := item_level >= VENDOR_UPGRADE_LEVEL and not slot.is_empty()
 		var offer := _roll_gear(_roll_base(item_level, rng, slot, recent_base), item_level, rarity, rng)
 		offer.price = roundi(float(offer.price) * markup)
-		stock.append(offer)
-	return stock
-
-
-static func roll_secret_vendor(depth: int, rng: RandomNumberGenerator) -> Array[Dictionary]:
-	var rules := preload("res://data/secret_merchant_rules.tres")
-	var highest := maxi(1, depth)
-	var stock: Array[Dictionary] = []
-	if rng.randf() < rules.legendary_chance:
-		var legendary := _roll_legendary(highest, rng, {}, true)
-		if not legendary.is_empty():
-			legendary.price = ceili(float(legendary.price) * rules.legendary_price)
-			stock.append(legendary)
-	var varied_slots := ["main_hand", "chest", "ring", "belt", "boots"]
-	for index in range(rules.stock_count - stock.size()):
-		var slot: String = varied_slots[index] if index < varied_slots.size() else ""
-		var level := rng.randi_range(maxi(1, highest - rules.item_level_window + 1), highest)
-		var offer := _roll_gear(_roll_base(level, rng, slot, not slot.is_empty(), true), level, "rare", rng)
-		offer.price = ceili(float(offer.price) * rules.rare_price)
 		stock.append(offer)
 	return stock
 
@@ -539,14 +518,14 @@ static func _roll_gear(base: Dictionary, level: int, rarity: String, rng: Random
 
 
 static func _roll_base(level: int, rng: RandomNumberGenerator, slot: String, recent_base: bool,
-		dungeon_reward := false) -> Dictionary:
+		restrict_drop_pool := false) -> Dictionary:
 	var eligible: Array[Dictionary] = []
 	var newest_base_level := 1
 	for base: Dictionary in BaseData.BASES:
 		var base_type: String = base["type"]
 		var base_slot: String = BaseData.TYPES[base_type]["slot"]
 		var matches := slot.is_empty() or base_slot == slot or (slot == "main_hand" and base_slot == "one_hand")
-		if int(base["level"]) <= level and matches and (not dungeon_reward or base_type not in SUPPRESSED_DROPS):
+		if int(base["level"]) <= level and matches and (not restrict_drop_pool or base_type not in SUPPRESSED_DROPS):
 			eligible.append(base)
 			newest_base_level = maxi(newest_base_level, int(base["level"]))
 	var weights := PackedFloat32Array()
@@ -556,8 +535,7 @@ static func _roll_base(level: int, rng: RandomNumberGenerator, slot: String, rec
 	return eligible[rng.rand_weighted(weights)]
 
 
-static func _roll_legendary(level: int, rng: RandomNumberGenerator, selected_base: Dictionary,
-		fixed_power := false) -> Dictionary:
+static func _roll_legendary(level: int, rng: RandomNumberGenerator, selected_base: Dictionary) -> Dictionary:
 	var available: Array[Dictionary] = []
 	var weights := PackedFloat32Array()
 	var selected_id := String(selected_base.get("id", ""))
@@ -571,7 +549,7 @@ static func _roll_legendary(level: int, rng: RandomNumberGenerator, selected_bas
 		return {}
 	var legendary := available[rng.rand_weighted(weights)]
 	var base := _find_by_id(BaseData.BASES, legendary["base_id"])
-	return _make_legendary(base, legendary, int(legendary.level) if fixed_power else level, _generate_id(rng), rng)
+	return _make_legendary(base, legendary, level, _generate_id(rng), rng)
 
 
 static func _make_legendary(base: Dictionary, legendary: Dictionary, level: int, id: String,

@@ -11,11 +11,13 @@ var _sample_clip := &""
 var _sample_seconds := 0.0
 
 
-func offer_scene(scene: PackedScene, title: String, playback: bool) -> void:
+func offer_scene(scene: PackedScene, title: String, playback: bool, show_initially := false) -> void:
 	_scene = scene
 	var toggle := Button.new()
 	toggle.text = title
 	toggle.toggle_mode = true
+	toggle.button_pressed = show_initially
+	toggle.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	toggle.tooltip_text = "Show this actual project scene in the preview."
 	toggle.toggled.connect(func(show_preview: bool) -> void:
 		if show_preview:
@@ -23,6 +25,13 @@ func offer_scene(scene: PackedScene, title: String, playback: bool) -> void:
 		else:
 			_close_scene())
 	add_child(toggle)
+	if show_initially:
+		_open_initial_scene.call_deferred(toggle, playback)
+
+
+func _open_initial_scene(toggle: Button, playback: bool) -> void:
+	if is_inside_tree() and toggle.button_pressed:
+		_open_scene(playback)
 
 
 func add_icon(texture: Texture2D, title: String) -> void:
@@ -74,14 +83,19 @@ func _open_scene(playback: bool) -> void:
 	environment.background_mode = Environment.BG_COLOR
 	environment.background_color = Color("#24262c")
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	environment.ambient_light_color = Color("#bebbd2")
-	environment.ambient_light_energy = 0.50
+	environment.ambient_light_color = Color("#e6ebec")
+	environment.ambient_light_energy = 0.76
 	world.environment = environment
 	_stage.add_child(world)
 	var key := DirectionalLight3D.new()
 	key.rotation_degrees = Vector3(-39.0, -38.0, 0.0)
-	key.light_energy = 1.1
+	key.light_energy = 1.6
 	_stage.add_child(key)
+	var rim := DirectionalLight3D.new()
+	rim.rotation_degrees = Vector3(-23.0, 147.0, 0.0)
+	rim.light_color = Color("#e2d3ba")
+	rim.light_energy = 0.7
+	_stage.add_child(rim)
 	_camera = Camera3D.new()
 	_stage.add_child(_camera)
 	_camera.fov = 44.0

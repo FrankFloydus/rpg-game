@@ -1,6 +1,6 @@
 @tool
 extends Resource
-## Tuning for the caster and summon legendary effects.
+## Tuning for the staff legendary effects.
 
 @export_group("Rime That Rings")
 ## Base duration of Chill applied by a staff hit, before the target's level difference.
@@ -25,9 +25,3 @@ extends Resource
 @export_range(1, 8) var tithe_targets := 2
 ## Fraction of the resolved staff hit used as Lightning damage for each arc.
 @export_range(0.05, 2.0, 0.05) var tithe_damage_factor := 0.55
-
-@export_group("Cairn Oath")
-## How long the lone Oathbound guard serves when there is no active card summon.
-@export_range(1.0, 40.0, 0.5, "suffix:s") var cairn_guard_seconds := 10.0
-## Additional service granted to the existing Oathbound Three.
-@export_range(0.5, 12.0, 0.5, "suffix:s") var cairn_extension_seconds := 3.0

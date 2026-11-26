@@ -14,14 +14,14 @@ Use this guide when a task crosses owners or needs a repeatable test, a native v
 
 | Surface | Entry point | Regression boundary |
 | --- | --- | --- |
-| Session, scene lifetime, modal input and engine time scale | [Game scene](../../main.tscn) and [controller](../../main.gd) | The title, hub, expedition and Training Ground must enter and leave through their production paths. |
+| Session, scene lifetime, modal input and engine time scale | [Game scene](../../main.tscn) and [controller](../../main.gd) | The title, hub and Training Ground must enter and leave through their production paths. |
 | Global service lookup | [Services autoload](../../systems/game_services.gd) | A service is registered by the composing scene and released with its scope. |
 | Data tuning and editor integration | [Workbench](../../addons/hearth_workbench) and [definitions](../../data) | Separate draft editing, persistent save, and the live consumer. |
-| Character and expedition state | [Systems](../../systems) and [expedition guide](expeditions-and-saves.md) | Save/reopen restores actual behavior and ownership. |
+| Character and practice session state | [Systems](../../systems) and [campaign guide](campaign-and-saves.md) | Save/reopen restores actual behavior and ownership. |
 | Runtime presentation | [UI guide](ui-and-inventory.md) and [authored scenes](../../ui) | Opening the scene in the editor and opening it in gameplay both show the expected layout. |
 | First-person input and combat | [Player](../../player) and [combat guide](combat-and-player.md) | Timing, transforms, damage, and VFX stay aligned after ordinary gameplay transitions. |
 
-Avoid a second mutable copy of save state, item ownership, active floor state, or editable settings. Use the existing typed resource and signal APIs. Derived render state can be rebuilt from the owner and must refresh after the owning state changes. Keep private testing hooks out of the normal runtime unless the existing Training Ground or Workbench already owns that function.
+Avoid a second mutable copy of save state, item ownership, active location state, or editable settings. Use the existing typed resource and signal APIs. Derived render state can be rebuilt from the owner and must refresh after the owning state changes. Keep private testing hooks out of the normal runtime unless the existing Training Ground or Workbench already owns that function.
 
 For complex changes, find the user-visible outcome and list the involved owners, stable inputs or saved data, and observable acceptance criteria. Read scenes as well as scripts since scene values can override exported defaults. Trace an affected value from its authoring entry to its actual runtime use. When delegating, give each agent disjoint files or clear read-only roles, and integrate their work through a single coordinated edit.
 
@@ -46,8 +46,8 @@ Run the smallest set of tests that covers the behavior and its interacting owner
 | UI state, inventory, or focus | [Inventory interaction](../../tests/inventory_revision.gd) and [UI presentation](../../tests/ui_presentation.gd) | [Native appearance](../../tests/inventory_appearance_render.gd), [stash](../../tests/stash_inventory.gd), [cards](../../tests/deck_cards.gd) |
 | Scene bindings, player input and Training Ground | [Training Ground](../../tests/training_ground.gd) and [combat input](../../tests/player_combat_input.gd) | [Timeline editing](../../tests/combat_timeline_editing.gd), [facing at different headings](../../tests/enemy_attack_facing.gd) |
 | Damage, effects or actor lifetime | [Combat impact](../../tests/combat_impact.gd) and [creature abilities](../../tests/creature_abilities.gd) | [Projectile reuse](../../tests/enemy_projectile_pool.gd), [ragdoll](../../tests/enemy_ragdoll.gd), effect-specific tests |
-| Generation, navigation or fog | [Dungeon generation](../../tests/dungeon_generation.gd) and [map reveal](../../tests/map_reveal.gd) | [Secret route layouts](../../tests/secret_challenge_layouts.gd), [trap content](../../tests/secret_challenge_content.gd) |
-| Persistence, rewards or run lifecycle | [Campaign integration](../../tests/integration.gd) and [expedition events](../../tests/expedition_events.gd) | [Broker trade](../../tests/secret_broker_trade.gd), [supply interactions](../../tests/inventory_supplies.gd) |
+| Navigation, geometry, props, or water | [Training Ground](../../tests/training_ground.gd) and [breakable props](../../tests/breakable_props.gd) | Check the affected location in Forward+ at player eye height. |
+| Persistence, rewards or scene lifecycle | [Campaign integration](../../tests/integration.gd) and [Training Ground](../../tests/training_ground.gd) | [Supply interactions](../../tests/inventory_supplies.gd), [deck cards](../../tests/deck_cards.gd) |
 | Workbench resource or native inspector | Edit and save an isolated copy through the actual editor control | Reopen the record and launch a clean game using that resource. See [Workbench verification](workbench-and-data.md). |
 
 ### Native visual and input checks
@@ -57,11 +57,17 @@ Run the smallest set of tests that covers the behavior and its interacting owner
 3. Inspect the capture or record pixel samples when appearance is quantitative. Interpret HDR texture readback in the right color space. UI colors can be encoded for display while the viewport readback is linear.
 4. Check the game log and summarize the verified platform, renderer, and scenario. A code review, a mockup, and a headless fixture cover different parts of the feature.
 
+Run the [weapon motion reference audit](weapon-motion-reference.md) before the rendered check when authoring from a batch of external motion references. Use the reported target animation markers to locate that clip's phase samples in the recording.
+
+For Vermintide 2 references, verify the installed action, controller and clip before sampling. The guide includes native Ghidra analysis for behavior that runs inside the engine. [Vermintide 2 animation research](vermintide-animation-research.md)
+
+For inventory, procedural layout, progression, and world materials, verify the local executable or data snapshot and keep observed behavior separate from inference. [Reference game systems research](reference-game-systems.md)
+
 ### Save and editor checks
 
 - Use scratch saves and isolated authoring fixtures for destructive or persistent trials. Never point a fixture at the user's live slot directory.
 - Verify old data when changing a schema. Exercise load, action, save, reload, and blocked or failed transitions.
-- For exported data, inspect the exact property edited, whether the Workbench marks the intended source dirty, the bytes written by Save Changes, the reloaded record, and the in-game observation. Respect timing or restart requirements of the owning system.
+- For exported data, inspect the exact property edited, whether the Workbench marks the intended source dirty, the bytes written by **Save**, the reloaded record, and the in-game observation. Respect timing or restart requirements of the owning system.
 - For runtime asset edits, keep the authored source and its imported representation in sync. Reimport in a clean cache before concluding a resource identifier or dependency path is portable.
 
 ## Documentation requirements

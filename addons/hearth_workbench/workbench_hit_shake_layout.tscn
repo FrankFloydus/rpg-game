@@ -1,0 +1,167 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_transport"]
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.078, 0.098, 0.118, 0.92)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="HitShakeLayout" type="VBoxContainer"]
+
+[node name="FeedbackFields" type="VBoxContainer" parent="."]
+theme_override_constants/separation = 6
+
+[node name="Context" type="HBoxContainer" parent="FeedbackFields"]
+theme_override_constants/separation = 8
+
+[node name="Contact" type="VBoxContainer" parent="FeedbackFields/Context"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Context/Contact"]
+text = "Contact"
+
+[node name="HitMaterial" type="OptionButton" parent="FeedbackFields/Context/Contact"]
+unique_name_in_owner = true
+fit_to_longest_item = false
+text_overrun_behavior = 3
+
+[node name="Attack" type="VBoxContainer" parent="FeedbackFields/Context"]
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Context/Attack"]
+text = "Attack"
+
+[node name="HitWeight" type="OptionButton" parent="FeedbackFields/Context/Attack"]
+unique_name_in_owner = true
+
+[node name="Direction" type="VBoxContainer" parent="FeedbackFields/Context"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Context/Direction"]
+text = "Direction"
+
+[node name="HitDirection" type="OptionButton" parent="FeedbackFields/Context/Direction"]
+unique_name_in_owner = true
+fit_to_longest_item = false
+text_overrun_behavior = 3
+
+[node name="ContactResponse" type="VBoxContainer" parent="FeedbackFields/Context"]
+unique_name_in_owner = true
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Context/ContactResponse"]
+text = "Response"
+
+[node name="HitResponse" type="OptionButton" parent="FeedbackFields/Context/ContactResponse"]
+unique_name_in_owner = true
+
+[node name="Values" type="GridContainer" parent="FeedbackFields"]
+columns = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 6
+
+[node name="Pitch" type="VBoxContainer" parent="FeedbackFields/Values"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Values/Pitch"]
+text = "Pitch"
+
+[node name="HitPitch" type="SpinBox" parent="FeedbackFields/Values/Pitch"]
+unique_name_in_owner = true
+max_value = 30.0
+step = 0.01
+suffix = "°"
+update_on_text_changed = true
+
+[node name="Yaw" type="VBoxContainer" parent="FeedbackFields/Values"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Values/Yaw"]
+text = "Yaw"
+
+[node name="HitYaw" type="SpinBox" parent="FeedbackFields/Values/Yaw"]
+unique_name_in_owner = true
+max_value = 30.0
+step = 0.01
+suffix = "°"
+update_on_text_changed = true
+
+[node name="Roll" type="VBoxContainer" parent="FeedbackFields/Values"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Values/Roll"]
+text = "Roll"
+
+[node name="HitRoll" type="SpinBox" parent="FeedbackFields/Values/Roll"]
+unique_name_in_owner = true
+max_value = 30.0
+step = 0.01
+suffix = "°"
+update_on_text_changed = true
+
+[node name="Duration" type="VBoxContainer" parent="FeedbackFields/Values"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="FeedbackFields/Values/Duration"]
+text = "Duration"
+
+[node name="HitDuration" type="SpinBox" parent="FeedbackFields/Values/Duration"]
+unique_name_in_owner = true
+min_value = 0.02
+max_value = 1.0
+step = 0.001
+suffix = " s"
+update_on_text_changed = true
+
+[node name="ProfileState" type="HBoxContainer" parent="FeedbackFields"]
+theme_override_constants/separation = 12
+
+[node name="HitPlaybackMode" type="Label" parent="FeedbackFields/ProfileState"]
+unique_name_in_owner = true
+
+[node name="HitProfileSource" type="Label" parent="FeedbackFields/ProfileState"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+
+[node name="ResetHitProfile" type="Button" parent="FeedbackFields/ProfileState"]
+unique_name_in_owner = true
+text = "Reset direction"
+
+[node name="Preview" type="MarginContainer" parent="FeedbackFields"]
+unique_name_in_owner = true
+mouse_filter = 2
+
+[node name="TransportInset" type="MarginContainer" parent="FeedbackFields/Preview"]
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+
+[node name="Transport" type="PanelContainer" parent="FeedbackFields/Preview/TransportInset"]
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_transport")
+
+[node name="Controls" type="HBoxContainer" parent="FeedbackFields/Preview/TransportInset/Transport"]
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="LoopHit" type="CheckButton" parent="FeedbackFields/Preview/TransportInset/Transport/Controls"]
+unique_name_in_owner = true
+text = "Loop"
+
+[node name="ReplayHit" type="Button" parent="FeedbackFields/Preview/TransportInset/Transport/Controls"]
+unique_name_in_owner = true
+text = "Replay hit"

@@ -6,7 +6,7 @@ const Appearance := preload("res://ui/inventory_appearance.gd")
 const Art := preload("res://ui/item_art.gd")
 const Frame := preload("res://ui/menu_frame.gd")
 const PLACED := ["Identified", "Identified hover", "Unidentified", "Unidentified hover"]
-const PLACEMENT := ["Valid drop", "Invalid drop", "Equipment fit"]
+const PLACEMENT := ["Valid drop", "Invalid drop", "Swap", "Equipment fit"]
 
 var _appearance: Appearance.Style
 var _icon: Texture2D
@@ -46,10 +46,12 @@ func _draw() -> void:
 		_draw_caption(PLACED[index], index, PLACED.size(), box.end.y + unit, font, caption_color)
 	for index in PLACEMENT.size():
 		var box := _sample_rect(index, PLACEMENT.size(), unit * 5.95)
-		if index == 2:
+		if index == PLACEMENT.size() - 1:
 			Appearance.paint_equipment_fit(self, box, _appearance)
 		else:
-			Appearance.paint_drop(self, box, _appearance, index == 0)
+			Appearance.paint_drop(self, box, _appearance, index != 1)
+			if index == 2:
+				Appearance.paint_swap(self, Rect2(box.position, Vector2(box.size.x * 0.5, box.size.y)), _appearance)
 		_draw_caption(PLACEMENT[index], index, PLACEMENT.size(), box.end.y + unit, font, caption_color)
 
 

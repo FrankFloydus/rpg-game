@@ -1,43 +1,25 @@
-# World generation and asset authoring
+# World locations and asset authoring
 
-Hearth Below uses Godot 4.7 Forward+. The [world](../../world/AGENTS.md) guide covers generated layouts, authored locations, and traversal. The [assets](../../assets/AGENTS.md) guide covers the editable source, imported outputs, and materials used by those scenes. Update the relevant guide whenever you add, change, or remove a system or asset contract. Keep the [model catalogue](../../MODEL_CATALOGUE.md) current when model assets change.
+Hearth Below uses Godot 4.7 Forward+. The [world](../../world/AGENTS.md) guide covers authored locations, traversal, and reusable props. The [assets](../../assets/AGENTS.md) guide covers the editable source, imported outputs, and materials used by those scenes. Update the relevant guide whenever you add, change, or remove a system or asset contract. Keep the [model catalogue](../../MODEL_CATALOGUE.md) current when model assets change.
 
 ## Find the owner
 
 | Work | Source of truth |
 | --- | --- |
-| Cinderhold hub, merchants, altar, stash, training entry | [Hub scene](../../world/hub.tscn), [Hub interaction script](../../world/hub.gd), and [hub model modules](../../world/modules/) |
-| Practice arena, authored obstacles, and swim basin | [Training Ground scene](../../world/training_ground.tscn), [navigation and weapon drop points](../../world/training_ground.gd), and [basin geometry](../../world/modules/training_swim_basin.tscn). Session setup and weapon/enemy spawning flow through [Main](../../main.gd). |
-| Room shapes, links, galleries, and loops | [DungeonLayout](../../world/dungeon_layout.gd). It plans the tile map, rooms, and corridors. |
-| Dungeon shell, placement order, materials, and floor assembly | [Dungeon scene](../../world/dungeon.tscn), [Dungeon](../../world/dungeon.gd), and reusable [modules](../../world/modules/). |
-| Optional content and its depth gates | [ExpeditionFeatures](../../world/expedition_features.gd), [authored expedition rules](../../data/expedition_rules.tres), and [Main](../../main.gd) for the live floor and run state. |
-| Walkable tiles, local obstacle clearance, and enemy routes | [DungeonNavMesh](../../world/dungeon_navmesh.gd) and the navigation queries in [Dungeon](../../world/dungeon.gd). |
-| Side paths and concealed trials | [SidePassages](../../world/dungeon_side_passages.gd), [SecretChallenges](../../world/dungeon_secret_challenges.gd), [route resources](../../world/secret_challenges/routes/), and the [secret wall scene](../../world/props/secret_passage.tscn). |
-| Coffer seats, ground drops, and interactive prop presentation | [CofferPlacement](../../world/coffer_placement.gd), [LootPlacement](../../world/loot_placement.gd), and [WorldProp](../../world/world_prop.gd). |
-| Wall bays, candles, pottery, and room setpieces | [EdgeDressing](../../world/dungeon_edge_dressing.gd), [Setpieces](../../world/dungeon_setpieces.gd), and the [model catalogue](../../MODEL_CATALOGUE.md). |
-| Surface materials and room lighting | [DungeonTilesets](../../world/dungeon_tilesets.gd), [crypt cell kit](../../world/modules/crypt_cell.tscn), and the material and environment builders in [Dungeon](../../world/dungeon.gd). |
-| Explored walls and discovered map landmarks | [Dungeon map fog](../../ui/dungeon_map_fog.gd), [visibility sampling](../../ui/dungeon_map_visibility.gd), and the [map overlay](../../ui/dungeon_map.gd). |
+| Cinderhold hub, merchants, stash, and travel | [Hub scene](../../world/hub.tscn), [Hub interaction script](../../world/hub.gd), and [hub model modules](../../world/modules/) |
+| Practice arena, authored obstacles, swim basin, and refill wells | [Training Ground scene](../../world/training_ground.tscn), [navigation and weapon drop points](../../world/training_ground.gd), [basin geometry](../../world/modules/training_swim_basin.tscn), and [well scene](../../world/props/training_recovery_well.tscn). Session setup, refill interactions, and weapon/enemy spawning flow through [Main](../../main.gd). |
+| Ground drops and interactive prop presentation | [Training drop placement](../../world/training_ground.gd) and [WorldProp](../../world/world_prop.gd) |
 
-## Generate a floor
+## Author the Hub or Training Ground
 
-`Main._select_depth()` records the expedition seed, generation version, rise direction, feature plan, and one masonry `tileset` before it builds the floors. `Main._build_dungeon()` creates a fresh Dungeon scene per floor, with that floor's derived seed and feature mask. Keep the expedition's `depth` distinct from an enemy's combat `level`. Combat progression and the save contract live in [Combat and player](combat-and-player.md) and [Expeditions and saves](expeditions-and-saves.md).
-
-1. `Dungeon.build()` runs the generation branch for the saved version. `DungeonLayout.generate()` creates the main graph, carves rooms and galleries, and returns the cell map and thresholds. The floor then plans stairs, side passages, concealed areas, optional chambers, and encounter records. Authored secret trials enter through the version-gated `SecretChallenges.try_place()` pass.
-2. `Dungeon` builds the tiled shell from the authored `CellTemplate`. Repeated geometry is assembled into floor and masonry batches. The same placement pass registers the solid shapes. `ChallengeChambers.room_floor_geometry()` supplies the special geometry where that floor has a basin, platforms, or lava.
-3. `DungeonNavMesh.build()` derives a `NavigationRegion3D` from the cell map, occupied cover tiles, and gathered collision blockers. Keep the existing distinction between tile connectivity and a native path with obstacle clearance. Use `tile_position()`, `tile_at()`, `ground_is_open()`, `floor_contains()`, and the scene transforms at boundaries between grid, local, and world coordinates. `Dungeon.join_floors()` aligns the continuous stairs. Check movement in both directions if you change their rise, tread, cutout, or landing.
-4. `Main` mounts per-floor actors, rewards, and interactive scenes using the placement records. `DungeonMapFog` records observed stretches of walls and known landmarks per floor. Pass concealed tiles to the visibility layer so closed secret paths stay hidden, including when the player inspects nearby walls from the main route or another floor.
-
-Layout tests preserve fingerprints for older saves. Maintain version-specific behavior if you change placement, random draws, or any result a saved run will regenerate. New art that changes collider size or spacing can also invalidate a placement. Check what the generator serializes and what restoration recalculates before revising a footprint.
-
-### Add or change world content
-
-- **Hub, Training Ground, or module.** Author the physical layout in its `.tscn` and keep the reusable logic with the owning node. Preserve named children referenced by scripts or update every consumer together. Use the `World` layer for solid geometry and preserve the player/enemy masks in [project settings](../../project.godot). For the training basin and an expedition basin, check the collision floor opening, water bounds, ramp clearance, and the camera crossing the water plane.
-- **Coffer or drop.** Reserve actual door and coffer footprints. Seat coffers against a usable wall or at a true dead end with an accessible front. [LootPlacement](../../world/loot_placement.gd) checks world-floor support and clearance from walls, coffers, and existing drops. Verify the same item can be reached and picked up in the produced layout. Avoid adding a separate placement system for a new reward kind.
-- **Dressing.** Use `EdgeDressing` for room and passage edges, clustered breakables, and candles. Use `Setpieces` for themed features and repeated scene/model parts. Keep clear lanes near goals, gates, and stairs. If a solid prop blocks enemy traversal, check that its footprint reaches the navigation owner. Test destructibles through an actual strike and persistence after restoring the floor.
-- **Secret trial.** Author a `SecretChallengeRoute` resource. In its `rows` and optional `alternate_rows`, `S` is the west-edge entrance, `R` is the reward, `.` is floor, `#` is unused, and digits identify [hazard sockets](../../world/secret_challenges/secret_challenge_socket.gd). Give each form one entrance and one reachable reward, with fixture sockets defined for its digit cells. Keep the route ID stable and register the resource in the [explicit route catalog](../../world/secret_challenges/secret_challenge_catalog.gd) so exports include it. Run the layout and content tests for both forms.
-- **Trap or traversal room.** Keep contact volumes, warning geometry, and the visible fixture aligned. [DungeonHazard](../../world/dungeon_hazard.gd) runs resting, warning, and firing phases for [authored traps](../../world/hazards/). [Lava floor](../../world/props/lava_floor.tscn) and [basin water](../../world/modules/basin_water.tscn) own their separate hazards and surface behavior. Confirm the warning reads at the actual approach angle and matches the unsafe area, including on reentry or after a floor change.
+- Edit the room, markers, doors, and interactive approaches in their owning scene. Use the World layer for solid surfaces and follow the actual floor, collision, navigation, and portal arrival from player eye height.
+- Keep a clear approach to both Training Ground wells. Each well refills its own resource when targeted with **E**. Verify roof, ramp, water bounds, and camera water crossing where applicable.
+- Place interactive props with a clear approach. Use the shared [arena drop placement](../../world/training_ground.gd) for floor support and drop spacing and add actual navigation blockers for solid scenery. Give solid decoration collision in the owning scene.
+- [The session](../../main.gd) enables weapon stops on valid solid contacts by default in Training. The Carry Through practice preset keeps the swing moving while solid cover still blocks damage and plays impact feedback. [Breakable props](../../world/modules/breakable_prop.gd) expose the impact material, cleave mass and hit-through behavior. Set `allow_melee_damage` false for an intact obstacle. Compare the modes in [the Training Ground](ui-and-inventory.md#controls-and-item-lifecycle) and run the [breakable props fixture](../../tests/breakable_props.gd).
 
 ## Author and import art
+
+### Art authoring workflow
 
 1. Find the existing scene, runtime model, and editable source in the [model catalogue](../../MODEL_CATALOGUE.md). Most Blender sources live in [assets/source](../../assets/source/), with imports in [assets/models](../../assets/models/) or [player/weapons/models](../../player/weapons/models/). Edit the maintained source. Use an isolated Blender scene or session when the active file contains unrelated work. If Blender MCP is available and requested, use it for the relevant mesh, UV, or rig work and record the actual edit.
 2. Preserve the existing asset's unit scale, pivot, forward axis, expected hierarchy, and attachment names. Check adjacent working assets before exporting a new family. Enemy rigs use `-Z` forward and should keep the skeleton and native scene animation bindings working through Idle, Walk, Windup, and Strike. For held items preserve `Pose`, trace markers, wrist alignment, and the `Pose/ForgedModel` mount expected by [WeaponView](../../player/weapon_view.gd). Configure first-person timing and trace events on the native Godot clips. A per-base geometry replacement should anchor to the existing hand or shield grip.
@@ -47,11 +29,7 @@ Layout tests preserve fingerprints for older saves. Maintain version-specific be
 
 ### Materials and lighting
 
-[DungeonTilesets](../../world/dungeon_tilesets.gd) defines the distinct floor, wall, and ceiling images, repeat size in metres, and light palette for Iron Crypt, Flooded Ossuary, Ash Foundry, Rootbound Vault, and Sable Catacomb. Iron Crypt uses textures in [assets/rework](../../assets/rework/). The other sets live in [assets/dungeon/tilesets](../../assets/dungeon/tilesets/). The expedition's persisted choice is reused across its floors, with Iron Crypt as the old-save fallback. The depth theme is a separate input to dressing and encounter presentation. Preserve both roles when editing the palette or adding a set.
-
-The assembled floor uses [`blood_floor.gdshader`](../../world/modules/blood_floor.gdshader) and a [projection receiver](../../world/modules/blood_floor_projection.tscn). Carry that path through a floor material change so impact decals still match the surface. Use world-scale repeats and matching density at transitions. Inspect floor, wall, ceiling, ramp, and prop contact in the same view. Keep fire local and warm, preserve visibility at stairs and doorway changes, and check enemies in the shadows before changing global ambient or fog. A floor looking black in a native run warrants checking its winding, normals, material and texture bindings, and lights with the real camera.
-
-The generator's module cache batches visible static mesh surfaces, preserves its solid collision shapes, and instances lights and particles separately. `DungeonTilesets.masonry_surface()` recognizes the source albedos that receive a set-specific override. Check that mapping if you replace an authored wall or ceiling material. The [secret passage wall](../../world/props/secret_passage.gd) inherits the current floor's wall texture and scale, so check any masonry changes against a closed and an opened passage. Preview both the module on its own and a generated floor. The live floor can legitimately use different material and lighting values than the editor preview of the kit.
+The Training Ground instantiates the native receiver in [blood projection](../../world/modules/blood_floor_projection.tscn) with the shared [floor shader](../../world/modules/blood_floor.gdshader). Each practice visit creates its own receiver. Compare floor, wall, ceiling, ramp, and prop contact at a consistent scale. Inspect practical lights, visibility around corners, and actors in the shadows in the actual scene.
 
 ## VFX and audio boundaries
 
@@ -61,18 +39,12 @@ The generator's module cache batches visible static mesh surfaces, preserves its
 
 ## Verify in Godot
 
-Run the smallest relevant tests from the directory containing [project.godot](../../project.godot). Substitute your Godot 4.7 console executable for `godot`. Use the same renderer and camera for comparison captures.
+Run the relevant checks with Godot 4.7 from the directory containing [project.godot](../../project.godot).
 
 ```powershell
 godot --headless --path . --editor --import
-godot --headless --path . --fixed-fps 60 --script res://tests/dungeon_generation.gd
+godot --headless --path . --script res://tests/training_ground.gd
+godot --headless --path . --script res://tests/breakable_props.gd
 ```
 
-| Change | Relevant checks |
-| --- | --- |
-| Seeded layout, doors, floor joins, encounter geometry | [dungeon_generation.gd](../../tests/dungeon_generation.gd), [dungeon_convergence.gd](../../tests/dungeon_convergence.gd), and [integration.gd](../../tests/integration.gd) for resumed runs and interactions. |
-| Secrets, merchant, optional rooms, lava | [secret_challenge_layouts.gd](../../tests/secret_challenge_layouts.gd), [secret_challenge_content.gd](../../tests/secret_challenge_content.gd), [secret_merchant_site.gd](../../tests/secret_merchant_site.gd), [dungeon_challenge_rooms.gd](../../tests/dungeon_challenge_rooms.gd), [lava_chamber.gd](../../tests/lava_chamber.gd), and [floor_warning_escape.gd](../../tests/floor_warning_escape.gd). |
-| Environment geometry, props, training arena, map | [breakable_props.gd](../../tests/breakable_props.gd), [training_ground.gd](../../tests/training_ground.gd), and [map_reveal.gd](../../tests/map_reveal.gd). |
-| Rigs, combat effects, player clips | [enemy_ragdoll.gd](../../tests/enemy_ragdoll.gd), [combat_impact.gd](../../tests/combat_impact.gd), [bleed.gd](../../tests/bleed.gd), and [combat_timeline_editing.gd](../../tests/combat_timeline_editing.gd). |
-
-For visible changes, run a native Forward+ capture in the actual Hub, Training Ground, or seeded expedition. Compare the same seed, version, depth, floor, view direction, distance, and lighting where possible. For masonry, inspect all affected sets from the entrance, at a practical light, and at a dark transition. For mesh art, inspect front, side, and motion in the final scene. For VFX, capture the warning, onset, contact, and end as relevant. A successful import validates asset loading. A seeded headless test validates the covered behaviors. The real viewport and runtime audio check whether the intended result can be seen and heard.
+Use [Training Ground](../../tests/training_ground.gd) and [breakable props](../../tests/breakable_props.gd) for interaction and impact. For visual changes, enter the actual hub or Training Ground in Forward+. Compare the relevant material, lighting, and contact under the same view and settings.

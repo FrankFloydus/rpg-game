@@ -6,6 +6,7 @@ const Crate := preload("res://world/modules/breakable_crate.tscn")
 const Pottery := preload("res://world/modules/breakable_pottery.tscn")
 const Urn := preload("res://world/modules/breakable_urn.tscn")
 const Candles := preload("res://world/modules/floor_votive_cluster.tscn")
+const Thrall := preload("res://combat/enemies/grave_thrall/grave_thrall.tscn")
 
 var _player: CharacterBody3D
 var _stage := Node3D.new()
@@ -72,10 +73,85 @@ func _run() -> void:
 	var emitters := candles.find_children("*", "GPUParticles3D", true, false)
 	_check(emitters.size() == 12 and candles.get_node("Candlelight") is OmniLight3D,
 		"Four floor candles use the authored GPU flame and share one point light")
+	await _test_melee_contact_policy()
 	_stage.free()
 	await _ticks(2)
 	print("Hearth Below breakable props: %d checks, %d failures" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
+
+
+func _test_melee_contact_policy() -> void:
+	_player.update_equipment({"main_hand": {"type": "sword_1h"}})
+	var point := Vector3(0, 0, -1.25)
+	var stopping_crate := _spawn(Crate, point)
+	var continues := await _strike_until_break(stopping_crate)
+	_check(not stopping_crate.get_node("Intact").visible and not continues,
+		"A default solid crate shatters and ends the active melee sweep")
+
+	var pass_through_crate := _spawn(Crate, point)
+	pass_through_crate.melee_hit_through = true
+	pass_through_crate.melee_contact_mass = 0.25
+	continues = await _strike_until_break(pass_through_crate)
+	_check(not pass_through_crate.get_node("Intact").visible and continues,
+		"A hit-through crate shatters and leaves the melee sweep active with cleave remaining")
+
+	var heavy_crate := _spawn(Crate, point)
+	heavy_crate.melee_hit_through = true
+	heavy_crate.melee_contact_mass = 20.0
+	continues = await _strike_until_break(heavy_crate)
+	_check(not heavy_crate.get_node("Intact").visible and continues,
+		"A hit-through crate leaves the sweep active even after spending its cleave budget")
+
+	var protected_crate := _spawn(Crate, point)
+	protected_crate.allow_melee_damage = false
+	await _strike_until_break(protected_crate)
+	_check(protected_crate.get_node("Intact").visible and _hits_solid(protected_crate),
+		"A crate with melee damage disabled remains intact and blocking after a real sword attack")
+
+	_player.stats.merge({"damage_min": 2.0, "damage_max": 2.0, "crit_chance": 0.0}, true)
+	var light_prop_damage := await _strike_through_prop(0.25)
+	_check(light_prop_damage > 0.0, "The same swing hits an actor after breaking a light hit-through prop")
+	var heavy_prop_damage := await _strike_through_prop(20.0)
+	_check(is_zero_approx(heavy_prop_damage), "A heavy hit-through prop exhausts cleave before the actor behind it")
+
+
+func _strike_through_prop(mass: float) -> float:
+	var start := Vector3(3, 0, 0)
+	var enemy := Thrall.instantiate() as CharacterBody3D
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 45021
+	enemy.setup(_player, 1, "normal", rng)
+	enemy.position = start + Vector3.FORWARD * 1.57
+	_stage.add_child(enemy)
+	enemy.set_physics_process(false)
+	var crate := _spawn(Crate, start + Vector3.FORWARD * 1.06)
+	crate.scale = Vector3(0.75, 1.72, 0.65)
+	crate.melee_hit_through = true
+	crate.melee_contact_mass = mass
+	var break_health: Array[float] = []
+	crate.broken.connect(func() -> void: break_health.append(enemy.health))
+	var life: float = enemy.health
+	_aim_at(enemy.aim_point() - Vector3.UP * 0.26, start)
+	await _ticks(4)
+	_player.attack(false)
+	await _ticks(30)
+	_check(break_health.size() == 1 and is_equal_approx(break_health[0], life),
+		"A hit-through prop receives one contact before the covered enemy")
+	var damage: float = life - enemy.health
+	crate.free()
+	enemy.free()
+	return damage
+
+
+func _strike_until_break(prop: StaticBody3D) -> bool:
+	_aim_at(prop.aim_point())
+	await _ticks(4)
+	_player.attack(false)
+	for _tick in range(18):
+		await physics_frame
+		if not prop.get_node("Intact").visible:
+			return _player.get("_strike_pending") == true
+	return false
 
 
 func _spawn(scene: PackedScene, point: Vector3) -> StaticBody3D:
@@ -98,9 +174,9 @@ func _make_solid(point: Vector3, size: Vector3) -> StaticBody3D:
 	return body
 
 
-func _aim_at(target: Vector3) -> void:
-	var direction := (target - Vector3.UP * 1.56).normalized()
-	_player.place_at(Vector3.ZERO, atan2(-direction.x, -direction.z), asin(direction.y))
+func _aim_at(target: Vector3, origin := Vector3.ZERO) -> void:
+	var direction := (target - origin - Vector3.UP * 1.56).normalized()
+	_player.place_at(origin, atan2(-direction.x, -direction.z), asin(direction.y))
 
 
 func _hits_solid(expected: StaticBody3D) -> bool:

@@ -81,11 +81,6 @@ text = "Deck"
 layout_mode = 2
 text = "Combat Log"
 
-[node name="Recap" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
-visible = false
-layout_mode = 2
-text = "Expedition Recap"
-
 [node name="Achievements" parent="Center/Frame/Contents/Menus/Pause" instance=ExtResource("2_action")]
 visible = false
 layout_mode = 2
@@ -143,77 +138,6 @@ layout_mode = 2
 text = "Lifetime Statistics"
 
 [node name="Back" parent="Center/Frame/Contents/Menus/Settings" instance=ExtResource("2_action")]
-layout_mode = 2
-theme_type_variation = &"QuietButton"
-text = "Back"
-
-[node name="Depths" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
-visible = false
-custom_minimum_size = Vector2(411, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
-
-[node name="Scroll" type="ScrollContainer" parent="Center/Frame/Contents/Menus/Depths"]
-custom_minimum_size = Vector2(0, 242)
-layout_mode = 2
-horizontal_scroll_mode = 0
-
-[node name="Rows" type="VBoxContainer" parent="Center/Frame/Contents/Menus/Depths/Scroll"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="Back" parent="Center/Frame/Contents/Menus/Depths" instance=ExtResource("2_action")]
-layout_mode = 2
-theme_type_variation = &"QuietButton"
-text = "Back"
-
-[node name="SealVault" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
-visible = false
-custom_minimum_size = Vector2(411, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
-
-[node name="Confirm" parent="Center/Frame/Contents/Menus/SealVault" instance=ExtResource("2_action")]
-layout_mode = 2
-theme_type_variation = &"DangerButton"
-text = "Close Dungeon"
-
-[node name="Back" parent="Center/Frame/Contents/Menus/SealVault" instance=ExtResource("2_action")]
-layout_mode = 2
-theme_type_variation = &"QuietButton"
-text = "Keep Gate Open"
-
-[node name="BloodAltar" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
-visible = false
-custom_minimum_size = Vector2(490, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
-
-[node name="Offers" type="VBoxContainer" parent="Center/Frame/Contents/Menus/BloodAltar"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Back" parent="Center/Frame/Contents/Menus/BloodAltar" instance=ExtResource("2_action")]
-layout_mode = 2
-theme_type_variation = &"QuietButton"
-text = "Leave Altar"
-
-[node name="Recap" type="VBoxContainer" parent="Center/Frame/Contents/Menus"]
-visible = false
-custom_minimum_size = Vector2(411, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
-
-[node name="Rows" type="VBoxContainer" parent="Center/Frame/Contents/Menus/Recap"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Back" parent="Center/Frame/Contents/Menus/Recap" instance=ExtResource("2_action")]
 layout_mode = 2
 theme_type_variation = &"QuietButton"
 text = "Back"

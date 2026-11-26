@@ -13,10 +13,7 @@
 [ext_resource type="PackedScene" path="res://world/modules/hub_provisioner.tscn" id="110_provisioner"]
 [ext_resource type="PackedScene" path="res://world/modules/hub_blacksmith.tscn" id="111_blacksmith"]
 [ext_resource type="PackedScene" path="res://world/modules/portal_vortex.tscn" id="112_portal_vortex"]
-[ext_resource type="PackedScene" uid="uid://dgptsgp430snl" path="res://assets/models/architecture/hub/expedition_altar.glb" id="201_altar_art"]
 [ext_resource type="PackedScene" uid="uid://vls8prm258ro" path="res://assets/models/architecture/hub/training_gateway.glb" id="203_training_art"]
-[ext_resource type="PackedScene" uid="uid://cdwbqsxm2c2we" path="res://assets/models/architecture/hub/expedition_seal.glb" id="204_seal_art"]
-[ext_resource type="PackedScene" uid="uid://clrms84ij8q7a" path="res://assets/models/architecture/hub/expedition_lens.glb" id="205_seal_lens"]
 [ext_resource type="PackedScene" uid="uid://ctuamw0iv56ks" path="res://assets/models/architecture/hub/cloister_window.glb" id="206_window_art"]
 [ext_resource type="PackedScene" uid="uid://dpw5oox4goit5" path="res://assets/models/architecture/hub/sealed_cloister_recess.glb" id="207_recess_art"]
 [ext_resource type="PackedScene" uid="uid://dv6jtrvx577of" path="res://assets/models/architecture/hub/arrival_gate_ironwork.glb" id="208_gate_art"]
@@ -2454,30 +2451,6 @@ size = Vector3(0.78, 0.74, 0.6)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3f1ga"]
 size = Vector3(1.16, 0.1, 0.65)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ma1ur"]
-size = Vector3(0.91, 0.5, 0.86)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_kb7gs"]
-size = Vector3(0.72, 0.5, 0.86)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_wkm4m"]
-size = Vector3(0.53, 0.5, 0.86)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_cshsw"]
-size = Vector3(0.91, 0.5, 0.86)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_uo3xr"]
-size = Vector3(0.72, 0.5, 0.86)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_cp1m4"]
-size = Vector3(0.53, 0.5, 0.86)
-
-[sub_resource type="BoxMesh" id="BoxMesh_254ut"]
-size = Vector3(3.5, 2, 0.22)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_un300"]
-size = Vector3(3.5, 2, 0.22)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_elak8"]
 size = Vector3(0.66, 0.32, 0.78)
 
@@ -2552,30 +2525,6 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [1.8198445338988811, 1.8262624893382269, 2.043530716307183, 2.293461494197345, 2.3430863096696184, 2.147998525283574, 1.89730186936726, 1.8104559085675025, 1.9190792371841645, 2.072200090370522, 2.1325285036432495, 2.115639850626378, 2.117989728512473, 2.153538704272814, 2.126638719947444, 1.9804425558739116, 1.8198445338988811, 1.8262624893382269, 2.0435307163071825, 2.293461494197345, 2.343086309669619, 2.1479985252835725, 1.89730186936726, 1.8104559085675025, 1.9190792371841645, 2.072200090370522, 2.1325285036432504, 2.1156398506263785, 2.1179897285124736, 2.153538704272814, 2.126638719947444, 1.980442555873912]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("PortalAltar/Node3D1/AnimatedLight6:light_energy")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.244486142706863, 1.4106353927461217, 1.4608653397777691, 1.3618780827022394, 1.2212061355500334, 1.1630488213978836, 1.2039157553947537, 1.2646336108026688, 1.2849185449569154, 1.2892050300842, 1.3274941615741134, 1.3812305648570586, 1.3693890623452702, 1.2571106413308766, 1.1277246288124465, 1.1122576271971152, 1.2444861427068628, 1.4106353927461217, 1.4608653397777691, 1.36187808270224, 1.2212061355500332, 1.1630488213978836, 1.203915755394753, 1.2646336108026686, 1.2849185449569154, 1.2892050300842006, 1.3274941615741134, 1.381230564857059, 1.3693890623452698, 1.257110641330877, 1.1277246288124472, 1.1122576271971152]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("PortalAltar/Node3D2/AnimatedLight7:light_energy")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.4448792829100223, 1.3721402136459382, 1.2567935853946173, 1.2042153595920075, 1.2223002550780264, 1.245116268419886, 1.239849020135259, 1.2500364373328217, 1.320120898107329, 1.4071775971369134, 1.4083684225481474, 1.2851883339852177, 1.1326994494637044, 1.0955658063563445, 1.2149888574810583, 1.3805597546490351, 1.4448792829100223, 1.3721402136459382, 1.2567935853946173, 1.2042153595920078, 1.2223002550780262, 1.245116268419886, 1.2398490201352588, 1.2500364373328214, 1.320120898107329, 1.4071775971369134, 1.4083684225481476, 1.2851883339852177, 1.1326994494637044, 1.0955658063563445, 1.2149888574810572, 1.3805597546490351]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t0jwf"]
@@ -6558,161 +6507,6 @@ line_spacing = 1.0
 
 [node name="Interaction" type="Marker3D" parent="Blacksmith" unique_id=1910680410]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, 1.35, 0.9)
-
-[node name="PortalAltar" type="Node3D" parent="." unique_id=255885927]
-
-[node name="MasonryAndMetalwork" parent="PortalAltar" unique_id=406550157 instance=ExtResource("201_altar_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.3)
-
-[node name="AshlarBoxMesh1" type="Node3D" parent="PortalAltar" unique_id=362604169]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.67, 0.25, -8.3)
-
-[node name="StaticBody3D1" type="StaticBody3D" parent="PortalAltar/AshlarBoxMesh1" unique_id=1129840388]
-
-[node name="CollisionShape3D1" type="CollisionShape3D" parent="PortalAltar/AshlarBoxMesh1/StaticBody3D1" unique_id=93597518]
-shape = SubResource("BoxShape3D_ma1ur")
-
-[node name="AshlarBoxMesh2" type="Node3D" parent="PortalAltar" unique_id=1469405352]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.67, 0.77, -8.3)
-
-[node name="StaticBody3D1" type="StaticBody3D" parent="PortalAltar/AshlarBoxMesh2" unique_id=1858136257]
-
-[node name="CollisionShape3D1" type="CollisionShape3D" parent="PortalAltar/AshlarBoxMesh2/StaticBody3D1" unique_id=979537606]
-shape = SubResource("BoxShape3D_kb7gs")
-
-[node name="AshlarBoxMesh3" type="Node3D" parent="PortalAltar" unique_id=736249693]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.67, 1.29, -8.3)
-
-[node name="StaticBody3D1" type="StaticBody3D" parent="PortalAltar/AshlarBoxMesh3" unique_id=426295444]
-
-[node name="CollisionShape3D1" type="CollisionShape3D" parent="PortalAltar/AshlarBoxMesh3/StaticBody3D1" unique_id=180513266]
-shape = SubResource("BoxShape3D_wkm4m")
-
-[node name="Node3D1" type="Node3D" parent="PortalAltar" unique_id=1942969107]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38, 0.95, -7.73)
-
-[node name="AnimatedFlame6" parent="PortalAltar/Node3D1" unique_id=613643936 instance=ExtResource("91_gpu_fire")]
-transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, 0, -0.041, 0)
-
-[node name="CoalBed6" parent="PortalAltar/Node3D1" unique_id=1663368021 instance=ExtResource("92_coal_bed")]
-transform = Transform3D(1.44, 0, 0, 0, 1.05, 0, 0, 0, 1.44, 0, -0.084, 0)
-
-[node name="AnimatedLight6" type="OmniLight3D" parent="PortalAltar/Node3D1" unique_id=400345935]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.22)
-light_color = Color(1, 0.6156863, 0.39215687, 1)
-light_energy = 1.28
-omni_range = 4.85
-omni_attenuation = 1.38
-
-[node name="AshlarBoxMesh4" type="Node3D" parent="PortalAltar" unique_id=2100198632]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.67, 0.25, -8.3)
-
-[node name="StaticBody3D1" type="StaticBody3D" parent="PortalAltar/AshlarBoxMesh4" unique_id=1909550729]
-
-[node name="CollisionShape3D1" type="CollisionShape3D" parent="PortalAltar/AshlarBoxMesh4/StaticBody3D1" unique_id=1495450380]
-shape = SubResource("BoxShape3D_cshsw")
-
-[node name="AshlarBoxMesh5" type="Node3D" parent="PortalAltar" unique_id=1907326967]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.67, 0.77, -8.3)
-
-[node name="StaticBody3D1" type="StaticBody3D" parent="PortalAltar/AshlarBoxMesh5" unique_id=1679521424]
-
-[node name="CollisionShape3D1" type="CollisionShape3D" parent="PortalAltar/AshlarBoxMesh5/StaticBody3D1" unique_id=410903874]
-shape = SubResource("BoxShape3D_uo3xr")
-
-[node name="AshlarBoxMesh6" type="Node3D" parent="PortalAltar" unique_id=2124836594]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.67, 1.29, -8.3)
-
-[node name="StaticBody3D1" type="StaticBody3D" parent="PortalAltar/AshlarBoxMesh6" unique_id=454302747]
-
-[node name="CollisionShape3D1" type="CollisionShape3D" parent="PortalAltar/AshlarBoxMesh6/StaticBody3D1" unique_id=1589903389]
-shape = SubResource("BoxShape3D_cp1m4")
-
-[node name="Node3D2" type="Node3D" parent="PortalAltar" unique_id=1143558247]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.38, 0.95, -7.73)
-
-[node name="AnimatedFlame7" parent="PortalAltar/Node3D2" unique_id=1297374727 instance=ExtResource("91_gpu_fire")]
-transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, 0, -0.041, 0)
-
-[node name="CoalBed7" parent="PortalAltar/Node3D2" unique_id=1283476870 instance=ExtResource("92_coal_bed")]
-transform = Transform3D(1.44, 0, 0, 0, 1.05, 0, 0, 0, 1.44, 0, -0.084, 0)
-
-[node name="AnimatedLight7" type="OmniLight3D" parent="PortalAltar/Node3D2" unique_id=1941278335]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.22)
-light_color = Color(1, 0.6156863, 0.39215687, 1)
-light_energy = 1.28
-omni_range = 4.85
-omni_attenuation = 1.38
-
-[node name="Vortex" parent="PortalAltar" unique_id=1926788697 instance=ExtResource("112_portal_vortex")]
-transform = Transform3D(1.55, 0, 0, 0, 1.525, 0, 0, 0, 1, 0, 1.53, -8.1)
-tint = Color(0.48, 0.75, 0.69, 1)
-light_energy = 0.64
-
-[node name="Label3D1" type="Label3D" parent="PortalAltar" unique_id=774897390]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.84, -7.94)
-pixel_size = 0.0045
-billboard = 1
-modulate = Color(0.6901961, 0.8980392, 0.8392157, 1)
-outline_modulate = Color(0.101960786, 0.078431375, 0.08627451, 1)
-text = "Portal Altar"
-font_size = 40
-outline_size = 7
-line_spacing = 1.0
-
-[node name="PillarBoxMesh2" type="MeshInstance3D" parent="PortalAltar" unique_id=589959880]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -9.2)
-material_override = SubResource("StandardMaterial3D_fssm3")
-mesh = SubResource("BoxMesh_254ut")
-
-[node name="StaticBody3D1" type="StaticBody3D" parent="PortalAltar/PillarBoxMesh2" unique_id=97668939]
-
-[node name="CollisionShape3D1" type="CollisionShape3D" parent="PortalAltar/PillarBoxMesh2/StaticBody3D1" unique_id=2127726736]
-shape = SubResource("BoxShape3D_un300")
-
-[node name="OmniLight3D2" type="OmniLight3D" parent="PortalAltar" unique_id=1765680086]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.77, 2.56, -8.8)
-light_color = Color(1, 0.74509805, 0.49019608, 1)
-light_energy = 0.87
-omni_range = 3.8
-omni_attenuation = 1.38
-
-[node name="OmniLight3D3" type="OmniLight3D" parent="PortalAltar" unique_id=1693257678]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.77, 2.56, -8.8)
-light_color = Color(1, 0.74509805, 0.49019608, 1)
-light_energy = 0.87
-omni_range = 3.8
-omni_attenuation = 1.38
-
-[node name="Interaction" type="Marker3D" parent="PortalAltar" unique_id=482867616]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28, -8)
-
-[node name="OverlapCenter" type="Marker3D" parent="PortalAltar" unique_id=1859083371]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.6)
-
-[node name="CloseDungeon" type="Node3D" parent="." unique_id=1085894071]
-
-[node name="StoneMechanism" parent="CloseDungeon" unique_id=1507099079 instance=ExtResource("204_seal_art")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.95, 0, -7.1)
-
-[node name="SealGlow" parent="CloseDungeon" unique_id=1185269051 instance=ExtResource("205_seal_lens")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.95, 0.922, -7.1)
-
-[node name="CloseDungeonLabel" type="Label3D" parent="CloseDungeon" unique_id=1745863345]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.95, 1.65, -7.0099998)
-pixel_size = 0.0045
-billboard = 1
-modulate = Color(0.8862745, 0.73333335, 0.7529412, 1)
-outline_modulate = Color(0.101960786, 0.078431375, 0.08627451, 1)
-text = "Close Dungeon"
-font_size = 40
-outline_size = 7
-line_spacing = 1.0
-
-[node name="Interaction" type="Marker3D" parent="CloseDungeon" unique_id=692629704]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.95, 1, -7.1)
 
 [node name="TrainingPortal" type="Node3D" parent="." unique_id=141117339]
 

@@ -1,7 +1,7 @@
 extends MultiMeshInstance3D
 ## Draws the actual boxes submitted by the player's melee sweep.
 
-const ExpeditionRules := preload("res://data/expedition_rules.tres")
+const CombatLifetimeRules := preload("res://data/combat_lifetime_rules.tres")
 const FADE_SECONDS := 0.35
 const CAPACITY := 2048
 const EDGES := [
@@ -39,7 +39,7 @@ func _ready() -> void:
 func draw_box(pose: Transform3D, size: Vector3) -> void:
 	var slot := (_head + _count) % CAPACITY
 	_shapes[slot] = pose.scaled_local(size)
-	_expires[slot] = _time + ExpeditionRules.player_trace_seconds
+	_expires[slot] = _time + CombatLifetimeRules.player_trace_seconds
 	if _count == CAPACITY:
 		_head = (_head + 1) % CAPACITY
 	else:

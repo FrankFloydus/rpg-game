@@ -3,8 +3,6 @@ extends SceneTree
 
 const Player := preload("res://player/player.tscn")
 const Effects := preload("res://combat/effects/caster_legendary_effects.gd")
-const Cards := preload("res://combat/cards/card_cast.gd")
-const CardData := preload("res://data/card_catalog.gd")
 const Items := preload("res://systems/items.gd")
 const Roster := preload("res://combat/enemies/enemy_catalog.gd")
 const Staff := preload("res://combat/abilities/forked_staff_bolt.tres")
@@ -34,7 +32,6 @@ func _run() -> void:
 	await physics_frame
 	await _test_rime()
 	await _test_tithe()
-	await _test_cairn()
 	await physics_frame
 	_stage.free()
 	print("Caster legendaries: %d checks, %d failures" % [_checks, _failures])
@@ -121,47 +118,6 @@ func _test_tithe() -> void:
 	arena.free()
 
 
-func _test_cairn() -> void:
-	var arena := _new_arena()
-	_equip({"amulet": {"effect": Effects.CAIRN}})
-	var run := {"level": 31}
-	var empty_run := {}
-	var normal := _spawn(arena, Vector3.FORWARD, "normal")
-	var allied_kill := _spawn(arena, Vector3.FORWARD * 2.0, "rare")
-	var first := _spawn(arena, Vector3.FORWARD * 3.0, "rare")
-	var second := _spawn(arena, Vector3.RIGHT * 3.0, "rare")
-	await physics_frame
-	_kill(normal, run)
-	_kill(allied_kill, run, true)
-	_kill(first, empty_run)
-	_check(not run.has("cairn_oath_used") and empty_run.is_empty()
-		and get_nodes_in_group("friendly_skeletons").is_empty(),
-		"Normal kills, allied kills and live-training-simulation kills cannot use Cairn Oath")
-	Effects.on_rare_kill(_player, first, arena, run)
-	_kill(second, run)
-	var guard := arena.get_node_or_null("CairnOathGuard")
-	_check(guard != null and run.cairn_oath_used and get_nodes_in_group("friendly_skeletons").size() == 1
-		and is_equal_approx(guard._lifetime, Effects.Rules.cairn_guard_seconds),
-		"Two actual rare deaths in one expedition raise precisely one timed guard")
-	Cards.play("oathbound_three", CardData.CARDS.oathbound_three, _player, arena)
-	var party := arena.get_node_or_null("OathboundThree")
-	_check(guard != null and guard.is_queued_for_deletion()
-		and party != null and get_nodes_in_group("friendly_skeletons").size() == 3,
-		"Playing the card while the guard serves replaces it with exactly three fighters")
-	if party == null:
-		arena.free()
-		return
-	var later_run := {"level": 31}
-	var original_time: float = party._lifetime
-	var next_rare := _spawn(arena, Vector3.LEFT * 3.0, "rare")
-	_kill(next_rare, later_run)
-	_check(later_run.cairn_oath_used and get_nodes_in_group("friendly_skeletons").size() == 3
-		and is_equal_approx(party._lifetime - original_time, Effects.Rules.cairn_extension_seconds),
-		"In a fresh expedition the first qualifying rare kill extends an active company")
-	await process_frame
-	arena.free()
-
-
 func _new_arena() -> Node3D:
 	var arena := Node3D.new()
 	_stage.add_child(arena)
@@ -174,14 +130,11 @@ func _equip(equipment: Dictionary) -> void:
 	_player.stats.merge({"damage_min": 20.0, "damage_max": 20.0, "crit_chance": -100.0}, true)
 
 
-func _spawn(arena: Node3D, at: Vector3, rarity := "normal") -> CharacterBody3D:
+func _spawn(arena: Node3D, at: Vector3) -> CharacterBody3D:
 	var enemy := Roster.instantiate(0)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 26
-	var affixes: Array[String] = []
-	if rarity == "rare":
-		affixes.append("armored")
-	enemy.setup(_player, 1, rarity, rng, Callable(), Callable(), affixes)
+	enemy.setup(_player, 1, "normal", rng, Callable(), Callable())
 	enemy.position = at + Vector3.UP * 0.06
 	arena.add_child(enemy)
 	enemy.set_physics_process(false)
@@ -195,13 +148,6 @@ func _hit(enemy: CharacterBody3D) -> void:
 		{"target": enemy, "point": enemy.aim_point(), "direction": Vector3.FORWARD},
 	]
 	_player._resolve_attack(false, {}, null, contacts, {"count": 0})
-
-
-func _kill(enemy: CharacterBody3D, run: Dictionary, ally := false) -> void:
-	var arena := enemy.get_parent() as Node3D
-	enemy.died.connect(func(dead: CharacterBody3D) -> void:
-		Effects.on_rare_kill(_player, dead, arena, run))
-	enemy.take_hit({"cold": 3000.0}, _player, Vector3.INF, Vector3.ZERO, {"allied_summon": ally})
 
 
 func _commit_staff() -> bool:

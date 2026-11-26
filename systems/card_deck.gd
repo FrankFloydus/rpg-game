@@ -1,5 +1,5 @@
 extends RefCounted
-## Carries permanent unlocks and the selected three-slot expedition loadout.
+## Carries permanent unlocks and the selected three-slot loadout.
 
 const Catalog = preload("res://data/card_catalog.gd")
 

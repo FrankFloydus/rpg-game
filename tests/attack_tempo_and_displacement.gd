@@ -29,6 +29,7 @@ func _run() -> void:
 	await _check_tempo()
 	await _check_player_push()
 	await _check_enemy_push()
+	await _check_level_five_maul()
 	await _check_maul_playpath()
 	await _check_maul_level_disparity()
 	await _check_maul_cleave()
@@ -161,6 +162,43 @@ func _prepare_player(point: Vector3) -> void:
 	_player.ward = 0.0
 
 
+func _check_level_five_maul() -> void:
+	var progression := CharacterProgression.for_training(5)
+	progression.allocate(&"strength", 4)
+	_player.set_character_progression(progression)
+	_player.update_equipment({"main_hand": Items.training_weapon_preview("charnel_mallet", 5)})
+	var rng := RandomNumberGenerator.new()
+	var near_max_seed := 0
+	for seed_value in 256:
+		rng.seed = seed_value
+		rng.randf() # Critical chance roll precedes the damage roll.
+		if rng.randf() > 0.96:
+			near_max_seed = seed_value
+			break
+	for enemy_level in [5, 1]:
+		# Stop the previous sweep before introducing a fresh target into its arc.
+		_player.place_at(Vector3(0, 0.08, 2.5))
+		var enemy := _spawn(0, Vector3(0, 0.08, 0.5), enemy_level)
+		await _ticks(2)
+		_aim_at_maul_target(enemy)
+		_player._rng.seed = near_max_seed
+		var full_life: float = enemy.max_health
+		var started_full := is_equal_approx(float(enemy.health), full_life)
+		_press_attack(true)
+		for _tick in 138:
+			if enemy.health < full_life:
+				break
+			await _ticks(1)
+		_press_attack(false)
+		var dealt: float = full_life - enemy.health
+		var survived: bool = enemy.health > 0.0
+		_check(started_full and _player._strike_heavy and dealt > 0.0 and survived == (enemy_level == 5),
+			"A level-five plain Mallet charge %s a level-%d Thrall (%.0f Life removed, %.1f left)" % [
+				"injures" if enemy_level == 5 else "defeats", enemy_level, dealt, enemy.health])
+		enemy.queue_free()
+		await _ticks(2)
+
+
 func _check_maul_playpath() -> void:
 	for depth: int in [6, 7]:
 		var progression := CharacterProgression.for_training(depth)
@@ -212,7 +250,7 @@ func _check_maul_level_disparity() -> void:
 				_press_attack(false)
 				_player.struck.disconnect(struck)
 				var dealt: float = contacts[0] if not contacts.is_empty() else -1.0
-				var expected := (20.0 if heavy else 13.0) if enemy_level == 6 else 1.0
+				var expected := (18.0 if heavy else 13.0) if enemy_level == 6 else 1.0
 				var mode := "Charged" if heavy else "Light"
 				_check(contacts.size() == 1 and dealt == expected and enemy.health > 0.0
 					and _player._strike_heavy == heavy,
@@ -240,7 +278,7 @@ func _check_maul_cleave() -> void:
 		await _ticks(1)
 	_press_attack(false)
 	_player.struck.disconnect(struck)
-	_check(damage == [20.0, 10.0], "Charged maul cleave deals full damage once and half on its second physical contact (%s)" % [damage])
+	_check(damage == [18.0, 9.0], "Charged maul cleave deals full damage once and half on its second physical contact (%s)" % [damage])
 	first.queue_free()
 	second.queue_free()
 	await _ticks(2)

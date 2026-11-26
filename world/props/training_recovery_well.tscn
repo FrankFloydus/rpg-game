@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://world/props/training_recovery_well.gd" id="1_well"]
+[ext_resource type="PackedScene" path="res://assets/models/architecture/crypt_forged_brazier.glb" id="2_basin"]
+[ext_resource type="Shader" path="res://world/props/training_well_surface.gdshader" id="3_water"]
+
+[sub_resource type="CylinderShape3D" id="WellCollision"]
+height = 1.25
+radius = 0.38
+
+[sub_resource type="ShaderMaterial" id="WellWater"]
+resource_local_to_scene = true
+shader = ExtResource("3_water")
+
+[sub_resource type="PlaneMesh" id="WellSurface"]
+size = Vector2(0.55, 0.55)
+
+[node name="TrainingRecoveryWell" type="StaticBody3D" groups=["training_navigation_geometry"]]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_well")
+
+[node name="Basin" parent="." instance=ExtResource("2_basin")]
+
+[node name="BasinCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.625, 0)
+shape = SubResource("WellCollision")
+
+[node name="Water" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.19, 0)
+material_override = SubResource("WellWater")
+cast_shadow = 0
+mesh = SubResource("WellSurface")
+
+[node name="Glow" type="OmniLight3D" parent="."]
+position = Vector3(0, 1.42, 0)
+light_color = Color(1, 0.655, 0.529, 1)
+light_energy = 1.2
+omni_range = 2.4
+omni_attenuation = 1.6
+
+[node name="Label" type="Label3D" parent="."]
+position = Vector3(0, 1.56, 0)
+pixel_size = 0.003
+billboard = 1
+modulate = Color(1, 0.655, 0.529, 1)
+text = "Life Well"
+font_size = 42
+outline_size = 8

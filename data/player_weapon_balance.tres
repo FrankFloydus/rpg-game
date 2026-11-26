@@ -5,3 +5,4 @@
 [resource]
 resource_name = "Player Weapon Damage"
 script = ExtResource("1_balance")
+two_handed_charge = 0.78

@@ -702,4 +702,4 @@ bases = Array[Dictionary]([{
 "stats": {},
 "type": "belt"
 }])
-power_by_level = Array[Vector3]([Vector3(10, 1, 1), Vector3(15, 1.4, 1.2), Vector3(20, 1.85, 1.45), Vector3(25, 2.4, 1.7), Vector3(30, 3, 2), Vector3(40, 4.6, 2.55), Vector3(50, 6.5, 3.2), Vector3(75, 9.25, 4), Vector3(100, 11.5, 4.6)])
+power_by_level = Array[Vector3]([Vector3(10, 1, 1), Vector3(15, 1.4, 1.32), Vector3(20, 1.85, 1.6), Vector3(25, 2.4, 1.86), Vector3(30, 3, 2.18), Vector3(40, 4.6, 2.75), Vector3(50, 6.5, 3.42), Vector3(75, 9.25, 4.24), Vector3(100, 11.5, 4.85)])

@@ -8,6 +8,10 @@ const AttackAnimation = preload("res://combat/attack_animation.gd")
 const WEAPONS := ["unarmed", "sword_1h", "mace_1h", "axe_1h", "sword_2h", "mace_2h", "axe_2h", "staff"]
 const EDGED_BASES := {"axe_1h": "grave_hatchet", "axe_2h": "tithe_cleaver", "sword_2h": "vigil_greatsword"}
 const TRACE_SAMPLES := 18
+const MACE_CLIPS := {
+	&"light": &"light_right", &"light_2": &"light_left",
+	&"heavy": &"heavy_right", &"heavy_2": &"heavy_left",
+}
 
 class Target extends StaticBody3D:
 	func aim_point() -> Vector3:
@@ -33,6 +37,7 @@ func _run() -> void:
 	var wall := _target(Vector3(40.0, 1.2, -0.96), 1, Vector3(2.8, 2.0, 0.17))
 	var prop := _target(Vector3(60.0, 1.2, -1.42), 1)
 	var blade_target := _target(Vector3(80.0, 1.5, -1.72))
+	var mace_wall := _target(Vector3(87.0, 1.5, -1.0), 1, Vector3(2.0, 0.5, 0.12))
 	prop.add_to_group(&"breakable_props")
 	# Bodies enter the physics space before the sweep is sampled.
 	await physics_frame
@@ -65,6 +70,7 @@ func _run() -> void:
 	_check(_hit_bodies(prop_attack) == [prop] and prop_attack.terrain_contact().is_empty(),
 		"A breakable receives one contact separate from ordinary terrain")
 	_test_blade_motion(blade_target)
+	_test_mace_terrain_window(mace_wall)
 	await _test_authored_attacks()
 
 	_world.free()
@@ -91,6 +97,71 @@ func _test_blade_motion(target: Target) -> void:
 	var cut_contact := WeaponRoles.contact("sword_1h", "funeral_rapier", false, cut.contacts()[0])
 	_check(not WeaponRoles.can_sever(thrust_contact) and WeaponRoles.can_sever(cut_contact),
 		"The moving blade trace distinguishes an axial thrust from an edged swing")
+
+
+func _test_mace_terrain_window(wall: Target) -> void:
+	var view := Transform3D(Basis.IDENTITY, Vector3(wall.position.x, wall.position.y, 0.0))
+	var space := _world.get_world_3d().direct_space_state
+	var heel := view.origin + Vector3(0.0, -0.09, -0.55)
+	var tip := view.origin + Vector3(0.0, 0.09, -0.55)
+	var motion := Vector3.FORWARD * 0.46
+	var previous := PackedVector3Array([heel, tip])
+	var current := PackedVector3Array([heel + motion, tip + motion])
+
+	var active := MeleeSweep.new("mace_2h", false, RID(), view)
+	active.trace_blade(space, view, previous, current, true)
+	_check(active.terrain_contact().get("rid") == wall.get_rid(),
+		"The mace head stops on a centered solid strike")
+
+	var chamber := MeleeSweep.new("mace_2h", false, RID(), view)
+	chamber.trace_blade(space, view, previous, current, true, 1.1)
+	_check(chamber.terrain_contact().is_empty(), "The same overlap before Terrain Start does not stop the mace")
+
+	var side_view := view.translated(Vector3.LEFT * 3.0)
+	var outside := MeleeSweep.new("mace_2h", false, RID(), side_view)
+	outside.trace_blade(space, side_view, previous, current, true)
+	_check(outside.terrain_contact().is_empty(), "A solid overlap outside the mace gameplay aim cone does not stop it")
+
+	# Keep the same physical collision and move the aim. The head must enter
+	# the visible part of the cut before the wall can stop it.
+	for offset: Vector3 in [Vector3.ZERO, Vector3.DOWN * 0.5, Vector3.LEFT * 0.75]:
+		var aim := view.translated(offset)
+		var mace := MeleeSweep.new("mace_2h", false, RID(), aim)
+		mace.trace_blade(space, aim, previous, current, true)
+		_check(mace.terrain_contact().is_empty() == (offset != Vector3.ZERO),
+			"The mace cut accepts the centered overlap and rejects the high or wide overlap (%s)" % offset)
+
+	# The active head can have cleared both faces of a thin wall before
+	# Terrain Start. Recover the near face only during an approaching cut.
+	var past_wall := PackedVector3Array([heel + Vector3.FORWARD * 0.7, tip + Vector3.FORWARD * 0.7])
+	var deeper := PackedVector3Array([past_wall[0] + motion, past_wall[1] + motion])
+	var occluded_head := MeleeSweep.new("mace_2h", false, RID(), view)
+	occluded_head.trace_blade(space, view, past_wall, deeper, true, 0.5)
+	var obstruction := occluded_head.terrain_contact()
+	_check(obstruction.get("rid") == wall.get_rid() and float(obstruction.get("fraction", -1.0)) >= 0.5
+		and absf(float(Vector3(obstruction.get("point", Vector3.INF)).z) + 0.94) < 0.001,
+		"An armed mace cut resolves the visible near face even if the head has already passed through")
+	var pulling_back := MeleeSweep.new("mace_2h", false, RID(), view)
+	pulling_back.trace_blade(space, view, deeper, past_wall, true)
+	_check(pulling_back.terrain_contact().is_empty(), "An occluded mace head moving away from cover does not stop")
+
+	var charged := MeleeSweep.new("mace_2h", true, RID(), view)
+	charged.trace_blade(space, view, past_wall, deeper, true, 0.0, 1.1)
+	_check(charged.terrain_contact().is_empty(), "An approaching charged cut cannot stop before Impact")
+	charged.trace_blade(space, view, deeper, past_wall, true, 0.0, 0.5)
+	var charged_hit := charged.terrain_contact()
+	_check(charged_hit.get("rid") == wall.get_rid() and float(charged_hit.get("fraction", 0.0)) >= 0.5
+		and Vector3(charged_hit.get("normal", Vector3.ZERO)).dot(Vector3.BACK) > 0.99,
+		"The charged cut uses the tracked near face once Impact arrives, even at the turn of the arc")
+
+	var past_cover := MeleeSweep.new("mace_2h", true, RID(), view)
+	past_cover.trace_blade(space, view, past_wall, deeper, true, 0.0, 1.1)
+	past_cover.trace_blade(space, view, deeper, previous, true, 0.0, 1.0)
+	_check(past_cover.terrain_contact().is_empty(), "A charged cut whose Impact pose has cleared cover does not stop")
+
+	var back_face := MeleeSweep.new("mace_2h", true, RID(), view)
+	back_face.trace_blade(space, view, past_wall, current, true)
+	_check(back_face.terrain_contact().is_empty(), "A fresh charged contact cannot stop on a wall's exit face")
 
 
 func _test_authored_attacks() -> void:
@@ -126,11 +197,16 @@ func _test_authored_attacks() -> void:
 		weapon_view.rebuild(weapon, "normal", "")
 		var authored := {}
 		timings[weapon] = authored
-		var has_overhead := EDGED_BASES.has(weapon) or weapon == "mace_2h"
-		var expected_stages := 3 if has_overhead else 2
+		var has_overhead := EDGED_BASES.has(weapon)
+		var is_maul := weapon == "mace_2h"
+		if is_maul:
+			_check_mace_clip_library(weapon_view)
 		if weapon.begins_with("axe_"):
 			_check_axe_ready_pose(weapon_view, weapon)
 		for heavy: bool in [false, true]:
+			var expected_stages := 3 if has_overhead else 2
+			if is_maul and not heavy:
+				expected_stages = 4
 			var lane := "%s %s" % [weapon, "charged" if heavy else "light"]
 			var tip_travel := PackedVector3Array()
 			var impact_directions := PackedVector3Array()
@@ -169,9 +245,18 @@ func _test_authored_attacks() -> void:
 				tip_travel.append(blade_end[1] - blade_start[1])
 				if has_overhead:
 					_check_strike_endpoints(clip_label, stage, blade_start[1] - aim.origin, blade_end[1] - aim.origin)
+				elif is_maul and not heavy:
+					var descending := stage >= 3
+					var travel: Vector3 = tip_travel[-1]
+					_check(travel.y < -0.85 if descending else absf(travel.x) > 1.0,
+						"%s follows its authored %s cut" % [clip_label, "descending" if descending else "lateral"])
 			_check(clip_names.size() == expected_stages, "%s has %d distinct chain stages" % [lane, expected_stages])
 			if has_overhead:
 				_check_three_strike_directions(lane, tip_travel, impact_directions)
+			elif is_maul and not heavy:
+				_check(tip_travel.size() == 4 and tip_travel[0].x * tip_travel[1].x < -0.01
+					and tip_travel[2].x * tip_travel[3].x < -0.01,
+					"The maul's lateral and descending lights each travel in both directions")
 			elif weapon != "staff":
 				_check(tip_travel.size() == 2 and tip_travel[0].x * tip_travel[1].x < -0.01,
 					"%s follows through from opposing sides across the chain (%s)" % [lane, tip_travel])
@@ -181,10 +266,30 @@ func _test_authored_attacks() -> void:
 	for family: String in ["sword", "mace", "axe"]:
 		for clip: StringName in [&"light", &"light_2", &"heavy", &"heavy_2"]:
 			var one: AttackAnimation = timings[family + "_1h"].get(clip)
-			var two: AttackAnimation = timings[family + "_2h"].get(clip)
+			var two_clip: StringName = MACE_CLIPS[clip] if family == "mace" else clip
+			var two: AttackAnimation = timings[family + "_2h"].get(two_clip)
 			_check(one != null and two != null and two.length > one.length * 1.15
 				and two.impact > one.impact and two.length - two.trace_end > one.length - one.trace_end,
-				"Two-handed %s %s spends more time on anticipation and recovery" % [family, clip])
+				"Two-handed %s %s spends more time on anticipation and recovery" % [family, two_clip])
+
+
+func _check_mace_clip_library(weapon_view: WeaponView) -> void:
+	var model := weapon_view.get_node("MainHand").get_child(0)
+	var animator := model.get_node("AnimationPlayer") as AnimationPlayer
+	var clips := animator.get_animation_list()
+	clips.sort()
+	_check(clips == PackedStringArray(["RESET", "charge_left", "charge_right", "guard", "guard_break", "guard_hit", "guard_raise",
+		"heavy_left", "heavy_right", "idle", "light_down_left", "light_down_right", "light_left", "light_right"]),
+		"The mace has one ready pose and a canonical set of guard motions, directional swings, and charges")
+	var pose := model.get_node("Pose") as Node3D
+	var rest := pose.transform
+	animator.play(&"idle")
+	animator.seek(0.0, true, true)
+	_check(pose.position.is_equal_approx(Vector3(0.3581149, -0.2349171, -0.4627408))
+		and pose.transform.is_equal_approx(rest), "The equipped mace starts in the same close pose as its idle")
+	animator.play(&"RESET")
+	animator.seek(0.0, true, true)
+	_check(pose.transform.is_equal_approx(rest), "The mace scene resets to the canonical ready pose")
 
 
 func _check_axe_ready_pose(weapon_view: WeaponView, weapon: String) -> void:

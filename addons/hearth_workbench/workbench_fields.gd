@@ -4,68 +4,45 @@ extends VBoxContainer
 
 const Validation := preload("res://addons/hearth_workbench/workbench_validation.gd")
 const AbilitySchema := preload("res://addons/hearth_workbench/workbench_ability_schema.gd")
+const PropertyHelp := preload("res://addons/hearth_workbench/workbench_property_help.gd")
 const AffixRecords := preload("res://data/items/affix_records.tres")
+const CurveGraph := preload("res://addons/hearth_workbench/workbench_curve_editor.tscn")
+const CurveEditor := preload("res://addons/hearth_workbench/workbench_curve_editor.gd")
+const PowerGraphs := preload("res://addons/hearth_workbench/workbench_power_curves.tscn")
+const PowerCurves := preload("res://addons/hearth_workbench/workbench_power_curves.gd")
+const Progression := preload("res://systems/character_progression.gd")
 const TITLES := {
 	"stats": "Stats", "implicit": "Implicit stats", "level": "Minimum level", "weight": "Roll weight",
 	"id": "Record ID", "base_id": "Base item", "side": "Affix side", "slots": "Eligible slots",
 	"size": "Footprint", "legendary_card_eligibility": "Legendary card eligibility",
 	"minimum": "Minimum rarity",
-	"name": "Name", "chance_max_depth": "Drop scaling depth cap",
+	"name": "Name",
 	"multiplier": "Roll multiplier", "damage_min": "Minimum physical damage", "damage_max": "Maximum physical damage",
 	"max_health": "Maximum life", "xp": "XP",
 	"flat": "Flat damage", "power": "Weapon damage multiplier", "heal": "Maximum Life restored",
 	"protection": "Damage reduction", "protection_time": "Protection duration",
 	"strike_bonus": "Bonus per attack", "strike_time": "Strike bonus duration", "strikes": "Number of attacks",
 	"timed_bonus": "Timed damage bonus", "timed_duration": "Damage bonus duration",
-	"drop_weight": "Drop weight", "vendor_max_depth": "Stock depth cap",
-	"vendor_price_per_depth": "Price growth per depth",
+	"drop_weight": "Drop weight", "vendor_max_depth": "Stock level cap",
+	"vendor_price_per_depth": "Price increase per stock level",
 	"affix_id": "Crafted affix",
 	"affix_tier": "Fixed stat tier",
 }
-const HELP := {
-	"id": "Stable ID used by saved items and references.",
-	"name": "Name displayed in the inventory and item labels.",
-	"type": "Item family. It determines the default footprint, icon, fit, and weapon behavior.",
-	"slot": "Equipment slot that accepts items of this family.",
-	"base_id": "Gear base whose footprint, type, and core behavior this legendary inherits.",
-	"side": "Controls whether this affix takes up a prefix or suffix slot.",
-	"slots": "Equipment slots eligible to roll this affix. With every box clear, any slot is eligible.",
-	"level": "Earliest eligible level for this record.",
-	"minimum_depth": "First dungeon depth where this can appear.",
-	"size": "Inventory cells the item occupies across and down.",
-	"weight": "Relative likelihood within the eligible table. Zero excludes it from the roll.",
-	"damage_min": "Low end of the item's base physical hit damage.",
-	"damage_max": "High end of the item's base physical hit damage.",
-	"minimum": "Lowest rarity the selected loot source can award.",
-	"multiplier": "Scales the rolled value of an affix in this tier.",
-	"chance_max_depth": "Dungeon depth where the elite reward chances reach their defined maximum.",
-	"side_cache_gear_chance": "Independent chance for a side cache to award gear.",
-	"protected_coffer_bonus_depth": "First depth where protected coffers can roll a bonus piece of gear.",
-	"protected_coffer_bonus_gear_chance": "Chance for a protected coffer to award an extra gear item after that depth.",
-	"legendary_card_eligibility": "Readiness factor applied before rolling a legendary card.",
-	"vendor_upgrade_level": "Level gate for the vendor's higher-level catalogue.",
-	"vendor_rare_chance": "Chance a vendor stock roll creates rare gear.",
-	"vendor_max_depth": "Highest expedition depth used when rolling hub merchant stock.",
-	"vendor_price_per_depth": "Additional percentage of the catalogue item's base price for every eligible depth above 1.",
-	"drop_weight": "Relative chance among eligible legendaries after a legendary item rolls. The normal weight is 1.0 and the smallest weight is 0.0001.",
-	"effect": "Special behavior this legendary grants while equipped. Leave empty for a stat-only item.",
-	"affix_id": "Affix applied when the blacksmith crafts this recipe.",
-	"affix_tier": "Tier shown for this legendary's exclusive stat lines, with Tier 1 the strongest. The roll uses the authored limits below.",
-	"description": "Player-facing explanation of this record.",
-	"flat": "Adds this amount to damage after the weapon damage multiplier.",
-	"power": "Multiplies average weapon damage. A value of 2 deals double average weapon damage before the flat bonus.",
-	"heal": "Percentage of maximum Life immediately restored when the card is played.",
-	"radius": "Distance in meters from the player within which the card can affect targets.",
-	"protection": "Percentage by which incoming damage decreases while this card is active.",
-	"strike_bonus": "Percentage increase to damage for each of the card's remaining empowered hits.",
-	"strikes": "Maximum number of landed attacks that can consume the card's bonus.",
-	"timed_bonus": "Percentage increase to damage during the card's active duration.",
-	"element": "Damage element used by this card's hit.",
-	"condition": "Status this card attempts to apply to its targets.",
-	"play_sound": "Leave empty to use the sound for this card's effect. Create a HearthSoundCue to assign clips, volume, and pitch for this card.",
+const MELEE_TITLES := {
+	"reach_target": "Target reach", "reach_assist": "Reach assist cap",
+	"width": "Sweep width", "height": "Sweep height", "length_scale": "Base length multiplier",
+	"damage": "Damage cleave budget", "stagger": "Stagger cleave budget",
+	"slides_armor": "Slide through armor", "heavy": "Charged",
 }
+const MELEE_FIELD_ORDER := ["light", "heavy", "reach_assist", "reach_target", "width", "height",
+	"length_scale", "damage", "stagger", "slides_armor"]
 const RARITY := ["normal", "magic", "rare", "legendary"]
 const BASIC_FIELDS := ["id", "name", "type", "slot", "level", "rarity", "minimum_depth", "description", "play_sound"]
+const UNITS := {
+	"size": "cells", "radius": "m", "protection_time": "s", "strike_time": "s",
+	"timed_duration": "s", "power": "×", "multiplier": "×",
+	"reach_target": "m", "reach_assist": "m", "length_scale": "×",
+}
 
 var _kind: StringName
 var _types: PackedStringArray
@@ -80,7 +57,7 @@ func build(value: Variant, write: Callable, kind: StringName, record_key: String
 	_types = types
 	_base_ids = base_ids
 	_record_choices = record_choices
-	add_theme_constant_override("separation", 8)
+	add_theme_constant_override("separation", roundi(_scaled(12.0)))
 	if value is Dictionary:
 		_build_dictionary(self, value, write)
 	elif value is PackedStringArray and kind in [&"rare_prefixes", &"rare_suffixes"]:
@@ -99,6 +76,7 @@ func _build_name_pool(words: PackedStringArray, write: Callable) -> void:
 	text.tooltip_text = label.tooltip_text
 	text.custom_minimum_size.y = _scaled(265.0)
 	text.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
+	describe_control(text, "Name pool", label.tooltip_text)
 	var background := _input_background()
 	if background != null:
 		text.add_theme_stylebox_override("normal", background)
@@ -127,6 +105,9 @@ func _build_dictionary(parent: VBoxContainer, values: Dictionary, write: Callabl
 		ordered.append("stat_ranges")
 	if scope.is_empty() and _kind in [&"prefixes", &"suffixes"] and not values.has("slots"):
 		ordered.append("slots")
+	if _kind == &"families":
+		ordered.sort_custom(func(a: String, b: String) -> bool:
+			return MELEE_FIELD_ORDER.find(a) < MELEE_FIELD_ORDER.find(b))
 	for key: String in ordered:
 		var child_write := func(next: Variant) -> void:
 			if (key == "play_sound" and next == null) or (key == "slots" and next.is_empty()):
@@ -146,7 +127,7 @@ func _build_dictionary(parent: VBoxContainer, values: Dictionary, write: Callabl
 
 
 func _build_legendary_ranges(parent: VBoxContainer, stats: Dictionary, stored: Dictionary, write: Callable) -> void:
-	_section(parent, "Fixed Stat Roll Ranges")
+	_section(parent, "Fixed Stat Roll Ranges", "stat_ranges")
 	var ranges: Dictionary[String, Vector2] = {}
 	for stat: String in stored:
 		if stored[stat] is Vector2:
@@ -157,10 +138,11 @@ func _build_legendary_ranges(parent: VBoxContainer, stats: Dictionary, stored: D
 		var fallback := float(stats[stat])
 		var bounds: Vector2 = ranges.get(stat, Vector2(fallback, fallback))
 		var block := VBoxContainer.new()
+		block.add_theme_constant_override("separation", roundi(_scaled(6.0)))
 		parent.add_child(block)
 		var enabled := CheckBox.new()
 		enabled.text = title
-		enabled.tooltip_text = help
+		describe_control(enabled, "Roll %s within a range" % title, help)
 		enabled.button_pressed = ranges.has(stat)
 		block.add_child(enabled)
 		var pair := HBoxContainer.new()
@@ -182,56 +164,78 @@ func _build_legendary_ranges(parent: VBoxContainer, stats: Dictionary, stored: D
 
 
 func _add_field(parent: VBoxContainer, key: String, value: Variant, write: Callable, scope: String) -> void:
-	var title := str(TITLES.get(key, key.capitalize()))
+	if key == "art":
+		return
+	var melee_profile := _kind == &"families"
+	if melee_profile and key == "name":
+		return
+	var titles := MELEE_TITLES if melee_profile else TITLES
+	var title := str(titles.get(key, key.capitalize()))
+	if key == "life_by_level" and value is Array:
+		var editor := CurveGraph.instantiate() as CurveEditor
+		editor.configure("Player level", "Base Life", "Sets unmodified maximum Life at each milestone. Life interpolates linearly between milestones.")
+		editor.show_milestones(value, Progression.MAX_LEVEL)
+		editor.milestones_committed.connect(func(points: Array[Vector2], _operation: StringName, _index: int) -> void: write.call(points))
+		editor.get_node("%Gestures").set_meta(&"workbench_property", key)
+		parent.add_child(editor)
+		return
+	if key == "power_by_level" and value is Array:
+		var editor := PowerGraphs.instantiate() as PowerCurves
+		editor.configure(value, Progression.MAX_LEVEL)
+		editor.milestones_committed.connect(write)
+		editor.get_node("SharedLevels").set_meta(&"workbench_property", key)
+		parent.add_child(editor)
+		return
+	if value is Curve:
+		var editor := CurveGraph.instantiate() as CurveEditor
+		var help := PropertyHelp.field(key, scope, _kind)
+		_section(parent, title)
+		editor.configure("Offset", "Value", help)
+		editor.show_curve(value)
+		editor.set_read_only(not value.is_built_in())
+		editor.curve_committed.connect(write)
+		parent.add_child(editor)
+		return
 	if value is Dictionary:
 		if key == "stats" and _kind == &"legendaries":
 			title = "Fixed Stat Values"
-		_section(parent, title)
+		_section(parent, title, key)
 		_build_dictionary(parent, value, write, key)
 		return
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 12)
-	parent.add_child(row)
-	var label := Label.new()
-	label.text = title
-	label.tooltip_text = _field_help(key, scope, title)
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.custom_minimum_size.x = _scaled(132.0)
-	row.add_child(label)
-	row.tooltip_text = label.tooltip_text
-	if key == "art":
-		parent.remove_child(row)
-		row.queue_free()
+	var help := PropertyHelp.field(key, scope, _kind)
+	if key == "description" and (value is String or value is StringName):
+		var write_description := write
+		if value is StringName:
+			write_description = func(next: String) -> void: write.call(StringName(next))
+		_add_description(parent, title, help, str(value), write_description)
 		return
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", roundi(_scaled(16.0)))
+	parent.add_child(row)
+	var label := property_label(title, help)
+	label.set_meta(&"workbench_property", key)
+	row.add_child(label)
+	row.tooltip_text = help
 	if key == "id":
-		row.add_child(_readonly(str(value)))
+		var identifier := _readonly(str(value))
+		describe_control(identifier, title, "%s\nRead only · %s" % [str(value), help])
+		row.add_child(identifier)
 		return
 	if key == "play_sound" and _kind == &"cards":
 		_add_card_sound(parent, row, value as HearthSoundCue, write)
 		return
-	if value is Vector2 and _kind == &"enemy_chances":
-		_components(row, [value.x, value.y], ["Depth 1", "Depth cap"], true,
-			func(parts: Array) -> void: write.call(Vector2(parts[0], parts[1])))
-	elif value is Vector2 and _kind == &"life_by_level":
-		_components(row, [int(value.x), value.y], ["Player Level", "Base Life"], false,
-			func(parts: Array) -> void: write.call(Vector2(parts[0], parts[1])), 1.0)
-	elif value is Vector2i:
+	if value is Vector2i:
 		_components(row, [value.x, value.y], ["Width", "Height"], false,
 			func(parts: Array) -> void: write.call(Vector2i(int(parts[0]), int(parts[1]))),
-			1.0, [12.0, 6.0])
-	elif value is Vector3:
-		_components(row, [int(value.x), value.y, value.z], ["Level", "Attack", "Defense"], false,
-			func(parts: Array) -> void: write.call(Vector3(parts[0], parts[1], parts[2])))
+			1.0, [12.0, 6.0], str(UNITS.get(key, "")))
 	elif typeof(value) in [TYPE_INT, TYPE_FLOAT]:
 		var probability := _kind in [&"card_chances", &"item_profiles"] or key in [
-			"side_cache_gear_chance", "protected_coffer_bonus_gear_chance", "legendary_card_eligibility",
+			"legendary_card_eligibility",
 			"vendor_rare_chance", "vendor_price_per_depth", "heal", "protection", "strike_bonus", "timed_bonus"]
 		var minimum := 0.0 if scope not in ["stats", "implicit"] else -10000.0
 		var maximum := 100000.0
-		if key in ["level", "minimum_depth", "protected_coffer_bonus_depth", "vendor_upgrade_level", "vendor_max_depth"]:
+		if key in ["level", "minimum_depth", "vendor_upgrade_level", "vendor_max_depth"]:
 			minimum = 1.0
-		elif key == "chance_max_depth":
-			minimum = 2.0
 		elif key == "drop_weight":
 			minimum = 0.0001
 		elif key == "affix_tier":
@@ -241,17 +245,19 @@ func _add_field(parent: VBoxContainer, key: String, value: Variant, write: Calla
 			maximum = 100.0
 		elif key == "vendor_price_per_depth":
 			maximum = 25.0
-		var number := _add_number(row, value, write, probability, minimum, maximum)
+		var unit := "m" if melee_profile and key in ["width", "height"] else str(UNITS.get(key, ""))
+		var number := _add_number(row, value, write, probability, minimum, maximum, title, unit)
 		if _kind == &"item_profiles" and key in ["magic", "rare"]:
 			_rarity_chances[key] = number
 	elif value is bool:
 		var box := CheckButton.new()
 		box.button_pressed = value
 		box.toggled.connect(write)
+		describe_control(box, title, help)
 		row.add_child(box)
 	elif value is Array:
 		if key == "slots":
-			_slot_choices(row, value, write, label.tooltip_text)
+			_slot_choices(row, value, write, help)
 		elif value.size() == 2 and typeof(value[0]) in [TYPE_INT, TYPE_FLOAT]:
 			# Some ranges start with integral bounds but permit a later fractional balance change.
 			_components(row, [float(value[0]), float(value[1])], ["Minimum", "Maximum"], false, write)
@@ -263,22 +269,11 @@ func _add_field(parent: VBoxContainer, key: String, value: Variant, write: Calla
 			write_text = func(next: String) -> void: write.call(StringName(next))
 		var options := _options(key)
 		if not options.is_empty():
-			_add_choice(row, str(value), options, write_text, key)
-		elif key == "description":
-			var description := TextEdit.new()
-			description.text = value
-			description.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
-			var background := _input_background()
-			if background != null:
-				description.add_theme_stylebox_override("normal", background)
-			description.custom_minimum_size.y = _scaled(70.0)
-			description.tooltip_text = label.tooltip_text
-			description.text_changed.connect(func() -> void: write_text.call(description.text))
-			_add_filling(row, description)
+			_add_choice(row, str(value), options, write_text, key, title)
 		else:
 			var line := LineEdit.new()
 			line.text = value
-			line.tooltip_text = label.tooltip_text
+			describe_control(line, title, help)
 			style_line_edit(line)
 			line.text_changed.connect(write_text)
 			_add_filling(row, line)
@@ -286,12 +281,31 @@ func _add_field(parent: VBoxContainer, key: String, value: Variant, write: Calla
 		row.add_child(_readonly(str(value)))
 
 
+func _add_description(parent: VBoxContainer, title: String, help: String, value: String, write: Callable) -> void:
+	var block := VBoxContainer.new()
+	block.add_theme_constant_override("separation", roundi(_scaled(6.0)))
+	parent.add_child(block)
+	var label := property_label(title, help)
+	label.set_meta(&"workbench_property", "description")
+	block.add_child(label)
+	var description := TextEdit.new()
+	description.text = value
+	description.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
+	var background := _input_background()
+	if background != null:
+		description.add_theme_stylebox_override("normal", background)
+	description.custom_minimum_size.y = _scaled(84.0)
+	describe_control(description, title, help)
+	description.text_changed.connect(func() -> void: write.call(description.text))
+	block.add_child(description)
+
+
 func _add_card_sound(parent: VBoxContainer, row: HBoxContainer, value: HearthSoundCue, write: Callable) -> void:
 	var picker := EditorResourcePicker.new()
 	picker.base_type = "HearthSoundCue"
-	picker.tooltip_text = row.tooltip_text
+	describe_control(picker, "Play sound", row.tooltip_text)
 	_add_filling(row, picker)
-	var inspector := EditorInspector.new()
+	var inspector := EditorInspector.create_default_inspector()
 	inspector.custom_minimum_size.y = _scaled(175.0)
 	parent.add_child(inspector)
 	var edit_sound := func(sound: Resource) -> void:
@@ -308,7 +322,7 @@ func _add_card_sound(parent: VBoxContainer, row: HBoxContainer, value: HearthSou
 
 
 func _add_number(parent: Control, value: Variant, write: Callable, probability: bool,
-		minimum: float, maximum := 100000.0) -> SpinBox:
+		minimum: float, maximum := 100000.0, title := "", unit := "") -> SpinBox:
 	var integral := value is int and not probability
 	var spin := SpinBox.new()
 	spin.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -316,17 +330,22 @@ func _add_number(parent: Control, value: Variant, write: Callable, probability: 
 	spin.max_value = minf(100.0, maximum) if probability else maximum
 	spin.step = 1.0 if integral else (0.001 if probability else 0.0001)
 	spin.value = float(value) * (100.0 if probability else 1.0)
-	spin.suffix = "%" if probability else ""
+	spin.suffix = "%" if probability else unit
 	spin.update_on_text_changed = true
-	spin.tooltip_text = parent.tooltip_text
-	spin.get_line_edit().tooltip_text = parent.tooltip_text
+	describe_control(spin, title, parent.tooltip_text)
+	describe_control(spin.get_line_edit(), title, parent.tooltip_text)
 	style_line_edit(spin.get_line_edit())
 	spin.value_changed.connect(func(next: float) -> void:
 		if integral:
 			write.call(roundi(next))
 		else:
 			write.call(next * (0.01 if probability else 1.0)))
-	_add_filling(parent, spin)
+	if parent is HBoxContainer:
+		spin.custom_minimum_size.x = _scaled(142.0)
+		spin.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_END
+		parent.add_child(spin)
+	else:
+		_add_filling(parent, spin)
 	return spin
 
 
@@ -340,19 +359,23 @@ func _update_rarity_chances(minimum_rarity: String) -> void:
 
 
 func _components(parent: HBoxContainer, parts: Array, names: Array, probability: bool,
-		write: Callable, minimum := 0.0, maximum: Variant = 100000.0) -> void:
+		write: Callable, minimum := 0.0, maximum: Variant = 100000.0, unit := "") -> void:
 	var values := parts.duplicate()
 	for index in values.size():
 		var column := VBoxContainer.new()
 		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		column.tooltip_text = parent.tooltip_text
+		column.add_theme_constant_override("separation", roundi(_scaled(4.0)))
 		parent.add_child(column)
-		column.add_child(_readonly(names[index]))
+		var caption := _readonly(names[index])
+		caption.tooltip_text = parent.tooltip_text
+		caption.add_theme_font_size_override("font_size", roundi(_scaled(12.0)))
+		column.add_child(caption)
 		var part_write := func(next: Variant) -> void:
 			values[index] = next
 			write.call(values.duplicate())
 		var ceiling := float(maximum[index]) if maximum is Array else float(maximum)
-		_add_number(column, values[index], part_write, probability, minimum, ceiling)
+		_add_number(column, values[index], part_write, probability, minimum, ceiling, names[index], unit)
 
 
 func _options(key: String) -> PackedStringArray:
@@ -369,12 +392,12 @@ func _options(key: String) -> PackedStringArray:
 	return []
 
 
-func _add_choice(parent: Control, value: String, options: PackedStringArray, write: Callable, key: String) -> void:
+func _add_choice(parent: Control, value: String, options: PackedStringArray, write: Callable, key: String, title: String) -> void:
 	var choice := OptionButton.new()
 	if not options.has(value):
 		options.insert(0, value)
 	choice.fit_to_longest_item = false
-	choice.tooltip_text = parent.tooltip_text
+	describe_control(choice, title, parent.tooltip_text)
 	for option in options:
 		var label := "Default" if option.is_empty() else option.capitalize()
 		if key in ["effect", "affix_id"]:
@@ -387,54 +410,45 @@ func _add_choice(parent: Control, value: String, options: PackedStringArray, wri
 
 func _slot_choices(parent: Control, slots: Array, write: Callable, help: String) -> void:
 	var menu := MenuButton.new()
-	menu.tooltip_text = help
+	menu.flat = false
+	menu.focus_mode = Control.FOCUS_ALL
 	var popup := menu.get_popup()
 	popup.hide_on_checkable_item_selection = false
 	for slot: String in Validation.SLOTS:
 		popup.add_check_item(slot.capitalize())
 		popup.set_item_checked(popup.item_count - 1, slot in slots)
 		popup.set_item_metadata(popup.item_count - 1, slot)
-	menu.text = _slots_label(slots)
+	_update_slot_menu(menu, slots, help)
 	popup.index_pressed.connect(func(index: int) -> void:
 		popup.set_item_checked(index, not popup.is_item_checked(index))
 		var next: Array[String] = []
 		for row in popup.item_count:
 			if popup.is_item_checked(row):
 				next.append(popup.get_item_metadata(row))
-		menu.text = _slots_label(next)
+		_update_slot_menu(menu, next, help)
 		write.call(next))
 	_add_filling(parent, menu)
 
 
-func _slots_label(slots: Array) -> String:
-	return "Any equipment slot" if slots.is_empty() else "%d eligible slot%s" % [
-		slots.size(), "" if slots.size() == 1 else "s"]
+func _update_slot_menu(menu: MenuButton, slots: Array, help: String) -> void:
+	var names := PackedStringArray()
+	for slot in slots:
+		names.append(str(slot).capitalize())
+	var selected := "Any equipment slot" if names.is_empty() else ", ".join(names)
+	menu.text = selected if names.size() <= 2 else "%d eligible slots" % names.size()
+	describe_control(menu, "Eligible slots", "%s\n%s" % [selected, help])
 
 
-func _field_help(key: String, scope: String, title: String) -> String:
-	if scope == "implicit":
-		return "%s granted by this base before any affixes are rolled." % title
-	if scope == "stats":
-		return "%s granted or rolled by this record." % title
-	if _kind == &"enemy_chances":
-		return "%s drop chance for the selected enemy rarity. The value interpolates between the two listed depths." % title
-	if _kind == &"card_chances":
-		return "Chance enemies of this rarity drop an eligible card."
-	if _kind == &"card_weights":
-		return "Relative weight of this rarity when an eligible card drops."
-	if _kind == &"life_by_level":
-		return "Base maximum Life at this character level. Other levels interpolate between points."
-	if _kind == &"materials" and key == "level":
-		return "Earliest depth for this material in the random reward pool. An enemy's assigned part still uses its own drop."
-	return str(HELP.get(key, "%s used by the selected record." % title))
-
-
-func _section(parent: VBoxContainer, title: String) -> void:
-	parent.add_child(HSeparator.new())
+func _section(parent: VBoxContainer, title: String, key := "") -> void:
+	var header := VBoxContainer.new()
+	header.add_theme_constant_override("separation", roundi(_scaled(10.0)))
+	parent.add_child(header)
+	header.add_child(HSeparator.new())
 	var label := Label.new()
 	label.text = title
+	label.set_meta(&"workbench_property", key)
 	label.add_theme_font_size_override("font_size", int(_scaled(15.0)))
-	parent.add_child(label)
+	header.add_child(label)
 
 
 func _readonly(message: String) -> Label:
@@ -443,6 +457,7 @@ func _readonly(message: String) -> Label:
 	label.modulate.a = 0.73
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.mouse_filter = Control.MOUSE_FILTER_PASS
 	label.tooltip_text = message
 	return label
 
@@ -454,6 +469,23 @@ func _add_filling(parent: Control, child: Control) -> void:
 
 func _scaled(amount: float) -> float:
 	return EditorInterface.get_editor_scale() * amount
+
+
+static func property_label(title: String, help: String) -> Label:
+	var label := Label.new()
+	label.text = title
+	label.tooltip_text = help
+	label.mouse_filter = Control.MOUSE_FILTER_PASS
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.custom_minimum_size.x = 132.0 * EditorInterface.get_editor_scale()
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	return label
+
+
+static func describe_control(control: Control, title: String, help: String) -> void:
+	control.tooltip_text = help
+	control.accessibility_name = title
+	control.accessibility_description = help
 
 
 static func style_line_edit(input: LineEdit) -> void:
@@ -468,7 +500,10 @@ static func _input_background() -> StyleBoxFlat:
 		return null
 	var background := StyleBoxFlat.new()
 	background.bg_color = editor_theme.get_color("base_color", "Editor")
-	background.set_corner_radius_all(4)
+	background.set_corner_radius_all(roundi(5.0 * EditorInterface.get_editor_scale()))
+	background.set_border_width_all(1)
+	background.border_color = editor_theme.get_color("font_color", "Editor")
+	background.border_color.a = 0.14
 	background.content_margin_left = 8.0 * EditorInterface.get_editor_scale()
 	background.content_margin_right = background.content_margin_left
 	background.content_margin_top = 3.0 * EditorInterface.get_editor_scale()

@@ -15,7 +15,7 @@ static func play(id: String, card: Dictionary, player: CharacterBody3D, actors: 
 		"ability": card.name, "description": card.description, "detail": "Card played",
 	})
 	if bool(card.get("summon_skeletons", false)):
-		# The card replaces a lone guard so the total never exceeds its three fighters.
+		# Recasting replaces the current company so the total stays capped at three fighters.
 		for child in actors.get_children():
 			if child is SkeletonCohort and child.is_active_for(player):
 				child.dismiss()

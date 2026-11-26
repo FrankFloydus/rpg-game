@@ -1,23 +1,20 @@
-[gd_scene format=3]
+[gd_scene format=4 uid="uid://ddrm5raaguxq3"]
 
-[ext_resource type="PackedScene" path="res://assets/models/architecture/training_ruin_pillar.glb" id="93_pillar"]
-
-[ext_resource type="PackedScene" path="res://assets/models/architecture/training_ruin_wall.glb" id="94_wall"]
-
-[ext_resource type="PackedScene" path="res://assets/models/architecture/crypt_forged_sconce.glb" id="95_mount"]
-
-[ext_resource type="PackedScene" path="res://world/modules/coal_bed.tscn" id="92_coal_bed"]
-[ext_resource type="PackedScene" path="res://world/modules/torch_flame.tscn" id="91_gpu_fire"]
-[ext_resource type="Texture2D" path="res://assets/rework/prop_materials.png" id="90_art"]
-
-[ext_resource type="Script" path="res://world/training_ground.gd" id="1_mcr85"]
-[ext_resource type="Texture2D" path="res://assets/rework/courtyard_stone.png" id="2_67ygc"]
-[ext_resource type="Texture2D" path="res://assets/rework/crypt_wall.png" id="3_rafax"]
-[ext_resource type="Shader" path="res://world/modules/blood_floor.gdshader" id="4_blood_floor"]
+[ext_resource type="Script" uid="uid://btdcbwms3oyhj" path="res://world/training_ground.gd" id="1_mcr85"]
+[ext_resource type="Texture2D" uid="uid://r0s80uox5kf8" path="res://assets/rework/courtyard_stone.png" id="2_67ygc"]
+[ext_resource type="Texture2D" uid="uid://cw1vobkqv5luw" path="res://assets/rework/crypt_wall.png" id="3_rafax"]
+[ext_resource type="Shader" uid="uid://bnjsbl8e023kd" path="res://world/modules/blood_floor.gdshader" id="4_blood_floor"]
 [ext_resource type="PackedScene" path="res://world/modules/blood_floor_projection.tscn" id="5_blood_projection"]
-[ext_resource type="Mesh" path="res://assets/models/architecture/training_court_floor.obj" id="6_court_floor"]
+[ext_resource type="ArrayMesh" uid="uid://ctwkm46nh5grc" path="res://assets/models/architecture/training_court_floor.obj" id="6_court_floor"]
 [ext_resource type="PackedScene" path="res://world/modules/training_swim_basin.tscn" id="7_swim_basin"]
 [ext_resource type="PackedScene" path="res://world/modules/basin_water.tscn" id="8_water"]
+[ext_resource type="PackedScene" path="res://world/props/training_recovery_well.tscn" id="9_recovery_well"]
+[ext_resource type="Texture2D" uid="uid://bk2x4a8e0ixmg" path="res://assets/rework/prop_materials.png" id="90_art"]
+[ext_resource type="PackedScene" path="res://world/modules/torch_flame.tscn" id="91_gpu_fire"]
+[ext_resource type="PackedScene" path="res://world/modules/coal_bed.tscn" id="92_coal_bed"]
+[ext_resource type="PackedScene" uid="uid://cqui5u4ouyhtw" path="res://assets/models/architecture/training_ruin_pillar.glb" id="93_pillar"]
+[ext_resource type="PackedScene" uid="uid://b3lgyu5vsc6mi" path="res://assets/models/architecture/training_ruin_wall.glb" id="94_wall"]
+[ext_resource type="PackedScene" uid="uid://du3bhkrenalwp" path="res://assets/models/architecture/crypt_forged_sconce.glb" id="95_mount"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i56e8"]
 sky_top_color = Color(0.05882353, 0.07450981, 0.14117648, 1)
@@ -56,10 +53,27 @@ size = Vector3(0.9, 0.6, 3.7)
 
 [sub_resource type="ShaderMaterial" id="StandardMaterial3D_vup5y"]
 resource_name = "Court Floor"
+render_priority = 0
 shader = ExtResource("4_blood_floor")
-shader_parameter/stone_tint = Color(0.6784314, 0.6392157, 0.5882353, 1)
+shader_parameter/blood_coverage_only = false
+shader_parameter/blood_surface_finish_enabled = false
+shader_parameter/blood_alpha_cutoff = 0.27
+shader_parameter/blood_grunge_repeats_per_meter = 4.0
+shader_parameter/blood_grunge_strength = 0.45
+shader_parameter/blood_projector_count = 0
+shader_parameter/blood_receiver_to_projector = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/blood_projector_state = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/blood_projector_tint = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/blood_projector_footprint = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/blood_material_tint = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/blood_material_parameters = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/blood_material_roughness = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/stone_albedo = ExtResource("2_67ygc")
+shader_parameter/stone_tint = Color(0.6784314, 0.6392157, 0.5882353, 1)
+shader_parameter/stone_metallic = 0.0
 shader_parameter/world_texture_scale = 0.43
+shader_parameter/use_vertex_tint = false
+shader_parameter/world_aligned_stone = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sat8y"]
 size = Vector3(0.78, 4.55, 19.56)
@@ -68,10 +82,9 @@ size = Vector3(0.78, 4.55, 19.56)
 resource_name = "Court Wall"
 albedo_color = Color(0.49019608, 0.45490196, 0.4627451, 1)
 albedo_texture = ExtResource("3_rafax")
+metallic_specular = 0.0
 uv1_scale = Vector3(0.62, 0.62, 0.62)
 uv1_triplanar = true
-roughness = 1.0
-metallic_specular = 0.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_7b7wk"]
 size = Vector3(0.78, 4.55, 19.56)
@@ -86,10 +99,9 @@ size = Vector3(28, 4.55, 0.78)
 resource_name = "Border Trim"
 albedo_color = Color(0.38431373, 0.3372549, 0.31764707, 1)
 albedo_texture = ExtResource("3_rafax")
+metallic_specular = 0.0
 uv1_scale = Vector3(0.79, 0.79, 0.79)
 uv1_triplanar = true
-roughness = 1.0
-metallic_specular = 0.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_kqyax"]
 size = Vector3(1.04, 0.21, 19.74)
@@ -108,28 +120,6 @@ size = Vector3(0.17, 0.48, 18)
 
 [sub_resource type="BoxMesh" id="BoxMesh_gbi22"]
 size = Vector3(28, 0.48, 0.17)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iqw43"]
-resource_name = "Brazier Iron"
-albedo_color = Color(0.21960784, 0.21568628, 0.22352941, 1)
-metallic = 0.64
-albedo_texture = ExtResource("90_art")
-uv1_scale = Vector3(0.484, 0.484, 1)
-uv1_offset = Vector3(0.508, 0.008, 0)
-texture_repeat = false
-roughness = 1.0
-metallic_specular = 0.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ossjq"]
-resource_name = "Brazier Feet"
-albedo_color = Color(0.5803922, 0.46666667, 0.34509805, 1)
-metallic = 0.57
-albedo_texture = ExtResource("90_art")
-uv1_scale = Vector3(0.484, 0.484, 1)
-uv1_offset = Vector3(0.008, 0.508, 0)
-texture_repeat = false
-roughness = 1.0
-metallic_specular = 0.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nehrq"]
 size = Vector3(0.78, 4.55, 19.56)
@@ -165,11 +155,10 @@ size = Vector3(28, 0.48, 0.17)
 resource_name = "Portal Inlay"
 albedo_color = Color(0.31, 0.28, 0.29, 1)
 albedo_texture = ExtResource("90_art")
+metallic_specular = 0.0
 uv1_scale = Vector3(0.484, 0.484, 1)
 uv1_offset = Vector3(0.508, 0.008, 0)
 texture_repeat = false
-roughness = 1.0
-metallic_specular = 0.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_g8mbh"]
 size = Vector3(4.65, 2.1, 0.1)
@@ -178,10 +167,9 @@ size = Vector3(4.65, 2.1, 0.1)
 resource_name = "Pillar Ashlar"
 albedo_color = Color(0.64705884, 0.5921569, 0.54509807, 1)
 albedo_texture = ExtResource("3_rafax")
+metallic_specular = 0.0
 uv1_scale = Vector3(0.58, 0.58, 0.58)
 uv1_triplanar = true
-roughness = 1.0
-metallic_specular = 0.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_4y2jw"]
 size = Vector3(0.37, 2.16, 0.2)
@@ -240,6 +228,16 @@ size = Vector3(0.4, 0.58, 0.31)
 [sub_resource type="BoxMesh" id="BoxMesh_7lbje"]
 size = Vector3(0.4, 0.58, 0.31)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iqw43"]
+resource_name = "Brazier Iron"
+albedo_color = Color(0.21960784, 0.21568628, 0.22352941, 1)
+albedo_texture = ExtResource("90_art")
+metallic = 0.64
+metallic_specular = 0.0
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.508, 0.008, 0)
+texture_repeat = false
+
 [sub_resource type="BoxMesh" id="BoxMesh_qkmfr"]
 size = Vector3(0.055, 3.3491933, 0.078)
 
@@ -282,6 +280,16 @@ size = Vector3(3.56, 0.067, 0.074)
 [sub_resource type="BoxMesh" id="BoxMesh_dm0hq"]
 size = Vector3(3.56, 0.067, 0.074)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ossjq"]
+resource_name = "Brazier Feet"
+albedo_color = Color(0.5803922, 0.46666667, 0.34509805, 1)
+albedo_texture = ExtResource("90_art")
+metallic = 0.57
+metallic_specular = 0.0
+uv1_scale = Vector3(0.484, 0.484, 1)
+uv1_offset = Vector3(0.008, 0.508, 0)
+texture_repeat = false
+
 [sub_resource type="BoxMesh" id="BoxMesh_s7q8q"]
 size = Vector3(0.65, 0.65, 0.12)
 
@@ -296,114 +304,6 @@ size = Vector3(0.44, 0.02, 0.07)
 
 [sub_resource type="BoxMesh" id="BoxMesh_1t6wy"]
 size = Vector3(0.44, 0.02, 0.07)
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_r13vc"]
-height = 0.68
-radius = 1.76
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6tgq0"]
-height = 4.04
-radius = 1.47
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_oaqb0"]
-height = 0.68
-radius = 1.76
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_rwlb0"]
-height = 4.04
-radius = 1.47
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_g81ob"]
-vertices = PackedVector3Array(-13.35, 0, -8.35, -13.35, 0, -3.6, -10.85, 0, -3.6, -10.85, 0, -8.35, -13.35, 0, 0, -10.85, 0, 0, -13.35, 0, 3.6, -10.85, 0, 3.6, -13.35, 0, 8.35, -10.85, 0, 8.35, -7.25, 0, -3.6, -7.25, 0, -8.35, -7.25, 0, 8.35, -7.25, 0, 3.6, -3.65, 0, -3.6, -3.65, 0, -8.35, -3.65, 0, 8.35, -3.65, 0, 3.6, 3.65, 0, -3.6, 3.65, 0, -8.35, -3.65, 0, 0, 3.65, 0, 0, 3.65, 0, 3.6, 3.65, 0, 8.35, 7.25, 0, -3.6, 7.25, 0, -8.35, 7.25, 0, 8.35, 7.25, 0, 3.6, 10.85, 0, -3.6, 10.85, 0, -8.35, 10.85, 0, 8.35, 10.85, 0, 3.6, 13.35, 0, -3.6, 13.35, 0, -8.35, 10.85, 0, 0, 13.35, 0, 0, 13.35, 0, 3.6, 13.35, 0, 8.35, -4.6414347, 0, 0, -5.405466, 0, 1.844534, -7.25, 0, 2.608565, -9.094534, 0, 1.844534, -9.858565, 0, 0, -9.094534, 0, -1.844534, -7.25, 0, -2.608565, -5.405466, 0, -1.844534, 9.858565, 0, 0, 9.094534, 0, 1.844534, 7.25, 0, 2.608565, 5.405466, 0, 1.844534, 4.6414347, 0, 0, 5.405466, 0, -1.844534, 7.25, 0, -2.608565, 9.094534, 0, -1.844534, 7.55, 0, 3.6, 7.55, 0, 8.35)
-polygons = [PackedInt32Array(0, 1, 2, 3), PackedInt32Array(1, 4, 5, 2), PackedInt32Array(4, 6, 7, 5), PackedInt32Array(6, 8, 9, 7), PackedInt32Array(3, 2, 10, 11), PackedInt32Array(7, 9, 12, 13), PackedInt32Array(11, 10, 14, 15), PackedInt32Array(13, 12, 16, 17), PackedInt32Array(15, 14, 18, 19), PackedInt32Array(14, 20, 21, 18), PackedInt32Array(20, 17, 22, 21), PackedInt32Array(17, 16, 23, 22), PackedInt32Array(19, 18, 24, 25), PackedInt32Array(22, 23, 26, 27), PackedInt32Array(25, 24, 28, 29), PackedInt32Array(27, 26, 55, 54), PackedInt32Array(29, 28, 32, 33), PackedInt32Array(28, 34, 35, 32), PackedInt32Array(34, 31, 36, 35), PackedInt32Array(17, 20, 38, 39), PackedInt32Array(13, 17, 39, 40), PackedInt32Array(7, 13, 40, 41), PackedInt32Array(5, 7, 41, 42), PackedInt32Array(2, 5, 42, 43), PackedInt32Array(10, 2, 43, 44), PackedInt32Array(14, 10, 44, 45), PackedInt32Array(20, 14, 45, 38), PackedInt32Array(31, 34, 46, 47), PackedInt32Array(27, 54, 48), PackedInt32Array(54, 31, 47, 48), PackedInt32Array(22, 27, 48, 49), PackedInt32Array(21, 22, 49, 50), PackedInt32Array(18, 21, 50, 51), PackedInt32Array(24, 18, 51, 52), PackedInt32Array(28, 24, 52, 53), PackedInt32Array(34, 28, 53, 46)]
-geometry_parsed_geometry_type = 1
-geometry_source_geometry_mode = 1
-geometry_source_group_name = &"training_navigation_geometry"
-agent_radius = 0.65
-
-[sub_resource type="Animation" id="Animation_t2h1i"]
-length = 3.141592653589793
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Courtyard/AnimatedLight1:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.59, 1.8242971173699962, 1.8641580260591502, 1.6996510079041152, 1.4946000313758852, 1.4073330584250154, 1.4507580173807135, 1.531979167890896, 1.59, 1.648020898866306, 1.7292420493764884, 1.7726670083321867, 1.6854000353813172, 1.4803490588530868, 1.315842040698052, 1.3557029493872057, 1.5900000333786009, 1.8242971173699962, 1.8641580260591502, 1.6996510079041158, 1.4946000313758852, 1.4073330584250154, 1.4507580173807135, 1.531979167890896, 1.59, 1.648020898866306, 1.7292420493764886, 1.7726670083321867, 1.6854000353813172, 1.4803490588530872, 1.3158420406980529, 1.3557029493872055]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Courtyard/AnimatedLight2:light_energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.6794117687272494, 1.5649947427964042, 1.5115284888871015, 1.4837954190458935, 1.4564858341208418, 1.4803296209141819, 1.6094977211830905, 1.785743714964341, 1.8510183244976888, 1.7077187856181617, 1.4491581862927665, 1.2933352132752376, 1.3730842061686244, 1.6069569841856566, 1.789815737151446, 1.797125786228933, 1.6794117687272498, 1.5649947427964044, 1.511528488887101, 1.4837954190458937, 1.456485834120842, 1.4803296209141819, 1.6094977211830899, 1.7857437149643405, 1.8510183244976888, 1.707718785618162, 1.4491581862927665, 1.2933352132752376, 1.3730842061686241, 1.606956984185656, 1.7898157371514454, 1.797125786228933]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Courtyard/AnimatedLight3:light_energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.479104806650733, 1.36890428979086, 1.4049272590793929, 1.6108227645062987, 1.8348509980579017, 1.8772033266696446, 1.6917135977777875, 1.4392693754200365, 1.329081055937184, 1.4204067423682387, 1.5943692804480052, 1.704312957871962, 1.7169632728685855, 1.6934857746856609, 1.6689899962092183, 1.6055950357161066, 1.4791048066507335, 1.3689042897908599, 1.4049272590793929, 1.6108227645062976, 1.8348509980579017, 1.8772033266696448, 1.6917135977777888, 1.4392693754200365, 1.3290810559371842, 1.4204067423682387, 1.5943692804480052, 1.7043129578719618, 1.7169632728685855, 1.6934857746856609, 1.668989996209218, 1.6055950357161066]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Courtyard/AnimatedLight4:light_energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.6322622508313223, 1.8447828035868097, 1.8471448805866046, 1.6653796574181383, 1.4747320368144927, 1.4120997046924377, 1.464704238502514, 1.5386508636179423, 1.5918110910602603, 1.657033726191542, 1.7438991176356664, 1.7741078489269717, 1.661194754808329, 1.4460838990436147, 1.3042518967896188, 1.3818617635513513, 1.6322622508313223, 1.8447828035868101, 1.8471448805866046, 1.6653796574181392, 1.4747320368144927, 1.4120997046924377, 1.464704238502514, 1.5386508636179423, 1.5918110910602603, 1.657033726191542, 1.7438991176356669, 1.7741078489269717, 1.661194754808329, 1.446083899043615, 1.3042518967896193, 1.3818617635513513]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Courtyard/AnimatedLight5:light_energy")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.659832061406796, 1.558300473879287, 1.5118790245391012, 1.4790430449926681, 1.4500361741074486, 1.4883790384652713, 1.6362137387261642, 1.80985678334156, 1.8452194652297629, 1.670934062943148, 1.4126976376412494, 1.290499308799207, 1.4049124327703972, 1.6423865582266977, 1.7992097326078897, 1.7806009963809695, 1.659832061406796, 1.5583004738792874, 1.5118790245391016, 1.479043044992668, 1.4500361741074486, 1.488379038465271, 1.636213738726164, 1.80985678334156, 1.8452194652297629, 1.6709340629431484, 1.4126976376412488, 1.290499308799207, 1.404912432770397, 1.6423865582266977, 1.7992097326078902, 1.7806009963809695]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Courtyard/AnimatedLight6:light_energy")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [1.456330027983832, 1.3583316995885728, 1.4250064824895716, 1.6499575012300727, 1.8579872306116283, 1.861338871601345, 1.6510388820293043, 1.4108085765683067, 1.334709794085213, 1.4476130150045523, 1.614959676847106, 1.7060600666250012, 1.7109730808337307, 1.6927165473199342, 1.6689950921484233, 1.5931739890910237, 1.456330027983832, 1.3583316995885724, 1.425006482489572, 1.6499575012300725, 1.8579872306116283, 1.861338871601345, 1.651038882029305, 1.4108085765683067, 1.3347097940852133, 1.4476130150045523, 1.6149596768471055, 1.7060600666250012, 1.7109730808337311, 1.6927165473199342, 1.6689950921484225, 1.5931739890910244]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_u81yl"]
-_data = {
-&"flicker": SubResource("Animation_t2h1i")
-}
-
-[sub_resource type="BoxShape3D" id="PortalBackingContact"]
-size = Vector3(4.65, 2.1, 0.1)
 
 [sub_resource type="BoxShape3D" id="PortcullisBar1"]
 size = Vector3(0.055, 3.3491933, 0.078)
@@ -447,6 +347,113 @@ size = Vector3(3.56, 0.067, 0.074)
 [sub_resource type="BoxShape3D" id="PortcullisBar14"]
 size = Vector3(3.56, 0.067, 0.074)
 
+[sub_resource type="BoxShape3D" id="PortalBackingContact"]
+size = Vector3(4.65, 2.1, 0.1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r13vc"]
+height = 0.68
+radius = 1.76
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6tgq0"]
+height = 4.04
+radius = 1.47
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_oaqb0"]
+height = 0.68
+radius = 1.76
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rwlb0"]
+height = 4.04
+radius = 1.47
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_g81ob"]
+vertices = PackedVector3Array(-13.35, 0, -8.35, -13.35, 0, -3.6, -10.85, 0, -3.6, -10.85, 0, -8.35, -13.35, 0, 0, -10.85, 0, 0, -13.35, 0, 3.6, -10.85, 0, 3.6, -13.35, 0, 8.35, -10.85, 0, 8.35, -7.25, 0, -3.6, -7.25, 0, -8.35, -7.25, 0, 8.35, -7.25, 0, 3.6, -3.65, 0, -3.6, -3.65, 0, -8.35, -3.65, 0, 8.35, -3.65, 0, 3.6, 3.65, 0, -3.6, 3.65, 0, -8.35, -3.65, 0, 0, 3.65, 0, 0, 3.65, 0, 3.6, 3.65, 0, 8.35, 7.25, 0, -3.6, 7.25, 0, -8.35, 7.25, 0, 8.35, 7.25, 0, 3.6, 10.85, 0, -3.6, 10.85, 0, -8.35, 10.85, 0, 8.35, 10.85, 0, 3.6, 13.35, 0, -3.6, 13.35, 0, -8.35, 10.85, 0, 0, 13.35, 0, 0, 13.35, 0, 3.6, 13.35, 0, 8.35, -4.6414347, 0, 0, -5.405466, 0, 1.844534, -7.25, 0, 2.608565, -9.094534, 0, 1.844534, -9.858565, 0, 0, -9.094534, 0, -1.844534, -7.25, 0, -2.608565, -5.405466, 0, -1.844534, 9.858565, 0, 0, 9.094534, 0, 1.844534, 7.25, 0, 2.608565, 5.405466, 0, 1.844534, 4.6414347, 0, 0, 5.405466, 0, -1.844534, 7.25, 0, -2.608565, 9.094534, 0, -1.844534, 7.55, 0, 3.6, 7.55, 0, 8.35, 0, 0, 3.66, 0, 0, 6.18, -2.68, 0, 3.72, -0.62, 0, 3.72, -2.68, 0, 5.78, -0.62, 0, 5.78, 0.62, 0, 3.72, 2.68, 0, 3.72, 0.62, 0, 5.78, 2.68, 0, 5.78)
+polygons = [PackedInt32Array(0, 1, 2, 3), PackedInt32Array(1, 4, 5, 2), PackedInt32Array(4, 6, 7, 5), PackedInt32Array(6, 8, 9, 7), PackedInt32Array(3, 2, 10, 11), PackedInt32Array(7, 9, 12, 13), PackedInt32Array(11, 10, 14, 15), PackedInt32Array(13, 12, 16, 17), PackedInt32Array(15, 14, 18, 19), PackedInt32Array(14, 20, 21, 18), PackedInt32Array(20, 17, 22, 21), PackedInt32Array(17, 56, 22), PackedInt32Array(17, 58, 59), PackedInt32Array(17, 59, 56), PackedInt32Array(56, 62, 63), PackedInt32Array(56, 63, 22), PackedInt32Array(17, 16, 60, 58), PackedInt32Array(63, 65, 23, 22), PackedInt32Array(56, 59, 61, 57, 64, 62), PackedInt32Array(16, 23, 57), PackedInt32Array(60, 16, 57), PackedInt32Array(60, 57, 61), PackedInt32Array(64, 57, 23), PackedInt32Array(64, 23, 65), PackedInt32Array(19, 18, 24, 25), PackedInt32Array(22, 23, 26, 27), PackedInt32Array(25, 24, 28, 29), PackedInt32Array(27, 26, 55, 54), PackedInt32Array(29, 28, 32, 33), PackedInt32Array(28, 34, 35, 32), PackedInt32Array(34, 31, 36, 35), PackedInt32Array(17, 20, 38, 39), PackedInt32Array(13, 17, 39, 40), PackedInt32Array(7, 13, 40, 41), PackedInt32Array(5, 7, 41, 42), PackedInt32Array(2, 5, 42, 43), PackedInt32Array(10, 2, 43, 44), PackedInt32Array(14, 10, 44, 45), PackedInt32Array(20, 14, 45, 38), PackedInt32Array(31, 34, 46, 47), PackedInt32Array(27, 54, 48), PackedInt32Array(54, 31, 47, 48), PackedInt32Array(22, 27, 48, 49), PackedInt32Array(21, 22, 49, 50), PackedInt32Array(18, 21, 50, 51), PackedInt32Array(24, 18, 51, 52), PackedInt32Array(28, 24, 52, 53), PackedInt32Array(34, 28, 53, 46)]
+geometry_parsed_geometry_type = 1
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"training_navigation_geometry"
+agent_radius = 0.65
+
+[sub_resource type="Animation" id="Animation_t2h1i"]
+length = 3.141592653589793
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Courtyard/AnimatedLight1:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.59, 1.824297117369996, 1.8641580260591504, 1.6996510079041152, 1.4946000313758852, 1.4073330584250154, 1.4507580173807135, 1.531979167890896, 1.59, 1.648020898866306, 1.7292420493764884, 1.7726670083321867, 1.6854000353813172, 1.4803490588530868, 1.315842040698052, 1.3557029493872057, 1.5900000333786009, 1.824297117369996, 1.8641580260591504, 1.6996510079041158, 1.4946000313758852, 1.4073330584250154, 1.4507580173807135, 1.531979167890896, 1.59, 1.648020898866306, 1.7292420493764886, 1.7726670083321867, 1.6854000353813172, 1.4803490588530872, 1.3158420406980529, 1.3557029493872057]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Courtyard/AnimatedLight2:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.6794117687272494, 1.5649947427964042, 1.5115284888871017, 1.4837954190458935, 1.4564858341208418, 1.480329620914182, 1.6094977211830903, 1.785743714964341, 1.8510183244976888, 1.7077187856181617, 1.4491581862927665, 1.2933352132752376, 1.3730842061686244, 1.6069569841856566, 1.789815737151446, 1.797125786228933, 1.6794117687272498, 1.5649947427964044, 1.511528488887101, 1.4837954190458935, 1.456485834120842, 1.480329620914182, 1.60949772118309, 1.7857437149643405, 1.8510183244976888, 1.707718785618162, 1.4491581862927665, 1.2933352132752376, 1.373084206168624, 1.606956984185656, 1.7898157371514454, 1.797125786228933]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Courtyard/AnimatedLight3:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.479104806650733, 1.36890428979086, 1.4049272590793929, 1.610822764506299, 1.8348509980579015, 1.8772033266696448, 1.6917135977777875, 1.4392693754200363, 1.329081055937184, 1.4204067423682387, 1.5943692804480052, 1.704312957871962, 1.7169632728685855, 1.6934857746856609, 1.6689899962092185, 1.6055950357161066, 1.4791048066507335, 1.36890428979086, 1.4049272590793929, 1.6108227645062976, 1.8348509980579015, 1.8772033266696448, 1.6917135977777888, 1.4392693754200363, 1.3290810559371842, 1.4204067423682387, 1.5943692804480052, 1.7043129578719618, 1.7169632728685855, 1.6934857746856609, 1.668989996209218, 1.6055950357161066]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Courtyard/AnimatedLight4:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.6322622508313225, 1.8447828035868097, 1.8471448805866049, 1.6653796574181383, 1.4747320368144927, 1.4120997046924375, 1.464704238502514, 1.5386508636179423, 1.5918110910602603, 1.657033726191542, 1.7438991176356664, 1.7741078489269717, 1.661194754808329, 1.446083899043615, 1.3042518967896188, 1.3818617635513513, 1.6322622508313225, 1.84478280358681, 1.8471448805866049, 1.6653796574181392, 1.4747320368144927, 1.4120997046924375, 1.464704238502514, 1.5386508636179423, 1.5918110910602603, 1.657033726191542, 1.7438991176356669, 1.7741078489269717, 1.661194754808329, 1.446083899043615, 1.3042518967896193, 1.3818617635513513]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Courtyard/AnimatedLight5:light_energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.659832061406796, 1.558300473879287, 1.5118790245391012, 1.479043044992668, 1.4500361741074486, 1.4883790384652713, 1.6362137387261642, 1.80985678334156, 1.8452194652297629, 1.670934062943148, 1.4126976376412494, 1.290499308799207, 1.4049124327703972, 1.6423865582266977, 1.7992097326078895, 1.7806009963809697, 1.659832061406796, 1.5583004738792874, 1.5118790245391016, 1.479043044992668, 1.4500361741074486, 1.488379038465271, 1.636213738726164, 1.80985678334156, 1.8452194652297629, 1.6709340629431484, 1.4126976376412488, 1.290499308799207, 1.404912432770397, 1.6423865582266977, 1.7992097326078902, 1.7806009963809697]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Courtyard/AnimatedLight6:light_energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.09817477, 0.19634955, 0.2945243, 0.3926991, 0.49087384, 0.5890486, 0.6872234, 0.7853982, 0.88357294, 0.9817477, 1.0799224, 1.1780972, 1.276272, 1.3744467, 1.4726216, 1.5707964, 1.6689711, 1.7671459, 1.8653207, 1.9634954, 2.06167, 2.1598449, 2.2580197, 2.3561945, 2.4543693, 2.552544, 2.6507187, 2.7488935, 2.8470683, 2.9452431, 3.043418),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.456330027983832, 1.3583316995885728, 1.4250064824895716, 1.649957501230073, 1.8579872306116283, 1.861338871601345, 1.6510388820293045, 1.4108085765683067, 1.334709794085213, 1.4476130150045523, 1.614959676847106, 1.7060600666250012, 1.710973080833731, 1.6927165473199342, 1.6689950921484231, 1.5931739890910237, 1.456330027983832, 1.3583316995885724, 1.425006482489572, 1.6499575012300725, 1.8579872306116283, 1.861338871601345, 1.651038882029305, 1.4108085765683067, 1.3347097940852133, 1.4476130150045523, 1.6149596768471055, 1.7060600666250012, 1.7109730808337311, 1.6927165473199342, 1.6689950921484225, 1.5931739890910244]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u81yl"]
+_data = {
+&"flicker": SubResource("Animation_t2h1i")
+}
 
 [node name="TrainingGround" type="Node3D" unique_id=1718413021]
 script = ExtResource("1_mcr85")
@@ -464,26 +471,26 @@ shadow_enabled = true
 
 [node name="Courtyard" type="Node3D" parent="." unique_id=395997650 groups=["training_navigation_geometry"]]
 
-[node name="WeatheredWallCoping" parent="Courtyard" instance=ExtResource("94_wall")]
+[node name="WeatheredWallCoping" parent="Courtyard" unique_id=540980342 instance=ExtResource("94_wall")]
 
 [node name="StaticBody3D1" type="StaticBody3D" parent="Courtyard" unique_id=830669399]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 collision_mask = 0
 
 [node name="WestFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1" unique_id=1889468752]
-position = Vector3(-2.9, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9, 0, 0)
 shape = SubResource("CourtFloorWest")
 
-[node name="NorthFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1"]
-position = Vector3(11.1, 0, -2.4)
+[node name="NorthFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1" unique_id=1412224425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1, 0, -2.4)
 shape = SubResource("CourtFloorNorth")
 
-[node name="SouthFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1"]
-position = Vector3(11.1, 0, 8.45)
+[node name="SouthFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1" unique_id=594077241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1, 0, 8.45)
 shape = SubResource("CourtFloorSouth")
 
-[node name="EastFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1"]
-position = Vector3(13.55, 0, 6.05)
+[node name="EastFloor" type="CollisionShape3D" parent="Courtyard/StaticBody3D1" unique_id=1932401881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.55, 0, 6.05)
 shape = SubResource("CourtFloorEast")
 
 [node name="CourtFloorBoxMesh1" type="MeshInstance3D" parent="Courtyard" unique_id=386077736]
@@ -491,7 +498,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 material_override = SubResource("StandardMaterial3D_vup5y")
 mesh = ExtResource("6_court_floor")
 
-[node name="BloodProjection" parent="Courtyard" node_paths=PackedStringArray("collision_body", "receiver_mesh") instance=ExtResource("5_blood_projection")]
+[node name="BloodProjection" parent="Courtyard" unique_id=841827530 node_paths=PackedStringArray("collision_body", "receiver_mesh") instance=ExtResource("5_blood_projection")]
 collision_body = NodePath("../StaticBody3D1")
 receiver_mesh = NodePath("../CourtFloorBoxMesh1")
 
@@ -549,10 +556,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, -8.96)
 material_override = SubResource("StandardMaterial3D_b6w4y")
 mesh = SubResource("BoxMesh_gbi22")
 
-[node name="WallFitting1" parent="Courtyard" instance=ExtResource("95_mount")]
-position = Vector3(-5.4, -1.03, -8.53)
-rotation = Vector3(0, 0.00000000, 0)
-scale = Vector3(1.5, 1.5, 1.5)
+[node name="WallFitting1" parent="Courtyard" unique_id=697120542 instance=ExtResource("95_mount")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -5.4, -1.03, -8.53)
 
 [node name="CoalBed1" parent="Courtyard" unique_id=1272773358 instance=ExtResource("92_coal_bed")]
 transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, -5.4, 2.46, -8.53)
@@ -567,10 +572,8 @@ light_energy = 1.59
 omni_range = 8.5
 omni_attenuation = 1.04
 
-[node name="WallFitting2" parent="Courtyard" instance=ExtResource("95_mount")]
-position = Vector3(-5.4, -1.03, 8.53)
-rotation = Vector3(0, 3.14159265, 0)
-scale = Vector3(1.5, 1.5, 1.5)
+[node name="WallFitting2" parent="Courtyard" unique_id=166124984 instance=ExtResource("95_mount")]
+transform = Transform3D(-1.5, 0, -1.3113416e-07, 0, 1.5, 0, 1.3113416e-07, 0, -1.5, -5.4, -1.03, 8.53)
 
 [node name="CoalBed2" parent="Courtyard" unique_id=1137254135 instance=ExtResource("92_coal_bed")]
 transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, -5.4, 2.46, 8.53)
@@ -585,10 +588,8 @@ light_energy = 1.59
 omni_range = 8.5
 omni_attenuation = 1.04
 
-[node name="WallFitting3" parent="Courtyard" instance=ExtResource("95_mount")]
-position = Vector3(-13.52, -1.03, 0)
-rotation = Vector3(0, 1.57079633, 0)
-scale = Vector3(1.5, 1.5, 1.5)
+[node name="WallFitting3" parent="Courtyard" unique_id=1774381978 instance=ExtResource("95_mount")]
+transform = Transform3D(-6.556708e-08, 0, 1.5, 0, 1.5, 0, -1.5, 0, -6.556708e-08, -13.52, -1.03, 0)
 
 [node name="CoalBed3" parent="Courtyard" unique_id=2030504812 instance=ExtResource("92_coal_bed")]
 transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, -13.52, 2.46, 0)
@@ -657,10 +658,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, 8.96)
 material_override = SubResource("StandardMaterial3D_b6w4y")
 mesh = SubResource("BoxMesh_5124y")
 
-[node name="WallFitting4" parent="Courtyard" instance=ExtResource("95_mount")]
-position = Vector3(5.4, -1.03, -8.53)
-rotation = Vector3(0, 0.00000000, 0)
-scale = Vector3(1.5, 1.5, 1.5)
+[node name="WallFitting4" parent="Courtyard" unique_id=232779463 instance=ExtResource("95_mount")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 5.4, -1.03, -8.53)
 
 [node name="CoalBed4" parent="Courtyard" unique_id=261776481 instance=ExtResource("92_coal_bed")]
 transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 5.4, 2.46, -8.53)
@@ -675,10 +674,8 @@ light_energy = 1.59
 omni_range = 8.5
 omni_attenuation = 1.04
 
-[node name="WallFitting5" parent="Courtyard" instance=ExtResource("95_mount")]
-position = Vector3(5.4, -1.03, 8.53)
-rotation = Vector3(0, 3.14159265, 0)
-scale = Vector3(1.5, 1.5, 1.5)
+[node name="WallFitting5" parent="Courtyard" unique_id=1193714856 instance=ExtResource("95_mount")]
+transform = Transform3D(-1.5, 0, -1.3113416e-07, 0, 1.5, 0, 1.3113416e-07, 0, -1.5, 5.4, -1.03, 8.53)
 
 [node name="CoalBed5" parent="Courtyard" unique_id=943173307 instance=ExtResource("92_coal_bed")]
 transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 5.4, 2.46, 8.53)
@@ -693,10 +690,8 @@ light_energy = 1.59
 omni_range = 8.5
 omni_attenuation = 1.04
 
-[node name="WallFitting6" parent="Courtyard" instance=ExtResource("95_mount")]
-position = Vector3(13.52, -1.03, 0)
-rotation = Vector3(0, -1.57079633, 0)
-scale = Vector3(1.5, 1.5, 1.5)
+[node name="WallFitting6" parent="Courtyard" unique_id=2033629430 instance=ExtResource("95_mount")]
+transform = Transform3D(-6.556708e-08, 0, -1.5, 0, 1.5, 0, 1.5, 0, -6.556708e-08, 13.52, -1.03, 0)
 
 [node name="CoalBed6" parent="Courtyard" unique_id=1736372321 instance=ExtResource("92_coal_bed")]
 transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 13.52, 2.46, 0)
@@ -901,77 +896,77 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3, 0.01, 8.05)
 material_override = SubResource("StandardMaterial3D_ossjq")
 mesh = SubResource("BoxMesh_1t6wy")
 
-[node name="PortcullisContact" type="StaticBody3D" parent="Courtyard"]
+[node name="PortcullisContact" type="StaticBody3D" parent="Courtyard" unique_id=1652695300]
 collision_mask = 0
 metadata/impact_surface = &"metal"
 
-[node name="PortcullisBar1Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar1Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=641115673]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 1.9445966, -8.79)
 shape = SubResource("PortcullisBar1")
 
-[node name="PortcullisBar2Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar2Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=515896075]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.36, 2.0974157, -8.79)
 shape = SubResource("PortcullisBar2")
 
-[node name="PortcullisBar3Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar3Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1818828775]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02, 2.200728, -8.79)
 shape = SubResource("PortcullisBar3")
 
-[node name="PortcullisBar4Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar4Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1413582582]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68, 2.26859, -8.79)
 shape = SubResource("PortcullisBar4")
 
-[node name="PortcullisBar5Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar5Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1229897371]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34, 2.3073654, -8.79)
 shape = SubResource("PortcullisBar5")
 
-[node name="PortcullisBar6Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar6Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1067775074]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.32, -8.79)
 shape = SubResource("PortcullisBar6")
 
-[node name="PortcullisBar7Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar7Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=563905983]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, 2.3073654, -8.79)
 shape = SubResource("PortcullisBar7")
 
-[node name="PortcullisBar8Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar8Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=2068553545]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.68, 2.26859, -8.79)
 shape = SubResource("PortcullisBar8")
 
-[node name="PortcullisBar9Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar9Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=376334158]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02, 2.200728, -8.79)
 shape = SubResource("PortcullisBar9")
 
-[node name="PortcullisBar10Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar10Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1502427114]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36, 2.0974157, -8.79)
 shape = SubResource("PortcullisBar10")
 
-[node name="PortcullisBar11Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar11Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1833448256]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 1.9445966, -8.79)
 shape = SubResource("PortcullisBar11")
 
-[node name="PortcullisBar12Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar12Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1276981164]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8.73)
 shape = SubResource("PortcullisBar12")
 
-[node name="PortcullisBar13Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar13Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1425282016]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.92, -8.73)
 shape = SubResource("PortcullisBar13")
 
-[node name="PortcullisBar14Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact"]
+[node name="PortcullisBar14Shape" type="CollisionShape3D" parent="Courtyard/PortcullisContact" unique_id=1784587421]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83, -8.73)
 shape = SubResource("PortcullisBar14")
 
-[node name="PortalBackingContact" type="StaticBody3D" parent="Courtyard"]
+[node name="PortalBackingContact" type="StaticBody3D" parent="Courtyard" unique_id=211061808]
 collision_mask = 0
 
-[node name="PortalBackingContactShape" type="CollisionShape3D" parent="Courtyard/PortalBackingContact"]
+[node name="PortalBackingContactShape" type="CollisionShape3D" parent="Courtyard/PortalBackingContact" unique_id=1935609567]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, -8.88)
 shape = SubResource("PortalBackingContact")
 
 [node name="WestPillar" type="Node3D" parent="." unique_id=674500494 groups=["training_navigation_geometry"]]
 
-[node name="AshlarDrums" parent="WestPillar" instance=ExtResource("93_pillar")]
-position = Vector3(-7.25, 0, 0)
+[node name="AshlarDrums" parent="WestPillar" unique_id=1612698874 instance=ExtResource("93_pillar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.25, 0, 0)
 
 [node name="StaticBody3D1" type="StaticBody3D" parent="WestPillar" unique_id=659491065]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.25, 0.34, 0)
@@ -989,8 +984,8 @@ shape = SubResource("CylinderShape3D_6tgq0")
 
 [node name="EastPillar" type="Node3D" parent="." unique_id=1648135120 groups=["training_navigation_geometry"]]
 
-[node name="AshlarDrums" parent="EastPillar" instance=ExtResource("93_pillar")]
-position = Vector3(7.25, 0, 0)
+[node name="AshlarDrums" parent="EastPillar" unique_id=2001957597 instance=ExtResource("93_pillar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.25, 0, 0)
 
 [node name="StaticBody3D1" type="StaticBody3D" parent="EastPillar" unique_id=2071231878]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.25, 0.34, 0)
@@ -1006,11 +1001,11 @@ collision_mask = 0
 [node name="CollisionShape3D1" type="CollisionShape3D" parent="EastPillar/StaticBody3D2" unique_id=978706479]
 shape = SubResource("CylinderShape3D_rwlb0")
 
-[node name="SwimmingPool" parent="." instance=ExtResource("7_swim_basin")]
-position = Vector3(10.65, 0, 6.05)
+[node name="SwimmingPool" parent="." unique_id=2104566189 instance=ExtResource("7_swim_basin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.65, 0, 6.05)
 
-[node name="Water" parent="SwimmingPool" instance=ExtResource("8_water")]
-position = Vector3(0, -0.14, 0)
+[node name="Water" parent="SwimmingPool" unique_id=1372985487 instance=ExtResource("8_water")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14, 0)
 extent = Vector3(4.9, 2.02, 3.7)
 
 [node name="TrainingNavigation" type="NavigationRegion3D" parent="." unique_id=2017208733]
@@ -1022,6 +1017,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 6.5)
 
 [node name="ReturnPortal" type="Marker3D" parent="." unique_id=1966570221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.05)
+
+[node name="RecoveryWells" type="Node3D" parent="." unique_id=111258288]
+
+[node name="LifeWell" parent="RecoveryWells" unique_id=1729238048 instance=ExtResource("9_recovery_well")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 0, 4.75)
+
+[node name="ManaWell" parent="RecoveryWells" unique_id=1562290986 instance=ExtResource("9_recovery_well")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 0, 4.75)
+restores_mana = true
 
 [node name="EnemySpawns" type="Node3D" parent="." unique_id=559442795]
 

@@ -17,6 +17,9 @@ var return_portal_position: Vector3:
 var water_volume: Node3D:
 	get:
 		return $SwimmingPool/Water
+var recovery_wells: Array[Node]:
+	get:
+		return $RecoveryWells.get_children()
 var enemy_spawn_points: PackedVector3Array:
 	get:
 		var points := PackedVector3Array()
@@ -63,6 +66,7 @@ func navigation_route(start: Vector3, target: Vector3) -> PackedVector3Array:
 func weapon_drop_point(origin: Vector3, forward: Vector3, props: Array[Node]) -> Vector3:
 	var space := get_world_3d().direct_space_state
 	var reach_height := Vector3.UP * 0.45
+	var occupied := props + recovery_wells
 	for angle: float in [0.0, 0.42, -0.42, 0.91, -0.91, 1.57, -1.57, PI]:
 		var direction := forward.rotated(Vector3.UP, angle)
 		for distance: float in [1.65, 2.45, 3.25]:
@@ -80,7 +84,7 @@ func weapon_drop_point(origin: Vector3, forward: Vector3, props: Array[Node]) ->
 			if not space.intersect_ray(approach).is_empty():
 				continue
 			var clear := true
-			for prop: Node3D in props:
+			for prop: Node3D in occupied:
 				if not prop.is_queued_for_deletion() and point.distance_squared_to(prop.global_position) < 0.64:
 					clear = false
 					break

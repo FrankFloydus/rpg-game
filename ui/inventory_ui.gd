@@ -135,6 +135,7 @@ func _ready() -> void:
 	_carry.bind_card_deck(_card_deck)
 	_carry.feedback.connect(_show_feedback)
 	_carry.outside_drop_requested.connect(item_drop_requested.emit)
+	_pack_grid.cursor_swapped.connect(_carry.adopt_native_swap.bind(_pack_grid))
 	for grid: Grid in [_pack_grid, _smith_pack_grid, _vendor_grid, _stash_grid]:
 		grid.action_feedback.connect(_show_feedback)
 		var scroller := grid.get_parent() as ScrollContainer
@@ -372,7 +373,7 @@ func _setup_stash_controls() -> void:
 		_add_filter_item(_stash_type, Items.BaseData.TYPES[key].name, key)
 	_add_filter_item(_stash_type, "Crafting Materials", "material")
 	_add_filter_item(_stash_type, "Scribe's Seals", Supplies.UNVEILING_SCROLL)
-	_add_filter_item(_stash_type, "Expedition Cards", CardItems.KIND)
+	_add_filter_item(_stash_type, "Cards", CardItems.KIND)
 
 
 static func _add_filter_item(menu: OptionButton, caption: String, key: String) -> void:

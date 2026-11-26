@@ -48,9 +48,9 @@ func _check_achievement_size(viewport: SubViewport) -> void:
 	var hud := Hud.instantiate()
 	viewport.add_child(hud)
 	var toast := hud.get_node("AchievementUnlock") as PanelContainer
-	var long_description := "Open a sealed gate, discover the hidden chambers, and empty their treasure coffers in one expedition."
-	hud.present_achievement({"name": "Deep Explorer", "description": long_description, "points": 15})
-	hud.present_achievement({"name": "Gilded Purse", "description": "Gather 500 gold in the Undervault.", "points": 10})
+	var long_description := "Learn to read enemy attacks, recover from heavy strikes, and find an opening to counter with your equipped weapon."
+	hud.present_achievement({"name": "Practiced Fighter", "description": long_description, "points": 15})
+	hud.present_achievement({"name": "Gilded Purse", "description": "Collect 500 gold.", "points": 10})
 	await create_timer(0.50).timeout
 	var wrapped_height := toast.size.y
 	_check(toast.visible and wrapped_height >= 100.0 and wrapped_height < 150.0

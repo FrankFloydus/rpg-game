@@ -19,14 +19,12 @@ extends Resource
 @export_range(1, 10000, 1, "or_greater") var base_xp_cost := 100
 ## Additional XP added to the next level's price for every level after the first.
 @export_range(0, 200, 1, "or_greater") var xp_cost_per_level := 12
-## Encounter count used to budget XP per kill at the first depth.
+## Baseline encounter count used to budget XP per kill at enemy level 1.
 @export_range(1, 100, 1, "or_greater") var base_expected_enemies := 28
 ## Upper limit of expected enemies used to budget XP per kill.
 @export_range(1, 200, 1, "or_greater") var max_expected_enemies := 78
-## Portion of a depth's progression XP budget awarded by its individual kills.
+## Portion of an enemy level's progression XP budget awarded by individual kills.
 @export_range(0.0, 1.0, 0.01) var kill_xp_share := 0.60
-## Portion of a depth's progression XP budget awarded on the first clear.
-@export_range(0.0, 1.0, 0.01) var first_clear_xp_share := 0.40
 ## Multipliers to XP per kill by enemy rarity. Normal enemies use 1.0.
 @export var kill_rarity_xp: Dictionary = {"magic": 1.35, "rare": 2.0}
 ## Maximum level gap above an enemy before its kill XP falls to the minimum.

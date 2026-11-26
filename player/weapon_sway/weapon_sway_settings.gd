@@ -58,8 +58,7 @@ const AirMotionResource := preload("res://player/weapon_sway/weapon_air_motion.g
 ## Horizontal acceleration in m/s² needed to ask for full grip lag. Raise it if small speed changes
 ## already produce most of the available travel.
 @export_range(1.0, 100.0, 0.5, "suffix:m/s²") var movement_full_acceleration: float = 35.0
-## Horizontal speed in m/s for full blade lean and step bob. Match normal running speed if you want the
-## full gait at a run.
+## Horizontal speed in m/s for full blade lean and bob amplitude. The Bob group owns step cadence.
 @export_range(0.1, 30.0, 0.1, "suffix:m/s") var movement_full_speed: float = 6.0
 ## Spring time in seconds for grip lag, lean, directional carry, and bob. Raise it for more lag after
 ## starting or changing direction.
@@ -113,12 +112,10 @@ const AirMotionResource := preload("res://player/weapon_sway/weapon_air_motion.g
 ## Preset for step rhythm, carry stance, and start, pivot, and stop poses. Use Heavy Braced for a wider,
 ## heavier stance. Leave empty to use the base bob settings below.
 @export var bob_style: BobStyleResource
-## Ground distance in meters per slow step, before the style's Cadence Scale. Lower it if the weapon bob
-## feels too slow while walking.
-@export_range(0.2, 3.0, 0.01, "suffix:m") var bob_walk_step_length: float = 0.92
-## Ground distance in meters per step at Locomotion's Full Speed, before Cadence Scale. Raise it for a
-## longer running stride.
-@export_range(0.3, 4.0, 0.01, "suffix:m") var bob_run_step_length: float = 1.95
+## Ground distance in meters per walking step, before the style's Cadence Scale.
+@export_range(0.2, 3.0, 0.01, "suffix:m") var bob_walk_step_length: float = 1.25
+## Ground distance in meters per sprinting step, before the style's Cadence Scale.
+@export_range(0.3, 4.0, 0.01, "suffix:m") var bob_run_step_length: float = 1.28
 ## Vertical grip travel in meters for a step curve value of one at full speed. Lower it to soften the
 ## rise and dip of each step.
 @export_range(0.0, 0.04, 0.001, "suffix:m") var bob_vertical_travel: float = 0.008

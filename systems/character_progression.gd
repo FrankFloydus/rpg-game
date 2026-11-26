@@ -90,23 +90,6 @@ func award_kill(enemy_level: int, rarity: String) -> int:
 	return _grant_xp(maxi(1, roundi(award)))
 
 
-## The first clear of a newly reached Depth helps prepare the character for the next unlocked gate.
-## A repeat clear grants no completion bonus. Kills on a repeated run still use normal relevance.
-func award_clear(depth: int) -> int:
-	if depth <= _highest_cleared_depth:
-		return 0
-	_highest_cleared_depth = depth
-	if level >= MAX_LEVEL:
-		return 0
-	var goal := mini(depth + 1, MAX_LEVEL)
-	var catchup := -xp
-	for skipped_level in range(level, goal):
-		catchup += _xp_cost(skipped_level)
-	var close_to_player: bool = depth > level - BALANCE.trivial_level_gap
-	var bonus := roundi(_xp_cost(mini(depth, MAX_LEVEL)) * BALANCE.first_clear_xp_share) if close_to_player else 0
-	return _grant_xp(maxi(bonus, catchup))
-
-
 func snapshot() -> Dictionary:
 	var saved_attributes := {}
 	for id: StringName in _attributes:
@@ -120,7 +103,7 @@ func snapshot() -> Dictionary:
 
 
 func restore(saved: Dictionary, deepest_completed_depth := 0) -> void:
-	# Older checkpoints have the unlocked dungeon gate, but no experience or allocation.
+	# Early saves may only have their highest cleared depth as progression history.
 	_level = clampi(int(saved.get("level", deepest_completed_depth)), 1, MAX_LEVEL)
 	_xp = clampi(int(saved.get("xp", 0)), 0, maxi(0, xp_for_next_level() - 1))
 	_highest_cleared_depth = maxi(0, maxi(deepest_completed_depth, int(saved.get("highest_cleared_depth", 0))))

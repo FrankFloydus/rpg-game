@@ -91,7 +91,7 @@ func show_hand(ids: Array[String]) -> void:
 
 
 func show_loadout(available: Array[String], equipped: Array[String], reset_selection := false,
-		read_only_note := "", title_text := "Expedition Deck") -> void:
+		read_only_note := "", title_text := "Deck") -> void:
 	if _view != "deck":
 		_clear("deck")
 	_deck_title.text = title_text

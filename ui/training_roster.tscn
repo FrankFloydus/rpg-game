@@ -264,6 +264,32 @@ tooltip_text = "Shows sampled player weapon collision boxes for 2 seconds."
 mouse_default_cursor_shape = 2
 text = "Show Player Weapon Traces"
 
+[node name="ContactPresetRow" type="HBoxContainer" parent="Panel/Layout/TrainingTabs/Weaponry/Options"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Caption" type="Label" parent="Panel/Layout/TrainingTabs/Weaponry/Options/ContactPresetRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.690196, 0.713726, 0.745098, 1)
+theme_override_font_sizes/font_size = 15
+text = "Contact Preset"
+
+[node name="MeleeContactPreset" type="OptionButton" parent="Panel/Layout/TrainingTabs/Weaponry/Options/ContactPresetRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Training uses full reach and stops on eligible solid hits. Carry Through uses full reach and continues after wall impacts. Refuge uses a shorter, narrower sweep with solid stops."
+accessibility_name = "Melee Contact Preset"
+mouse_default_cursor_shape = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Training"
+popup/item_0/id = 0
+popup/item_1/text = "Carry Through"
+popup/item_1/id = 1
+popup/item_2/text = "Refuge"
+popup/item_2/id = 2
+
 [node name="RollHint" type="Label" parent="Panel/Layout/TrainingTabs/Weaponry/Options"]
 layout_mode = 2
 size_flags_vertical = 4

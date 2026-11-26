@@ -44,7 +44,6 @@ var equipment: Dictionary:
 
 var _bag := SpatialInventory.new()
 var _vendor := SpatialInventory.new()
-var _expedition_vendor: SpatialInventory
 var _stash := Stash.new()
 var _gear := Equipment.new()
 var _backpack_cursor := BackpackCursor.new()
@@ -61,7 +60,7 @@ func _init() -> void:
 func get_grid(owner: String) -> SpatialInventory:
 	match owner:
 		"bag": return _bag
-		"vendor": return _expedition_vendor if _expedition_vendor != null else _vendor
+		"vendor": return _vendor
 	return _stash.get_grid(owner)
 
 
@@ -100,32 +99,7 @@ func treasure_key_count() -> int:
 	return _treasure_key_ids().size()
 
 
-func consume_treasure_key() -> bool:
-	var keys := _treasure_key_ids()
-	if keys.is_empty() or not _remove_supplies(keys.slice(0, 1)):
-		return false
-	changed.emit()
-	return true
-
-
-func clear_treasure_keys() -> void:
-	var keys := _treasure_key_ids()
-	if not keys.is_empty() and _remove_supplies(keys):
-		changed.emit()
-
-
-func consume_route_key(lock_id: String) -> bool:
-	for placement: Dictionary in _bag.get_placements():
-		var id: StringName = placement.id
-		var item := get_item(id)
-		if item.get("supply_kind") == Supplies.ROUTE_KEY and item.supply_id == lock_id:
-			if not _remove_supplies([id]):
-				return false
-			changed.emit()
-			return true
-	return false
-
-
+## Drops temporary keys decoded from older character saves.
 func clear_expedition_keys() -> void:
 	var keys: Array[StringName] = []
 	for placement: Dictionary in _bag.get_placements():
@@ -355,12 +329,6 @@ func set_vendor_items(items: Array) -> int:
 		_items.erase(placement["id"])
 	_vendor = SpatialInventory.new()
 	_vendor.configure(VENDOR_SIZE)
-	var stocked := _fill_vendor(_vendor, items)
-	changed.emit()
-	return stocked
-
-
-func _fill_vendor(grid: SpatialInventory, items: Array, isolated := false) -> int:
 	# Larger pieces first fit more reliably. Catalogue contents stay fixed until restock.
 	var stock := items.duplicate()
 	stock.sort_custom(func(first: Dictionary, second: Dictionary) -> bool:
@@ -369,55 +337,10 @@ func _fill_vendor(grid: SpatialInventory, items: Array, isolated := false) -> in
 		return a.x * a.y > b.x * b.y)
 	var stocked := 0
 	for item: Dictionary in stock:
-		var offered := item
-		if isolated and _items.has(StringName(item.get("id", ""))):
-			offered = item.duplicate(true)
-			var suffix := 1
-			while _items.has(StringName("%s_expedition_%d" % [item.id, suffix])):
-				suffix += 1
-			offered["id"] = "%s_expedition_%d" % [item.id, suffix]
-		if _insert(grid, offered):
+		if _insert(_vendor, item):
 			stocked += 1
+	changed.emit()
 	return stocked
-
-
-## Opens a temporary merchant beside the player's existing hub catalogue.
-func open_vendor_catalog(state: Dictionary) -> bool:
-	if _expedition_vendor != null:
-		return false
-	var offers := SpatialInventory.new()
-	offers.configure(VENDOR_SIZE)
-	var original_items := _items
-	_items = original_items.duplicate()
-	if state.has("stock"):
-		var stock: Variant = state["stock"]
-		if not stock is Array or not stock.all(func(item: Variant) -> bool: return item is Dictionary):
-			_items = original_items
-			return false
-		_fill_vendor(offers, stock, true)
-	elif not _read_grid(offers, state.get("rows", []), VENDOR_SIZE, VENDOR_SIZE, state.get("height", VENDOR_SIZE.y)):
-		_items = original_items
-		return false
-	_expedition_vendor = offers
-	changed.emit()
-	return true
-
-
-func vendor_catalog_snapshot() -> Dictionary:
-	if _expedition_vendor == null:
-		return {}
-	return {"rows": _save_grid(_expedition_vendor), "height": _expedition_vendor.get_grid_size().y}
-
-
-func close_vendor_catalog() -> Dictionary:
-	var snapshot := vendor_catalog_snapshot()
-	if snapshot.is_empty():
-		return snapshot
-	for placement: Dictionary in _expedition_vendor.get_placements():
-		_items.erase(placement.id)
-	_expedition_vendor = null
-	changed.emit()
-	return snapshot
 
 
 func preview_drop(source: String, id: StringName, destination: String, origin: Vector2i, rotated := false) -> String:
@@ -516,16 +439,23 @@ func _record_trade(trade_gold: int, units: int) -> void:
 
 
 func preview_backpack_cursor_drop(id: StringName, origin: Vector2i, rotated := false) -> String:
+	return backpack_cursor_preview(id, origin, rotated).denial
+
+
+func backpack_cursor_preview(id: StringName, origin: Vector2i, rotated := false) -> Dictionary:
+	var plan := _backpack_cursor.preview(_bag, id, origin, rotated)
+	if not plan.denial.is_empty():
+		return {"denial": plan.denial, "displaced": &""}
 	var match_id := _stack_at(id, _bag, origin)
-	if not rotated and not match_id.is_empty():
-		return _stack_denial(match_id, Supplies.quantity(get_item(id)))
-	return _backpack_cursor.preview(_bag, id, origin, rotated).denial
+	if not match_id.is_empty():
+		return {"denial": _stack_denial(match_id, Supplies.quantity(get_item(id))), "displaced": &""}
+	return {"denial": "", "displaced": plan.displaced}
 
 
 func place_backpack_cursor(id: StringName, origin: Vector2i, rotated := false) -> Dictionary:
 	var match_id := _stack_at(id, _bag, origin)
 	if not rotated and not match_id.is_empty():
-		var denial := _stack_denial(match_id, Supplies.quantity(get_item(id)))
+		var denial := preview_backpack_cursor_drop(id, origin)
 		if denial.is_empty() and not _merge_whole_stack(_bag, id, _bag, match_id):
 			denial = "That item has moved."
 		if denial.is_empty():
@@ -1013,7 +943,6 @@ func restore_data(data: Dictionary) -> bool:
 	_bag = staged._bag
 	_backpack_cursor.settle()
 	_vendor = staged._vendor
-	_expedition_vendor = null
 	_stash = staged._stash
 	_gear = staged._gear
 	_items = staged._items

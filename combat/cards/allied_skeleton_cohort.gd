@@ -2,9 +2,7 @@ extends Node3D
 ## Keeps a group of summoned fighters on the player's side of the encounter.
 
 const Skeleton := preload("res://combat/cards/allied_skeleton.tscn")
-const OathPulse := preload("res://combat/cards/card_pulse.tscn")
 const PARTY_OFFSETS: Array[Vector3] = [Vector3(-1.12, 0.0, 0.72), Vector3(1.12, 0.0, 0.72), Vector3(0.0, 0.0, -1.52)]
-const GUARD_OFFSET := Vector3(-0.92, 0.0, -1.58)
 const WORLD_LAYER := 1
 const NAVIGATION_LAYER := 1
 const SCAN_RADIUS := 10.0
@@ -20,22 +18,12 @@ var _left_world := false
 
 
 func raise_party(player: CharacterBody3D, arena: Node3D, lifetime: float) -> void:
-	_raise_members(player, arena, lifetime, PARTY_OFFSETS)
-
-
-func raise_guard(player: CharacterBody3D, arena: Node3D, lifetime: float) -> void:
-	_raise_members(player, arena, lifetime, [GUARD_OFFSET])
-	_present_oath(_members[0].global_position, 0.83)
-
-
-func _raise_members(player: CharacterBody3D, arena: Node3D, lifetime: float,
-		offsets: Array[Vector3]) -> void:
 	_player = player
 	_arena = arena
 	_lifetime = maxf(1.0, lifetime)
 	var occupied := PackedVector3Array()
-	for index in offsets.size():
-		var offset := offsets[index]
+	for index in PARTY_OFFSETS.size():
+		var offset := PARTY_OFFSETS[index]
 		var actor := Skeleton.instantiate() as CharacterBody3D
 		add_child(actor)
 		actor.global_position = _spawn_seat(offset, occupied)
@@ -47,25 +35,6 @@ func _raise_members(player: CharacterBody3D, arena: Node3D, lifetime: float,
 
 func is_active_for(player: CharacterBody3D) -> bool:
 	return _player == player and _lifetime > 0.0 and not is_queued_for_deletion()
-
-
-func extend_service(seconds: float) -> void:
-	_lifetime += maxf(0.0, seconds)
-	for member in _members:
-		if is_instance_valid(member):
-			_present_oath(member.global_position, 0.55)
-
-
-func _present_oath(point: Vector3, radius: float) -> void:
-	var visual := OathPulse.instantiate() as MeshInstance3D
-	add_child(visual)
-	visual.global_position = point + Vector3.UP * 0.042
-	visual.scale = Vector3(radius, 1.0, radius)
-	visual.set_instance_shader_parameter(&"tint", Color("#d4b58c"))
-	var light := visual.create_tween()
-	light.tween_method(func(age: float) -> void:
-		visual.set_instance_shader_parameter(&"age", age), 0.0, 1.0, 0.50)
-	light.tween_callback(visual.queue_free)
 
 
 func dismiss() -> void:
@@ -94,7 +63,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _exit_tree() -> void:
-	# Leaving the dungeon or resetting the arena ends any remaining temporary allies.
+	# Leaving the active world or resetting the arena ends any remaining temporary allies.
 	_left_world = true
 
 

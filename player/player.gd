@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 const Items = preload("res://systems/items.gd")
+const ItemBases = preload("res://data/items/bases.gd")
 const StatusCatalog = preload("res://combat/effects/status_catalog.gd")
 const AbilityRuntime = preload("res://combat/abilities/ability_runtime.gd")
 const EnrageEffect = preload("res://combat/effects/enrage_effect_definition.gd")
@@ -8,6 +9,9 @@ const HitEffects = preload("res://combat/effects/hit_effects.gd")
 const CombatVisuals = preload("res://combat/effects/combat_visuals.gd")
 const BreakableProp = preload("res://world/modules/breakable_prop.gd")
 const MeleeSweep = preload("res://player/melee_sweep.gd")
+const MeleeContactSession = preload("res://player/melee_contact_session.gd")
+const MeleeContactRules = preload("res://combat/weapons/melee_contact_rules.gd")
+const MELEE_CONTACT = preload("res://data/melee_contact.tres")
 const CombatImpact = preload("res://combat/effects/combat_impact.gd")
 const CombatFloaters = preload("res://combat/effects/combat_floaters.gd")
 const DamageResolution = preload("res://combat/damage_resolution.gd")
@@ -16,6 +20,7 @@ const Progression = preload("res://systems/character_progression.gd")
 const StunRuntime = preload("res://combat/effects/stun_runtime.gd")
 const DefensiveLegendaries = preload("res://combat/effects/defensive_legendary_runtime.gd")
 const WeaponRoles = preload("res://combat/weapons/weapon_roles.gd")
+const WeaponHitShake := preload("res://data/weapon_hit_shake.gd")
 const LegendaryMelee = preload("res://combat/weapons/legendary_weapon_runtime.gd")
 const CasterLegendaryEffects = preload("res://combat/effects/caster_legendary_effects.gd")
 
@@ -44,7 +49,13 @@ const INTERVALS = {"unarmed": 0.43, "dagger_1h": 0.34, "sword_1h": 0.45, "mace_1
 	"sword_2h": 0.82, "mace_2h": 1.00, "axe_2h": 0.90, "staff": 0.57}
 const INPUT_BUFFER_SECONDS := 0.22
 const ATTACK_CHAIN_GRACE_SECONDS := 0.55
+const MACE_LIGHT_CHAIN_BLEND_SECONDS := 0.17
+enum MaceStage { RIGHT = 1, LEFT, DOWN_LEFT, DOWN_RIGHT }
+const MACE_LIGHT_CHAIN := [
+	MaceStage.LEFT, MaceStage.RIGHT, MaceStage.DOWN_LEFT, MaceStage.DOWN_RIGHT,
+]
 const CHARGED_RELEASE_SECONDS := 0.06
+const MANUAL_CHARGE_BLEND_SECONDS := 0.080
 const MELEE_RELEASE_SECONDS := 0.078
 const TWO_HANDED_RELEASE_SECONDS := 0.125
 const COMBAT_BACKPEDAL_FACTOR := 0.62
@@ -69,12 +80,16 @@ const WATER_SWIM_ACCELERATION := 12.0
 @export_range(0.04, 0.35, 0.01, "suffix:s") var tap_seconds := 0.16
 ## Minimum wind-up after a hold becomes a charged attack. The equipped charge clip can extend it.
 @export_range(0.1, 2.0, 0.01, "suffix:s") var charge_seconds := 0.34
+## How long a fresh attack press can wait for the two-handed mace's next link. Repeated taps refresh one slot.
+@export_range(0.05, 1.0, 0.01, "suffix:s") var mace_followup_buffer_seconds := 0.50
 
 @export_group("Movement")
 ## Ground speed before direction, stance, and equipment modifiers.
 @export_range(0.5, 12.0, 0.05, "suffix:m/s") var base_move_speed := 4.25
 ## Initial upward speed from a grounded Space press.
 @export_range(1.0, 9.0, 0.05, "suffix:m/s") var jump_speed := 6.0
+## Peak ground speed multiplier applied to held movement during a two-handed mace swing.
+@export_range(1.0, 2.0, 0.01, "suffix:×") var mace_surge_speed_multiplier := 1.40
 
 @export_group("Stun")
 ## Buildup required from unblocked hits before the player becomes stunned.
@@ -97,9 +112,11 @@ var gameplay_enabled := true:
 		if enabled:
 			_ignore_held_attack()
 		else:
+			# Hold the displayed recovery pose through the menu. It settles when the weapon resumes processing.
+			var recovering_strike := _strike_clip != null and _clip_released and not _strike_pending
 			_reset_combat_inputs("Combat paused")
 			if is_instance_valid(camera):
-				camera.clear_combat_shake()
+				camera.clear_combat_shake(recovering_strike)
 		if is_instance_valid(_weapon):
 			_weapon.set_process(enabled)
 var combat_enabled := false:
@@ -108,6 +125,8 @@ var combat_enabled := false:
 			return
 		combat_enabled = enabled
 		_reset_combat_inputs("Combat ended")
+var melee_stops_on_static_world := false
+var melee_uses_refuge_sweep := false
 var weapon_type := "sword_1h"
 
 var _equipment: Dictionary = {}
@@ -138,6 +157,9 @@ var _strike_is_melee := false
 var _strike_ability: AbilityDefinition
 var _strike_sweep: MeleeSweep
 var _paired_sweep: MeleeSweep
+var _contact_session: MeleeContactSession
+var _contact_cleave: MeleeContactRules
+var _paired_contact_cleave: MeleeContactRules
 var _strike_hand := WeaponRoles.MAIN_HAND
 var _strike_clip: AttackAnimation
 var _strike_animation := &""
@@ -148,9 +170,11 @@ var _clip_duration := 0.0
 var _clip_pose_time := 0.0
 var _clip_release_start := 0.0
 var _clip_release_impact := 0.0
+var _clip_combo_entry := 0.0
 var _clip_outcome: Dictionary = {}
 var _clip_last_blade := PackedVector3Array()
 var _paired_last_blade := PackedVector3Array()
+var _clip_last_aim := Transform3D.IDENTITY
 var _clip_released := false
 var _weapon_card_landed := false
 var _attack_commit := 0.0
@@ -158,9 +182,13 @@ var _attack_button_down := false
 var _attack_intent := false
 var _attack_hold_elapsed := 0.0
 var _light_buffer := 0.0
+var _mace_followup_time := 0.0
+var _mace_followup_tapped := false
+var _linked_charge_light_stage := 0
 var _charging_attack := false
 var _charge_duration := 0.0
 var _release_duration := CHARGED_RELEASE_SECONDS
+var _manual_charge_release_phase := INF
 var _jump_buffer := 0.0
 var _guard_held := false
 var _blocking := false
@@ -177,7 +205,6 @@ var _legendary_melee := LegendaryMelee.new()
 var _caster_legendaries := CasterLegendaryEffects.new()
 var _ailments: Dictionary = {}
 var _defensive_legendaries := DefensiveLegendaries.new()
-var _step_travel := 0.0
 var _dead := false
 
 
@@ -434,10 +461,14 @@ func _physics_process(delta: float) -> void:
 	var charged_move_limit := float(WeaponRoles.DIRECTIONAL_CHARGE_MOVE_FACTORS.get(weapon_type, 1.0))
 	var directional_heavy := charged_move_limit < 1.0 and _strike_is_melee and _strike_heavy
 	var charged_move_factor := _directional_charge_movement(charged_move_limit) if directional_heavy else 1.0
+	var grounded := is_on_floor()
 	if combat_enabled:
 		speed *= _combat_walk_factor(movement)
 		if _blocking:
 			speed *= 0.64
+		elif grounded and not _charging_attack and _strike_is_melee and _strike_clip != null \
+				and _weapon.is_mace_attack(_strike_animation):
+			speed *= _mace_swing_movement(charged_move_limit)
 		elif directional_heavy:
 			speed *= charged_move_factor
 		elif _attack_commit > 0.0 and _strike_is_melee:
@@ -465,7 +496,6 @@ func _physics_process(delta: float) -> void:
 	var planar := direction * speed - global_basis.z * _lunge_speed()
 	if not stunned and InputMap.has_action("jump") and Input.is_action_just_pressed("jump"):
 		_jump_buffer = JUMP_BUFFER_SECONDS
-	var grounded := is_on_floor()
 	if swimming:
 		_swim(delta, Vector2.ZERO if rooted else movement, rooted or stunned)
 	elif rooted or stunned:
@@ -484,7 +514,6 @@ func _physics_process(delta: float) -> void:
 			velocity.y = jump_speed
 			_jump_buffer = 0.0
 			_jump_grace = 0.0
-			_step_travel = 0.0
 			feedback.emit("", "jump")
 		elif not grounded:
 			velocity.y -= GRAVITY * delta
@@ -496,17 +525,12 @@ func _physics_process(delta: float) -> void:
 		_try_water_exit(planar, locomotion_start, delta)
 	camera.sync_view_pose(false)
 	_update_underwater_view(delta)
-	var ground_speed := Vector2(velocity.x, velocity.z).length()
+	var stepped: bool = _weapon_sway.advance_after_movement(delta, movement if not rooted else Vector2.ZERO,
+		incoming_vertical, sprinting, swimming)
 	if not swimming and not grounded and is_on_floor() and incoming_vertical < -2.4:
-		_step_travel = 0.0
 		feedback.emit("", "land")
-	elif not swimming and is_on_floor() and ground_speed > 1.2:
-		_step_travel += ground_speed * delta
-		var stride := 1.81 if sprinting else 2.11
-		if _step_travel >= stride:
-			_step_travel = 0.0
-			feedback.emit("", "sprint" if sprinting else "walk")
-	_weapon_sway.advance_after_movement(delta, movement if not rooted else Vector2.ZERO, incoming_vertical)
+	elif stepped:
+		feedback.emit("", "sprint" if sprinting else "walk")
 	_advance_strike(delta)
 	if _dead:
 		return
@@ -563,13 +587,24 @@ func _set_attack_pressed(pressed: bool) -> void:
 			_light_buffer = INPUT_BUFFER_SECONDS
 			_update_blocking()
 			return
+		if _strike_clip != null and not _charging_attack and _is_mace_light():
+			# Keep one fresh press through windup, contact, or recovery until the authored gate.
+			_mace_followup_time = mace_followup_buffer_seconds
+			_attack_intent = true
+			_attack_hold_elapsed = 0.0
+			return
 		if not _can_buffer_attack():
 			return
 		_attack_intent = true
 		_attack_hold_elapsed = 0.0
 		return
 	if _charging_attack:
-		_release_charge_as_light()
+		if attack_charge_fraction() >= _manual_charge_release_phase:
+			_release_charged_attack_early()
+		else:
+			_release_charge_as_light()
+	elif _mace_followup_time > 0.0:
+		_mace_followup_tapped = true
 	elif _attack_intent and _attack_hold_elapsed < tap_seconds and _can_buffer_attack():
 		_light_buffer = INPUT_BUFFER_SECONDS
 	_attack_intent = false
@@ -577,7 +612,7 @@ func _set_attack_pressed(pressed: bool) -> void:
 
 func _release_charge_as_light() -> void:
 	var light := _weapon_attack_ability(false)
-	var stage := _strike_chain_stage
+	var stage := _linked_charge_light_stage if _linked_charge_light_stage > 0 else _strike_chain_stage
 	var shown_charge: float = _weapon.rendered_charge_fraction()
 	var progress := shown_charge if shown_charge > 0.0 else attack_charge_fraction()
 	var light_ready := _ability_runtime.can_start(light, mana)
@@ -587,18 +622,31 @@ func _release_charge_as_light() -> void:
 		cast_ability(light, false, false, stage, progress)
 
 
+func _release_charged_attack_early() -> void:
+	var remaining_charge := maxf(_strike_remaining - _release_duration, 0.0)
+	_attack_timer = maxf(_attack_timer - remaining_charge, 0.0)
+	_attack_commit = maxf(_attack_commit - remaining_charge, 0.0)
+	_strike_remaining = _release_duration
+	# Finish the visual bridge before the first authored blade sample.
+	var pretrace_seconds := _release_duration * _strike_clip.trace_start / maxf(_strike_clip.impact, 0.001)
+	_begin_charged_release(minf(MANUAL_CHARGE_BLEND_SECONDS, pretrace_seconds * 0.90))
+
+
 func _advance_attack_input(delta: float) -> void:
 	if _attack_intent:
 		_attack_hold_elapsed += delta
 	if _guard_attack and not _strike_pending and _attack_timer <= 0.0 and _light_buffer <= 0.0:
 		_guard_attack = false
 		_update_blocking()
-	if _attack_timer > 0.0 or _blocking:
+	if _blocking:
 		return
-	if _light_buffer > 0.0 and cast_ability(_weapon_attack_ability(false)):
+	if _mace_followup_time > 0.0:
+		_advance_mace_followup(delta)
+		return
+	if _light_buffer > 0.0 and cast_ability(_weapon_attack_ability(false), false, false, 0, 0.0, true):
 		_light_buffer = 0.0
 		return
-	if not _attack_intent or _attack_hold_elapsed < tap_seconds:
+	if _attack_timer > 0.0 or not _attack_intent or _attack_hold_elapsed < tap_seconds:
 		return
 	var charged := _weapon_attack_ability(true)
 	if mana < charged.mana_cost:
@@ -608,10 +656,47 @@ func _advance_attack_input(delta: float) -> void:
 		_attack_intent = false
 
 
+func _advance_mace_followup(delta: float) -> void:
+	if _can_link_mace_light() or _attack_timer <= 0.0:
+		var charge := not _mace_followup_tapped
+		if not charge or _attack_hold_elapsed >= tap_seconds:
+			if cast_ability(_weapon_attack_ability(charge), charge, charge, 0, 0.0, true):
+				_clear_mace_followup()
+				return
+	_mace_followup_time -= delta
+	if _mace_followup_time <= 0.000001:
+		_clear_mace_followup()
+
+
+func _clear_mace_followup() -> void:
+	_mace_followup_time = 0.0
+	_mace_followup_tapped = false
+	_attack_intent = false
+
+
 func _can_buffer_attack() -> bool:
 	if _strike_clip == null or _attack_timer <= 0.0:
 		return true
-	return not _charging_attack and _current_clip_time() >= _strike_clip.input_buffer
+	if _charging_attack:
+		return false
+	var earliest := _strike_clip.input_buffer
+	if _is_mace_light():
+		var buffer_span := mace_followup_buffer_seconds * _strike_clip.length / maxf(_clip_duration, 0.001)
+		earliest = maxf(_strike_clip.trace_start, _mace_light_link_time() - buffer_span)
+	return _current_clip_time() >= earliest
+
+
+func _is_mace_light() -> bool:
+	return not _strike_heavy and _weapon.is_mace_attack(_strike_animation)
+
+
+func _mace_light_link_time() -> float:
+	return maxf(_strike_clip.trace_end, _strike_clip.input_buffer)
+
+
+func _can_link_mace_light() -> bool:
+	return _strike_clip != null and _clip_released and not _strike_pending and _chain_time_left > 0.0 \
+		and _is_mace_light() and _current_clip_time() >= _mace_light_link_time()
 
 
 func _lunge_speed() -> float:
@@ -670,6 +755,28 @@ func _directional_charge_movement(move_limit: float) -> float:
 	return lerpf(move_limit, 1.0, unbrace)
 
 
+func _mace_swing_movement(charge_move_limit: float) -> float:
+	if not _strike_pending:
+		return 1.0
+	var time := _current_clip_time()
+	if time >= _strike_clip.trace_end:
+		return 1.0
+	var drive_start := 0.0
+	var drive_peak: float = _strike_clip.trace_start
+	var brace_speed := charge_move_limit
+	if not _strike_heavy:
+		drive_start = _strike_clip.trace_start * 0.50
+		drive_peak = lerpf(_strike_clip.trace_start, _strike_clip.impact, 0.40)
+		brace_speed = 0.40
+		if time < drive_start:
+			return lerpf(1.0, brace_speed, smoothstep(0.0, drive_start, time))
+	if time < drive_peak:
+		return lerpf(brace_speed, mace_surge_speed_multiplier, smoothstep(drive_start, drive_peak, time))
+	if time <= _strike_clip.impact:
+		return mace_surge_speed_multiplier
+	return lerpf(mace_surge_speed_multiplier, 1.0, smoothstep(_strike_clip.impact, _strike_clip.trace_end, time))
+
+
 func _set_guard_held(held: bool, manual := false) -> void:
 	if _guard_held != held:
 		_guard_held = held
@@ -697,6 +804,8 @@ func _update_blocking() -> void:
 		_stamina_recovery = maxf(_stamina_recovery, STAMINA_RULES.guard_release_delay)
 	_blocking = active
 	if _blocking:
+		if _mace_followup_time > 0.0:
+			_clear_mace_followup()
 		# A block takes precedence over a prepared attack.
 		if _strike_pending and not _strike_is_follow_up and not _clip_released:
 			_attack_timer = 0.0
@@ -730,6 +839,9 @@ func _try_block_hit(amount: float, damage_type: String, source: Node3D, ability:
 		stamina = 0.0
 	_stamina_recovery = STAMINA_RULES.broken_guard_delay if exhausted else STAMINA_RULES.hit_recharge_delay
 	_update_blocking()
+	if is_instance_valid(_weapon):
+		# The last absorbed hit has already lowered guard and needs its own recovery.
+		_weapon.react_to_guard_hit(exhausted)
 	var context := _incoming_ability(ability, source, damage_type)
 	_log_status(context, "%s · %.1f Stamina" % ["Guard Broken" if exhausted else "Blocked", previous - stamina])
 	feedback.emit("Guard broken" if exhausted else "", "block")
@@ -755,7 +867,7 @@ func _try_block_hit(amount: float, damage_type: String, source: Node3D, ability:
 
 func _update_weapon_pose() -> void:
 	if is_instance_valid(_weapon) and _weapon.has_method("set_combat_pose"):
-		_weapon.set_combat_pose(is_blocking(), attack_charge_fraction(), _strike_chain_stage)
+		_weapon.set_combat_pose(is_blocking(), attack_charge_fraction(), _strike_chain_stage, _strike_animation)
 
 
 func _ignore_held_attack() -> void:
@@ -785,8 +897,11 @@ func weapon_audio_heft() -> float:
 
 
 func cast_ability(ability: AbilityDefinition, heavy := false, charged_input := false,
-		light_release_stage := 0, charge_progress := 0.0) -> bool:
-	if _attack_timer > 0.0 or _strike_pending or _blocking or not combat_enabled or _dead or is_stunned():
+		light_release_stage := 0, charge_progress := 0.0, buffered_followup := false) -> bool:
+	# At an end-of-clip gate the outgoing clip is still live until _advance_strike runs this tick.
+	var linked := buffered_followup and _can_link_mace_light()
+	if (_attack_timer > 0.0 and not linked) or _strike_pending \
+			or _blocking or not combat_enabled or _dead or is_stunned():
 		return false
 	if not _ability_runtime.can_start(ability, mana):
 		return false
@@ -794,8 +909,10 @@ func cast_ability(ability: AbilityDefinition, heavy := false, charged_input := f
 	var profile := ability.runtime_profile()
 	if not weapon_ability and profile.get("shape", "") not in ["arc", "disc"]:
 		return false
+	_linked_charge_light_stage = _next_chain_stage if linked and charged_input else 0
 	_strike_clip = null
 	_strike_animation = &""
+	_manual_charge_release_phase = INF
 	_strike_chain_stage = _next_chain_stage if weapon_ability and _chain_time_left > 0.0 else 1
 	if weapon_ability and light_release_stage > 0:
 		_strike_chain_stage = light_release_stage
@@ -820,16 +937,27 @@ func cast_ability(ability: AbilityDefinition, heavy := false, charged_input := f
 			_attack_timer *= 1.19
 		var windup_share := 0.39 if two_handed_melee else 0.32
 		_strike_remaining = _attack_timer * (0.47 if animation_heavy else windup_share)
+		if _strike_is_melee and weapon_type == "mace_2h":
+			if animation_heavy:
+				# A downstroke queued by the light chain still gives a neutral heavy its side.
+				match _strike_chain_stage:
+					MaceStage.DOWN_LEFT:
+						_strike_chain_stage = MaceStage.LEFT
+					MaceStage.DOWN_RIGHT:
+						_strike_chain_stage = MaceStage.RIGHT
+			elif light_release_stage == 0 and _chain_time_left <= 0.0:
+				_strike_chain_stage = MACE_LIGHT_CHAIN[0]
 		_strike_animation = _weapon.attack_clip_name(animation_heavy, _strike_chain_stage)
-		_strike_clip = AttackAnimation.read(_weapon.attack_animation(animation_heavy, _strike_chain_stage))
+		_strike_clip = AttackAnimation.read(_weapon.attack_animation(animation_heavy, _strike_chain_stage, _strike_animation))
 		if _strike_clip != null:
 			var timing_type := _offhand_type if _dual_wield and _strike_chain_stage == 2 else weapon_type
 			var timing_scale := WeaponRoles.commitment_timing(timing_type, animation_heavy)
 			_attack_timer = maxf(0.18, _strike_clip.length * timing_scale / _strike_tempo)
 			_strike_remaining = _attack_timer * _strike_clip.impact / _strike_clip.length
 			if charged_input:
-				var charge_clip: Animation = _weapon.charge_animation(_strike_chain_stage)
+				var charge_clip: Animation = _weapon.charge_animation(_strike_chain_stage, _strike_animation)
 				authored_charge = charge_clip.length / _strike_tempo
+				_manual_charge_release_phase = _weapon.manual_charge_release_phase(charge_clip, _strike_animation)
 	_charging_attack = charged_input
 	if _charging_attack:
 		var recovery := _attack_timer - _strike_remaining
@@ -865,14 +993,24 @@ func cast_ability(ability: AbilityDefinition, heavy := false, charged_input := f
 	if not _charging_attack:
 		_prepare_melee_sweep()
 		var clip_duration := _attack_timer
-		if light_release_stage > 0 and _strike_clip != null:
-			# Keep the charge's anticipation when entering the light. Leave its trace unopened.
+		var entry_blend := 0.0
+		var combo_entry := 0.0
+		if _strike_clip != null and linked:
+			# Skip the incoming ready keys visually without skipping time on the attack clock.
+			combo_entry = _strike_clip.combo_entry
+			var pretrace_seconds := clip_duration * _strike_clip.trace_start / _strike_clip.length
+			entry_blend = minf(MACE_LIGHT_CHAIN_BLEND_SECONDS, pretrace_seconds * 0.90)
+		elif _strike_clip != null and light_release_stage > 0:
 			var light_entry := _strike_clip.trace_start * 0.85 * charge_progress
 			var elapsed := clip_duration * light_entry / _strike_clip.length
 			_attack_timer -= elapsed
 			_strike_remaining -= elapsed
 			_attack_commit = maxf(0.0, _attack_commit - elapsed)
-		_play_strike_animation(clip_duration, false, -1.0, light_release_stage > 0)
+			if _weapon.is_mace_attack(_strike_animation):
+				var pretrace_seconds := clip_duration * (_strike_clip.trace_start - light_entry) / _strike_clip.length
+				entry_blend = minf(MANUAL_CHARGE_BLEND_SECONDS, pretrace_seconds * 0.90)
+		_play_strike_animation(clip_duration, false, -1.0, light_release_stage > 0 and entry_blend <= 0.0,
+			entry_blend, combo_entry)
 	_log_player_cast(&"cast_start", ability.combat_details())
 	if _strike_clip == null and _strike_remaining <= 0.0:
 		_commit_strike()
@@ -883,9 +1021,7 @@ func _advance_strike(attack_delta: float) -> void:
 	if _strike_pending:
 		_strike_remaining -= attack_delta
 		if _charging_attack and _strike_remaining <= _release_duration:
-			_charging_attack = false
-			_prepare_melee_sweep()
-			_play_strike_animation(_attack_timer, true)
+			_begin_charged_release()
 	if _strike_clip != null and not _charging_attack:
 		_advance_driven_strike()
 		return
@@ -897,6 +1033,12 @@ func _advance_strike(attack_delta: float) -> void:
 		_commit_strike()
 
 
+func _begin_charged_release(charge_blend := 0.0) -> void:
+	_charging_attack = false
+	_prepare_melee_sweep()
+	_play_strike_animation(_attack_timer, true, -1.0, false, charge_blend)
+
+
 func _current_clip_time() -> float:
 	if _clip_duration <= 0.0:
 		return 0.0
@@ -904,10 +1046,27 @@ func _current_clip_time() -> float:
 		_clip_release_start, _clip_release_impact)
 
 
+func _mace_light_pose_time(time: float) -> float:
+	if not _is_mace_light():
+		return time
+	var trace_start := _strike_clip.trace_start
+	if time < trace_start and _clip_combo_entry > 0.0:
+		return lerpf(_clip_combo_entry, trace_start, time / trace_start)
+	var trace_end := _strike_clip.trace_end
+	var link := _mace_light_link_time()
+	var exit := _strike_clip.combo_exit
+	if time <= trace_end or exit >= link or time >= _strike_clip.length:
+		return time
+	if time <= link:
+		return lerpf(trace_end, exit, inverse_lerp(trace_end, link, time))
+	return lerpf(exit, _strike_clip.length, inverse_lerp(link, _strike_clip.length, time))
+
+
 func _advance_driven_strike() -> void:
 	var time := _current_clip_time()
+	var pose_time := _mace_light_pose_time(time)
 	if not _strike_pending:
-		_weapon.set_swing_phase(time / _strike_clip.length)
+		_weapon.set_swing_phase(pose_time / _strike_clip.length)
 		if _attack_timer <= 0.0:
 			_strike_clip = null
 		return
@@ -917,11 +1076,11 @@ func _advance_driven_strike() -> void:
 			return
 	if _clip_released and _strike_is_melee and _clip_pose_time <= _strike_clip.trace_end:
 		_sample_driven_strike(clampf(_clip_pose_time, _strike_clip.trace_start, _strike_clip.trace_end),
-			minf(time, _strike_clip.trace_end))
+			minf(time, _strike_clip.trace_end), time >= _strike_clip.trace_end)
 		if _dead or not _strike_pending:
 			return
 	_clip_pose_time = time
-	_weapon.set_swing_phase(time / _strike_clip.length)
+	_weapon.set_swing_phase(pose_time / _strike_clip.length)
 	if _clip_released and time >= (_strike_clip.trace_end if _strike_is_melee else release_marker):
 		_finish_driven_strike()
 
@@ -946,66 +1105,176 @@ func _release_driven_strike() -> bool:
 	return true
 
 
-func _sample_driven_strike(from: float, to: float) -> void:
+func _sample_driven_strike(from: float, to: float, closes_window: bool) -> void:
 	var view := get_aim_transform()
 	var offhand := _strike_hand == WeaponRoles.OFF_HAND
-	_clip_last_blade = _trace_strike(_strike_sweep, _clip_last_blade, view, from, to, offhand)
-	var contacts := _strike_sweep.take_contacts()
-	for contact in contacts:
-		contact.weapon_hand = WeaponRoles.OFF_HAND if offhand else WeaponRoles.MAIN_HAND
+	var contacts: Array[Dictionary] = []
+	_clip_last_blade = _trace_strike(_strike_sweep, _clip_last_blade, view, from, to, offhand, contacts)
 	if _paired_sweep != null:
-		_paired_last_blade = _trace_strike(_paired_sweep, _paired_last_blade, view, from, to, true)
-		for contact in _paired_sweep.take_contacts():
-			contact.weapon_hand = WeaponRoles.OFF_HAND
-			contacts.append(contact)
-		contacts.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a.fraction) < float(b.fraction))
-	var targets: Array[Dictionary] = []
-	var limit := _melee_limit(_strike_heavy)
-	for contact in contacts:
-		var target: Node3D = contact.target
-		if not is_instance_valid(target):
-			continue
-		if target is BreakableProp:
-			if not target.is_queued_for_deletion():
-				target.break_from(contact.direction, contact.point, contact.normal)
-				var broken_prop: Vector3 = _clip_outcome.broken_prop
-				if not broken_prop.is_finite():
-					_clip_outcome.broken_prop = contact.point
-		elif int(_clip_outcome.count) + targets.size() < limit:
-			contact.phase = lerpf(from, to, float(contact.fraction)) / _strike_clip.length
-			targets.append(contact)
-	if not targets.is_empty():
-		_resolve_attack(_strike_heavy, _clip_outcome.ability, null, targets, _clip_outcome)
+		_paired_last_blade = _trace_strike(_paired_sweep, _paired_last_blade, view, from, to, true, contacts)
+	_clip_last_aim = view
+	for contact in _contact_session.take_contacts(view, contacts, closes_window, _contact_cleave.can_fit_saved_actor):
+		var stop := _apply_melee_contact(contact, from, to)
+		if _dead or not _strike_pending:
+			return
+		if stop != &"":
+			_stop_driven_melee(contact, stop, view, from, to)
+			return
 
 
 func _trace_strike(sweep: MeleeSweep, previous: PackedVector3Array, view: Transform3D,
-		from: float, to: float, offhand: bool) -> PackedVector3Array:
+		from: float, to: float, offhand: bool, contacts: Array[Dictionary]) -> PackedVector3Array:
 	var space := get_world_3d().direct_space_state
-	if _weapon.has_trace_sockets(offhand):
-		var divisor := _strike_clip.length if _dual_wield else 1.0
-		if previous.is_empty():
-			previous = _weapon.sample_blade(_strike_animation, from / divisor, view, offhand, _dual_wield)
-		var current: PackedVector3Array = _weapon.sample_blade(_strike_animation, to / divisor, view, offhand, _dual_wield)
-		sweep.trace_blade(space, view, previous, current)
-		return current
-	var window := _strike_clip.trace_end - _strike_clip.trace_start
-	sweep.sample_fraction(space, view, 1.0 if is_zero_approx(window) else (to - _strike_clip.trace_start) / window)
+	var hand := WeaponRoles.OFF_HAND if offhand else WeaponRoles.MAIN_HAND
+	if not _weapon.has_trace_sockets(offhand):
+		var window := _strike_clip.trace_end - _strike_clip.trace_start
+		sweep.sample_fraction(space, view, 1.0 if is_zero_approx(window) else (to - _strike_clip.trace_start) / window)
+		_append_melee_contacts(contacts, sweep, hand, 0.0, 1.0)
+		var terrain := sweep.terrain_contact()
+		if not terrain.is_empty():
+			terrain.merge({"kind": &"terrain", "weapon_hand": hand, "direction": -view.basis.z,
+				"fraction": 1.0, "can_stop": true}, true)
+			contacts.append(terrain)
+		return previous
+
+	var normalized := _dual_wield
+	var divisor := _strike_clip.length if normalized else 1.0
+	var old_view := view if previous.is_empty() else _clip_last_aim
+	var type := _offhand_type if offhand else weapon_type
+	var head_stop := type == "mace_2h" and melee_stops_on_static_world
+	var profile: Dictionary = MELEE_CONTACT.sweep_profile(type, _strike_heavy)
+	profile.horizontal_half_angle = MELEE_CONTACT.horizontal_half_angle
+	profile.vertical_half_angle = MELEE_CONTACT.vertical_half_angle
+	profile.mace_head_stop = head_stop
+	if melee_uses_refuge_sweep:
+		profile.reach_scale = MELEE_CONTACT.inn_reach_scale
+		profile.width_scale = MELEE_CONTACT.inn_width_scale
+	if previous.is_empty():
+		previous = _weapon.sample_blade(_strike_animation, from / divisor, old_view, offhand, normalized, true)
+	# Sample the actual clip between physics frames when a fast swing advances several authored frames.
+	var divisions := maxi(1, ceili((to - from) * 60.0 - 0.0001))
+	for step in divisions:
+		var begin := float(step) / divisions
+		var end := float(step + 1) / divisions
+		var aim_before := old_view.interpolate_with(view, begin)
+		var aim_after := old_view.interpolate_with(view, end)
+		var time_before := lerpf(from, to, begin)
+		var time_after := lerpf(from, to, end)
+		var current: PackedVector3Array = _weapon.sample_blade(
+			_strike_animation, time_after / divisor, aim_after, offhand, normalized, true)
+		profile.previous_basis = _melee_box_basis(previous, aim_before)
+		profile.current_basis = _melee_box_basis(current, aim_after)
+		if head_stop:
+			profile.previous_head = previous.slice(2, 4)
+			profile.current_head = current.slice(2, 4)
+			profile.terrain_fraction = _melee_marker_fraction(_strike_clip.terrain_start, time_before, time_after)
+			profile.terrain_impact_fraction = _melee_marker_fraction(_strike_clip.impact, time_before, time_after) \
+				if _strike_heavy else 0.0
+		sweep.trace_contact_sweep(space, aim_before, aim_after, previous, current, profile)
+		_append_melee_contacts(contacts, sweep, hand, begin, end)
+		previous = current
 	return previous
 
 
-func _finish_driven_strike() -> void:
-	if _strike_is_melee and int(_clip_outcome.count) == 0:
-		var terrain_sweep := _strike_sweep
-		if _paired_sweep != null and terrain_sweep.terrain_contact().is_empty():
-			terrain_sweep = _paired_sweep
-		_present_melee_terrain(_strike_heavy, terrain_sweep, _clip_outcome.broken_prop)
+func _melee_box_basis(sample: PackedVector3Array, aim: Transform3D) -> Basis:
+	var axis := sample[0].direction_to(sample[1])
+	var up := sample[4]
+	if absf(up.dot(axis)) > 0.96:
+		up = aim.basis.y if absf(aim.basis.y.dot(axis)) < 0.96 else aim.basis.x
+	return Basis.looking_at(axis, up)
+
+
+func _melee_marker_fraction(marker: float, from: float, to: float) -> float:
+	return 0.0 if marker <= from else ((marker - from) / (to - from) if to > from else INF)
+
+
+func _append_melee_contacts(contacts: Array[Dictionary], sweep: MeleeSweep, hand: StringName,
+		begin: float, end: float) -> void:
+	for contact in sweep.take_terrain_contacts():
+		contact.kind = &"terrain"
+		contact.weapon_hand = hand
+		contact.fraction = lerpf(begin, end, float(contact.fraction))
+		contacts.append(contact)
+	for contact in sweep.take_contacts():
+		contact.kind = &"prop" if contact.target is BreakableProp else &"actor"
+		contact.weapon_hand = hand
+		contact.fraction = lerpf(begin, end, float(contact.fraction))
+		contacts.append(contact)
+
+
+func _apply_melee_contact(contact: Dictionary, from: float, to: float) -> StringName:
+	var paired_offhand: bool = _paired_contact_cleave != null and contact.weapon_hand == WeaponRoles.OFF_HAND
+	var cleave := _paired_contact_cleave if paired_offhand else _contact_cleave
+	match StringName(contact.kind):
+		&"terrain":
+			var surface := _melee_surface(contact)
+			var stops := melee_stops_on_static_world and bool(contact.get("can_stop", false))
+			if (not melee_stops_on_static_world or stops) and not bool(_clip_outcome.get("world_contact", false)):
+				_clip_outcome.world_contact = true
+				CombatImpact.world(self, contact.point, contact.normal, surface)
+			return surface if stops else &""
+		&"prop":
+			var prop := contact.target as BreakableProp
+			if not is_instance_valid(prop) or prop.is_queued_for_deletion() or not prop.allow_melee_damage:
+				return &""
+			prop.break_from(contact.direction, contact.point, contact.normal)
+			var result := cleave.resolve_prop(prop.melee_contact_mass, not prop.melee_hit_through)
+			if result.get("stops_weapon", false):
+				return &"breakable"
+			if _strike_heavy and not bool(_clip_outcome.get("camera_kicked", false)):
+				_present_melee_contact_shake(contact, &"breakable", false)
+				_clip_outcome.camera_kicked = true
+		&"actor":
+			var result := cleave.resolve_actor(contact.target, contact)
+			if result.is_empty():
+				return &""
+			contact.merge(result, true)
+			contact.phase = lerpf(from, to, float(contact.fraction)) / _strike_clip.length
+			_resolve_attack(_strike_heavy, _clip_outcome.ability, null, [contact], _clip_outcome)
+			if contact.stop_kind in [&"armor", &"guard"]:
+				CombatImpact.world(self, contact.point, contact.normal, &"metal")
+			return contact.stop_kind
+	return &""
+
+
+func _stop_driven_melee(contact: Dictionary, kind: StringName, view: Transform3D,
+		from: float, to: float) -> void:
+	var at := lerpf(from, to, float(contact.fraction))
+	var phase := at / _strike_clip.length
+	if weapon_type == "mace_2h":
+		var recovery := 0.0
+		if _is_mace_light():
+			var remaining := maxf(0.0, _mace_light_link_time() - at)
+			recovery = remaining * _clip_duration / _strike_clip.length + 0.10
+		var point: Vector3 = contact.point if contact.kind == &"terrain" else Vector3.INF
+		_weapon.start_mace_rebound(phase, view.basis.inverse() * contact.direction, kind,
+			recovery, contact.normal, point)
+	else:
+		_weapon.stop_driven_swing(phase)
+	_present_melee_contact_shake(contact, kind, true)
+	_finish_driven_strike(true)
+
+
+func _present_melee_contact_shake(contact: Dictionary, kind: StringName, stopped: bool) -> void:
+	if _camera_feedback == null:
+		return
+	var offhand: bool = contact.weapon_hand == WeaponRoles.OFF_HAND
+	var type := _offhand_type if offhand else weapon_type
+	_camera_feedback.present_melee_contact(contact.point, contact.direction, contact.normal, type,
+		kind, _strike_heavy, _hit_shake_swing(offhand), stopped)
+
+
+func _finish_driven_strike(stopped := false) -> void:
 	var ability := _strike_ability
-	var delay := -1.0 if _strike_is_follow_up else ability.roll_follow_up_delay(_rng) / _strike_tempo
+	var delay := -1.0 if stopped or _strike_is_follow_up else ability.roll_follow_up_delay(_rng) / _strike_tempo
 	_strike_pending = false
 	_strike_is_follow_up = false
 	_strike_ability = null
 	_strike_sweep = null
 	_paired_sweep = null
+	_contact_session = null
+	_contact_cleave = null
+	_paired_contact_cleave = null
 	if delay >= 0.0:
 		_attack_timer = delay + ability.recovery / _strike_tempo
 		_strike_remaining = delay
@@ -1058,21 +1327,48 @@ func _prepare_melee_sweep() -> void:
 		var type := _offhand_type if _strike_hand == WeaponRoles.OFF_HAND else weapon_type
 		_strike_sweep = MeleeSweep.new(type, _strike_heavy, get_rid(), aim)
 		_strike_sweep.debug_volume = weapon_trace
+		if _strike_clip != null:
+			var precision := type == "mace_2h" and _strike_animation in [&"light_down_left", &"light_down_right"]
+			_contact_session = MeleeContactSession.new(precision, MELEE_CONTACT.precision_reach, MELEE_CONTACT.precision_dot)
+			_contact_session.begin(get_world_3d().direct_space_state, aim, get_rid())
+			_contact_cleave = _melee_cleave_for_hand(type, _strike_hand == WeaponRoles.OFF_HAND)
 		if _strike_hand == WeaponRoles.BOTH_HANDS:
 			_paired_sweep = MeleeSweep.new(_offhand_type, _strike_heavy, get_rid(), aim)
 			_paired_sweep.debug_volume = weapon_trace
+			if _strike_clip != null:
+				_paired_contact_cleave = _melee_cleave_for_hand(_offhand_type, true)
+
+
+func _melee_cleave_for_hand(type: String, offhand: bool) -> MeleeContactRules:
+	var hand := WeaponRoles.OFF_HAND if offhand else WeaponRoles.MAIN_HAND
+	var item: Dictionary = _equipment.get(hand, {})
+	var base_id := _offhand_base_id if offhand else _weapon_base_id
+	var attribute := StringName(_strike_ability.scaling_attribute)
+	if attribute == &"default":
+		attribute = WeaponRoles.scaling_attribute(type, base_id)
+	var gear_power := ItemBases.power_at_item_level(int(item.get("item_level", 1))).x
+	var power := gear_power * character_progression.base_damage_multiplier(attribute)
+	return MeleeContactRules.new(type, _strike_heavy, power, MELEE_CONTACT.cleave_profile(type, _strike_heavy))
 
 
 func _advance_weapon_chain(cooldown: float) -> void:
 	if _strike_animation.is_empty():
 		return
-	var stage_count := 3 if _dual_wield or WeaponRoles.DIRECTIONAL_CHARGE_MOVE_FACTORS.has(weapon_type) else 2
-	_next_chain_stage = 1 if _strike_chain_stage == stage_count else _strike_chain_stage + 1
+	var mace_attack: bool = _weapon.is_mace_attack(_strike_animation)
+	if mace_attack and not _strike_heavy:
+		var index := MACE_LIGHT_CHAIN.find(_strike_chain_stage)
+		_next_chain_stage = MACE_LIGHT_CHAIN[(index + 1) % MACE_LIGHT_CHAIN.size()]
+	else:
+		var three_step := _dual_wield or WeaponRoles.DIRECTIONAL_CHARGE_MOVE_FACTORS.has(weapon_type)
+		var stage_count := 3 if three_step and not mace_attack else 2
+		_next_chain_stage = 1 if _strike_chain_stage >= stage_count else _strike_chain_stage + 1
 	# Recovery and ability cooldown must both leave time to start the next strike.
 	_chain_time_left = maxf(_attack_timer, cooldown) + ATTACK_CHAIN_GRACE_SECONDS
 
 
-func _play_strike_animation(duration: float, release := false, impact_override := -1.0, immediate := false) -> void:
+func _play_strike_animation(duration: float, release := false, impact_override := -1.0, immediate := false,
+		charge_blend := 0.0, combo_entry := 0.0) -> void:
+	_clip_combo_entry = combo_entry
 	if _strike_clip != null:
 		_clip_duration = maxf(0.001, duration)
 		_clip_release_start = 0.0
@@ -1082,8 +1378,11 @@ func _play_strike_animation(duration: float, release := false, impact_override :
 				_clip_release_start = maxf(0.0, _strike_clip.trace_start - _strike_clip.length * 0.12)
 			var release_time := impact_override if impact_override >= 0.0 else _strike_remaining
 			_clip_release_impact = maxf(0.001, release_time)
-		_clip_pose_time = _current_clip_time() if immediate else _clip_release_start
-		_weapon.start_driven_swing(_strike_animation, _strike_heavy, _clip_pose_time / _strike_clip.length, immediate)
+		var use_current_time := immediate or (not release and charge_blend > 0.0)
+		_clip_pose_time = _current_clip_time() if use_current_time else _clip_release_start
+		var pose_time := _mace_light_pose_time(_clip_pose_time)
+		_weapon.start_driven_swing(_strike_animation, _strike_heavy, pose_time / _strike_clip.length, immediate,
+			charge_blend)
 		return
 	var contact := maxf(0.0, _strike_remaining)
 	# Allow the weapon to reach the contact pose even when a move has no recovery.
@@ -1107,6 +1406,9 @@ func _cancel_strike(reason := "Interrupted", recover_charge := false) -> void:
 	_strike_ability = null
 	_strike_sweep = null
 	_paired_sweep = null
+	_contact_session = null
+	_contact_cleave = null
+	_paired_contact_cleave = null
 	_strike_clip = null
 	_strike_animation = &""
 	_strike_chain_stage = 1
@@ -1118,9 +1420,11 @@ func _cancel_strike(reason := "Interrupted", recover_charge := false) -> void:
 	_paired_last_blade.clear()
 	_strike_remaining = 0.0
 	_light_buffer = 0.0
-	_attack_intent = false
+	_clear_mace_followup()
+	_linked_charge_light_stage = 0
 	_charging_attack = false
 	_charge_duration = 0.0
+	_manual_charge_release_phase = INF
 	_attack_commit = 0.0
 	if is_instance_valid(_weapon):
 		_weapon.cancel_swing(recover_charge)
@@ -1197,11 +1501,16 @@ func _resolve_attack(heavy: bool, ability: Dictionary = {}, sweep: MeleeSweep = 
 	var first_weapon_contact := Vector3.INF
 	var first_weapon_travel := Vector3.ZERO
 	var first_weapon_type := weapon_type
+	var first_weapon_swing := &""
 	var first_weapon_critical := critical
 	for index in range(targets.size()):
 		var contact: Dictionary = targets[index]
 		var enemy: Node3D = contact.target
 		if not is_instance_valid(enemy) or not enemy.is_in_group("enemies"):
+			continue
+		var can_damage := bool(contact.get("can_damage", true))
+		var can_stagger := bool(contact.get("can_stagger", true))
+		if not can_damage and not can_stagger:
 			continue
 		var offhand: bool = is_melee and contact.get("weapon_hand", WeaponRoles.MAIN_HAND) == WeaponRoles.OFF_HAND
 		var contact_type := _offhand_type if offhand else weapon_type
@@ -1225,6 +1534,8 @@ func _resolve_attack(heavy: bool, ability: Dictionary = {}, sweep: MeleeSweep = 
 		var amount := _rng.randf_range(damage_min, damage_max) * contact_damage
 		var cleave_factor := WeaponRoles.secondary_damage_factor(contact_type) \
 			if weapon_ability and earlier_contacts + index > 0 else 1.0
+		var stagger_factor := float(contact.get("stagger_falloff", cleave_factor))
+		cleave_factor = float(contact.get("damage_falloff", cleave_factor))
 		var scalar := definition.damage_multiplier * damage_factor * cleave_factor
 		if heavy and is_melee:
 			scalar *= WeaponRoles.charged_damage_factor(contact_type)
@@ -1237,6 +1548,8 @@ func _resolve_attack(heavy: bool, ability: Dictionary = {}, sweep: MeleeSweep = 
 		if definition.hit_fx != null:
 			CombatVisuals.landed_hit(enemy, definition, enemy.to_local(contact.point))
 		var weapon_contact := WeaponRoles.contact(contact_type, contact_base, heavy, contact) if is_melee else {}
+		if not weapon_contact.is_empty():
+			weapon_contact.can_stagger = can_stagger
 		var damage_by_type := {primary_type: amount * scalar}
 		var spends_latch := heavy and legendary == LegendaryMelee.LATCHKNIFE and primary_type == "physical" \
 			and _legendary_melee.latch_is_ready(enemy)
@@ -1248,36 +1561,45 @@ func _resolve_attack(heavy: bool, ability: Dictionary = {}, sweep: MeleeSweep = 
 				damage_by_type[element] = float(damage_by_type.get(element, 0.0)) + added * scalar
 		var staff_contact := is_staff and weapon_type == "staff"
 		var previously_chilled := staff_contact and _caster_legendaries.was_chilled(enemy)
-		var hit: Dictionary = enemy.take_hit(damage_by_type, self, contact.point, contact.direction, weapon_contact)
-		var dealt: float = hit.dealt
-		var made_contact: bool = dealt > 0.0 or hit.glancing
-		if heavy and is_melee and dealt > 0.0 and enemy.health > 0.0 \
+		var hit: Dictionary = enemy.take_hit(damage_by_type, self, contact.point, contact.direction, weapon_contact) \
+			if can_damage else {}
+		var dealt := float(hit.get("dealt", 0.0))
+		var made_contact := dealt > 0.0 or bool(hit.get("glancing", false)) or (not can_damage and can_stagger)
+		if can_stagger and heavy and is_melee and made_contact and enemy.health > 0.0 \
 				and WeaponRoles.is_blunt_contact(weapon_contact):
-			enemy.receive_blunt_knockback(contact.direction, dealt, weapon_contact)
-		heal(dealt * float(stats.life_leech) * 0.01 + (1.0 if effects.has("bloodletting") else 0.0))
+			var force := dealt
+			if contact.has("stagger_falloff") or not can_damage:
+				force = amount * definition.damage_multiplier * damage_factor * stagger_factor * level_factor
+			enemy.receive_blunt_knockback(contact.direction, force, weapon_contact)
+		if can_damage:
+			heal(dealt * float(stats.life_leech) * 0.01 + (1.0 if effects.has("bloodletting") else 0.0))
 		if weapon_ability and dealt > 0.0 and not _weapon_card_landed:
 			_weapon_card_landed = true
 			card_effects.weapon_landed()
-		if weapon_ability and made_contact:
+		if weapon_ability and made_contact and not bool(contact.get("stops_weapon", false)):
 			if weapon_hits == 0:
 				if earlier_contacts == 0:
 					_weapon.react_to_impact(false, float(contact.get("phase", -1.0)))
 				first_weapon_contact = contact.point
 				first_weapon_travel = contact.direction
-				first_weapon_type = contact_type
+				var shake_offhand: bool = is_melee and contact.get("weapon_hand", _strike_hand) == WeaponRoles.OFF_HAND
+				first_weapon_type = _offhand_type if shake_offhand else contact_type
+				first_weapon_swing = _hit_shake_swing(shake_offhand)
 				first_weapon_critical = contact_critical
 			weapon_hits += 1
-		struck.emit(enemy, dealt, contact_critical)
-		report_enemy_hit(enemy, contact.point, hit, ability, contact_critical, level_factor <= 0.5)
+		if can_damage:
+			struck.emit(enemy, dealt, contact_critical)
+			report_enemy_hit(enemy, contact.point, hit, ability, contact_critical, level_factor <= 0.5)
 		if staff_contact and dealt > 0.0 and _caster_legendaries.on_staff_hit(self, enemy, hit, previously_chilled):
 			active_statuses_changed.emit()
 		var stunned := false
-		if stun_buildup > 0.0 and made_contact and enemy.health > 0.0:
-			stunned = enemy.receive_stun_impact(stun_buildup * cleave_factor, self, ability)
+		if can_stagger and stun_buildup > 0.0 and made_contact and enemy.health > 0.0:
+			stunned = enemy.receive_stun_impact(stun_buildup * stagger_factor, self, ability)
 		if is_melee and dealt > 0.0 and (legendary != &"" or _legendary_melee.has_pair):
 			_apply_legendary_melee(enemy, contact, legendary, offhand, heavy, stunned, spends_latch, strike_outcome)
-		HitEffects.apply_on_hit(definition.on_hit_effects, enemy, float(hit.physical), dealt, self, ability, _rng,
-			base_physical_damage)
+		if can_damage:
+			HitEffects.apply_on_hit(definition.on_hit_effects, enemy, float(hit.physical), dealt, self, ability, _rng,
+				base_physical_damage)
 		if reflected and dealt > 0.0:
 			var returned := DamageResolution.hit(_mitigate_incoming_damage(
 				dealt * _incoming_level_multiplier(enemy, {}), "physical"))
@@ -1289,11 +1611,13 @@ func _resolve_attack(heavy: bool, ability: Dictionary = {}, sweep: MeleeSweep = 
 			if _dead:
 				_combat_defeat()
 				return
-	if weapon_hits > 0 and _camera_feedback != null and not bool(strike_outcome.get("camera_kicked", false)):
+	var has_breakthrough_shake := not streamed or heavy or first_weapon_type != "mace_2h"
+	if weapon_hits > 0 and has_breakthrough_shake and _camera_feedback != null \
+			and not bool(strike_outcome.get("camera_kicked", false)):
 		if streamed:
 			strike_outcome.camera_kicked = true
 		_camera_feedback.present_weapon_impact(first_weapon_contact, first_weapon_travel, first_weapon_type,
-			heavy, weapon_hits, first_weapon_critical)
+			heavy, weapon_hits, first_weapon_critical, first_weapon_swing)
 	if earlier_contacts == 0 and heavy and effects.has("ashwake"):
 		_fire_burst(targets[0].point)
 	if earlier_contacts == 0 and effects.has("stormcall") and _storm_hits % 4 == 0:
@@ -1442,18 +1766,30 @@ func _melee_limit(heavy: bool) -> int:
 func _present_melee_terrain(heavy: bool, sweep: MeleeSweep, broken_prop_point: Vector3) -> void:
 	var wall := sweep.terrain_contact()
 	var broke_prop := broken_prop_point.is_finite()
-	if not broke_prop and not wall.is_empty():
-		var surface := &"stone"
-		var collider_id := int(wall.get("collider_id", 0))
-		var collider := instance_from_id(collider_id) if collider_id != 0 else null
-		if is_instance_valid(collider):
-			surface = collider.get_meta(&"impact_surface", &"stone")
+	if not broke_prop and wall.is_empty():
+		return
+	var surface := &"breakable" if broke_prop else _melee_surface(wall)
+	if not broke_prop:
 		CombatImpact.world(self, wall.point, wall.normal, surface)
-	if broke_prop or not wall.is_empty():
-		_weapon.react_to_impact(true)
-		if heavy and _camera_feedback != null:
-			var point: Vector3 = broken_prop_point if broke_prop else wall.point
-			_camera_feedback.present_charged_surface_impact(point, weapon_type.ends_with("2h"))
+	_weapon.react_to_impact(true)
+	if _camera_feedback != null:
+		var point: Vector3 = broken_prop_point if broke_prop else wall.point
+		var hand := WeaponRoles.OFF_HAND if sweep == _paired_sweep else _strike_hand
+		if broke_prop:
+			hand = _clip_outcome.get("broken_prop_hand", hand)
+		var offhand := hand == WeaponRoles.OFF_HAND
+		var strike_type := _offhand_type if offhand else weapon_type
+		_camera_feedback.present_surface_impact(point, strike_type, surface, heavy, _hit_shake_swing(offhand))
+
+
+func _hit_shake_swing(offhand: bool) -> StringName:
+	return WeaponHitShake.motion_id(_weapon.clip_for_hand(_strike_animation, offhand), offhand)
+
+
+func _melee_surface(contact: Dictionary) -> StringName:
+	var collider_id := int(contact.get("collider_id", 0))
+	var collider := instance_from_id(collider_id) if collider_id != 0 else null
+	return collider.get_meta(&"impact_surface", &"stone") if is_instance_valid(collider) else &"stone"
 
 
 func _staff_targets(heavy: bool) -> Array[Dictionary]:
@@ -1484,8 +1820,9 @@ func _staff_targets(heavy: bool) -> Array[Dictionary]:
 	_draw_arc(_weapon.staff_origin(origin + direction * 0.65 + aim.basis.x * 0.33), end,
 		Color("#9bdad2"))
 	if enemy == null:
-		if heavy and not hit.is_empty() and _camera_feedback != null:
-			_camera_feedback.present_charged_surface_impact(end, false)
+		if not hit.is_empty() and _camera_feedback != null:
+			var surface := &"breakable" if collider is BreakableProp else _melee_surface(hit)
+			_camera_feedback.present_surface_impact(end, "staff", surface, heavy, _strike_animation)
 		return result
 	result.append({"target": enemy, "point": end, "direction": origin.direction_to(end)})
 	if heavy:

@@ -15,12 +15,19 @@ const SoundCue = preload("res://systems/sound_cue.gd")
 @export var unarmed_swing: SoundCue
 
 @export_group("Combat")
+## Player hit confirmation when an attack deals positive damage. Heavier weapons play it lower and louder.
 @export var hit: SoundCue
+## Feedback on a damaging hit received by the player.
 @export var player_hit: SoundCue
+## Guard contact, including hits that exhaust Stamina and break guard.
 @export var block: SoundCue
+## One-shot at the release of a player spell or staff cast.
 @export var spell_cast: SoundCue
+## Player feedback when an enemy is defeated.
 @export var kill: SoundCue
+## Player defeat cue, including the Training Ground reset.
 @export var death: SoundCue
+## Reserved catalogue cue for a drink event.
 @export var drink: SoundCue
 
 @export_group("Movement")
@@ -32,19 +39,23 @@ const SoundCue = preload("res://systems/sound_cue.gd")
 @export var jump: SoundCue
 ## Weight returning to the ground after genuine airtime.
 @export var land: SoundCue
-
-@export_group("Expedition")
 ## Fallback when the walk or sprint cue has no playable clip.
 @export var step: SoundCue
+
+@export_group("Travel and Loot")
+## Travel cue for portal transitions, including entering and leaving the Training Ground.
 @export var portal: SoundCue
-@export var chest: SoundCue
+## Loot feedback used for pickups and unlocked rewards.
 @export var loot: SoundCue
-@export var complete: SoundCue
 
 @export_group("Equipment and Trade")
+## Generic sound for a completed purchase or sale. Inventory interactions may use their item placement cue.
 @export var trade: SoundCue
+## Confirms a completed crafting transaction.
 @export var craft: SoundCue
+## Equipment change confirmation outside the inventory grid.
 @export var equip: SoundCue
+## Feedback when an action fails or a requirement blocks it.
 @export var error: SoundCue
 
 @export_group("Item Handling")
@@ -118,20 +129,16 @@ const SoundCue = preload("res://systems/sound_cue.gd")
 @export var card_use_summon: SoundCue
 
 @export_group("Breakables")
+## Spatial cue played at a wooden crate when it breaks.
 @export var crate_break: SoundCue
+## Spatial cue shared by breakable pottery and ceramic urns.
 @export var pottery_break: SoundCue
 
-@export_group("Trap Warnings and Bursts")
-@export var spike_plate_warning: SoundCue
-@export var spike_plate_burst: SoundCue
-@export var ember_vent_warning: SoundCue
-@export var ember_vent_burst: SoundCue
-@export var miasma_vent_warning: SoundCue
-@export var miasma_vent_burst: SoundCue
-
 @export_group("Ambience")
+## Loop while in Cinderhold Refuge. Playback uses the first assigned clip and crossfades on zone changes.
 @export var hub_ambience: SoundCue
-@export var dungeon_ambience: SoundCue
+## Loop in the Training Ground. Playback uses the first assigned clip and crossfades on zone changes.
+@export var training_ambience: SoundCue
 
 
 func sound_for(event: StringName) -> SoundCue:

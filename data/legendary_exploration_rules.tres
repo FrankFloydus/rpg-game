@@ -1,7 +1,0 @@
-[gd_resource type="Resource" format=3]
-
-[ext_resource type="Script" path="res://data/legendary_exploration_rules.gd" id="1"]
-
-[resource]
-resource_name = "Legendary Exploration Effects"
-script = ExtResource("1")

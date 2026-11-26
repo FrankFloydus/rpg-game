@@ -27,6 +27,7 @@ var _source: Control
 var _tile: Grid.DragTile
 var _consume_release := false
 var _outline := Rect2()
+var _swap_outline := Rect2()
 var _outline_valid := false
 var _mouse := Vector2.ZERO
 var _split_grid: Grid
@@ -106,9 +107,7 @@ func _refresh_pointer() -> void:
 	elif get_viewport().gui_is_dragging():
 		var data: Variant = get_viewport().gui_get_drag_data()
 		if data is Dictionary and data.get("inventory_item") == true:
-			var grid := edge_drop_target(_mouse, data)
-			var valid := grid != null and grid.preview_grid_drop(_local(grid, _mouse), data).is_empty()
-			_update_drop_outline(grid, _mouse, data, valid)
+			_update_drop_outline(edge_drop_target(_mouse, data), _mouse, data)
 
 
 func _input(event: InputEvent) -> void:
@@ -184,6 +183,8 @@ func _input(event: InputEvent) -> void:
 func _draw() -> void:
 	if _outline.has_area():
 		Appearance.paint_drop(self, _outline, Appearance.LIVE, _outline_valid)
+	if _swap_outline.has_area():
+		Appearance.paint_swap(self, _swap_outline, Appearance.LIVE)
 
 
 func _begin_identification(at: Vector2) -> bool:
@@ -263,7 +264,7 @@ func _data_at(target: Control, viewport_position: Vector2) -> Dictionary:
 	return {"inventory_item": true, "id": id, "source": "equipment", "size": extent}
 
 
-func _pick_up(target: Control, data: Dictionary, viewport_position: Vector2) -> void:
+func _pick_up(target: Control, data: Dictionary, viewport_position: Vector2, play_grab := true) -> void:
 	var was_holding := is_holding()
 	if was_holding:
 		_mark_source(&"")
@@ -285,7 +286,8 @@ func _pick_up(target: Control, data: Dictionary, viewport_position: Vector2) -> 
 	_update_preview(viewport_position)
 	_refresh_slot_fit(_carried)
 	if not was_holding:
-		InventorySounds.grab(self)
+		if play_grab:
+			InventorySounds.grab(self)
 		holding_changed.emit(true)
 
 
@@ -300,6 +302,7 @@ func _clear_carry() -> bool:
 		return false
 	_carried = {}
 	_outline = Rect2()
+	_swap_outline = Rect2()
 	_mark_source(&"")
 	_source = null
 	if is_instance_valid(_tile):
@@ -342,7 +345,7 @@ func _notification(what: int) -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_refresh_slot_fit(_carried)
 		if not is_holding():
-			_update_drop_outline(null, _mouse, {}, false)
+			_update_drop_outline(null, _mouse, {})
 
 
 ## This control handles native drops in the gutter, where ordinary GUI hit testing misses the grid.
@@ -368,42 +371,42 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 
 func _update_preview(viewport_position: Vector2) -> void:
 	_tile.position = _local(self, viewport_position) - _tile.size * 0.5
-	var target := _carry_target_at(viewport_position) as Grid
-	var valid := target != null and _grid_drop_denial(target, _local(target, viewport_position)).is_empty()
-	_update_drop_outline(target, viewport_position, _carried, valid)
+	_update_drop_outline(_carry_target_at(viewport_position) as Grid, viewport_position, _carried)
 
 
-func _update_drop_outline(target: Grid, viewport_position: Vector2, data: Dictionary, valid: bool) -> void:
+func _update_drop_outline(target: Grid, viewport_position: Vector2, data: Dictionary) -> void:
 	var outline := Rect2()
+	var swap := Rect2()
+	var valid := false
 	if target != null:
 		var local_position := _local(target, viewport_position)
 		var cells := target.drop_cells(local_position, data["size"])
 		if data.get("identify", false):
+			valid = target.endpoint == "bag" and _inventory.preview_identify(data.id, target.item_at(local_position)).is_empty()
 			var placement := _inventory.get_grid(target.endpoint).get_placement(target.item_at(local_position))
 			if not placement.is_empty():
 				cells = Rect2i(placement.origin, placement.footprint)
-		var pixels := Rect2(Vector2(cells.position * target.cell_size), Vector2(cells.size * target.cell_size))
-		var viewport_rect := (target.get_global_transform_with_canvas() * pixels).intersection(_target_rect(target))
-		outline = get_global_transform_with_canvas().affine_inverse() * viewport_rect
-	if _outline != outline or _outline_valid != valid:
+		elif data.has("split_units"):
+			valid = _split_drop(target, local_position, false).is_empty()
+		else:
+			var plan := target.preview_grid_cursor_drop(cells, data)
+			valid = plan.denial.is_empty()
+			if valid:
+				swap = _outline_rect(target, target.swap_cells(cells, plan.displaced))
+		outline = _outline_rect(target, cells)
+	if _outline != outline or _swap_outline != swap or _outline_valid != valid:
 		_outline = outline
+		_swap_outline = swap
 		_outline_valid = valid
 		queue_redraw()
 
 
-func _grid_drop_denial(target: Grid, local_position: Vector2) -> String:
-	var id: StringName = _carried["id"]
-	var source: String = _carried["source"]
-	if _carried.get("identify", false):
-		if target.endpoint == "bag":
-			return _inventory.preview_identify(id, target.item_at(local_position))
-		return "Choose an unidentified item in your pack."
-	if _carried.has("split_units"):
-		return _split_drop(target, local_position, false)
-	if source == "bag" and target.endpoint == "bag":
-		var origin := target.drop_cells(local_position, _carried["size"]).position
-		return _inventory.preview_backpack_cursor_drop(id, origin)
-	return target.preview_grid_drop(local_position, _carried)
+func _outline_rect(target: Grid, cells: Rect2i) -> Rect2:
+	if not cells.has_area():
+		return Rect2()
+	var pixels := Rect2(Vector2(cells.position * target.cell_size), Vector2(cells.size * target.cell_size))
+	var viewport_rect := (target.get_global_transform_with_canvas() * pixels).intersection(_target_rect(target))
+	return get_global_transform_with_canvas().affine_inverse() * viewport_rect
 
 
 func _drop_on(target: Control, view_position: Vector2) -> void:
@@ -479,11 +482,15 @@ func _split_drop(target: Control, at: Vector2, commit: bool) -> String:
 	return _inventory.preview_split(source, id, count, target.endpoint, origin)
 
 
-func _hold_displaced(target: Grid, placement: Dictionary, view_position: Vector2) -> void:
+func adopt_native_swap(placement: Dictionary, view_position: Vector2, target: Grid) -> void:
+	_hold_displaced(target, placement, view_position, false)
+
+
+func _hold_displaced(target: Grid, placement: Dictionary, view_position: Vector2, play_grab := true) -> void:
 	_pick_up(target, {
 		"inventory_item": true, "id": placement.id, "source": "bag",
 		"size": Grid._extent(placement),
-	}, view_position)
+	}, view_position, play_grab)
 
 
 func _outside_panel(viewport_position: Vector2) -> bool:

@@ -1,6 +1,6 @@
 extends Node
 
-## Crossfaded exploration ambience and layered game cues from the sound catalogue.
+## Crossfaded area ambience and layered game cues from the sound catalogue.
 
 const SILENCE_DB := -60.0
 const FADE_SECONDS := 1.15
@@ -9,7 +9,7 @@ const SoundCue = preload("res://systems/sound_cue.gd")
 const ItemBases := preload("res://data/items/bases.gd")
 const Supplies := preload("res://systems/pack_supplies.gd")
 const CardItems := preload("res://systems/card_items.gd")
-const ZONES: Array[StringName] = [&"hub", &"dungeon"]
+const ZONES: Array[StringName] = [&"hub", &"training"]
 
 var _zone: StringName = &"hub"
 var _active_zone: StringName
@@ -155,7 +155,7 @@ func _crossfade(zone: StringName) -> void:
 	if _fade != null:
 		_fade.kill()
 	var incoming: AudioStreamPlayer = _ambient.get(zone)
-	var outgoing: AudioStreamPlayer = _ambient.get(&"dungeon" if zone == &"hub" else &"hub")
+	var outgoing: AudioStreamPlayer = _ambient.get(&"training" if zone == &"hub" else &"hub")
 	if incoming == null and (outgoing == null or not outgoing.playing):
 		return
 	_fade = create_tween().set_parallel(true)
@@ -170,4 +170,4 @@ func _crossfade(zone: StringName) -> void:
 
 
 func _zone_sound(zone: StringName) -> SoundCue:
-	return Catalogue.sound_for(&"hub_ambience" if zone == &"hub" else &"dungeon_ambience")
+	return Catalogue.sound_for(&"hub_ambience" if zone == &"hub" else &"training_ambience")

@@ -1,7 +1,0 @@
-[gd_resource type="Resource" format=3]
-
-[ext_resource type="Script" path="res://data/expedition_rules.gd" id="1"]
-
-[resource]
-resource_name = "Expedition Rules"
-script = ExtResource("1")

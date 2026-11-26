@@ -2,7 +2,7 @@
 
 ## Start here
 
-Hearth Below is a first-person dark fantasy dungeon crawler built with Godot 4.7 and GDScript. Players select a named character, prepare in Cinderhold Refuge, and explore seeded expeditions with connected dungeon floors. Melee, casting, cards, grid inventory, loot, and progression share the same game systems between campaign play and the Training Ground.
+Hearth Below is a first-person dark fantasy action RPG built with Godot 4.7 and GDScript. Players manage their characters in Cinderhold Refuge and test combat in the Training Ground. Both locations use the same player, grid inventory, and equipment systems.
 
 The project root contains [project.godot](project.godot). [main.tscn](main.tscn) composes the game and [main.gd](main.gd) coordinates session transitions. Work in this tree and identify the affected owner before editing. Read the nearest AGENTS.md for each directory you touch and open the relevant reference guide below.
 
@@ -23,10 +23,10 @@ The project root contains [project.godot](project.godot). [main.tscn](main.tscn)
 | Player movement, weapon motion, melee, casting, enemy AI, animation, hit feedback | [Combat and player](docs/agents/combat-and-player.md) |
 | Inventory, merchant or stash screens, HUD, title, cards, Training Ground UI | [UI and inventory](docs/agents/ui-and-inventory.md) |
 | Workbench, balancing, loot data, definitions, adjustable properties | [Workbench and data](docs/agents/workbench-and-data.md) |
-| Generated rooms and routes, world props, lighting, models, textures, VFX or audio assets | [World and assets](docs/agents/world-and-assets.md) |
-| Character slots, saves, expedition lifecycle, reward history, deck and lifetime records | [Expeditions and saves](docs/agents/expeditions-and-saves.md) |
+| Authored locations and routes, world props, lighting, models, textures, VFX or audio assets | [World and assets](docs/agents/world-and-assets.md) |
+| Character slots, saves, character progression, deck and lifetime records | [Campaign and saves](docs/agents/campaign-and-saves.md) |
 
-[Model catalogue](MODEL_CATALOGUE.md) tracks authored models and provenance. [Dungeon and combat plan](COMBAT_AND_DUNGEON_PLAN.md) records earlier goals and evidence. Use current code, resources, and the task brief to establish today's behavior.
+[Model catalogue](MODEL_CATALOGUE.md) tracks authored models and provenance. Use current code, resources, and the task brief to establish today's behavior.
 
 ## Run and check
 

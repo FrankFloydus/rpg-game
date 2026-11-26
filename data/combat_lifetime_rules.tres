@@ -1,0 +1,7 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://data/combat_lifetime_rules.gd" id="1"]
+
+[resource]
+resource_name = "Combat Lifetime Rules"
+script = ExtResource("1")

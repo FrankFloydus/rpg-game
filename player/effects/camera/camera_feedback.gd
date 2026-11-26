@@ -1,20 +1,18 @@
 extends CanvasLayer
 ## Bridges Crimson Carnage's camera effects to Hearth Below's live player.
 
-enum ShakePriority { WEAPON = 1, BLOCK, DAMAGE, GUARD_BREAK }
+enum ShakePriority { WEAPON = 1, WEAPON_STOP, BLOCK, DAMAGE, GUARD_BREAK }
 
-const WeaponRoles = preload("res://combat/weapons/weapon_roles.gd")
+const WeaponHitShake := preload("res://data/weapon_hit_shake.gd")
+const DEFAULT_WEAPON_HIT_SHAKE := preload("res://data/weapon_hit_shake.tres")
 const SCREEN_BLOOD_RULES := preload("res://data/screen_blood_rules.tres")
-const LIGHT_WEAPON_KICK := 0.33
-const CHARGED_WEAPON_KICK := 1.15
-const TWO_HANDED_KICK_SCALE := 1.42
-const BLUNT_KICK_SCALE := 1.27
 
 @onready var _lens := $LensBlood
 @onready var _vignette := $DamageVignette
 @onready var _indicator := $DamageIndicator
 var _player: CharacterBody3D
 var _camera: FirstPersonCameraEffects
+var weapon_hit_shake: WeaponHitShake = DEFAULT_WEAPON_HIT_SHAKE
 var _impact_lean := 0.0
 var _combat_was_live := false
 var _death_splatter_delay := 0.0
@@ -76,31 +74,42 @@ func present_guard_impact(source: Vector3, fraction: float, broken: bool) -> voi
 
 
 func present_weapon_impact(point: Vector3, travel: Vector3, weapon_type: String, charged: bool,
-		hits: int, critical: bool) -> void:
+		hits: int, critical: bool, clip: StringName = &"") -> void:
+	_present_weapon_shake(point, travel, Vector3.ZERO, weapon_type, &"body", charged,
+		ShakePriority.WEAPON, hits, critical, clip)
+
+
+func present_surface_impact(point: Vector3, weapon_type: String, kind: StringName, charged: bool,
+		clip: StringName = &"") -> void:
+	_present_weapon_shake(point, Vector3.ZERO, Vector3.ZERO, weapon_type, kind, charged,
+		ShakePriority.WEAPON, 1, false, clip)
+
+
+func present_mace_contact(point: Vector3, travel: Vector3, normal: Vector3,
+		kind: StringName, charged: bool, clip: StringName = &"") -> void:
+	present_melee_contact(point, travel, normal, "mace_2h", kind, charged, clip, kind != &"breakable")
+
+
+func present_melee_contact(point: Vector3, travel: Vector3, normal: Vector3, weapon_type: String,
+		kind: StringName, charged: bool, clip: StringName, stopped: bool) -> void:
+	var priority := ShakePriority.WEAPON_STOP if stopped else ShakePriority.WEAPON
+	_present_weapon_shake(point, travel, normal, weapon_type, kind, charged, priority, 1, false, clip)
+
+
+func _present_weapon_shake(point: Vector3, travel: Vector3, normal: Vector3, weapon_type: String,
+		kind: StringName, charged: bool, priority: int, hits: int, critical: bool, clip: StringName) -> void:
 	var aim := _camera.aim_transform()
-	if not travel.is_finite() or travel.is_zero_approx():
-		travel = aim.origin.direction_to(point) if point.is_finite() else -aim.basis.z
-		if travel.is_zero_approx():
-			travel = -aim.basis.z
-	var direction := aim.basis.inverse() * travel.normalized()
-	var two_handed := weapon_type.ends_with("2h")
-	var blunt := WeaponRoles.family(weapon_type) == WeaponRoles.BLUNT
-	var force := CHARGED_WEAPON_KICK if charged else LIGHT_WEAPON_KICK
-	force *= TWO_HANDED_KICK_SCALE if two_handed else 1.0
-	force *= BLUNT_KICK_SCALE if blunt else 1.0
-	force *= 1.0 + 0.06 * clampi(hits - 1, 0, 2) + (0.09 if critical else 0.0)
-	# Pitch follows vertical and axial impacts. Yaw and roll follow the path across the view.
-	var kick := Vector3(direction.y * 0.92 + direction.z * 0.62,
-		-direction.x * 0.72, -direction.x * 0.89) * force
-	var duration := (0.19 if charged else 0.12) + (0.025 if two_handed else 0.0) + (0.04 if blunt else 0.0)
-	_camera.kick_combat_view(kick, duration, ShakePriority.WEAPON)
-
-
-func present_charged_surface_impact(point: Vector3, two_handed: bool) -> void:
-	var side := _impact_side(point)
-	var force := 1.0 if two_handed else 0.80
-	_camera.kick_combat_view(Vector3(1.12, side * 0.68, side * 1.10) * force, 0.16,
-		ShakePriority.WEAPON)
+	var direction := travel.normalized() if travel.is_finite() else Vector3.ZERO
+	var to_point := aim.origin.direction_to(point) if point.is_finite() else Vector3.ZERO
+	if direction.is_zero_approx():
+		direction = -aim.basis.z if to_point.is_zero_approx() else to_point
+	var world_to_aim := aim.basis.inverse()
+	var point_side := clampf(aim.basis.x.dot(to_point), -1.0, 1.0)
+	var kick := weapon_hit_shake.kick_degrees(weapon_type, kind, charged, world_to_aim * direction,
+		world_to_aim * normal, point_side, hits, critical, clip)
+	var peak := Vector3(kick.x, kick.y, kick.z)
+	if not peak.is_zero_approx():
+		_camera.kick_combat_view(peak, kick.w, priority, WeaponHitShake.pulse_for(weapon_type, kind, clip))
 
 
 func present_card_impact() -> void:

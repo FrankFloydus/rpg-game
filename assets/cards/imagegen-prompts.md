@@ -1,4 +1,4 @@
-# Expedition card illustration prompts
+# Card illustration prompts
 
 Generated with the built-in ImageGen tool using the game's Iron Crypt entrance and Oathbound Three gameplay captures as references.
 

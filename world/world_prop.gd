@@ -2,7 +2,6 @@ extends Node3D
 
 const Items = preload("res://systems/items.gd")
 const HeldModels := preload("res://data/items/held_item_models.gd")
-const COFFER = preload("res://world/props/coffer.tscn")
 const RETURN_PORTAL = preload("res://world/props/return_portal.tscn")
 const COINS = preload("res://world/props/coins.tscn")
 const TREASURE_KEY = preload("res://world/props/treasure_key.tscn")
@@ -30,9 +29,7 @@ var tint := Color("#f0dabd")
 var text := ""
 var _label: Label3D
 var _body: Node3D
-var _lid: Node3D
 var _label_size := 0.0025
-var _lid_angle := 0.0
 var _kind := ""
 var _loot_back: MeshInstance3D
 var _loot_back_size := Vector2.ZERO
@@ -51,9 +48,6 @@ func setup(data: Dictionary) -> void:
 	_kind = String(data.kind)
 	var appearance: Node3D
 	match _kind:
-		"chest":
-			appearance = COFFER.instantiate()
-			_configure_coffer(appearance)
 		"portal":
 			appearance = RETURN_PORTAL.instantiate()
 			margin = 1.0
@@ -74,8 +68,6 @@ func setup(data: Dictionary) -> void:
 	interaction_point = _label.position
 	_label.text = text
 	_label.modulate = tint
-	if _kind == "chest" and bool(data.get("opened", false)):
-		opened(false)
 
 
 func _process(delta: float) -> void:
@@ -100,8 +92,6 @@ func _process(delta: float) -> void:
 				_body.transform = _settled_body
 				_fall.queue_free()
 				_fall = null
-	elif _kind == "chest":
-		_lid.rotation.x = lerpf(_lid.rotation.x, _lid_angle, minf(1.0, delta * 12.0))
 
 
 func _set_up_ground_loot() -> void:
@@ -213,17 +203,8 @@ func animate_drop() -> void:
 	_fall_left = DROP_SECONDS
 
 
-func opened(animate := true) -> void:
-	payload.opened = true
-	_lid_angle = -1.17
-	if not animate:
-		_lid.rotation.x = _lid_angle
-	_label.hide()
-
-
 func pick_available() -> bool:
-	return not ((_kind == "chest" and bool(payload.get("opened", false)))
-		or (_kind == "loot" and payload.get("category") == "gold"))
+	return _kind != "loot" or payload.get("category") != "gold"
 
 
 func _loot_model() -> Node3D:
@@ -360,37 +341,6 @@ func _model_bounds(node: Node3D, parent_transform: Transform3D) -> AABB:
 			if child_bounds.has_volume():
 				bounds = bounds.merge(child_bounds) if bounds.has_volume() else child_bounds
 	return bounds
-
-
-func _configure_coffer(model: Node3D) -> void:
-	var locked := bool(payload.locked)
-	var guarded := bool(payload.get("guarded", false))
-	text = "Warded Reliquary" if guarded else ("Locked Coffer" if locked else "Treasure Coffer")
-	tint = Color("#d5b0df") if guarded else (Color("#e5ba72") if locked else Color("#e4c8a2"))
-	if int(payload.get("trial_waves", 0)) > 1:
-		text = "Trial Coffer"
-		tint = Color("#ec9476")
-	elif payload.get("challenge_type", "") == "submerged":
-		text = "Drowned Coffer"
-		for surface: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
-			for index in surface.mesh.get_surface_count():
-				var material := surface.get_active_material(index) as StandardMaterial3D
-				if material != null:
-					var stained := material.duplicate() as StandardMaterial3D
-					stained.albedo_color *= Color("#8bac93")
-					surface.set_surface_override_material(index, stained)
-	margin = 0.88
-	_lid = model.get_node("Lid")
-	_lid.get_node("Keyhole").visible = locked or guarded
-	if guarded or locked:
-		var binding := Color("#d0accf") if guarded else Color("#d7b38a")
-		for piece: MeshInstance3D in model.find_children("BindingIron*", "MeshInstance3D", true, false):
-			var iron := piece.get_active_material(0) as StandardMaterial3D
-			if iron == null:
-				continue
-			var variant := iron.duplicate() as StandardMaterial3D
-			variant.albedo_color = binding
-			piece.material_override = variant
 
 
 func _tint_materials(model: Node3D, group: StringName, color: Color) -> void:

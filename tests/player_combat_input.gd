@@ -4,7 +4,7 @@ extends SceneTree
 const Game = preload("res://main.tscn")
 const Items = preload("res://systems/items.gd")
 const StatusCatalog = preload("res://combat/effects/status_catalog.gd")
-const SpikePlate = preload("res://world/hazards/spike_plate.tscn")
+const WeaponView = preload("res://player/weapon_view.gd")
 const CARRION_BRUTE := 12
 
 var _game: Node3D
@@ -38,11 +38,12 @@ func _run() -> void:
 				"dodge_chance": 0.0, "mana_regen": 0.0}, true)
 			await _check_attacks()
 			await _check_charged_chain()
-			await _check_directional_chain("mace_2h", 0.25)
+			await _check_maul_combo()
 			await _check_directional_chain("axe_1h", 0.53)
 			await _check_directional_chain("axe_2h", 0.40)
 			await _check_directional_chain("sword_2h", 0.40)
 			await _check_guard()
+			await _check_mace_guard()
 			await _check_jump()
 			await _check_camera_impacts()
 			await _check_world_warnings()
@@ -195,6 +196,226 @@ func _wait_for_chain_input() -> void:
 		await _ticks(1)
 
 
+func _check_maul_combo() -> void:
+	var equipment: Dictionary = _player._equipment
+	var stats: Dictionary = _player.stats.duplicate()
+	_player.update_equipment({"main_hand": {"type": "mace_2h", "base_id": "quarry_maul"}})
+	_player.stats.merge(stats, true)
+	await _reset()
+	var releases: Array[StringName] = []
+	var record_swing := func(_message: String, event: String) -> void:
+		if event == "swing":
+			releases.append(_player._strike_animation)
+	_player.feedback.connect(record_swing)
+	for step in range(5):
+		await _wait_for_chain_input()
+		_mouse(MOUSE_BUTTON_LEFT, true)
+		_mouse(MOUSE_BUTTON_LEFT, false)
+		await _wait_for_damage_hits(step + 1, 100)
+	_check(releases == [&"light_left", &"light_right", &"light_down_left", &"light_down_right", &"light_left"]
+			and _damage_hits() == 5,
+		"The default Quarry Maul light chain hits left, right, down left, down right, then wraps")
+	await _check_maul_buffer()
+	await _reset()
+	releases.clear()
+	var charges: Array[StringName] = []
+	for step in range(2):
+		await _wait_for_chain_input()
+		Input.action_press("attack")
+		for _frame in 140:
+			await _ticks(1)
+			if _player.attack_charge_fraction() > 0.10:
+				break
+		charges.append(_player._weapon._main_animation.current_animation)
+		await _wait_for_damage_hits(step + 1, 110)
+		Input.action_release("attack")
+		await _ticks(1)
+	_check((releases == [&"heavy_left", &"heavy_right"] and charges == [&"charge_left", &"charge_right"]
+		or releases == [&"heavy_right", &"heavy_left"] and charges == [&"charge_right", &"charge_left"])
+		and _damage_hits() == 2, "The default Quarry Maul holds into alternating directional charge and release pairs")
+	_player.feedback.disconnect(record_swing)
+	await _check_strafe_charge("mace_2h", 0.25)
+	await _check_mace_surge()
+	await _check_mace_wall_stops()
+	_player.update_equipment(equipment)
+	_player.stats.merge(stats, true)
+
+
+func _check_mace_surge() -> void:
+	await _reset()
+	var floor_height: float = _game.training_ground.spawn_position.y
+	var start := Vector3(0.0, floor_height, 0.6)
+	_player.place_at(start)
+	await _ticks(3)
+	Input.action_press("forward")
+	await _ticks(19)
+	var walking_speed := _planar_speed()
+	_mouse(MOUSE_BUTTON_LEFT, true)
+	_mouse(MOUSE_BUTTON_LEFT, false)
+	var slowest := walking_speed
+	var fastest := walking_speed
+	for _frame in 32:
+		await _ticks(1)
+		var speed := _planar_speed()
+		slowest = minf(slowest, speed)
+		fastest = maxf(fastest, speed)
+	_check(walking_speed > 1.0 and slowest < walking_speed * 0.60
+		and fastest > walking_speed * 1.30 and fastest < walking_speed * 1.41
+		and is_equal_approx(_planar_speed(), walking_speed) and _player.velocity.z < 0.0,
+		"The Maul light tap braces, surges in the held direction, and regains ordinary speed after the cut")
+	Input.action_release("forward")
+
+	await _reset()
+	_player.place_at(start)
+	await _ticks(3)
+	var stationary_start: Vector3 = _player.global_position
+	Input.action_press("attack")
+	for _frame in 160:
+		await _ticks(1)
+		if _player._clip_released:
+			break
+	var released: bool = _player._strike_heavy and _player._clip_released
+	Input.action_release("attack")
+	await _ticks(32)
+	var displacement: Vector3 = _player.global_position - stationary_start
+	_check(released and Vector2(displacement.x, displacement.z).length() < 0.001,
+		"A full Maul charge and release from rest causes no horizontal movement without a direction input")
+
+
+func _check_mace_wall_stops() -> void:
+	var arena: Node3D = _game.training_ground
+	var pillar: Node3D = arena.get_node("EastPillar/StaticBody3D2")
+	var stand := pillar.global_position + Vector3.FORWARD * 2.31
+	stand.y = arena.spawn_position.y
+	var clips: Array[StringName] = [&"light_right", &"light_left", &"light_down_left", &"light_down_right",
+		&"heavy_right", &"heavy_left"]
+	for stage in clips.size():
+		var heavy := stage >= 4
+		var clip := clips[stage]
+		var authored: Animation = _player._weapon._main_animation.get_animation(clip)
+		var at := await _mace_wall_stop_time(stand, PI, stage - 3 if heavy else stage + 1, heavy, clip)
+		var earliest := &"Impact" if heavy else &"Terrain Start"
+		_check(authored.has_marker(&"Terrain Start")
+			and at >= authored.get_marker_time(earliest) - 0.001
+			and at <= authored.get_marker_time(&"Impact") + 0.033,
+			"%s catches a close pillar during the principal cut (%.3fs)" % [clip, at])
+		if heavy:
+			var manual := await _mace_wall_stop_time(stand, PI, stage - 3, true, clip, true)
+			_check(manual >= authored.get_marker_time(&"Impact") - 0.001
+				and manual <= authored.get_marker_time(&"Impact") + 0.033,
+				"%s released at Heavy Ready waits for Impact against the close pillar (%.3fs)" % [clip, manual])
+	var side := await _mace_wall_stop_time(stand, PI + deg_to_rad(70.0), 2, false, &"light_left")
+	_check(side < 0.0, "The left opener carries through a pillar beside its armed cut")
+
+
+func _mace_wall_stop_time(stand: Vector3, heading: float, stage: int, heavy: bool, clip: StringName,
+		manual := false) -> float:
+	_player.place_at(stand, heading)
+	_player.restore_full()
+	await _ticks(4)
+	_player._next_chain_stage = stage
+	_player._chain_time_left = 1.0
+	_mouse(MOUSE_BUTTON_LEFT, true)
+	if not heavy:
+		_mouse(MOUSE_BUTTON_LEFT, false)
+	var view: WeaponView = _player._weapon
+	var length := view._main_animation.get_animation(clip).length
+	var at := -1.0
+	for _frame in (150 if heavy else 45):
+		await _ticks(1)
+		if (manual and _player._charging_attack
+				and _player.attack_charge_fraction() >= _player._manual_charge_release_phase):
+			_mouse(MOUSE_BUTTON_LEFT, false)
+		if _player._strike_animation != clip:
+			continue
+		if view._mace_rebound_duration > 0.0:
+			at = view._display_phase * length
+			break
+		if not _player._strike_pending:
+			break
+	if heavy:
+		_mouse(MOUSE_BUTTON_LEFT, false)
+	return at
+
+
+func _check_maul_buffer() -> void:
+	await _reset()
+	_mouse(MOUSE_BUTTON_LEFT, true)
+	_mouse(MOUSE_BUTTON_LEFT, false)
+	await _ticks(2)
+	_mouse(MOUSE_BUTTON_LEFT, true)
+	_mouse(MOUSE_BUTTON_LEFT, false)
+	_check(_player._mace_followup_time > 0.0, "The mace captures a fresh tap during windup")
+	await _ticks(64)
+	_check(_player._mace_followup_time == 0.0 and _damage_hits() == 1,
+		"An isolated early tap expires before the late gate and does not become a second swing")
+
+	await _reset()
+	var view: Node3D = _player._weapon
+	var animator: AnimationPlayer = view._main_animation
+	var down_right := animator.get_animation(&"light_down_right")
+	var old_gate := down_right.get_marker_time(&"Input Buffer")
+	var old_gate_color := down_right.get_marker_color(&"Input Buffer")
+	down_right.remove_marker(&"Input Buffer")
+	down_right.add_marker(&"Input Buffer", down_right.length)
+	var expected: Array[StringName] = [&"light_left", &"light_right", &"light_down_left", &"light_down_right", &"light_left"]
+	var starts: Array[StringName] = []
+	var no_idle := true
+	var used_linked_entries := true
+	var respected_gates := true
+	var wrapped_from_follow_through := false
+	for frame in 300:
+		if frame % 5 == 0:
+			_mouse(MOUSE_BUTTON_LEFT, true)
+			_mouse(MOUSE_BUTTON_LEFT, false)
+		var before: float = _player._current_clip_time() if _player._strike_clip != null else 0.0
+		var gate: float = _player._mace_light_link_time() if _player._strike_clip != null else 0.0
+		var outgoing_pose: Vector3 = view._main_pose.position
+		await _ticks(1)
+		var current: StringName = _player._strike_animation
+		if current.is_empty():
+			continue
+		if not starts.is_empty() and animator.current_animation == &"idle":
+			no_idle = false
+		if not starts.is_empty() and starts.back() == current:
+			continue
+		if not starts.is_empty():
+			used_linked_entries = used_linked_entries and _player._clip_combo_entry > 0.0 \
+				and _player._current_clip_time() < _player._clip_combo_entry
+			respected_gates = respected_gates and before >= gate - 0.04
+			if starts.back() == &"light_down_right" and current == &"light_left":
+				wrapped_from_follow_through = outgoing_pose.distance_to(Vector3(0.3581149, -0.2349171, -0.4627408)) > 0.10
+		starts.append(current)
+		if starts.size() == expected.size():
+			break
+	down_right.remove_marker(&"Input Buffer")
+	down_right.add_marker(&"Input Buffer", old_gate)
+	down_right.set_marker_color(&"Input Buffer", old_gate_color)
+	_check(starts == expected and no_idle and used_linked_entries and wrapped_from_follow_through,
+		"Mashing taps links all four mace swings back to Left with no idle, even at a clip-end gate")
+	_check(respected_gates, "Linked mace swings honor the outgoing gate and preserve the incoming attack clock")
+
+	await _reset()
+	_mouse(MOUSE_BUTTON_LEFT, true)
+	_mouse(MOUSE_BUTTON_LEFT, false)
+	for frame in 50:
+		await _ticks(1)
+		if _player._current_clip_time() >= 0.52:
+			break
+	_mouse(MOUSE_BUTTON_LEFT, true)
+	for frame in 50:
+		await _ticks(1)
+		if _player._charging_attack:
+			break
+	_check(_player._charging_attack and _player._strike_animation == &"heavy_right"
+		and _player._mace_followup_time == 0.0 and _player._weapon._main_transition_channels.size() > 0,
+		"A fresh held press opens the right charge at the mace link and bridges from the outgoing pose")
+	_mouse(MOUSE_BUTTON_LEFT, false)
+	await _ticks(3)
+	_check(_player._strike_animation == &"light_right" and not _player._charging_attack,
+		"Releasing the linked windup early keeps the queued light stage")
+
+
 func _check_directional_chain(weapon_type: String, move_limit: float) -> void:
 	var equipment: Dictionary = _player._equipment
 	var stats: Dictionary = _player.stats.duplicate()
@@ -261,6 +482,7 @@ func _check_directional_chain(weapon_type: String, move_limit: float) -> void:
 
 func _check_strafe_charge(weapon_type: String, move_limit: float) -> void:
 	var target_origin: Vector3 = _target.global_position
+	var is_maul := weapon_type == "mace_2h"
 	var lateral_hits: Array[float] = []
 	var record_contact := func(enemy: Node3D, _amount: float, _critical: bool) -> void:
 		if _player._strike_sweep == null:
@@ -274,13 +496,15 @@ func _check_strafe_charge(weapon_type: String, move_limit: float) -> void:
 		_target.global_position = target_origin
 		await _reset()
 		lateral_hits.clear()
-		# A pending overhead strike makes each directional override observable.
+		# A pending third combo stage exercises the directional override.
 		_player._next_chain_stage = 3
 		_player._chain_time_left = 1.0
 		var strafe := &"left" if index == 0 else &"right"
 		var reverse := &"right" if index == 0 else &"left"
-		var charge_clip := &"charge_2" if index == 0 else &"charge"
-		var strike_clip := &"heavy_2" if index == 0 else &"heavy"
+		var charge_names := [&"charge_left", &"charge_right"] if is_maul else [&"charge_2", &"charge"]
+		var strike_names := [&"heavy_left", &"heavy_right"] if is_maul else [&"heavy_2", &"heavy"]
+		var charge_clip: StringName = charge_names[index]
+		var strike_clip: StringName = strike_names[index]
 		var strafe_sign := -1.0 if index == 0 else 1.0
 		Input.action_press(strafe)
 		await _ticks(8)
@@ -297,6 +521,11 @@ func _check_strafe_charge(weapon_type: String, move_limit: float) -> void:
 		_check(walk_speed > 1.0 and _planar_speed() > walk_speed * 0.65,
 			"Charging %s eases into its movement penalty" % weapon_type)
 		await _ticks(13)
+		if is_maul:
+			for _frame in 24:
+				if _player.attack_charge_fraction() >= 0.34:
+					break
+				await _ticks(1)
 		_check(absf(_planar_speed() / walk_speed - move_limit) < 0.07,
 			"A loaded %s reduces strafe speed to %.0f%%" % [weapon_type, move_limit * 100.0])
 		Input.action_release(strafe)
@@ -308,12 +537,33 @@ func _check_strafe_charge(weapon_type: String, move_limit: float) -> void:
 		_check(held_through_neutral and _player.attack_charge_fraction() > 0.0 and _player._strike_animation == strike_clip
 			and _player._weapon._main_animation.current_animation == charge_clip,
 			"Releasing or reversing strafe mid-charge leaves the displayed pose and traced attack latched")
+		if is_maul:
+			for _frame in 80:
+				if not _player._charging_attack:
+					break
+				await _ticks(1)
 		_target.global_position = Vector3(_player.global_position.x, target_origin.y, _player.global_position.z) \
 			- _player.global_basis.z * 1.6
-		await _wait_for_damage_hits(1, 80)
-		_check(_damage_hits() == 1 and _player._next_chain_stage == 3 - index
-			and _planar_speed() < walk_speed * (move_limit + 0.10),
-			"The latched %s swing lands while planted and advances from the stage it used" % weapon_type)
+		if is_maul:
+			# Place the target in the reversed strafe's path at the cut.
+			_target.global_position -= _player.global_basis.x * strafe_sign * 0.4
+			var peak_lateral_speed := 0.0
+			for _frame in 30:
+				if not _player._strike_pending:
+					break
+				await _ticks(1)
+				var lateral_speed: float = _player.global_basis.x.dot(_player.velocity) * -strafe_sign
+				peak_lateral_speed = maxf(peak_lateral_speed, lateral_speed)
+			_check(peak_lateral_speed > walk_speed * 1.30,
+				"The charged Maul surges in the current strafe direction even after the swing direction has latched")
+		else:
+			await _wait_for_damage_hits(1, 80)
+		var next_stage := index + 1 if is_maul else 3 - index
+		_check(_damage_hits() == 1 and _player._next_chain_stage == next_stage,
+			"The latched %s swing lands and advances from the stage it used" % weapon_type)
+		if not is_maul:
+			_check(_planar_speed() < walk_speed * (move_limit + 0.10),
+				"The latched %s swing lands while planted" % weapon_type)
 		_check(lateral_walk * strafe_sign > 1.0 and lateral_hits.size() == 1
 			and lateral_hits[0] * strafe_sign > 0.20,
 			"Strafing %s with %s launches a traced swing that travels %s" % [strafe, weapon_type, strafe])
@@ -338,11 +588,15 @@ func _check_strafe_charge(weapon_type: String, move_limit: float) -> void:
 		- _player.global_basis.z * 1.6
 	Input.action_release("attack")
 	_mouse(MOUSE_BUTTON_LEFT, false)
-	_check(_player._strike_animation == &"light_2" and _player.attack_charge_fraction() == 0.0
-		and _player._weapon._transition_remaining == 0.0 and _damage_hits() == 0,
-		"Releasing a leftward %s charge keeps the side and immediately enters its light" % weapon_type)
+	var light_release := &"light_left" if is_maul else &"light_2"
+	var transition_time: float = _player._weapon._transition_remaining
+	var expected_transition := transition_time > 0.0 if is_maul else is_zero_approx(transition_time)
+	_check(_player._strike_animation == light_release and _player.attack_charge_fraction() == 0.0
+		and expected_transition and _damage_hits() == 0,
+		"Releasing a leftward %s charge keeps the side and enters its light" % weapon_type)
 	await _wait_for_damage_hits(1, 32)
-	_check(_damage_hits() == 1 and _player._next_chain_stage == 3 and is_equal_approx(_player.mana, mana),
+	var next_light_stage := 1 if is_maul else 3
+	_check(_damage_hits() == 1 and _player._next_chain_stage == next_light_stage and is_equal_approx(_player.mana, mana),
 		"A converted %s swing advances from the chosen side and spends no Mana" % weapon_type)
 
 
@@ -491,6 +745,75 @@ func _check_guard() -> void:
 	_check(is_zero_approx(_player.stamina) and not _player.is_blocking(),
 		"Resuming with depleted Stamina honors the guard break delay")
 	_mouse(MOUSE_BUTTON_RIGHT, false)
+
+
+func _check_mace_guard() -> void:
+	_player.update_equipment({"main_hand": {"type": "mace_2h", "base_id": "quarry_maul"}})
+	await _reset()
+	var view: WeaponView = _player._weapon
+	var ready := view._main_pose.transform
+	_mouse(MOUSE_BUTTON_RIGHT, true)
+	_check(_player.is_blocking(), "The mace protects immediately on RMB press")
+	await _ticks(5)
+	_check(view._main_animation.current_animation == &"guard_raise"
+		and not view._main_pose.transform.is_equal_approx(ready), "The mace visibly raises into guard")
+	await _ticks(15)
+	var resting_guard := view._main_pose.transform
+	_check(view._main_animation.current_animation == &"guard", "The mace holds a steady brace on RMB")
+
+	var starting_life: float = _player.life
+	var aim: Transform3D = _player.get_aim_transform()
+	_check(not _player.receive_enemy_hit(2.0, "physical", "", _target)
+		and is_equal_approx(_player.life, starting_life) and is_equal_approx(_player.stamina, 7.9),
+		"A hit absorbed by the mace guard spends Stamina and preserves Life")
+	await _ticks(4)
+	_check(view._main_animation.current_animation == &"guard_hit"
+		and view._main_pose.position.z > resting_guard.origin.z + 0.04,
+		"The guarded hit drives the mace visibly toward the player")
+	_check(_player.get_aim_transform().is_equal_approx(aim), "Mace guard recoil leaves gameplay aim steady")
+	var recoiling_depth := view._main_pose.position.z
+	_player.receive_enemy_hit(2.0, "physical", "", _target)
+	await _ticks(1)
+	_check(view._main_animation.current_animation == &"guard_hit"
+		and view._main_pose.position.z >= recoiling_depth - 0.004 and is_equal_approx(_player.stamina, 3.8),
+		"A second absorbed hit continues the kick without pushing the mace back toward the attacker")
+	await _ticks(19)
+	_check(_player.is_blocking() and view._main_animation.current_animation == &"guard"
+		and view._main_pose.transform.is_equal_approx(resting_guard), "Hit recoil settles into the held brace")
+
+	_player.restore_stamina(_player.max_stamina())
+	_player.receive_enemy_hit(2.0, "physical", "", _target)
+	await _ticks(4)
+	_mouse(MOUSE_BUTTON_RIGHT, false)
+	await _ticks(12)
+	_check(not _player.is_blocking() and view._main_animation.current_animation == &"idle",
+		"Releasing RMB clears active recoil and blends the mace to ready")
+
+	_player.restore_stamina(1.0)
+	_mouse(MOUSE_BUTTON_RIGHT, true)
+	await _ticks(5)
+	_check(not _player.receive_enemy_hit(2.0, "physical", "", _target)
+		and not _player.is_blocking() and is_equal_approx(_player.life, starting_life),
+		"The last absorbed hit can break guard while the mace is still raising")
+	await _ticks(4)
+	_check(view._main_animation.current_animation == &"guard_break",
+		"An exhausted guard plays its own mace collapse")
+	await _ticks(27)
+	_check(view._main_animation.current_animation == &"idle" and not _player.is_blocking(),
+		"Guard collapse returns to ready while depleted")
+	_mouse(MOUSE_BUTTON_RIGHT, false)
+
+	_player.restore_stamina(_player.max_stamina())
+	_mouse(MOUSE_BUTTON_RIGHT, true)
+	await _ticks(20)
+	_check(_player.receive_enemy_hit(2.0, "physical", "", _target, {"unblockable": true}),
+		"An unblockable strike bypasses a mace guard")
+	await _ticks(4)
+	_check(view._main_animation.current_animation == &"guard"
+		and is_equal_approx(_player.stamina, _player.max_stamina()),
+		"An unabsorbed strike plays no mace guard recoil")
+	_mouse(MOUSE_BUTTON_RIGHT, false)
+	_player.update_equipment({"main_hand": Items.starter_weapon()})
 
 
 func _check_jump() -> void:
@@ -675,21 +998,6 @@ func _check_world_warnings() -> void:
 		and is_equal_approx(_player.stamina, stamina), "The Brute's visible ground warning leads to a hit that bypasses guard")
 	_mouse(MOUSE_BUTTON_RIGHT, false)
 
-	_game._reset_training_combat()
-	_player.restore_full()
-	var hazard := SpikePlate.instantiate() as Node3D
-	hazard.configure("spike_plate", 2, _player)
-	hazard.position = _player.global_position
-	_game._training_actors.add_child(hazard)
-	var warnings: Array[String] = []
-	hazard.warning_started.connect(func(kind: String, _point: Vector3) -> void: warnings.append(kind))
-	_mouse(MOUSE_BUTTON_RIGHT, true)
-	starting_life = _player.life
-	stamina = _player.stamina
-	await _ticks(160)
-	_check(warnings == ["spike_plate"] and _player.is_blocking() and _player.life < starting_life
-		and is_equal_approx(_player.stamina, stamina), "A telegraphed spike plate damages the guarded player without spending Stamina")
-	_mouse(MOUSE_BUTTON_RIGHT, false)
 
 
 func _reset() -> void:

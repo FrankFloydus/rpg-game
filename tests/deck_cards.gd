@@ -8,10 +8,11 @@ const Effects = preload("res://combat/cards/card_effects.gd")
 const Inventory := preload("res://systems/inventory.gd")
 const Supplies := preload("res://systems/pack_supplies.gd")
 
+const BAG_CARD_ID := &"deck_fixture_unknown_card"
+
 var _game: Node3D
 var _checks := 0
 var _failures := 0
-var _legacy_bag_card_id := &""
 var _save_path := "user://test_runs/cards_%d_%d" % [OS.get_process_id(), Time.get_ticks_usec()]
 
 
@@ -41,99 +42,23 @@ func _run() -> void:
 		"Pause offers the same deck editor as Q")
 	await _tap(KEY_Q)
 	_check(_game.player.gameplay_enabled and not _game._modal, "Closing the pause-opened deck restores gameplay")
-	_game._rng.seed = 7395045
-	_game._select_depth(1)
-	await _ticks(3)
-	_check(_game._remaining_cards() == Catalog.STARTERS, "An expedition captures the current loadout")
-	var notice: Label = _game.hud.get_node("WorldContent/Notice")
-	_check(notice.visible and not notice.text.is_empty(), "The expedition objective notice is visible before cards open")
-	_game.player.life = 5.0
-	var mana: float = _game.player.mana
-	var clock: float = _game._combat_clock
-	await _tap(KEY_ESCAPE)
-	await _activate_pause_action("Cards")
-	_check(_game._card_hand_open and is_equal_approx(Engine.time_scale, 0.075),
-		"Cards in Pause opens the 7.5 percent speed hand and releases the pause")
-	_check(not notice.visible, "Opening the combat hand suppresses the objective notice behind the fan")
-	_check(not _game._modal and _game._actors.process_mode == Node.PROCESS_MODE_INHERIT
-		and not _game.player.gameplay_enabled and _game._combat_clock > clock,
-		"Combat keeps simulating slowly while normal player controls are gated")
-	_game.card_screen._hand[0].pressed.emit()
-	await _ticks(2)
-	_check(_game.player.life > 13.0 and is_equal_approx(_game.player.mana, mana),
-		"Red Mercy heals and spends no mana")
-	_check(not _game._card_hand_open and is_equal_approx(Engine.time_scale, 1.0)
-		and _game.player.gameplay_enabled and _game.run.used_cards.has("red_mercy"),
-		"Playing a card closes the hand and spends it once")
-	_check(notice.visible and not notice.text.is_empty(), "Closing the combat hand restores HUD notices")
-	await _tap(KEY_Q)
-	_check(_game.card_screen._hand.size() == 2, "The used card is absent on reopen")
-	await _tap(KEY_ESCAPE)
-	_check(not _game.card_screen.visible and not _game._modal, "Escape dismisses the hand without pausing")
-	_game._actors.process_mode = Node.PROCESS_MODE_DISABLED
-	var nearby: Node3D = _game._enemies.values()[0]
-	nearby.global_position = _game.player.global_position + Vector3.RIGHT * 1.8
-	nearby.health = 100.0
-	await _ticks(2)
-	await _tap(KEY_Q)
-	_game.card_screen._hand[0].pressed.emit()
-	await _ticks(2)
-	_check(nearby.health < 100.0 and _game.run.used_cards.has("cinder_circle"),
-		"Cinder Circle hits a nearby enemy through the expedition combat pipeline")
-	await _tap(KEY_Q)
-	_game.card_screen._hand[0].pressed.emit()
-	await _ticks(2)
-	_check(is_equal_approx(_game.player.card_effects.attack_multiplier(), 1.35),
-		"Iron Oath arms its landed-attack modifier")
-	_check(_game._remaining_cards().is_empty(), "All three cards stay spent")
-	await _tap(KEY_Q)
-	_check(not _game.card_screen.visible and _game.player.gameplay_enabled
-		and _game.hud.get_node("WorldContent/Notice").text == "All expedition cards are spent",
-		"Q explains an exhausted hand without suspending controls")
-	var next_floor: Node3D = _game._dungeon_floors[1].geometry
-	_game.player.place_at(next_floor.to_global(next_floor.spawn_position))
-	_game._track_dungeon_floor()
-	await _ticks(3)
-	_check(_game._dungeon_floor_index() == 1 and _game._remaining_cards().is_empty(),
-		"Changing floors does not refresh the hand")
-	_game._enter_hub()
-	await _tap(KEY_Q)
-	_check(_game.card_screen.visible and not _game.in_dungeon and _read_only_deck(),
-		"Q shows the read-only deck in the refuge with an expedition open")
-	_game.card_screen.slot_changed.emit(1, "winter_bell")
-	_check(_game.card_deck.equipped[1] == "cinder_circle", "The parked expedition rejects loadout edits")
-	await _tap(KEY_ESCAPE)
-	_check(_game.player.gameplay_enabled and is_equal_approx(Engine.time_scale, 1.0),
-		"Closing the read-only deck restores controls in the refuge")
-	_game._enter_dungeon(true)
-	_check(_game._remaining_cards().is_empty(), "Returning through the hub cannot refresh cards")
-	await _check_drop()
+	await _check_pack_cards()
 	await _check_training_cards()
-	_game.save_enabled = true
-	_check(_game._save_now() == OK, "Card deck and run save to a checkpoint")
 	_game.free()
+	await _ticks(2)
 	_mount()
 	_game.save_enabled = true
-	_game.title_screen.character_selected.emit(0)
-	await _ticks(3)
-	_check(_game.card_deck.owned.has("winter_bell") and _game.card_deck.owned.has("pilgrim_reserve")
-		and _game._remaining_cards().is_empty() and not _game.in_dungeon
-		and _game._dungeon_floor_index() == 0,
-		"Selecting the character restores collection and spent cards from the refuge")
-	var legacy_card: Dictionary = _game.inventory.get_item(_legacy_bag_card_id)
-	_check(CardItems.is_card(legacy_card) and legacy_card.get("unidentified", false)
-		and not _game.card_deck.owned.has("hollow_thunder"),
-		"Character save preserves the recovered hidden card in the pack without learning it")
-	_game._close_dungeon()
-	_game._select_depth(1)
+	_game._select_character(0)
 	await _ticks(2)
-	_check(_game._remaining_cards() == Catalog.STARTERS, "A fresh expedition refreshes the chosen cards")
-	await _tap(KEY_Q)
+	var restored_card: Dictionary = _game.inventory.get_item(BAG_CARD_ID)
+	_check(_game.card_deck.owned.has("pilgrim_reserve") and not _game.card_deck.owned.has("hollow_thunder")
+		and CardItems.is_card(restored_card) and restored_card.get("unidentified", false),
+		"Reload preserves learned cards and unidentified cards already in the backpack")
 	_game.free()
 	_check(is_equal_approx(Engine.time_scale, 1.0), "Leaving the scene restores world time")
 	_check_buffs()
 	_cleanup()
-	print("Hearth Below expedition cards: %d checks, %d failures" % [_checks, _failures])
+	print("Hearth Below cards: %d checks, %d failures" % [_checks, _failures])
 	quit(1 if _failures else 0)
 
 
@@ -153,61 +78,15 @@ func _activate_pause_action(action: String) -> void:
 	_check(false, "Pause exposes %s" % action)
 
 
-func _read_only_deck() -> bool:
-	var card_count := 0
-	for face: Button in _game.card_screen.find_children("*", "Button", true, false):
-		if face.accessibility_name in ["Red Mercy", "Cinder Circle", "Iron Oath"]:
-			if not face.disabled:
-				return false
-			card_count += 1
-	return card_count == 3
-
-
-func _check_drop() -> void:
-	var point: Vector3 = _game.dungeon.to_global(_game.dungeon.spawn_position)
-	var before: int = _game.run.loot.size()
-	for index in 400:
-		_game._drop_card_reward(str(index), "normal", point, 0)
-	_check(_game.run.loot.size() == before, "Normal monsters cannot drop cards")
-	for index in 400:
-		_game._drop_card_reward(str(index), "rare", point, 0)
-	var cards: Array[Node3D] = []
-	for prop: Node3D in _game._loot.values():
-		if prop.payload.get("category") == "card":
-			cards.append(prop)
-	if not _check(cards.size() == 1, "A rare kill drops a single available physical card"):
-		return
-	var prop := cards[0]
-	var physical_card: Dictionary = prop.payload.item
-	var id := StringName(physical_card.id)
-	var ground_id: String = prop.payload.id_on_ground
-	var illustration := prop.find_child("Illustration", true, false) as MeshInstance3D
-	var face := illustration.material_override as StandardMaterial3D if illustration != null else null
-	_check(prop.text == CardItems.UNIDENTIFIED_NAME and not prop._legendary
-		and physical_card.get("unidentified", false) and not physical_card.has("art")
-		and face != null and face.albedo_texture == CardItems.BACK_ART,
-		"A fresh world card shows the generic back and label without rarity or title")
+func _check_pack_cards() -> void:
 	var inventory: Inventory = _game.inventory
-	var empty_cells := Inventory.BAG_SIZE.x * Inventory.BAG_SIZE.y
-	for placement: Dictionary in inventory.get_grid("bag").get_placements():
-		var footprint: Vector2i = placement.footprint
-		empty_cells -= footprint.x * footprint.y
-	var before_fill := inventory.save_data()
-	if _check(inventory.add_treasure_keys(empty_cells), "The pack fixture fills every remaining cell"):
-		_game._pickup(prop)
-		_check(_game.run.loot.has(ground_id) and inventory.get_item(id).is_empty(),
-			"A full pack leaves the same physical card on the ground")
-		_check(inventory.restore_data(before_fill), "Restoring the fixture pack frees room for the drop")
-	_game._pickup(prop)
-	_check(not _game.run.loot.has(ground_id) and CardItems.is_card(inventory.get_item(id))
-		and not _game.card_deck.owned.has("pilgrim_reserve"),
-		"Pickup moves the card to the backpack as a hidden item")
-	var after_pickup: int = _game.run.loot.size()
-	for index in 100:
-		_game._drop_card_reward(str(index + 400), "rare", point, 1)
-	_check(_game.run.loot.size() == after_pickup, "Carrying an unknown card suppresses reoffering that card")
-	_check(not inventory.learn_card(id, _game.card_deck).is_empty(),
-		"An unidentified card cannot be learned")
+	var id := &"deck_fixture_pilgrim"
+	var card := CardItems.make("pilgrim_reserve", id)
+	if not _check(inventory.add_item(card) and CardItems.is_card(inventory.get_item(id))
+		and card.get("unidentified", false) and not card.has("art"),
+		"An unidentified physical card already in a character's pack has the standard anonymous data"):
+		return
+	_check(not inventory.learn_card(id, _game.card_deck).is_empty(), "An unidentified card cannot be learned")
 	var seal := Supplies.unveiling_scroll()
 	seal["id"] = "deck_fixture_scribe_seal"
 	_check(inventory.add_item(seal) and inventory.identify_item(&"deck_fixture_scribe_seal", id).is_empty()
@@ -217,17 +96,8 @@ func _check_drop() -> void:
 	await _right_click_pack_card(id)
 	_check(_game.card_deck.owned.has("pilgrim_reserve") and inventory.get_item(id).is_empty(),
 		"Right-clicking the identified card learns it and consumes the inventory item")
-	var legacy_ground_id := str(_game.run.next_loot)
-	_game._store_loot({"category": "card", "card_id": "hollow_thunder"}, point, _game._dungeon_floor_index())
-	var legacy: Node3D = _game._loot[legacy_ground_id]
-	_check(legacy.text == CardItems.UNIDENTIFIED_NAME and not legacy._legendary,
-		"A pre-existing Legendary ground record has the same anonymous label and no beam")
-	_legacy_bag_card_id = StringName(_game._physical_reward_card(
-		"hollow_thunder", _game._dungeon_floor_index(), legacy_ground_id).id)
-	_game._pickup(legacy)
-	_check(inventory.get_item(_legacy_bag_card_id).get("unidentified", false)
-		and not _game.card_deck.owned.has("hollow_thunder"),
-		"Picking up an old ground record creates a hidden card without unlocking it")
+	_check(inventory.add_item(CardItems.make("hollow_thunder", BAG_CARD_ID)),
+		"A separate unidentified card stays in the backpack for the reload fixture")
 
 
 func _right_click_pack_card(id: StringName) -> void:
@@ -251,14 +121,13 @@ func _right_click_pack_card(id: StringName) -> void:
 
 func _check_training_cards() -> void:
 	var campaign_deck: Dictionary = _game.card_deck.snapshot()
-	var campaign_spent: Dictionary = _game.run.used_cards.duplicate()
+	_game.player.card_effects.apply_buffs(Catalog.CARDS.iron_oath)
 	var campaign_buffs: Dictionary = _game.player.card_effects.snapshot()
-	_game._enter_hub()
 	_game._enter_training_ground()
 	await _ticks(2)
 	_check(_game._remaining_cards() == Catalog.STARTERS and
 		is_equal_approx(_game.player.card_effects.attack_multiplier(), 1.0),
-		"Training starts with fresh cards and suspends the parked expedition's buffs")
+		"Training starts with fresh cards and suspends the previous card effects")
 
 	await _tap(KEY_ESCAPE)
 	await _activate_pause_action("Training Deck")
@@ -267,7 +136,7 @@ func _check_training_cards() -> void:
 		if not face.accessibility_description.is_empty() and not face.disabled:
 			choices += 1
 	_check(_game._card_editor_open and choices == Catalog.CARDS.size(),
-		"Pause opens an editable training loadout with all ten cards")
+		"Pause opens an editable training loadout with all cards")
 	_game.card_screen.slot_changed.emit(1, "hollow_thunder")
 	_game.card_screen.slot_changed.emit(2, "lantern_ward")
 	_check(_game._remaining_cards() == ["red_mercy", "hollow_thunder", "lantern_ward"] and
@@ -285,7 +154,6 @@ func _check_training_cards() -> void:
 			break
 	if not _check(is_instance_valid(enemy), "The training roster supplies a real arena target"):
 		_game._leave_training_ground()
-		_game._enter_dungeon(true)
 		return
 	enemy.set_physics_process(false)
 	enemy.global_position = _game.player.global_position + Vector3.RIGHT * 1.8
@@ -324,11 +192,8 @@ func _check_training_cards() -> void:
 	var saved_ok: bool = _game._save_now() == OK
 	_game.save_enabled = false
 	var saved := CharacterSlots.load_slot(_save_path, 0)
-	var saved_buffs := Effects.new()
-	saved_buffs.restore(saved.get("run", {}).get("card_buffs", {}))
-	_check(saved_ok and saved.get("card_deck", {}) == campaign_deck and
-		saved.get("run", {}).get("used_cards", {}) == campaign_spent and saved_buffs.snapshot() == campaign_buffs,
-		"A save during training records only campaign cards, spends, and buffs")
+	_check(saved_ok and saved.get("card_deck", {}) == campaign_deck and not saved.has("run"),
+		"A save during training records permanent deck ownership and equipment")
 
 	_game._reset_training_combat()
 	_check(_game._remaining_cards() == ["red_mercy", "hollow_thunder", "lantern_ward"] and
@@ -340,10 +205,9 @@ func _check_training_cards() -> void:
 	_check(not _game._card_hand_open and _game.player.gameplay_enabled and is_equal_approx(Engine.time_scale, 1.0),
 		"Resetting an open training hand restores world time and controls")
 	_game._leave_training_ground()
-	_game._enter_dungeon(true)
 	_check(_game._remaining_cards().is_empty() and _game.card_deck.snapshot() == campaign_deck and
 		_game.player.card_effects.snapshot() == campaign_buffs,
-		"Returning to the expedition restores its original deck, spent cards, and buff timers")
+		"Leaving Training restores the character's deck and pre-training buff timers")
 
 
 func _check_buffs() -> void:

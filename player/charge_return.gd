@@ -1,3 +1,4 @@
+@tool
 extends RefCounted
 ## Retraces a released wind-up, then blends its animated hands and arms into the live idle pose.
 
@@ -41,19 +42,26 @@ class Channel:
 
 var _animator: AnimationPlayer
 var _charge: StringName
+var _idle: StringName
 var _starting_phase: float
 var _retrace_fraction: float
 var _channels: Array[Channel] = []
 
 
-func _init(animator: AnimationPlayer, phase: float, retrace_fraction := 1.0) -> void:
+func _init(animator: AnimationPlayer, phase: float, retrace_fraction := 1.0, idle := &"idle") -> void:
 	_animator = animator
 	_charge = animator.current_animation
+	_idle = idle
 	_starting_phase = phase
 	_retrace_fraction = retrace_fraction
+	_channels = capture_channels(animator, [_charge, _idle])
+
+
+static func capture_channels(animator: AnimationPlayer, clips: Array[StringName]) -> Array[Channel]:
+	var channels: Array[Channel] = []
 	var paths := {}
 	var root := animator.get_node(animator.root_node)
-	for clip in [_charge, &"idle"]:
+	for clip in clips:
 		var animation := animator.get_animation(clip)
 		for track in animation.get_track_count():
 			if animation.track_get_type(track) not in [Animation.TYPE_POSITION_3D, Animation.TYPE_ROTATION_3D,
@@ -74,14 +82,15 @@ func _init(animator: AnimationPlayer, phase: float, retrace_fraction := 1.0) -> 
 				if channel.bone < 0:
 					continue
 			channel.initial = channel.read()
-			_channels.append(channel)
+			channels.append(channel)
+	return channels
 
 
 func sample(progress: float, idle_time: float) -> void:
-	var idle_length := _animator.get_animation(&"idle").length
+	var idle_length := _animator.get_animation(_idle).length
 	idle_time = fposmod(idle_time, idle_length)
 	if progress >= 1.0:
-		_seek(&"idle", idle_time)
+		_seek(_idle, idle_time)
 		return
 	var phase := _starting_phase * (1.0 - _retrace_fraction * smoothstep(0.0, 0.88, progress))
 	_seek(_charge, phase * _animator.get_animation(_charge).length)
@@ -94,7 +103,7 @@ func sample(progress: float, idle_time: float) -> void:
 	var charge_poses: Array[Transform3D] = []
 	for channel in _channels:
 		charge_poses.append(channel.initial.interpolate_with(channel.read(), leave_capture))
-	_seek(&"idle", idle_time)
+	_seek(_idle, idle_time)
 	for index in _channels.size():
 		var channel := _channels[index]
 		var idle_pose := channel.read()

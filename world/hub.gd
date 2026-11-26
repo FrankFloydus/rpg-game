@@ -1,5 +1,5 @@
 extends Node3D
-## Static cloister geometry is authored in hub.tscn. This script handles interaction and portal state.
+## Static cloister geometry is authored in hub.tscn. This script handles interaction and nameplates.
 
 const NAMEPLATE_SCREEN_WIDTH := 192.0
 const APPROACH_FADE_SPEED := 8.0
@@ -7,8 +7,6 @@ const APPROACH_FADE_SPEED := 8.0
 const STATIONS := {
 	"vendor": ^"Vendor/Interaction",
 	"blacksmith": ^"Blacksmith/Interaction",
-	"altar": ^"PortalAltar/Interaction",
-	"close_dungeon": ^"CloseDungeon/Interaction",
 	"training_portal": ^"TrainingPortal/Interaction",
 	"stash": ^"Stash/Interaction",
 }
@@ -17,21 +15,15 @@ var spawn_position: Vector3:
 	get:
 		return $PlayerSpawn.position
 
-var _dungeon_active := false
-var _dungeon_cleared := false
 var _nameplate_widths: Dictionary[String, float] = {}
 var _nameplate_scales: Dictionary[String, float] = {}
 
 @onready var _nameplates: Dictionary[String, Label3D] = {
 	"vendor": $Vendor/Label3D1,
 	"blacksmith": $Blacksmith/Label3D1,
-	"altar": $PortalAltar/Label3D1,
 	"training_portal": $TrainingPortal/Label3D1,
-	"close_dungeon": %CloseDungeonLabel,
 	"stash": $Stash/Nameplate,
 }
-@onready var _close_label: Label3D = %CloseDungeonLabel
-@onready var _seal_glow: MeshInstance3D = %SealGlow.get_node("SealLens")
 
 
 func _ready() -> void:
@@ -43,10 +35,6 @@ func _ready() -> void:
 			width = maxf(width, font.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, label.font_size).x)
 		_nameplate_widths[id] = width + 2.0 * label.outline_size
 		_nameplate_scales[id] = label.pixel_size
-	var imported := _seal_glow.get_active_material(0) as StandardMaterial3D
-	if imported != null:
-		_seal_glow.material_override = imported.duplicate()
-	_update_expedition_display()
 
 
 func _process(delta: float) -> void:
@@ -98,7 +86,7 @@ func active_interaction(origin: Vector3, direction: Vector3, max_distance := 4.0
 		if distance <= 0.01 or distance > max_distance:
 			continue
 		var aim := direction.dot(displacement / distance)
-		var radius := 1.12 if id in ["altar", "training_portal"] else 0.78
+		var radius := 1.12 if id == "training_portal" else 0.78
 		var projected := displacement.dot(direction)
 		if aim <= 0.1 or (displacement - direction * projected).length() > radius:
 			continue
@@ -107,26 +95,3 @@ func active_interaction(origin: Vector3, direction: Vector3, max_distance := 4.0
 			best_id = id
 			best_score = score
 	return best_id
-
-
-func altar_overlaps(player_position: Vector3) -> bool:
-	var center: Vector3 = $PortalAltar/OverlapCenter.global_position
-	return absf(player_position.x - center.x) < 1.4 and absf(player_position.z - center.z) < 0.85
-
-
-func set_dungeon_state(active: bool, cleared := false) -> void:
-	_dungeon_active = active
-	_dungeon_cleared = cleared
-	_update_expedition_display()
-
-
-func _update_expedition_display() -> void:
-	if not is_instance_valid(_close_label):
-		return
-	_close_label.modulate = Color("#e2bbc0") if _dungeon_active else Color("#a59c92")
-	var seal := _seal_glow.material_override as StandardMaterial3D
-	if seal != null:
-		seal.emission_enabled = true
-		seal.emission = Color("#db9248") if _dungeon_cleared else Color("#b64540")
-		seal.albedo_color = Color("#a55741") if _dungeon_active else Color("#544842")
-		seal.emission_energy_multiplier = 1.2 if _dungeon_active else 0.04

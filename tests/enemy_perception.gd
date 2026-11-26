@@ -2,7 +2,6 @@ extends SceneTree
 ## Targets the longer visual acquisition range and the old ambush wall bypass.
 
 const Game := preload("res://main.tscn")
-const Enemy := preload("res://combat/enemies/enemy.gd")
 const Catalog := preload("res://combat/enemies/enemy_catalog.gd")
 
 var _game: Node3D
@@ -24,7 +23,6 @@ func _run() -> void:
 	await _check_approach(0, 14.0, false, &"graveknife_cut")
 	await _check_approach(1, 16.4, true, &"ossuary_shot")
 	await _check_around_a_wall()
-	await _check_arrival()
 	_game.free()
 	await _ticks(2)
 	print("Hearth Below enemy vision: %d checks, %d failures" % [_checks, _failures])
@@ -67,24 +65,6 @@ func _check_around_a_wall() -> void:
 	wall.queue_free()
 
 
-func _check_arrival() -> void:
-	_game._leave_training_ground()
-	_game._rng.seed = 7395045
-	_game._select_depth(1)
-	await _ticks(46)
-	var engaged := false
-	var configured := true
-	for id: String in _game._enemies:
-		var enemy: CharacterBody3D = _game._enemies[id]
-		var entry: Dictionary = _game.dungeon.encounters[int(id)]
-		var expected := 18.0 if int(entry.room) < 0 else 16.0
-		configured = configured and is_equal_approx(enemy._sight_radius, expected)
-		engaged = engaged or enemy._engaged
-	_check(_game.in_dungeon and not _game._enemies.is_empty() and configured,
-		"Generated rooms and corridors use their respective expedition sight ranges")
-	_check(not engaged, "The arrival chamber remains safe")
-
-
 func _spawn(archetype: int, at: Vector3, target: Vector3, corridor: bool) -> CharacterBody3D:
 	_game._reset_training_combat()
 	_game.player.place_at(target)
@@ -94,7 +74,7 @@ func _spawn(archetype: int, at: Vector3, target: Vector3, corridor: bool) -> Cha
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 8491
 	enemy.setup(_game.player, 1, "normal", rng, Callable(_game.training_ground, "navigation_route"))
-	enemy.configure_encounter(0, true, 6.0, PackedVector3Array(), Enemy.expedition_sight_range(1, corridor))
+	enemy.configure_encounter(0, true, 6.0, PackedVector3Array(), 18.0 if corridor else 16.0)
 	enemy.configure_ai(_game._training_encounter, _game._training_pressure)
 	enemy.combat_event.connect(_game._record_combat_event)
 	enemy.position = at

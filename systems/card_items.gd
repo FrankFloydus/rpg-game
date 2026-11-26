@@ -1,5 +1,5 @@
 extends RefCounted
-## Physical expedition cards share the inventory's single-cell supply format.
+## Physical cards share the inventory's single-cell supply format.
 
 const Cards := preload("res://data/card_catalog.gd")
 const BACK_ART := preload("res://assets/rework/ui/card_casing.png")
@@ -22,7 +22,7 @@ static func make(card_id: String, id: String, unidentified := true) -> Dictionar
 	}
 	if not unidentified:
 		var card: Dictionary = Cards.CARDS[card_id]
-		item["base_name"] = "Expedition Card"
+		item["base_name"] = "Card"
 		item["name"] = card.name
 		item["rarity"] = card.rarity
 		item["description"] = card.description

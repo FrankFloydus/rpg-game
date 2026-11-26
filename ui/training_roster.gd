@@ -7,6 +7,7 @@ signal close_requested
 signal ability_traces_changed(enabled: bool)
 signal player_weapon_traces_changed(enabled: bool)
 signal player_level_changed(level: int)
+signal melee_contact_preset_changed(stops_on_static_world: bool, uses_refuge_sweep: bool)
 
 const Catalog := preload("res://combat/enemies/enemy_catalog.gd")
 const Affixes := preload("res://combat/effects/enemy_affixes.gd")
@@ -26,6 +27,8 @@ const DEFAULT_WEAPON_ITEM_LEVEL := 1
 const ENEMY_TAB := 0
 const WEAPONRY_TAB := 1
 const CARDS_TAB := 2
+
+enum MeleeContactPreset { TRAINING, CARRY_THROUGH, REFUGE }
 
 ## Largest centered roster panel before the layout adapts to a smaller viewport.
 @export var panel_size_limit := Vector2(968.0, 748.0)
@@ -47,6 +50,7 @@ const CARDS_TAB := 2
 @onready var _weapon_item_level: SpinBox = %WeaponItemLevel
 @onready var _ability_traces: CheckButton = %ShowAbilityTraces
 @onready var _player_weapon_traces: CheckButton = %ShowPlayerWeaponTraces
+@onready var _melee_contact_preset: OptionButton = %MeleeContactPreset
 @onready var _affix_panel: VBoxContainer = %AffixPanel
 @onready var _affix_summary: Label = %AffixSummary
 
@@ -66,6 +70,7 @@ func _ready() -> void:
 	_close_button.pressed.connect(close_requested.emit)
 	_ability_traces.toggled.connect(ability_traces_changed.emit)
 	_player_weapon_traces.toggled.connect(player_weapon_traces_changed.emit)
+	_melee_contact_preset.item_selected.connect(_on_melee_contact_preset_selected)
 	_tabs.tab_changed.connect(_on_tab_changed)
 	_tabs.get_tab_bar().focus_mode = Control.FOCUS_ALL
 	_card_loadout.slot_changed.connect(_equip_training_card)
@@ -162,6 +167,14 @@ func ability_traces_enabled() -> bool:
 
 func player_weapon_traces_enabled() -> bool:
 	return _player_weapon_traces != null and _player_weapon_traces.button_pressed
+
+
+func reset_melee_contact_preset() -> void:
+	_melee_contact_preset.select(MeleeContactPreset.TRAINING)
+
+
+func _on_melee_contact_preset_selected(index: int) -> void:
+	melee_contact_preset_changed.emit(index != MeleeContactPreset.CARRY_THROUGH, index == MeleeContactPreset.REFUGE)
 
 
 func _populate_catalogues() -> void:
@@ -347,6 +360,7 @@ func _reflow() -> void:
 		var item_level_edit := _weapon_item_level.get_line_edit()
 		focus_order.append(item_level_edit)
 		focus_order.append(_player_weapon_traces)
+		focus_order.append(_melee_contact_preset)
 		focus_order.append_array(_weapon_cards)
 		_wire_card_focus(_weapon_cards, _weapon_grid.columns, item_level_edit)
 	else:

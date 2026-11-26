@@ -54,10 +54,9 @@ func _test_units_and_capacity() -> void:
 	var unit := restored.take_item("bag", key_id)
 	_check(not unit.is_empty() and restored.treasure_key_count() == 1 and restored.add_item(unit)
 		and restored.treasure_key_count() == 2, "Dropping and returning an individual key preserves its instance")
-	_check(restored.consume_treasure_key() and restored.treasure_key_count() == 1, "A lock consumes one key")
-	restored.clear_treasure_keys()
-	_check(restored.treasure_key_count() == 0 and not restored.consume_treasure_key()
-		and restored.materials == {"bone_shard": 2}, "Sealing clears only keys")
+	restored.clear_expedition_keys()
+	_check(restored.treasure_key_count() == 0 and restored.materials == {"bone_shard": 2},
+		"Retiring old expedition keys preserves permanent crafting materials")
 	_check(restored.add_treasure_keys(70) and not restored.add_material("carrion_eye", 51)
 		and restored.materials == {"bone_shard": 2}, "A pickup that exceeds available cells inserts nothing")
 	_check(restored.add_material("carrion_eye", 2) and not restored.add_treasure_keys()

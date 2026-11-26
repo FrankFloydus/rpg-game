@@ -1,0 +1,157 @@
+[gd_scene format=3]
+
+[node name="WorkbenchLayout" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Stack" type="VBoxContainer" parent="."]
+
+[node name="BarInset" type="MarginContainer" parent="Stack"]
+unique_name_in_owner = true
+
+[node name="TopBar" type="HBoxContainer" parent="Stack/BarInset"]
+unique_name_in_owner = true
+
+[node name="BrowserToggle" type="Button" parent="Stack/BarInset/TopBar"]
+unique_name_in_owner = true
+text = "Browse"
+toggle_mode = true
+button_pressed = true
+tooltip_text = "Show or hide the sections and records. Ctrl+B"
+
+[node name="Breadcrumb" type="Label" parent="Stack/BarInset/TopBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+
+[node name="CommandButton" type="Button" parent="Stack/BarInset/TopBar"]
+unique_name_in_owner = true
+text = "Quick find   Ctrl+K"
+tooltip_text = "Find a section, record, setting, or action anywhere in Workbench."
+
+[node name="BackButton" type="Button" parent="Stack/BarInset/TopBar"]
+unique_name_in_owner = true
+visible = false
+text = "Back"
+
+[node name="ReloadButton" type="Button" parent="Stack/BarInset/TopBar"]
+unique_name_in_owner = true
+text = "Reload"
+
+[node name="SaveButton" type="Button" parent="Stack/BarInset/TopBar"]
+unique_name_in_owner = true
+text = "Save"
+
+[node name="TopRule" type="HSeparator" parent="Stack"]
+
+[node name="Body" type="HBoxContainer" parent="Stack"]
+unique_name_in_owner = true
+size_flags_vertical = 3
+
+[node name="SectionPane" type="PanelContainer" parent="Stack/Body"]
+unique_name_in_owner = true
+
+[node name="SectionInset" type="MarginContainer" parent="Stack/Body/SectionPane"]
+unique_name_in_owner = true
+
+[node name="SectionColumn" type="VBoxContainer" parent="Stack/Body/SectionPane/SectionInset"]
+
+[node name="SectionLabel" type="Label" parent="Stack/Body/SectionPane/SectionInset/SectionColumn"]
+unique_name_in_owner = true
+text = "WORKSPACE"
+
+[node name="Sections" type="Tree" parent="Stack/Body/SectionPane/SectionInset/SectionColumn"]
+unique_name_in_owner = true
+size_flags_vertical = 3
+hide_root = true
+
+[node name="SectionRule" type="VSeparator" parent="Stack/Body"]
+unique_name_in_owner = true
+
+[node name="RecordPane" type="PanelContainer" parent="Stack/Body"]
+unique_name_in_owner = true
+
+[node name="RecordInset" type="MarginContainer" parent="Stack/Body/RecordPane"]
+unique_name_in_owner = true
+
+[node name="RecordColumn" type="VBoxContainer" parent="Stack/Body/RecordPane/RecordInset"]
+
+[node name="RecordHeading" type="Label" parent="Stack/Body/RecordPane/RecordInset/RecordColumn"]
+unique_name_in_owner = true
+text_overrun_behavior = 3
+
+[node name="RecordFilter" type="LineEdit" parent="Stack/Body/RecordPane/RecordInset/RecordColumn"]
+unique_name_in_owner = true
+placeholder_text = "Filter records"
+clear_button_enabled = true
+tooltip_text = "Filter this section by record name or ID. Ctrl+F"
+
+[node name="RecordCount" type="Label" parent="Stack/Body/RecordPane/RecordInset/RecordColumn"]
+unique_name_in_owner = true
+
+[node name="Records" type="Tree" parent="Stack/Body/RecordPane/RecordInset/RecordColumn"]
+unique_name_in_owner = true
+size_flags_vertical = 3
+hide_root = true
+
+[node name="RecordRule" type="VSeparator" parent="Stack/Body"]
+unique_name_in_owner = true
+
+[node name="DetailInset" type="MarginContainer" parent="Stack/Body"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+
+[node name="Details" type="VBoxContainer" parent="Stack/Body/DetailInset"]
+unique_name_in_owner = true
+
+[node name="DetailHeader" type="HBoxContainer" parent="Stack/Body/DetailInset/Details"]
+unique_name_in_owner = true
+
+[node name="DetailHeading" type="Label" parent="Stack/Body/DetailInset/Details/DetailHeader"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+
+[node name="OpenScene" type="Button" parent="Stack/Body/DetailInset/Details/DetailHeader"]
+unique_name_in_owner = true
+visible = false
+text = "Open scene"
+
+[node name="SourceLabel" type="Label" parent="Stack/Body/DetailInset/Details"]
+unique_name_in_owner = true
+text_overrun_behavior = 3
+
+[node name="DetailTabs" type="HBoxContainer" parent="Stack/Body/DetailInset/Details"]
+unique_name_in_owner = true
+visible = false
+
+[node name="DetailRule" type="HSeparator" parent="Stack/Body/DetailInset/Details"]
+
+[node name="FieldsScroll" type="ScrollContainer" parent="Stack/Body/DetailInset/Details"]
+unique_name_in_owner = true
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Fields" type="VBoxContainer" parent="Stack/Body/DetailInset/Details/FieldsScroll"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+
+[node name="BottomRule" type="HSeparator" parent="Stack"]
+
+[node name="FooterInset" type="MarginContainer" parent="Stack"]
+unique_name_in_owner = true
+
+[node name="Footer" type="HBoxContainer" parent="Stack/FooterInset"]
+
+[node name="Status" type="Label" parent="Stack/FooterInset/Footer"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+
+[node name="DraftStatus" type="Label" parent="Stack/FooterInset/Footer"]
+unique_name_in_owner = true
+horizontal_alignment = 2

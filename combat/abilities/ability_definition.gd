@@ -31,7 +31,7 @@ extends Resource
 @export_enum("default", "strength", "dexterity", "intelligence") var scaling_attribute := "default"
 ## Base seconds from enemy cast start to release. Playback follows this interval without changing
 ## the animation's poses. Floor warnings extend it when needed to leave enough time to walk clear.
-## Weapon attacks use their AnimationPlayer markers and Combat > Attack timing instead.
+## Weapon attacks use their AnimationPlayer markers and the Attack tempo settings in Weapons & Player.
 @export_range(0.0, 20.0, 0.01, "or_greater", "suffix:s") var windup := 0.0
 ## Base seconds spent recovering after the attack resolves. The caster cannot start the next
 ## attack during this window. This can overlap the cooldown. Weapon attacks use their clip timing.

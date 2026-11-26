@@ -7,6 +7,7 @@ const Art := preload("res://ui/item_art.gd")
 const Frame := preload("res://ui/menu_frame.gd")
 const SOURCE := "res://data/inventory_item_style.tres"
 const LIVE: Style = preload(SOURCE)
+const SWAP_COLOR := Color("#f5cb50")
 
 static var _fit_well := _make_fit_well()
 
@@ -26,7 +27,15 @@ static func paint_placed(canvas: Control, box: Rect2, style: Style, unidentified
 
 static func paint_drop(canvas: Control, box: Rect2, style: Style, accepted: bool) -> void:
 	var tint := style.valid_drop_color if accepted else style.invalid_drop_color
-	canvas.draw_rect(box.grow(-1.0), Color(tint, style.drop_fill_opacity))
+	_paint_placement(canvas, box, tint, style.drop_fill_opacity)
+
+
+static func paint_swap(canvas: Control, box: Rect2, style: Style) -> void:
+	_paint_placement(canvas, box, SWAP_COLOR, style.drop_fill_opacity)
+
+
+static func _paint_placement(canvas: Control, box: Rect2, tint: Color, opacity: float) -> void:
+	canvas.draw_rect(box.grow(-1.0), Color(tint, opacity))
 	canvas.draw_rect(box.grow(-0.5), Color(tint, 0.85), false, 1.0)
 
 

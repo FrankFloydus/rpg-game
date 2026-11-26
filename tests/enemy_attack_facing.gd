@@ -1,5 +1,5 @@
 extends SceneTree
-## Verifies that rotating a dungeon floor does not rotate actors away from their attacks.
+## Verifies attack facing under a rotated parent.
 
 const Catalog := preload("res://combat/enemies/enemy_catalog.gd")
 const Enemy := preload("res://combat/enemies/enemy.gd")

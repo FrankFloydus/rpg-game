@@ -4,36 +4,7 @@
 
 [resource]
 script = ExtResource("1_27g1q")
-enemy_chances = {
-"magic": {
-"gear": Vector2(0.56, 0.72),
-"key": Vector2(0.115, 0.175),
-"material": Vector2(0.58, 0.72)
-},
-"normal": {
-"gear": Vector2(0.16, 0.28),
-"key": Vector2(0.035, 0.065),
-"material": Vector2(0.28, 0.44)
-},
-"rare": {
-"gear": Vector2(1, 1),
-"key": Vector2(0.27, 0.32),
-"material": Vector2(1, 1)
-}
-}
 item_profiles = {
-"chest": {
-"legendary": 0.00055,
-"magic": 0.0,
-"minimum": "magic",
-"rare": 0.12
-},
-"locked_chest": {
-"legendary": 0.003,
-"magic": 0.0,
-"minimum": "magic",
-"rare": 0.39
-},
 "magic": {
 "legendary": 0.00035,
 "magic": 0.0,
@@ -51,18 +22,6 @@ item_profiles = {
 "magic": 0.0,
 "minimum": "rare",
 "rare": 0.0
-},
-"secret_cache": {
-"legendary": 0.0015,
-"magic": 0.0,
-"minimum": "magic",
-"rare": 0.27
-},
-"side_cache": {
-"legendary": 0.0004,
-"magic": 0.54,
-"minimum": "normal",
-"rare": 0.08
 }
 }
 card_chances = {
@@ -125,13 +84,13 @@ cards = {
 },
 "last_hearth": {
 "art": 8,
-"description": "Restore 65% maximum Life. Deal 300% average weapon damage + 5 as Fire within 6 m.",
+"description": "Restore 55% maximum Life. Deal 250% average weapon damage + 5 as Fire within 6 m.",
 "element": "fire",
 "flat": 5.0,
-"heal": 0.65,
+"heal": 0.55,
 "minimum_depth": 7,
 "name": "The Last Hearth",
-"power": 3.0,
+"power": 2.5,
 "radius": 6.0,
 "rarity": "legendary"
 },
@@ -153,8 +112,8 @@ cards = {
 },
 "red_mercy": {
 "art": 0,
-"description": "Restore 40% of your maximum Life.",
-"heal": 0.4,
+"description": "Restore 35% of your maximum Life.",
+"heal": 0.35,
 "name": "Red Mercy",
 "rarity": "normal"
 },

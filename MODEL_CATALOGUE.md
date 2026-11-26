@@ -1,6 +1,6 @@
 # Model catalogue
 
-Checked entries were revised or deliberately retained after verification in their normal game scene. The art target is grounded, matte dark fantasy at the game's retro prototype fidelity. Superseded enemy meshes and two replaced dungeon fixtures are archived outside the runtime project.
+Checked entries were revised or deliberately retained after verification in their normal game scene. The art target is grounded, matte dark fantasy at the game's retro prototype fidelity. Earlier revisions remain available in project history.
 
 ## Enemy prefabs
 
@@ -46,17 +46,9 @@ Checked entries were revised or deliberately retained after verification in thei
 - [x] [13 crafting-material pickups](assets/models/loot/monster_parts.glb)
 - [x] [woven moth cocoon](assets/models/loot/moth_cocoon.glb)
 - [x] [fletched enemy arrow](assets/models/loot/fletched_arrow.glb)
-- [x] [brother orun](assets/hub/merchants/brother_orun.glb) · Refitted apron and collar seams. [Blender source](assets/source/hub/Brother%20Orun.blend)
 - [x] [mara](assets/hub/merchants/mara.glb) · Worn wool, bound seams and layered work clothes. [Blender source](assets/source/hub/Mara.blend)
 - [x] [masonry forge](assets/hub/merchants/masonry_forge.glb) · Soot on the hearth stone, worked iron, fitted tongs and quench basin.
 - [x] [provisioner stall](assets/hub/merchants/provisioner_stall.glb) · Fitted oak boards, sewn cloth, earthenware and apothecary tools.
-- [x] [Secret merchant](assets/models/characters/secret_merchant.glb) · [Editable Blender rig](assets/source/characters/secret_merchant.blend). Coal-dyed hood, worn satchel, bronze reliquary pin and an articulated idle.
-- [x] [crypt masonry](assets/models/architecture/crypt_masonry.glb)
-- [x] [crypt sentinel](assets/models/architecture/crypt_sentinel.glb)
-- [x] [crypt stair flight](assets/models/architecture/crypt_stair_flight.glb)
-- [x] [crypt stone portal](assets/models/architecture/crypt_stone_portal.glb)
-- [x] [crypt timber doorway](assets/models/architecture/crypt_timber_doorway.glb)
-- [x] [hub ruined vault](assets/models/architecture/hub_ruined_vault.glb) · Enclosed 13.4-metre nave with slate paving, a limestone reliquary arch, folded linen heraldry and retextured masonry. [Blender source](assets/source/hub/Cinderhold%20vault.blend)
 - [x] [ash urn debris](assets/models/dressing/ash_urn_debris.glb) · Revised edge wear, fractures, wax, or surface materials.
 - [x] [ash urn intact](assets/models/dressing/ash_urn_intact.glb) · Revised edge wear, fractures, wax, or surface materials.
 - [x] [clay jar debris](assets/models/dressing/clay_jar_debris.glb) · Revised edge wear, fractures, wax, or surface materials.
@@ -105,40 +97,21 @@ Editable Blender sources live in the [weapon gallery](assets/source/player/weapo
 
 ## World scenes and authored model kits
 
-- [x] [dungeon](world/dungeon.tscn)
-- [x] [ember vent](world/hazards/ember_vent.tscn)
-- [x] [miasma vent](world/hazards/miasma_vent.tscn)
-- [x] [spike plate](world/hazards/spike_plate.tscn)
 - [x] [hub](world/hub.tscn)
 - [x] [breakable crate](world/modules/breakable_crate.tscn)
 - [x] [breakable pottery](world/modules/breakable_pottery.tscn)
 - [x] [breakable urn](world/modules/breakable_urn.tscn)
 - [x] [coal bed](world/modules/coal_bed.tscn) · Existing particle effect retained.
-- [x] [cover altar](world/modules/cover_altar.tscn)
-- [x] [cover pillar](world/modules/cover_pillar.tscn)
-- [x] [cover sarcophagus](world/modules/cover_sarcophagus.tscn)
-- [x] [crypt brazier](world/modules/crypt_brazier.tscn)
-- [x] [crypt cell](world/modules/crypt_cell.tscn)
-- [x] [crypt doorway](world/modules/crypt_doorway.tscn)
-- [x] [crypt sconce](world/modules/crypt_sconce.tscn)
-- [x] [crypt sentinel](world/modules/crypt_sentinel.tscn)
-- [x] [crypt stair flight](world/modules/crypt_stair_flight.tscn)
-- [x] [crypt stone portal](world/modules/crypt_stone_portal.tscn)
-- [x] [dungeon dressing parts](world/modules/dungeon_dressing_parts.tscn)
 - [x] [floor votive cluster](world/modules/floor_votive_cluster.tscn)
 - [x] [hub blacksmith](world/modules/hub_blacksmith.tscn)
 - [x] [hub provisioner](world/modules/hub_provisioner.tscn)
 - [x] [hub ruined vault](world/modules/hub_ruined_vault.tscn)
 - [x] [portal vortex](world/modules/portal_vortex.tscn) · Existing particle effect retained.
 - [x] [torch flame](world/modules/torch_flame.tscn) · Existing particle effect retained.
-- [x] [card loot](world/props/card_loot.tscn) · Card stock with ten illustrated faces.
-- [x] [coffer](world/props/coffer.tscn) · Ordinary, locked and warded finishes.
 - [x] [coins](world/props/coins.tscn)
 - [x] [gear loot](world/props/gear_loot.tscn)
 - [x] [monster part](world/props/monster_part.tscn) · Thirteen distinct models.
 - [x] [return portal](world/props/return_portal.tscn)
-- [x] [secret passage](world/props/secret_passage.tscn)
-- [x] [treasure key](world/props/treasure_key.tscn)
 - [x] [weapon loot](world/props/weapon_loot.tscn)
 - [x] [training ground](world/training_ground.tscn)
 - [x] [cobweb silk](combat/effects/cobweb_silk.tscn)
@@ -149,56 +122,24 @@ Editable Blender sources live in the [weapon gallery](assets/source/player/weapo
 - [x] [bleed application particles](combat/effects/bleed_application_particles.tscn)
 - [x] [stone strike chips and dust](combat/effects/stone_impact.tscn)
 
-## Generated world meshes
+## Training graphics
 
-- [x] [Dungeon structure, arches, markers, and lighting mounts](world/dungeon.gd)
-- [x] [Walls, furnishings, and chamber setpieces](world/dungeon_setpieces.gd) · Fifteen room themes, four floor treatments and thirteen authored feature models.
 - [x] [Scenario-specific graphics](combat/effects/training_ability_trace.gd)
 
 ## Additional architecture and Cinderhold fittings
 
-- [x] [Crypt cover altar](assets/models/architecture/crypt_cover_altar.glb)
-- [x] [Crypt cover pillar](assets/models/architecture/crypt_cover_pillar.glb)
-- [x] [Crypt cover sarcophagus](assets/models/architecture/crypt_cover_sarcophagus.glb)
 - [x] [Crypt forged brazier](assets/models/architecture/crypt_forged_brazier.glb)
 - [x] [Crypt forged sconce](assets/models/architecture/crypt_forged_sconce.glb)
 - [x] [Arrival gate ironwork](assets/models/architecture/hub/arrival_gate_ironwork.glb)
 - [x] [Cloister window](assets/models/architecture/hub/cloister_window.glb)
-- [x] [Expedition altar](assets/models/architecture/hub/expedition_altar.glb)
-- [x] [Expedition lens](assets/models/architecture/hub/expedition_lens.glb)
-- [x] [Expedition seal](assets/models/architecture/hub/expedition_seal.glb)
 - [x] [Return gateway](assets/models/architecture/hub/return_gateway.glb)
 - [x] [Sealed cloister recess](assets/models/architecture/hub/sealed_cloister_recess.glb)
 - [x] [Training gateway](assets/models/architecture/hub/training_gateway.glb)
 - [x] [Training ruin pillar](assets/models/architecture/training_ruin_pillar.glb)
 - [x] [Training ruin wall](assets/models/architecture/training_ruin_wall.glb)
 
-## Dungeon room feature models
-
-- [x] [Archive shelves](assets/models/dressing/room_themes/archive_shelves.glb)
-- [x] [Armory rack](assets/models/dressing/room_themes/armory_rack.glb)
-- [x] [Bone gate trophy](assets/models/dressing/room_themes/bone_gate_trophy.glb) · Rounded orbital and nasal cutouts, joined cheekbones, seated dentine and a continuous UV chart around the skull. [Editable scene](assets/source/props/dungeon_rooms/dungeon_room_fixtures.blend)
-- [x] [Chapel altar](assets/models/dressing/room_themes/chapel_altar.glb)
-- [x] [Cistern outfall](assets/models/dressing/room_themes/cistern_outfall.glb)
-- [x] [Crypt slab](assets/models/dressing/room_themes/crypt_slab.glb)
-- [x] [Forge hearth](assets/models/dressing/room_themes/forge_hearth.glb)
-- [x] [Gaol grille](assets/models/dressing/room_themes/gaol_grille.glb)
-- [x] [Grotto colony](assets/models/dressing/room_themes/grotto_colony.glb)
-- [x] [Ossuary shelves](assets/models/dressing/room_themes/ossuary_shelves.glb) · Ten skulls with different sizes, gaps in their teeth, cracked vaults or detached mandibles. [Editable scene](assets/source/props/dungeon_rooms/dungeon_room_fixtures.blend)
-- [x] [Pyre stand](assets/models/dressing/room_themes/pyre_stand.glb)
-- [x] [Reliquary chasse](assets/models/dressing/room_themes/reliquary_chasse.glb)
-- [x] [Sluice gate](assets/models/dressing/room_themes/sluice_gate.glb)
-
-## Hazard models
-
-- [x] [Ember vent](assets/models/hazards/ember_vent.glb)
-- [x] [Miasma vent](assets/models/hazards/miasma_vent.glb)
-- [x] [Spike bank](assets/models/hazards/spike_bank.glb)
-- [x] [Spike plate](assets/models/hazards/spike_plate.glb)
-
 ## Additional shared visual owners
 
-- [x] [Breakable and votive placement](world/dungeon_edge_dressing.gd).
 - [x] [Enemy ground telegraphs](combat/effects/enemy_telegraph.tscn) · Retained gameplay warning.
 - [x] [World impact particles](combat/effects/stone_impact.tscn) · New GPU chips and dust.
 - [x] [Card combat pulse](combat/cards/card_cast.gd) · Per-card radial effect.
@@ -211,9 +152,7 @@ The twenty enemy sources open with their Blender armatures active. Their adjacen
 
 Editable sources are in the [source tree](assets/source/) and the sibling art_source and art_sources folders.
 
-## Runtime surface review
-
-The Godot 4.7 audit instantiated all 95 imported models. The new vault accounts for 801 of 1,527 imported surface definitions. Each imported surface has finite vertex normals, nonzero UV coverage on both axes, and an albedo that sampled multiple texels. There are 805 normal-mapped surfaces across 15 models. The assembled hub has 1,505 surface instances, including 49 charcoal fuel surfaces and three portal veils rendered with purpose-built shaders. The audit inspected 4,590 surface instances across imports, packed scenes, and four seeded dungeon regions using 172 decoded texture rasters. Repeated instances count individually.
+## Earlier runtime surface review
 
 The audit found ten surfaces that sampled a single texel. The glove rebuild replaced two of them. A separate scan found five partially affected surfaces. Blender pieces with different UV layer names had exported their authored mapping into the secondary layer, while the albedo used the primary layer. The repairs restored that mapping wherever it was missing and normalized the wearable source layers. Mesh geometry, material references, skin weights, and animation data are identical across the six repaired exports.
 
@@ -233,37 +172,14 @@ Matched Vulkan captures verified the restored finishes on the six affected model
 
 The reference pass decoded 120 albedo DDS files from the local Skyrim Special Edition texture archives. It sampled 20 textures each from stonework, timber, cloth and leather, weapons and armour, creatures, and props. Chips and mineral weathering in masonry and the placement of seams and wear in cloth and leather informed the original Hearth Below materials. The new hub textures use the game's own stone and fabric sources. Skyrim image files were used for review.
 
-
-
-## Dungeon and creature surface review · 2026-11-25
+## Creature surface review · 2026-11-25
 
 All twenty existing enemy prefabs were checked in the Godot Training Ground under Forward+. Their runtime material dependencies resolve to textured surfaces. Updated the shared creature, bone, armour and prop albedos, then corrected individual cloth and metal colours on Cinder Acolyte, Crypt Guard, Gutter Marksman, Mire Husk, Wailing Remnant, Ironbound Reaper, Soot Revenant, Hollow Cantor, Chalice Fiend and Dread Knight.
 
 - [Rotmouth](assets/source/enemy_rigs/rotmouth.blend) now has fitted shoulders, continuous arms, weighted elbow bends and a new texture for the face. Muted matching skin tones and an asymmetrical olive burial mantle distinguish it from the warmer bare-shouldered Grave Thrall. Shoulder and wrist attachment positions were checked in neutral and windup poses.
 - [Ossuary Archer](assets/source/enemy_rigs/ossuary_archer.blend) has a rebuilt skull and jaw, independent clavicles, curved ribs and weighted bone surfaces along the arms.
-- [Crypt cell masonry](world/modules/crypt_cell.tscn) aligns its floor and ceiling coverage to 3.4 metres per diffuse repeat. The taller wall mapping uses a matching density, about 369 albedo pixels per metre in the original Iron Crypt.
 - Nine additional editable enemy armatures were authored through the Blender MCP add-on. Each exported rig uses the native Godot import, a weighted skeleton, four animation clips and the shared matte material palette. The Bestiary portraits were rendered from these imports. Bell Warden wears overlapped forged shoulder plates and Hollow Standard uses narrow, draped wool.
-- Grave Burrower and Grave Legate use the same mapped bone cortex as the ossuary fixtures, with sculpted recesses and separately mapped worn interiors. Wax Brood's candle bases use wax-darkened contact rings. Their Bestiary portraits come from the revised imports.
+- Grave Burrower and Grave Legate use a mapped bone cortex, with sculpted recesses and separately mapped worn interiors. Wax Brood's candle bases use wax-darkened contact rings. Their Bestiary portraits come from the revised imports.
 - [Generation prompts and input textures](assets/rework/imagegen-prompts.md) identify the specific local Skyrim Special Edition samples used as ImageGen reference. The project uses the resulting original textures.
 - The [Gravepath Belt](assets/source/items/gravepath_belt.blend) has one consistent painted UV layer across its leather, hammered iron and flax stitching. The export retains the authored bevels and adds a woven flax albedo.
 - The latest full import sweep loaded 110 models and checked albedo maps, UV coverage on both axes, roughness of one and zero specular on 1,655 surfaces. A separate runtime check exercised 29 enemy scenes and found 1,704 correctly bound bone tracks across 166 animation clips.
-- The Ossuary Shelves and Bone Gate Trophy passed 96 checks across their real seeded placements. The front and side closeups were used to remove the initial hard colour seam between the forehead and rear vault.
-- Compact ossuary fixtures scale uniformly with their support footprint, preserving the skull proportions authored in Blender. A matched native check covered the compact racks, full racks and trophies at depths 2 and 9.
-- The Lantern Broker was rendered in the actual Depth 12 Rootbound Vault secret chamber with the lamp beside his satchel and its warm light physically aligned.
-
-## Expedition masonry sets
-
-The [tileset table](world/dungeon_tilesets.gd) selects one set per expedition seed. The selection carries across the connected floors and falls back to Iron Crypt for older saves. Each set chooses its own floor, wall and ceiling imagery along with a matching lighting palette. The floor uses the blood-projection shader and maps one repeat across 3.4 metres.
-
-| Set | Surface character | Forward+ verification seed |
-| --- | --- | --- |
-| Iron Crypt | Grey limestone ashlar and irregular flagstone | 42 |
-| [Flooded Ossuary](assets/dungeon/tilesets/flooded_ossuary/) | Calcified blue-grey stones and a tight slate ceiling | 44 |
-| [Ash Foundry](assets/dungeon/tilesets/ash_foundry/) | Charcoal setts, red refractory brick and smoke-black ceiling masonry | 46 |
-| [Rootbound Vault](assets/dungeon/tilesets/rootbound_vault/) | Olive-grey mossy cobbles, root traces and rough sandstone fieldstones | 50 |
-| [Sable Catacomb](assets/dungeon/tilesets/sable_catacomb/) | Dark geometric paving and fissile plum-grey schist | 59 |
-
-Each case built a two-floor dungeon in Godot 4.7. The floor shader and visible wall and ceiling materials resolved to that set before the entrance view was captured. The seeded tileset ID also passed a real three-floor character save and restore.
-
-The lighting review captured each biome's entrance, brazier room, and stairs from matched cameras at Depth 1, seed 42. The Iron Crypt's ambient is warm-neutral, with stronger amber close to the flame and a six-metre brazier throw. Shallow reflected light near doorway and stair thresholds preserves the path through the darker pools. The basin's edge and interrupted surface ripples were checked in the live Ash Foundry flooded chamber from above and below the waterline.
-

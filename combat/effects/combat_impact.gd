@@ -1,5 +1,5 @@
 extends RefCounted
-## Emits contact effects only for real damage or an actual strike on dungeon geometry.
+## Emits contact effects only for real damage or an actual strike on world geometry.
 
 const StoneImpact := preload("res://combat/effects/stone_impact.tscn")
 const EngoreRuntime := preload("res://addons/godot-dismemberment/runtime_manifest.tscn")

@@ -1,5 +1,5 @@
 extends RefCounted
-## The first expedition cards. Art coordinates index the two manuscript atlases.
+## Player combat cards. Art coordinates index the two manuscript atlases.
 
 const LOOT := preload("res://data/items/loot_records.tres")
 

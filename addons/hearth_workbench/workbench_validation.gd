@@ -15,6 +15,8 @@ static func check(path: String, resource: Resource, gear: Resource) -> String:
 		Catalog.LEGENDARIES: return _check_legendaries(resource, gear)
 		Catalog.LOOT: return _check_loot(resource)
 		Catalog.PLAYER: return _check_player(resource)
+		Catalog.WEAPON_HIT_SHAKE: return resource.validation_error()
+		Catalog.MELEE_CONTACT: return resource.validation_error()
 	if path.begins_with(Catalog.ABILITIES + "/") or path.begins_with(Catalog.EFFECTS + "/"):
 		var previous := ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 		if previous != null and previous.id != resource.id:
@@ -116,11 +118,6 @@ static func _check_legendaries(value: Resource, gear: Resource) -> String:
 
 
 static func _check_loot(value: Resource) -> String:
-	for rarity: String in value.enemy_chances:
-		for reward: String in value.enemy_chances[rarity]:
-			var bounds: Vector2 = value.enemy_chances[rarity][reward]
-			if not _probability(bounds.x) or not _probability(bounds.y):
-				return "%s %s drop probabilities must be between 0 and 100 percent." % [rarity.capitalize(), reward]
 	for source: String in value.item_profiles:
 		var profile: Dictionary = value.item_profiles[source]
 		var minimum := String(profile.get("minimum", "normal"))
@@ -135,8 +132,6 @@ static func _check_loot(value: Resource) -> String:
 	for rarity: String in value.card_chances:
 		if not _probability(float(value.card_chances[rarity])):
 			return "%s card drop probability must be between 0 and 100 percent." % rarity.capitalize()
-	if int(value.chance_max_depth) < 2:
-		return "Enemy probability scaling requires at least two depths."
 	return ""
 
 

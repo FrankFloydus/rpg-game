@@ -3,7 +3,6 @@ extends SceneTree
 const Items := preload("res://systems/items.gd")
 const Data := preload("res://data/items/legendaries.gd")
 const Bases := preload("res://data/items/bases.gd")
-const Broker := preload("res://data/secret_merchant_rules.tres")
 const Names := preload("res://data/items/item_name_records.tres")
 const Inventory := preload("res://systems/inventory.gd")
 const Supplies := preload("res://systems/pack_supplies.gd")
@@ -45,37 +44,40 @@ func _test() -> void:
 	_check(names.size() == Data.DROPS.size() and names.size() >= 30, "Distinct legendary definitions include twenty new items")
 	_check(kinds.size() >= 11, "Legendary gear covers at least eleven supported base types")
 	_check(all_match, "Every unique keeps its exact affix keys, ranges, tier, effect, and saved roll")
-	_check(_stock_at(25, 31) == _stock_at(50, 31), "Highest hub merchant power and prices cap at Depth 25")
+	_check_retired_effects(bases, rng)
+	_check(_stock_at(25, 31) == _stock_at(50, 31), "Hub merchant power and prices cap at item level 25")
 	var early := _stock_at(1, 31)
 	var later := _stock_at(25, 31)
 	_check(early[0].item_level == 1 and later[0].item_level == 25 and early[0].price < later[0].price,
-		"The standard merchant scales its items and prices with depth")
-	var legendary_chance: float = Broker.legendary_chance
-	Broker.set("legendary_chance", 1.0)
-	var catalog := Items.roll_secret_vendor(50, rng)
-	Broker.set("legendary_chance", legendary_chance)
-	var has_fixed := false
-	var has_band := true
-	for item: Dictionary in catalog:
-		if item.rarity == "legendary":
-			for definition: Dictionary in Data.DROPS:
-				if item.legendary_id == definition.id:
-					has_fixed = item.item_level == definition.level
-					break
-		else:
-			has_band = has_band and item.rarity == "rare" and item.get("unidentified", false) \
-				and item.item_level >= 46 and item.item_level <= 50
-	_check(catalog.size() == Broker.stock_count and has_fixed and has_band,
-		"The Broker's Depth 50 stock keeps rare items in Levels 46–50 and uses the authored legendary item level")
+		"The standard merchant scales its items and prices with its level")
 	_check_item_names(rng)
-	print("Legendary rolls and vendor depth: %d checks, %d failures" % [_checks, _failures])
+	print("Legendary rolls and vendor stock: %d checks, %d failures" % [_checks, _failures])
 	quit(0 if _failures == 0 else 1)
 
 
-func _stock_at(depth: int, seed_value: int) -> Array[Dictionary]:
+func _check_retired_effects(bases: Dictionary, rng: RandomNumberGenerator) -> void:
+	var old_effects := {
+		"undertakers_tithe": "deep_pockets", "cairn_oath": "cairn_oath",
+		"masons_listener": "masons_listener", "tollkeepers_mercy": "tollkeepers_mercy",
+	}
+	var verified := 0
+	for definition: Dictionary in Data.DROPS:
+		if not old_effects.has(definition.id):
+			continue
+		var item := Items._make_legendary(bases[definition.base_id], definition, int(definition.level), "legacy_unique", rng)
+		var saved := item.duplicate(true)
+		saved.effect = old_effects[definition.id]
+		saved.effect_description = "Legacy expedition effect"
+		_check(item.effect.is_empty() and Items.restore_item(saved) == item,
+			"%s keeps item identity and rolls when its retired expedition effect is cleared" % item.name)
+		verified += 1
+	_check(verified == old_effects.size(), "Every retired effect keeps a readable legendary record")
+
+
+func _stock_at(level: int, seed_value: int) -> Array[Dictionary]:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_value
-	return Items.roll_vendor(depth, rng)
+	return Items.roll_vendor(level, rng)
 
 
 func _check_item_names(rng: RandomNumberGenerator) -> void:

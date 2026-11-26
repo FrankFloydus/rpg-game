@@ -2,25 +2,11 @@
 
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
 [ext_resource type="Theme" path="res://ui/hearth_gear_theme.tres" id="2_theme"]
-[ext_resource type="Script" path="res://ui/dungeon_map.gd" id="3_dungeon_map"]
 [ext_resource type="PackedScene" path="res://ui/hud_menus.tscn" id="4_menus"]
 [ext_resource type="PackedScene" path="res://ui/hud_achievement_toast.tscn" id="5_toast"]
 [ext_resource type="PackedScene" path="res://ui/status_effect_badge.tscn" id="6_badge"]
 
 [sub_resource type="StyleBoxFlat" id="Style_plate"]
-bg_color = Color(0.0431, 0.0471, 0.0549, 0.96)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.3333, 0.3569, 0.3843, 1)
-
-
-[sub_resource type="StyleBoxFlat" id="Style_discovery"]
-content_margin_left = 8.0
-content_margin_top = 7.0
-content_margin_right = 8.0
-content_margin_bottom = 7.0
 bg_color = Color(0.0431, 0.0471, 0.0549, 0.96)
 border_width_left = 1
 border_width_top = 1
@@ -94,21 +80,11 @@ grow_vertical = 2
 mouse_filter = 2
 
 
-[node name="Map" type="Control" parent="WorldContent"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("3_dungeon_map")
-
-
 [node name="Header" type="Panel" parent="WorldContent"]
 offset_left = 18.0
 offset_top = 17.0
 offset_right = 376.0
-offset_bottom = 119.0
+offset_bottom = 65.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("Style_plate")
 
@@ -134,69 +110,6 @@ text = "Cinderhold Refuge"
 horizontal_alignment = 0
 vertical_alignment = 1
 text_overrun_behavior = 1
-
-
-[node name="Objective" type="Label" parent="WorldContent/Header"]
-offset_left = 22.0
-offset_top = 46.0
-offset_right = 336.0
-offset_bottom = 67.0
-mouse_filter = 2
-theme_override_font_sizes/font_size = 15
-text = "Deepest gate unlocked · 01"
-horizontal_alignment = 0
-vertical_alignment = 1
-
-
-[node name="RoomName" type="Label" parent="WorldContent/Header"]
-offset_left = 22.0
-offset_top = 71.0
-offset_right = 340.0
-offset_bottom = 92.0
-mouse_filter = 2
-theme_override_colors/font_color = Color(0.6902, 0.7137, 0.7451, 1)
-theme_override_font_sizes/font_size = 14
-text = ""
-horizontal_alignment = 0
-vertical_alignment = 1
-text_overrun_behavior = 1
-
-
-[node name="Gold" type="Label" parent="WorldContent"]
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -272.0
-offset_top = 21.0
-offset_right = -22.0
-offset_bottom = 43.0
-mouse_filter = 2
-theme_override_colors/font_color = Color(0.8157, 0.6588, 0.4431, 1)
-theme_override_font_sizes/font_size = 15
-text = "0 gold"
-horizontal_alignment = 2
-vertical_alignment = 1
-visible = false
-
-
-[node name="DiscoveryToast" type="PanelContainer" parent="WorldContent"]
-visible = false
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -355.0
-offset_top = 50.0
-offset_right = -22.0
-offset_bottom = 76.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("Style_discovery")
-
-
-[node name="DiscoveryText" type="Label" parent="WorldContent/DiscoveryToast"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_font_sizes/font_size = 14
-text = ""
-horizontal_alignment = 1
-vertical_alignment = 1
 
 
 [node name="Vitals" type="Panel" parent="WorldContent"]

@@ -52,6 +52,7 @@ func _run() -> void:
 	_check_pixel(pack, _item_point(board._pack_grid, &"pack"), _expected(authored.identified_fill), "Saved identified pack fill")
 	_check_pixel(pack, _item_point(board._pack_grid, &"unidentified"), _expected(authored.unidentified_fill), "Saved unidentified pack fill")
 	_check_pixel(pack, _local_point(board._slots.main_hand, Vector2(10, 31)), _expected(authored.identified_fill), "Saved equipped fill")
+	await _check_swap_overlay(board)
 
 	board.close()
 	board.open("stash")
@@ -101,6 +102,37 @@ func _expected(tint: Color) -> Color:
 		base.b + (tint.b - base.b) * tint.a)
 
 
+func _check_swap_overlay(board: Control) -> void:
+	var grid: Control = board._pack_grid
+	var bag := _stock.get_grid("bag")
+	var overlap := Vector2i(7, 2)
+	_stock.add_item({"id": "swap_test_ring", "base_id": "iron_band", "type": "ring", "slot": "ring",
+		"name": "Iron Band", "rarity": "normal", "item_level": 1})
+	if not _check(bag.try_move(&"swap_test_ring", overlap, false) == OK, "Swap preview fixture"):
+		return
+	var cell: int = grid.cell_size
+	var from := _item_point(grid, &"pack")
+	for pressed in [true, false]:
+		var button := InputEventMouseButton.new()
+		button.button_index = MOUSE_BUTTON_LEFT
+		button.position = from
+		button.global_position = from
+		button.pressed = pressed
+		root.push_input(button, true)
+	var motion := InputEventMouseMotion.new()
+	motion.position = _local_point(grid, (Vector2(overlap) + Vector2(0.5, 0.5)) * cell)
+	motion.global_position = motion.position
+	root.push_input(motion, true)
+	var capture := await _capture()
+	var occupied := _local_point(grid, Vector2(overlap * cell) + Vector2(5, 8))
+	var clear := occupied - Vector2(0, cell)
+	var at_overlap := _display_pixel(capture, occupied)
+	var at_clear := _display_pixel(capture, clear)
+	_check(at_overlap.r > at_overlap.g and at_overlap.g > at_overlap.b
+		and at_clear.g > at_clear.r, "Swap intersection is yellow and the clear footprint is green")
+	board._carry.cancel()
+
+
 func _item_point(grid: Control, id: StringName) -> Vector2:
 	var origin: Vector2i = _stock.get_grid(grid.endpoint).get_placement(id).origin
 	return _local_point(grid, Vector2(origin * grid.cell_size) + GRID_SAMPLE)
@@ -118,20 +150,26 @@ func _capture() -> Image:
 
 
 func _check_pixel(image: Image, point: Vector2, expected: Color, caption: String) -> void:
-	var image_point := Vector2i(point * Vector2(image.get_size()) / root.get_visible_rect().size)
-	var pixel := image.get_pixelv(image_point)
-	# HDR viewport readback contains linear values before presentation to the screen.
-	if root.use_hdr_2d and RenderingServer.get_current_rendering_method() != "gl_compatibility":
-		pixel = pixel.linear_to_srgb()
+	var pixel := _display_pixel(image, point)
 	var difference := maxf(absf(pixel.r - expected.r), maxf(absf(pixel.g - expected.g), absf(pixel.b - expected.b)))
 	_check(difference <= PIXEL_TOLERANCE, "%s, expected #%s, got #%s" %
 		[caption, expected.to_html(false), pixel.to_html(false)])
 
 
-func _check(condition: bool, caption: String) -> void:
+func _display_pixel(image: Image, point: Vector2) -> Color:
+	var image_point := Vector2i(point * Vector2(image.get_size()) / root.get_visible_rect().size)
+	var pixel := image.get_pixelv(image_point)
+	# HDR viewport readback contains linear values before presentation to the screen.
+	if root.use_hdr_2d and RenderingServer.get_current_rendering_method() != "gl_compatibility":
+		pixel = pixel.linear_to_srgb()
+	return pixel
+
+
+func _check(condition: bool, caption: String) -> bool:
 	_checks += 1
 	if condition:
 		print("PASS ", caption)
 	else:
 		_failures += 1
 		push_error(caption)
+	return condition

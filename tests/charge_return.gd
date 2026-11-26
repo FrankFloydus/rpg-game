@@ -3,7 +3,7 @@ extends SceneTree
 
 const Game := preload("res://main.tscn")
 const WEAPON_TYPES := ["unarmed", "sword_1h", "axe_1h", "mace_1h", "sword_2h", "axe_2h", "mace_2h", "staff"]
-const THREE_STAGE_WEAPONS := ["axe_1h", "axe_2h", "mace_2h", "sword_2h"]
+const THREE_STAGE_WEAPONS := ["axe_1h", "axe_2h", "sword_2h"]
 
 var _game: Node3D
 var _player: CharacterBody3D
@@ -30,6 +30,7 @@ func _run() -> void:
 	for weapon_type: String in THREE_STAGE_WEAPONS:
 		await _check_release(weapon_type, 2)
 		await _check_release(weapon_type, 3)
+	await _check_release("mace_2h", 2)
 	await _check_release("sword_1h", 2)
 	await _check_release("axe_2h", 1, 0.36)
 	await _check_release("axe_2h", 1, 0.74)
@@ -50,8 +51,9 @@ func _check_release(weapon_type: String, chain_stage := 1, release_fraction := 0
 	var light: AbilityDefinition = _player._weapon_attack_ability(false)
 	var heavy: AbilityDefinition = _player._weapon_attack_ability(true)
 	var light_clip: StringName = _view.attack_clip_name(false, chain_stage)
+	var mace := weapon_type == "mace_2h"
 	# Exercise the real movement/sway lane on both a shield user and large weapons.
-	var strafe_after_start := weapon_type in THREE_STAGE_WEAPONS
+	var strafe_after_start := mace or weapon_type in THREE_STAGE_WEAPONS
 	var walking := strafe_after_start or weapon_type == "sword_1h" or weapon_type.ends_with("2h")
 	if walking and not strafe_after_start:
 		Input.action_press("right")
@@ -59,6 +61,9 @@ func _check_release(weapon_type: String, chain_stage := 1, release_fraction := 0
 	var mana: float = _player.mana
 	_game._combat_events.clear()
 	var release_threshold := 0.84 if weapon_type.ends_with("2h") else 0.57
+	if mace:
+		# Both live mace charges allow a manual heavy from their Heavy Ready marker.
+		release_threshold = 0.18
 	if weapon_type.begins_with("axe_"):
 		release_threshold = 0.90
 	if release_fraction > 0.0:
@@ -68,10 +73,12 @@ func _check_release(weapon_type: String, chain_stage := 1, release_fraction := 0
 	var progress: float = _view.rendered_charge_fraction()
 	_release_charge()
 	var entry_time: float = _player._current_clip_time() if _player._strike_clip != null else -1.0
+	var transition_time: float = _view._transition_remaining
+	var expected_transition := transition_time > 0.0 if mace else is_zero_approx(transition_time)
 	_check(_player._strike_pending and _player._strike_ability == light and not _player._strike_heavy
 		and _player._strike_animation == light_clip and _player._strike_chain_stage == chain_stage
-		and is_zero_approx(_view._transition_remaining) and _view._main_charge_return == null,
-		label + " releases immediately into the selected light attack without a transition blend")
+		and expected_transition and _view._main_charge_return == null,
+		label + " releases into the selected light with its authored handoff")
 	_check(entry_time > 0.0 and entry_time < _player._strike_clip.trace_start
 		and is_equal_approx(entry_time, progress * 0.85 * _player._strike_clip.trace_start)
 		and not _player._clip_released and is_equal_approx(_player.mana, mana),

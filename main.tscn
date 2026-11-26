@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" path="res://ui/combat_log_ui.tscn" id="6_log"]
 [ext_resource type="PackedScene" path="res://ui/training_roster.tscn" id="7_roster"]
 [ext_resource type="PackedScene" path="res://ui/title_screen.tscn" id="8_title"]
-[ext_resource type="PackedScene" path="res://player/player.tscn" id="9_player"]
+[ext_resource type="PackedScene" uid="uid://bpbymx5ny32si" path="res://player/player.tscn" id="9_player"]
 [ext_resource type="PackedScene" uid="uid://cvlu6ckk5h4ev" path="res://world/hub.tscn" id="10_hub"]
 [ext_resource type="PackedScene" path="res://ui/card_interface.tscn" id="11_cards"]
 

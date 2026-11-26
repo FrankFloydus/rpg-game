@@ -7,12 +7,6 @@ const GraveThrall := 0
 const Rules := preload("res://data/telegraph_rules.tres")
 const Telegraph := preload("res://combat/effects/enemy_telegraph.gd")
 const FearsomeRage := preload("res://combat/effects/enrage.tres")
-const Hazards: Dictionary[String, PackedScene] = {
-	"spike_plate": preload("res://world/hazards/spike_plate.tscn"),
-	"ember_vent": preload("res://world/hazards/ember_vent.tscn"),
-	"miasma_vent": preload("res://world/hazards/miasma_vent.tscn"),
-}
-
 var _game: Node3D
 var _player: CharacterBody3D
 var _checks := 0
@@ -34,8 +28,6 @@ func _run() -> void:
 	_check_footprints()
 	await _check_slam()
 	await _check_volatile()
-	for kind in Hazards:
-		await _check_fixture(kind)
 	_game.free()
 	print("Hearth Below floor warnings: %d checks, %d failures" % [_checks, _failures])
 	quit(1 if _failures > 0 else 0)
@@ -104,26 +96,6 @@ func _check_volatile() -> void:
 	if _check(is_instance_valid(warning) and warning.visible, "Volatile death starts a real burst warning"):
 		await _walk_out(warning, warning.global_position, warning.global_basis, warning.scale.x, true)
 	_game._reset_training_combat()
-	await _ticks(1)
-
-
-func _check_fixture(kind: String) -> void:
-	var center := Vector3(0.0, 0.06, -1.0)
-	_player.place_at(center)
-	await _ticks(8)
-	var trap := Hazards[kind].instantiate() as Node3D
-	trap.configure(kind, 5, _player)
-	trap.position = center
-	_game._training_actors.add_child(trap)
-	var warning: MeshInstance3D = trap._warning
-	for _frame in 120:
-		await _ticks(1)
-		if warning.visible:
-			break
-	if _check(warning.visible and is_equal_approx(warning.scale.x, trap._radius),
-			"%s shows the exact contact radius from the first warning frame" % kind):
-		await _walk_out(warning, warning.global_position, warning.global_basis, warning.scale.x, false)
-	trap.queue_free()
 	await _ticks(1)
 
 

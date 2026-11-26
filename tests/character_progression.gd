@@ -18,10 +18,12 @@ func _initialize() -> void:
 	var rare_reward := character.award_kill(1, "rare")
 	_check(normal_reward > 0 and rare_reward > normal_reward and character.xp == normal_reward + rare_reward,
 		"Relevant kills give persistent experience and rarer enemies reward more")
-	_check(character.award_clear(1) > 0 and character.level == 2 and character.points_available() == 1,
-		"First Depth 1 clear reaches level 2 and earns a point")
-	_check(character.award_clear(1) == 0 and character.level == 2,
-		"Replayed clears cannot grant the first-clear reward")
+	for attempt in character.xp_for_next_level():
+		if character.level > 1:
+			break
+		character.award_kill(1, "rare")
+	_check(character.level == 2 and character.points_available() == 1,
+		"Accumulated kill XP reaches level 2 and earns a point")
 
 	var training := Progression.for_training(25)
 	_check(training.level == 25 and training.points_available() == 24 and training.max_life() == 49.0,
@@ -55,12 +57,12 @@ func _initialize() -> void:
 	DirAccess.remove_absolute(test_directory)
 	character.award_kill(2, "normal")
 	continued.restore(JSON.parse_string(JSON.stringify(character.snapshot())))
-	_check(continued.level == 2 and continued.xp == character.xp and continued.award_clear(1) == 0,
-		"Checkpoint round-trip preserves partial XP and one-time clear rewards")
+	_check(continued.level == 2 and continued.xp == character.xp,
+		"Checkpoint round-trip preserves partial XP")
 	continued.restore({}, 10)
 	_check(continued.level == 10 and continued.max_life() == 30.0 and continued.points_available() == 9
-		and continued.award_clear(10) == 0,
-		"Existing saves migrate from highest cleared depth without earning past clear bonuses again")
+		and continued.snapshot().highest_cleared_depth == 10,
+		"Early saves reconstruct character level and retain their highest cleared depth")
 	_check(continued.award_kill(4, "rare") == 0 and continued.award_kill(5, "normal") > 0,
 		"Trivial enemies grant no XP while weaker relevant ones still award some")
 	continued.restore({"level": 100, "xp": 10, "attributes": {"dexterity": 10000, "strength": -2}})

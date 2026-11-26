@@ -3,6 +3,9 @@ class_name FirstPersonCameraEffects
 extends Camera3D
 ## Authors first-person roll, movement FOV, and render-only combat feedback.
 
+const WEAPON_MOTION_SETTLE_TIME := 0.085
+const WeaponHitShake := preload("res://data/weapon_hit_shake.gd")
+
 @export_group("Aim")
 ## Maximum upward and downward view pitch in degrees.
 @export_range(1.0, 89.9, 0.1, "suffix:°") var pitch_limit: float = 89.0
@@ -47,6 +50,9 @@ var _shake_offset := Vector3.ZERO
 var _shake_elapsed := 0.0
 var _shake_duration := 0.0
 var _shake_priority := 0
+var _shake_pulse := WeaponHitShake.Pulse.STANDARD
+var _weapon_motion := Quaternion.IDENTITY
+var _weapon_motion_remaining := 0.0
 
 
 func _validate_property(property: Dictionary) -> void:
@@ -66,14 +72,15 @@ func _ready() -> void:
 	sync_view_pose(false)
 
 
-## Uses the same eye position and locomotion roll as the view, with no damage or impact rotation.
+## Uses the gameplay eye position and locomotion roll.
 func aim_transform() -> Transform3D:
 	var aim_rotation := _rest_rotation + Vector3(0.0, 0.0, _strafe_roll)
 	var aim_pose := Transform3D(Basis.from_euler(aim_rotation, rotation_order), _eye_offset)
 	return _eye_anchor.global_transform * aim_pose
 
 
-func kick_combat_view(degrees: Vector3, duration: float, priority: int) -> void:
+func kick_combat_view(degrees: Vector3, duration: float, priority: int,
+		pulse: WeaponHitShake.Pulse = WeaponHitShake.Pulse.STANDARD) -> void:
 	if combat_shake_intensity <= 0.0:
 		return
 	if _shake_elapsed < _shake_duration:
@@ -84,14 +91,45 @@ func kick_combat_view(degrees: Vector3, duration: float, priority: int) -> void:
 	_shake_duration = duration
 	_shake_elapsed = 0.0
 	_shake_priority = priority
+	_shake_pulse = pulse
 
 
-func clear_combat_shake() -> void:
+func clear_combat_shake(preserve_weapon_motion := false) -> void:
 	_shake_duration = 0.0
 	_shake_elapsed = 0.0
 	_shake_priority = 0
+	_shake_pulse = WeaponHitShake.Pulse.STANDARD
 	_shake_peak = Vector3.ZERO
 	_shake_offset = Vector3.ZERO
+	if not preserve_weapon_motion:
+		_weapon_motion = Quaternion.IDENTITY
+		_weapon_motion_remaining = 0.0
+	sync_view_pose(not Engine.is_in_physics_frame())
+
+
+## Receives a camera-local rotation from the rendered weapon pose.
+func set_weapon_motion(local_rotation: Quaternion) -> void:
+	_weapon_motion_remaining = WEAPON_MOTION_SETTLE_TIME
+	_apply_weapon_motion(local_rotation)
+
+
+func settle_weapon_motion(delta: float) -> void:
+	if _weapon_motion_remaining <= 0.0:
+		return
+	var amount := minf(delta / _weapon_motion_remaining, 1.0)
+	_weapon_motion_remaining = maxf(_weapon_motion_remaining - delta, 0.0)
+	_apply_weapon_motion(_weapon_motion.slerp(Quaternion.IDENTITY, amount))
+
+
+func clear_weapon_motion() -> void:
+	_weapon_motion_remaining = 0.0
+	_apply_weapon_motion(Quaternion.IDENTITY)
+
+
+func _apply_weapon_motion(local_rotation: Quaternion) -> void:
+	if _weapon_motion.is_equal_approx(local_rotation):
+		return
+	_weapon_motion = local_rotation
 	sync_view_pose(not Engine.is_in_physics_frame())
 
 
@@ -102,11 +140,8 @@ func advance_view_roll(strafe: float, damage: float, delta: float) -> void:
 	if _shake_elapsed < _shake_duration:
 		# Measure the brief recoil in wall time so the card hand cannot stretch it.
 		_shake_elapsed += delta / maxf(0.01, Engine.time_scale)
-		var phase := clampf(_shake_elapsed / _shake_duration, 0.0, 1.0)
-		var strike := smoothstep(0.0, 0.16, phase)
-		var recoil := clampf((phase - 0.16) / 0.84, 0.0, 1.0)
-		var settling := (1.0 - recoil) * (1.0 - recoil) * cos(recoil * TAU * 0.72)
-		_shake_offset = _shake_entry * (1.0 - strike) + _shake_peak * strike * settling
+		_shake_offset = WeaponHitShake.pulse_offset(
+			_shake_entry, _shake_peak, _shake_elapsed, _shake_duration, _shake_pulse)
 	sync_view_pose(not Engine.is_in_physics_frame())
 
 
@@ -117,7 +152,8 @@ func sync_view_pose(interpolate_position: bool) -> void:
 	if interpolate_position:
 		anchor.origin += _motion_body.get_global_transform_interpolated().origin - _motion_body.global_position
 	var tilt := _rest_rotation + Vector3(0.0, 0.0, _strafe_roll + _damage_roll) + _shake_offset
-	var target := anchor * Transform3D(Basis.from_euler(tilt, rotation_order), _eye_offset)
+	var view_basis := Basis.from_euler(tilt, rotation_order) * Basis(_weapon_motion)
+	var target := anchor * Transform3D(view_basis, _eye_offset)
 	if not global_transform.is_equal_approx(target):
 		global_transform = target
 

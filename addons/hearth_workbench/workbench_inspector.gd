@@ -6,7 +6,35 @@ const Schema := preload("res://addons/hearth_workbench/workbench_ability_schema.
 const Property := preload("res://addons/hearth_workbench/workbench_property.gd")
 const AssetProperty := preload("res://addons/hearth_workbench/workbench_asset_property.gd")
 const EffectList := preload("res://addons/hearth_workbench/workbench_effect_list.gd")
+const CurveProperty := preload("res://addons/hearth_workbench/workbench_curve_property.gd")
 const WeaponSway := preload("res://player/weapon_sway/weapon_sway_settings.gd")
+
+const CURVE_PROFILE_SCRIPTS := [
+	"res://data/combat_feedback.gd",
+	"res://combat/enemies/enemy_scaling.gd",
+	"res://player/weapon_sway/weapon_bob_style.gd",
+	"res://player/weapon_sway/weapon_gait_motion.gd",
+	"res://player/weapon_sway/weapon_air_motion.gd",
+]
+
+const CURVE_PROPERTIES := {
+	"life_by_level": ["Enemy level", "Life multiplier", "Scale base enemy Life with level before the late-level bonus is applied."],
+	"damage_by_level": ["Enemy level", "Damage multiplier", "Scale base enemy attack damage with level before the late-level bonus is applied."],
+	"movement_bonus_by_level": ["Enemy level", "Speed bonus", "Add movement speed as enemies level up."],
+	"attack_windup_by_level": ["Enemy level", "Windup multiplier", "Scale how much time enemies spend anticipating an attack."],
+	"attack_recovery_by_level": ["Enemy level", "Recovery multiplier", "Scale how much time enemies spend recovering after an attack."],
+	"projectile_speed_by_level": ["Enemy level", "Speed multiplier", "Scale the travel speed of hostile projectiles."],
+	"projectile_lead_by_level": ["Enemy level", "Aim lead", "Control how much the enemy leads a moving target when firing."],
+	"projectile_lead_limit_by_level": ["Enemy level", "Lead limit", "Limit how far the enemy can lead a moving target with a projectile."],
+	"reaction_curve": ["Reaction phase", "Reaction weight", "Shape a surviving enemy's recoil over normalized reaction time. Use zero at the start and end."],
+	"bob_walk_step": ["Step phase", "Bob weight", "Shape the first-person weapon motion through a walking step."],
+	"bob_run_step": ["Step phase", "Bob weight", "Shape the first-person weapon motion through a running step."],
+	"walk_step": ["Step phase", "Bob weight", "Shape the first-person weapon motion through a walking step."],
+	"run_step": ["Step phase", "Bob weight", "Shape the first-person weapon motion through a running step."],
+	"breath_curve": ["Breathing phase", "Breath weight", "Shape the first-person weapon motion through an idle breath."],
+	"envelope": ["Motion phase", "Motion weight", "Shape the motion this layer contributes during its normalized phase."],
+	"rotation_envelope": ["Motion phase", "Rotation weight", "Shape the rotation this layer contributes during its normalized phase."],
+}
 
 const PRESENTATION := {
 	"icon": ["Texture2D", "Icon", "The texture used in the Bestiary, Combat Log, and status UI."],
@@ -23,13 +51,24 @@ var open_bob_style: Callable
 
 
 func _can_handle(object: Object) -> bool:
-	return object is AbilityDefinition or object is EffectDefinition or object is WeaponSway
+	if object is AbilityDefinition or object is EffectDefinition or object is WeaponSway:
+		return true
+	var script := object.get_script() as Script
+	return script != null and script.resource_path in CURVE_PROFILE_SCRIPTS
 
 
-func _parse_property(object: Object, _type: Variant.Type, name: String, _hint_type: PropertyHint,
-		_hint_string: String, _usage_flags: int, _wide: bool) -> bool:
+func _parse_property(object: Object, type: Variant.Type, name: String, _hint_type: PropertyHint,
+		hint_string: String, _usage_flags: int, _wide: bool) -> bool:
+	if type == TYPE_OBJECT and hint_string == "Curve" and CURVE_PROPERTIES.has(name):
+		var details: Array = CURVE_PROPERTIES[name]
+		var editor := CurveProperty.new()
+		editor.configure(details[0], details[1], details[2])
+		add_property_editor(name, editor)
+		return true
 	if object is WeaponSway:
 		return _parse_weapon_sway(object, name)
+	if not (object is AbilityDefinition or object is EffectDefinition):
+		return false
 	match name:
 		"id":
 			return true

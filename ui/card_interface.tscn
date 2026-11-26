@@ -121,7 +121,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"GearHeading"
 theme_override_font_sizes/font_size = 30
-text = "Expedition Deck"
+text = "Deck"
 
 [node name="Close" type="Button" parent="Content/DeckFrame/Stack/Header"]
 layout_mode = 2

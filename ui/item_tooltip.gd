@@ -130,7 +130,7 @@ func _build_item(pane: PanelContainer, item: Dictionary, deltas: Dictionary, buy
 			rows.add_child(_divider())
 			rows.add_child(_label("Right-click this Seal, then click an unidentified item in your pack.", 14, PAPER))
 		else:
-			subtitle.text = "Dungeon key" if supply in [Supplies.TREASURE_KEY, Supplies.ROUTE_KEY] else "Crafting material"
+			subtitle.text = "Legacy key" if supply in [Supplies.TREASURE_KEY, Supplies.ROUTE_KEY] else "Crafting material"
 		if Supplies.can_stack(item):
 			rows.add_child(_label("Stack %d / %d" % [Supplies.quantity(item), Supplies.STACK_LIMIT], 14, PAPER))
 		return
@@ -159,7 +159,7 @@ func _build_item(pane: PanelContainer, item: Dictionary, deltas: Dictionary, buy
 
 func _build_card_details(rows: VBoxContainer, subtitle: Label, item: Dictionary) -> void:
 	var unidentified: bool = item.get("unidentified", false)
-	subtitle.text = "Expedition card" if unidentified else "%s expedition card" % String(item["rarity"]).capitalize()
+	subtitle.text = "Card" if unidentified else "%s card" % String(item["rarity"]).capitalize()
 	rows.add_child(_divider())
 	if unidentified:
 		rows.add_child(_label("Reveal it with a Scribe's Seal.", 14, PAPER))

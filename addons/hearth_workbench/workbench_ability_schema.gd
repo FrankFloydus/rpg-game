@@ -36,7 +36,7 @@ const SHAPE_FIELDS := {
 	"projectile": ["start", "reach", "speed"],
 }
 const FIELDS := {
-	"start": ["AI start range", "Farthest distance from the target where the enemy may start the move. The hit uses its own range.", "m", 2.1, 0.01],
+	"start": ["AI start range", "Farthest distance from the target where the enemy may start the move. Hit reach controls the area that can deal damage.", "m", 2.1, 0.01],
 	"reach": ["Hit reach", "Maximum distance covered by the attack. For a circle or ring this is the outer radius.", "m", 2.25, 0.01],
 	"arc": ["Arc half-angle", "Degrees to either side of the caster's facing. A setting of 45° creates a 90° sweep.", "°", 45.0, 0.1, 180.0],
 	"offset": ["Center offset", "How far ahead of the caster to place the circle's center.", "m", 0.0, 0.01],
@@ -46,7 +46,7 @@ const FIELDS := {
 	"speed": ["Projectile speed", "Travel speed of a projectile or the motion speed used by a scripted ranged release.", "m/s", 10.0, 0.1],
 	"spread": ["Projectile spread", "Angular separation used when this move launches projectiles across a fan.", "°", 0.0, 0.1, 180.0],
 	"second": ["Follow-up shot delay", "Time after the first shot before the same cast releases the second one.", "s", 0.0, 0.01],
-	"attack_cost": ["Encounter pressure cost", "Multiplier to the attack coordination budget spent when this enemy starts its move.", "×", 1.0, 0.01],
+	"attack_cost": ["Encounter pressure cost", "Multiplies the attack coordination budget spent on this move. Higher costs leave less room for other enemies to attack at the same time.", "×", 1.0, 0.01],
 	"arm_delay": ["Trap arming delay", "Time after the snare lands before it can trigger.", "s", 0.75, 0.01],
 	"lifetime": ["Trap lifetime", "How long an untriggered snare stays on the floor.", "s", 6.0, 0.05],
 	"trigger_radius": ["Trap trigger radius", "Distance from the snare center at which a target steps onto it.", "m", 0.78, 0.01],
@@ -67,6 +67,17 @@ const FIELDS := {
 	"revival_range": ["Revival search radius", "Distance the caster can search for an eligible fallen ally.", "m", 6.0, 0.01],
 	"heavy": ["Use charged weapon strike", "Use the equipped weapon's charged attack animations, profile, and strike rules.", "", false],
 }
+
+
+static func field_help(key: String) -> String:
+	match key:
+		"shape":
+			return "Defines where the attack can hit and which dimensions can be tuned. The ability's behavior may own a fixed shape."
+		"floor_warning":
+			return "Shows the attack area during enemy windup. Marked attacks lock their warning area and cannot be blocked."
+	if FIELDS.has(key):
+		return FIELDS[key][1]
+	return "This ability stores the setting for its own script. Edit it in the source resource."
 
 
 static func keys(profile: Dictionary) -> Array[String]:

@@ -4,10 +4,8 @@ const Rules := preload("res://data/caster_legendary_rules.tres")
 const Chill := preload("res://combat/effects/chilled.tres")
 const Fracture := preload("res://combat/effects/rime_fracture.tscn")
 const Arc := preload("res://player/effects/staff_arc.tscn")
-const SkeletonCohort := preload("res://combat/cards/allied_skeleton_cohort.gd")
 const RIME := "rime_that_rings"
 const TITHE := "tithe_of_sparks"
-const CAIRN := "cairn_oath"
 const TITHE_ICON := preload("res://assets/rework/icons/shocked.tres")
 
 var _rime_wait := 0.0
@@ -134,27 +132,3 @@ static func _damage(player: CharacterBody3D, target: Node3D, origin: Vector3,
 	var point: Vector3 = target.aim_point()
 	var hit: Dictionary = target.take_hit({element: amount}, player, point, origin.direction_to(point))
 	player.report_enemy_hit(target, point, hit, ability, false, target.level_damage_factor(player) <= 0.5)
-
-
-static func on_rare_kill(player: CharacterBody3D, enemy: Node3D, actors: Node3D, run: Dictionary) -> void:
-	if run.is_empty() or bool(run.get("cairn_oath_used", false)) or not player.effects.has(CAIRN):
-		return
-	if enemy.rarity != "rare" or not enemy.player_caused_death or not is_instance_valid(actors):
-		return
-	run["cairn_oath_used"] = true
-	var detail := ""
-	for child in actors.get_children():
-		if child is SkeletonCohort and child.is_active_for(player):
-			child.extend_service(Rules.cairn_extension_seconds)
-			detail = "Extended the Oathbound company"
-			break
-	if detail.is_empty():
-		var guard := SkeletonCohort.new()
-		guard.name = "CairnOathGuard"
-		actors.add_child(guard)
-		guard.raise_guard(player, actors, Rules.cairn_guard_seconds)
-		detail = "Raised an Oathbound guard"
-	player.combat_event.emit({"kind": &"status", "side": &"player", "actor": "Player",
-		"target": "Player", "ability_id": CAIRN, "ability": "Cairn Oath",
-		"description": "Your first rare kill raises a guard or extends an active Oathbound company.",
-		"detail": detail})

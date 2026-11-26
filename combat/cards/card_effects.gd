@@ -1,5 +1,5 @@
 extends RefCounted
-## Runtime durations use expedition time, including the card hand's slow motion.
+## Runtime durations use simulation time, including the card hand's slow motion.
 
 signal display_changed
 

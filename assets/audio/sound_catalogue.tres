@@ -21,15 +21,11 @@
 [ext_resource type="AudioStream" uid="uid://bqj2qrnlvdahh" path="res://assets/audio/ui/cards/card_use_lightning.wav" id="Clip_card_use_lightning"]
 [ext_resource type="AudioStream" uid="uid://duvd38i2mac4b" path="res://assets/audio/ui/cards/card_use_physical.wav" id="Clip_card_use_physical"]
 [ext_resource type="AudioStream" uid="uid://b285il2plu4ao" path="res://assets/audio/ui/cards/card_use_summon.wav" id="Clip_card_use_summon"]
-[ext_resource type="AudioStream" uid="uid://1imcsifur4g3" path="res://assets/audio/chest.ogg" id="Clip_chest"]
-[ext_resource type="AudioStream" uid="uid://brbqd3g280yhg" path="res://assets/audio/complete.ogg" id="Clip_complete"]
 [ext_resource type="AudioStream" uid="uid://br6yoyyjyinf6" path="res://assets/audio/craft.ogg" id="Clip_craft"]
 [ext_resource type="AudioStream" uid="uid://b7s3qsx8fh7w3" path="res://assets/audio/crate_break.wav" id="Clip_crate_break"]
 [ext_resource type="AudioStream" uid="uid://b1o8r77ecy0uo" path="res://assets/audio/death.ogg" id="Clip_death"]
 [ext_resource type="AudioStream" uid="uid://bon7ashouvnus" path="res://assets/audio/drink.ogg" id="Clip_drink"]
-[ext_resource type="AudioStream" uid="uid://ijxxw05aadt4" path="res://assets/audio/dungeon_ambience.ogg" id="Clip_dungeon_ambience"]
-[ext_resource type="AudioStream" uid="uid://d04gjnemuk6u" path="res://assets/audio/hazards/ember_vent_burst.wav" id="Clip_ember_vent_burst"]
-[ext_resource type="AudioStream" uid="uid://c24gi5heudxw8" path="res://assets/audio/hazards/ember_vent_warning.wav" id="Clip_ember_vent_warning"]
+[ext_resource type="AudioStream" uid="uid://ijxxw05aadt4" path="res://assets/audio/training_ambience.ogg" id="Clip_training_ambience"]
 [ext_resource type="AudioStream" uid="uid://dl5sm6v1nrwle" path="res://assets/audio/equip.ogg" id="Clip_equip"]
 [ext_resource type="AudioStream" uid="uid://btxxfba1cx4rc" path="res://assets/audio/error.ogg" id="Clip_error"]
 [ext_resource type="AudioStream" uid="uid://cv70kgnex6vcc" path="res://assets/audio/hit.ogg" id="Clip_hit"]
@@ -60,8 +56,6 @@
 [ext_resource type="AudioStream" uid="uid://ce5vlgvod776k" path="res://assets/audio/ui/items/item_place_sword_2h.wav" id="Clip_item_place_sword_2h"]
 [ext_resource type="AudioStream" uid="uid://c12xwa2ewrb5w" path="res://assets/audio/kill.ogg" id="Clip_kill"]
 [ext_resource type="AudioStream" uid="uid://cimodcsx1quog" path="res://assets/audio/loot.ogg" id="Clip_loot"]
-[ext_resource type="AudioStream" uid="uid://bw2y16nb1wcj7" path="res://assets/audio/hazards/miasma_vent_burst.wav" id="Clip_miasma_vent_burst"]
-[ext_resource type="AudioStream" uid="uid://b446mf4yqh1ud" path="res://assets/audio/hazards/miasma_vent_warning.wav" id="Clip_miasma_vent_warning"]
 [ext_resource type="AudioStream" uid="uid://cd8o7dtrhyh7c" path="res://assets/audio/movement/slate_jump_01.wav" id="Clip_move_jump_01"]
 [ext_resource type="AudioStream" uid="uid://dxn5js8btlijf" path="res://assets/audio/movement/slate_jump_02.wav" id="Clip_move_jump_02"]
 [ext_resource type="AudioStream" uid="uid://cui4e5lt3bpw2" path="res://assets/audio/movement/slate_jump_03.wav" id="Clip_move_jump_03"]
@@ -79,8 +73,6 @@
 [ext_resource type="AudioStream" uid="uid://be4ut1vqoiv82" path="res://assets/audio/player_hit.ogg" id="Clip_player_hit"]
 [ext_resource type="AudioStream" uid="uid://bpgihl1mluq3o" path="res://assets/audio/portal.ogg" id="Clip_portal"]
 [ext_resource type="AudioStream" uid="uid://b2wo1nou6bh5s" path="res://assets/audio/pottery_break.wav" id="Clip_pottery_break"]
-[ext_resource type="AudioStream" uid="uid://dljlfuhh76cm" path="res://assets/audio/hazards/spike_plate_burst.wav" id="Clip_spike_plate_burst"]
-[ext_resource type="AudioStream" uid="uid://dqxitg0v0i8og" path="res://assets/audio/hazards/spike_plate_warning.wav" id="Clip_spike_plate_warning"]
 [ext_resource type="AudioStream" uid="uid://diqvcwv4dtcm0" path="res://assets/audio/step.ogg" id="Clip_step"]
 [ext_resource type="AudioStream" uid="uid://c1cnxgeq3i4km" path="res://assets/audio/swing.ogg" id="Clip_swing"]
 [ext_resource type="AudioStream" uid="uid://7vmkbe4pyrqe" path="res://assets/audio/trade.ogg" id="Clip_trade"]
@@ -165,18 +157,6 @@ clips = Array[AudioStream]([ExtResource("Clip_card_use_summon")])
 volume_db = -8.0
 pitch_variation = 0.035
 
-[sub_resource type="Resource" id="Cue_chest"]
-resource_name = "Chest"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_chest")])
-volume_db = -1.0
-pitch_variation = 0.06
-
-[sub_resource type="Resource" id="Cue_complete"]
-resource_name = "Complete"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_complete")])
-
 [sub_resource type="Resource" id="Cue_craft"]
 resource_name = "Craft"
 script = ExtResource("2_cue")
@@ -203,23 +183,11 @@ clips = Array[AudioStream]([ExtResource("Clip_drink")])
 volume_db = -4.0
 pitch_variation = 0.05
 
-[sub_resource type="Resource" id="Cue_dungeon_ambience"]
-resource_name = "Dungeon Ambience"
+[sub_resource type="Resource" id="Cue_training_ambience"]
+resource_name = "Training Ambience"
 script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_dungeon_ambience")])
+clips = Array[AudioStream]([ExtResource("Clip_training_ambience")])
 volume_db = -2.0
-
-[sub_resource type="Resource" id="Cue_ember_vent_burst"]
-resource_name = "Ember Vent Burst"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_ember_vent_burst")])
-volume_db = -8.0
-
-[sub_resource type="Resource" id="Cue_ember_vent_warning"]
-resource_name = "Ember Vent Warning"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_ember_vent_warning")])
-volume_db = -8.0
 
 [sub_resource type="Resource" id="Cue_equip"]
 resource_name = "Equip"
@@ -293,7 +261,7 @@ clips = Array[AudioStream]([ExtResource("Clip_item_place_boots")])
 pitch_variation = 0.055
 
 [sub_resource type="Resource" id="Cue_item_place_card"]
-resource_name = "Set down expedition card"
+resource_name = "Set down card"
 script = ExtResource("2_cue")
 clips = Array[AudioStream]([ExtResource("Clip_item_place_card")])
 volume_db = 5.0
@@ -451,18 +419,6 @@ clips = Array[AudioStream]([ExtResource("Clip_loot")])
 volume_db = -3.0
 pitch_variation = 0.05
 
-[sub_resource type="Resource" id="Cue_miasma_vent_burst"]
-resource_name = "Miasma Vent Burst"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_miasma_vent_burst")])
-volume_db = -8.0
-
-[sub_resource type="Resource" id="Cue_miasma_vent_warning"]
-resource_name = "Miasma Vent Warning"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_miasma_vent_warning")])
-volume_db = -8.0
-
 [sub_resource type="Resource" id="Cue_player_hit"]
 resource_name = "Player Hit"
 script = ExtResource("2_cue")
@@ -488,18 +444,6 @@ script = ExtResource("2_cue")
 clips = Array[AudioStream]([ExtResource("Clip_swing")])
 volume_db = -1.0
 pitch_variation = 0.1
-
-[sub_resource type="Resource" id="Cue_spike_plate_burst"]
-resource_name = "Spike Plate Burst"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_spike_plate_burst")])
-volume_db = -8.0
-
-[sub_resource type="Resource" id="Cue_spike_plate_warning"]
-resource_name = "Spike Plate Warning"
-script = ExtResource("2_cue")
-clips = Array[AudioStream]([ExtResource("Clip_spike_plate_warning")])
-volume_db = -8.0
 
 [sub_resource type="Resource" id="Cue_move_sprint"]
 resource_name = "Sprint on slate"
@@ -556,9 +500,7 @@ jump = SubResource("Cue_move_jump")
 land = SubResource("Cue_move_land")
 step = SubResource("Cue_step")
 portal = SubResource("Cue_portal")
-chest = SubResource("Cue_chest")
 loot = SubResource("Cue_loot")
-complete = SubResource("Cue_complete")
 trade = SubResource("Cue_trade")
 craft = SubResource("Cue_craft")
 equip = SubResource("Cue_equip")
@@ -598,11 +540,5 @@ card_use_guard = SubResource("Cue_card_use_guard")
 card_use_summon = SubResource("Cue_card_use_summon")
 crate_break = SubResource("Cue_crate_break")
 pottery_break = SubResource("Cue_pottery_break")
-spike_plate_warning = SubResource("Cue_spike_plate_warning")
-spike_plate_burst = SubResource("Cue_spike_plate_burst")
-ember_vent_warning = SubResource("Cue_ember_vent_warning")
-ember_vent_burst = SubResource("Cue_ember_vent_burst")
-miasma_vent_warning = SubResource("Cue_miasma_vent_warning")
-miasma_vent_burst = SubResource("Cue_miasma_vent_burst")
 hub_ambience = SubResource("Cue_hub_ambience")
-dungeon_ambience = SubResource("Cue_dungeon_ambience")
+training_ambience = SubResource("Cue_training_ambience")

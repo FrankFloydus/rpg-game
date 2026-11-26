@@ -138,7 +138,6 @@ func _run() -> void:
 	await _check_cursor_swaps()
 	await _check_stash_controls()
 	_check_orientation_migration()
-	await _check_expedition_vendor()
 	await _check_identification()
 	await _check_stack_controls()
 	_check_native_record_transactions()
@@ -302,10 +301,18 @@ func _check_cursor_swaps() -> void:
 	_check(_panel._carry.is_holding() and _panel._slots["main_hand"]._carry_fit
 		and _panel._slots["off_hand"]._carry_fit and not _panel._slots["helm"]._carry_fit,
 		"The carried one-hander highlights both compatible hands and leaves other slots alone")
+	_hover(_drop_point(pack, Vector2i(3, 1), initial_long.footprint))
+	_check(not _panel._carry._outline_valid and not _panel._carry._swap_outline.has_area(),
+		"Two overlapping items show a rejected drop without a swap highlight")
 	_click(_drop_point(pack, Vector2i(3, 1), initial_long.footprint))
 	_check(_panel._carry._carried.get("id") == &"long" and bag.get_placement(&"long") == initial_long,
 		"A footprint covering more than one item preserves the installed and carried records")
-	_click(_drop_point(pack, Vector2i(3, 2), initial_long.footprint))
+	var swap_point := _drop_point(pack, Vector2i(3, 2), initial_long.footprint)
+	_hover(swap_point)
+	_check(_panel._carry._outline_valid and _panel._carry._swap_outline.size == Vector2.ONE * pack.cell_size
+		and _panel._carry._outline.size.y == 3 * pack.cell_size,
+		"Only the single occupied intersection takes the swap overlay")
+	_click(swap_point)
 	_check(_panel._carry._carried.get("id") == &"ring_b" and bag.get_placement(&"ring_b").is_empty()
 		and bag.get_placement(&"long").origin == Vector2i(3, 2) and _panel._slots["left_ring"]._carry_fit,
 		"A valid click places the weapon and puts the displaced ring on the cursor")
@@ -320,6 +327,13 @@ func _check_cursor_swaps() -> void:
 	_check(not _panel._carry.is_holding() and bag.get_placement(&"long") == initial_long
 		and bag.get_placement(&"ring_a") == initial_ring and not _panel._slots["left_ring"]._carry_fit,
 		"Cancellation atomically restores the chain and clears equipment highlights")
+	var dragged := await _drag(base, swap_point)
+	_check(dragged and _panel._carry._carried.get("id") == &"ring_b"
+		and bag.get_placement(&"long").origin == Vector2i(3, 2) and bag.get_placement(&"ring_b").is_empty(),
+		"Dragging onto one occupied backpack item hands that item to click carry")
+	_panel._carry.cancel()
+	_check(not _panel._carry.is_holding() and bag.get_placement(&"long") == initial_long,
+		"Cancel rolls back a swap started by native drag")
 	_click(base)
 	_click(_drop_point(pack, Vector2i(3, 2), initial_long.footprint))
 	_click(_panel._slots["left_ring"].get_global_rect().get_center())
@@ -414,45 +428,6 @@ func _check_orientation_migration() -> void:
 		and not stock.drop_item("bag", &"iron_0", "stash:0", Vector2i.ZERO, true).is_empty()
 		and bag.get_placement(&"iron_0") == before,
 		"Gameplay APIs reject rotations in pack moves, cursor swaps and stash transfers")
-
-
-func _check_expedition_vendor() -> void:
-	var stock := Inventory.new()
-	stock.grant_gold(200)
-	var hub := _weapon("hub_sword", "Hub Sword", 3)
-	var secret := _weapon("crypt_sword", "Crypt Sword", 4)
-	var secret_spare := _weapon("crypt_spare", "Crypt Spare", 2)
-	stock.set_vendor_items([hub])
-	var hub_snapshot: Array = stock.save_data().vendor
-	_check(stock.open_vendor_catalog({"stock": [secret, secret_spare]}),
-		"An expedition vendor opens above the permanent merchant ledger")
-	var vendor := stock.get_grid("vendor")
-	_check(vendor.get_grid_size() == Inventory.VENDOR_SIZE and vendor.get_placement(&"hub_sword").is_empty()
-		and vendor.get_placements().size() == 2 and stock.save_data().vendor == hub_snapshot,
-		"Only expedition offers appear in the normal grid while checkpoints keep the hub stock")
-	_panel = BOARD_SCENE.instantiate()
-	_panel.bind(stock)
-	root.add_child(_panel)
-	_panel.open("vendor")
-	await _frames()
-	var catalogue := _panel._vendor_grid
-	var slot: Vector2i = vendor.get_placement(&"crypt_sword").origin
-	var price := Inventory.buy_price(secret)
-	var at := catalogue.global_position + (Vector2(slot) + Vector2.ONE * 0.5) * catalogue.cell_size
-	_click(at, true)
-	var secret_ledger := stock.vendor_catalog_snapshot()
-	_check(stock.gold == 200 - price and stock.get_grid("bag").get_placement(&"crypt_sword").has("id")
-		and secret_ledger.rows.size() == 1, "Standard merchant Ctrl-click commits price and removes only the purchased offer")
-	_panel.close()
-	_check(stock.close_vendor_catalog() == secret_ledger
-		and stock.get_grid("vendor").get_placement(&"hub_sword").has("id")
-		and stock.get_item(&"crypt_spare").is_empty(), "Closing restores hub offers and releases temporary stock records")
-	var saved := Inventory.new()
-	_check(saved.restore_data(stock.save_data()) and saved.open_vendor_catalog(secret_ledger)
-		and saved.get_grid("vendor").get_placements().size() == 1 and saved.get_grid("bag").get_placement(&"crypt_sword").has("id"),
-		"A saved expedition merchant returns with its sold-out state and the player's purchased gear intact")
-	_panel.free()
-	await process_frame
 
 
 func _check_identification() -> void:

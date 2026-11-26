@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/hearth_workbench/workbench_curve_editor.gd" id="1"]
+
+[node name="WorkbenchCurveEditor" type="VBoxContainer"]
+theme_override_constants/separation = 7
+script = ExtResource("1")
+
+[node name="CurveGraph" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 178)
+focus_mode = 2
+mouse_default_cursor_shape = 3
+
+[node name="Gestures" type="Label" parent="."]
+unique_name_in_owner = true
+text = "Drag to reshape · Double-click to add"
+autowrap_mode = 2
+
+[node name="Coordinates" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 28)
+theme_override_constants/separation = 8
+
+[node name="Selection" type="Label" parent="Coordinates"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Select a point"
+text_overrun_behavior = 3
+
+[node name="Offset" type="SpinBox" parent="Coordinates"]
+unique_name_in_owner = true
+prefix = "X"
+step = 0.0001
+
+[node name="Value" type="SpinBox" parent="Coordinates"]
+unique_name_in_owner = true
+prefix = "Y"
+step = 0.0001
+
+[node name="RemovePoint" type="Button" parent="Coordinates"]
+unique_name_in_owner = true
+text = "Remove"
+tooltip_text = "Remove the selected point. You can also press Delete while the graph has focus."
+
+[node name="TangentModes" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+theme_override_constants/separation = 8
+
+[node name="TangentLabel" type="Label" parent="TangentModes"]
+size_flags_horizontal = 3
+text = "Tangents"
+
+[node name="Incoming" type="OptionButton" parent="TangentModes"]
+unique_name_in_owner = true
+tooltip_text = "Control how the curve approaches the point. Drag the handle to set a free slope."
+
+[node name="Outgoing" type="OptionButton" parent="TangentModes"]
+unique_name_in_owner = true
+tooltip_text = "Control how the curve leaves the point. Drag the handle to set a free slope."

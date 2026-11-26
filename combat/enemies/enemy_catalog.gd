@@ -1,6 +1,6 @@
 extends RefCounted
 
-# Scene order is the persistent archetype ID used by saves and seeded dungeons.
+# Scene order is the persistent archetype ID used by the bestiary and character history.
 const _SCENES: Array[PackedScene] = [
 	preload("res://combat/enemies/grave_thrall/grave_thrall.tscn"),
 	preload("res://combat/enemies/ossuary_archer/ossuary_archer.tscn"),

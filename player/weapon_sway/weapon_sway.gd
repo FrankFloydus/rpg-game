@@ -63,9 +63,11 @@ func preview_bob_style(style: BobStyle) -> void:
 		_rig.preview_bob_style(style)
 
 
-func advance_after_movement(delta: float, steering: Vector2, incoming_vertical: float) -> void:
+## Returns whether the weapon gait crossed a footstep on this physics tick.
+func advance_after_movement(delta: float, steering: Vector2, incoming_vertical: float,
+		sprinting: bool, swimming: bool) -> bool:
 	if _rig == null:
-		return
+		return false
 	if _active_settings != settings:
 		_rig.configure(settings)
 		_active_settings = settings
@@ -82,11 +84,12 @@ func advance_after_movement(delta: float, steering: Vector2, incoming_vertical: 
 	var travel := body.get_position_delta()
 	if grounded:
 		travel -= body.get_platform_velocity() * delta
-	var ground_travel := Vector2(travel.x, travel.z)
+	var ground_travel := Vector2.ZERO if swimming else Vector2(travel.x, travel.z)
 	var braking := steering.is_zero_approx() and not ground_travel.is_zero_approx()
-	_rig.advance(delta, Vector2(actual.x, actual.z), ground_travel, body.global_basis,
-		grounded, false, braking, Input.mouse_mode == Input.MOUSE_MODE_CAPTURED, false)
+	var stepped := _rig.advance(delta, Vector2(actual.x, actual.z), ground_travel, body.global_basis,
+		grounded, sprinting, braking, Input.mouse_mode == Input.MOUSE_MODE_CAPTURED, false)
 	_update_clearance(delta)
+	return stepped
 
 
 func invalidate_equipment() -> void:
@@ -95,7 +98,8 @@ func invalidate_equipment() -> void:
 	_fit_scale = 1.0
 
 
-func apply_sockets(main_socket: Node3D, offhand_socket: Node3D, main_pose: Node3D, offhand_pose: Node3D) -> void:
+func apply_sockets(main_socket: Node3D, offhand_socket: Node3D, main_pose: Node3D, offhand_pose: Node3D,
+		clearance_limit := 1.0) -> void:
 	if _rig == null:
 		return
 	if clearance_mask != 0:
@@ -106,9 +110,9 @@ func apply_sockets(main_socket: Node3D, offhand_socket: Node3D, main_pose: Node3
 	var view := get_parent() as Node3D
 	var eye := view.to_local(camera.get_camera_transform().origin)
 	var camera_to_view := (view.global_basis.inverse() * camera.global_basis).orthonormalized()
+	_rendered_scale = minf(_fit_scale, clearance_limit)
 	_apply_hand(main_socket, main_pose, false, eye, camera_to_view)
 	_apply_hand(offhand_socket, offhand_pose, true, eye, camera_to_view)
-	_rendered_scale = _fit_scale
 
 
 func _apply_hand(socket: Node3D, pose: Node3D, left: bool, eye: Vector3, camera_to_view: Basis) -> void:
@@ -122,8 +126,8 @@ func _apply_hand(socket: Node3D, pose: Node3D, left: bool, eye: Vector3, camera_
 	# Rotate the keyed pose around its grip before adding camera-relative travel.
 	var follow := Transform3D(rotation_offset, grip - rotation_offset * grip + camera_to_view * offset.origin)
 	var shifted := follow * socket.transform
-	socket.transform = Transform3D(shifted.basis.scaled(Vector3.ONE * _fit_scale),
-		eye.lerp(shifted.origin, _fit_scale))
+	socket.transform = Transform3D(shifted.basis.scaled(Vector3.ONE * _rendered_scale),
+		eye.lerp(shifted.origin, _rendered_scale))
 
 
 func _update_clearance(delta: float) -> void:

@@ -1,59 +1,59 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bpbymx5ny32si"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_player"]
-[ext_resource type="Script" path="res://player/weapon_view.gd" id="2_view"]
+[ext_resource type="Script" uid="uid://dinlqlmjnkeef" path="res://player/player.gd" id="1_player"]
+[ext_resource type="Script" uid="uid://b70uouf83n5um" path="res://player/weapon_view.gd" id="2_view"]
 [ext_resource type="PackedScene" path="res://player/weapons/sword_1h.tscn" id="3_preview"]
-[ext_resource type="Script" path="res://player/effects/camera/first_person_camera_effects.gd" id="4_camera"]
+[ext_resource type="Script" uid="uid://cg7ghvo8ybwei" path="res://player/effects/camera/first_person_camera_effects.gd" id="4_camera"]
 [ext_resource type="PackedScene" path="res://player/effects/camera/camera_feedback.tscn" id="5_feedback"]
-[ext_resource type="Script" path="res://player/weapon_sway/weapon_sway.gd" id="6_sway"]
-[ext_resource type="Resource" path="res://player/weapon_sway/default_weapon_motion.tres" id="7_sway_settings"]
+[ext_resource type="Script" uid="uid://b516p4afnpauq" path="res://player/weapon_sway/weapon_sway.gd" id="6_sway"]
+[ext_resource type="Resource" uid="uid://cl1s2ryj1ay5a" path="res://player/weapon_sway/default_weapon_motion.tres" id="7_sway_settings"]
 [ext_resource type="PackedScene" path="res://player/effects/camera/submerged_view.tscn" id="8_water"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.31
 height = 1.65
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=1346507534]
 collision_layer = 2
 collision_mask = 5
 floor_snap_length = 0.28
 script = ExtResource("1_player")
 
-[node name="Body" type="CollisionShape3D" parent="."]
-position = Vector3(0, 0.825, 0)
+[node name="Body" type="CollisionShape3D" parent="." unique_id=1627323343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.825, 0)
 shape = SubResource("CapsuleShape3D_player")
 
-[node name="Neck" type="Node3D" parent="."]
-position = Vector3(0, 1.56, 0)
+[node name="Neck" type="Node3D" parent="." unique_id=291780649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Neck"]
+[node name="Camera3D" type="Camera3D" parent="Neck" unique_id=110886175]
 physics_interpolation_mode = 2
 current = true
-fov = 77.0
+fov = 60.0
 near = 0.045
 script = ExtResource("4_camera")
 
-[node name="WeaponView" type="Node3D" parent="Neck/Camera3D"]
+[node name="WeaponView" type="Node3D" parent="Neck/Camera3D" unique_id=1287669645]
 script = ExtResource("2_view")
 
-[node name="MainHand" type="Node3D" parent="Neck/Camera3D/WeaponView"]
+[node name="MainHand" type="Node3D" parent="Neck/Camera3D/WeaponView" unique_id=2003085564]
 
-[node name="SwordPreview" parent="Neck/Camera3D/WeaponView/MainHand" instance=ExtResource("3_preview")]
+[node name="SwordPreview" parent="Neck/Camera3D/WeaponView/MainHand" unique_id=1229935859 instance=ExtResource("3_preview")]
 
-[node name="OffHand" type="Node3D" parent="Neck/Camera3D/WeaponView"]
+[node name="OffHand" type="Node3D" parent="Neck/Camera3D/WeaponView" unique_id=1745628161]
 
-[node name="WeaponSway" type="Node" parent="Neck/Camera3D/WeaponView" node_paths=PackedStringArray("body", "camera")]
+[node name="WeaponSway" type="Node" parent="Neck/Camera3D/WeaponView" unique_id=1062939828 node_paths=PackedStringArray("body", "camera")]
 script = ExtResource("6_sway")
 body = NodePath("../../../..")
 camera = NodePath("../..")
 settings = ExtResource("7_sway_settings")
 
-[node name="PlayerLamp" type="OmniLight3D" parent="Neck/Camera3D"]
-position = Vector3(0.25, 0, 0.15)
+[node name="PlayerLamp" type="OmniLight3D" parent="Neck/Camera3D" unique_id=1827698301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0.15)
 light_color = Color(0.894118, 0.694118, 0.486275, 1)
 light_energy = 0.34
 omni_range = 6.8
 
-[node name="CameraFeedback" parent="." instance=ExtResource("5_feedback")]
+[node name="CameraFeedback" parent="." unique_id=1914813802 instance=ExtResource("5_feedback")]
 
-[node name="SubmergedView" parent="." instance=ExtResource("8_water")]
+[node name="SubmergedView" parent="." unique_id=1687825298 instance=ExtResource("8_water")]

@@ -8,6 +8,7 @@ const AirMotion := preload("res://player/weapon_sway/weapon_air_motion.gd")
 const IDLE_SPEED := 0.25
 const AIR_BLEND_TIME := 0.08
 const STYLE_BLEND_TIME := 0.10
+const GAIT_BLEND_TIME := 0.12
 
 class Spring:
 	var value := Vector2.ZERO
@@ -132,6 +133,7 @@ var _directional_carry := Spring.new()
 var _carry_axes := Vector2.ZERO
 var _bob_motion := Spring.new()
 var _bob_phase := 0.0
+var _sprint_weight := 0.0
 var _bob_position := Vector3.ZERO
 var _bob_rotation := Vector3.ZERO
 var _bob_hand_position := Vector3.ZERO
@@ -181,9 +183,9 @@ func play_landing_motion(impact_speed: float) -> void:
 
 
 func advance(delta: float, world_velocity: Vector2, ground_travel: Vector2, body_basis: Basis,
-		grounded: bool, dashed: bool, braking: bool, captured: bool, attacking: bool) -> void:
+		grounded: bool, sprinting: bool, braking: bool, captured: bool, attacking: bool) -> bool:
 	if not is_finite(delta) or delta <= 0.0:
-		return
+		return false
 	var acceleration := (world_velocity - _previous_velocity) / delta
 	_previous_velocity = world_velocity
 	var turn := _pending_look
@@ -202,12 +204,12 @@ func advance(delta: float, world_velocity: Vector2, ground_travel: Vector2, body
 		_gait = Gait.new()
 		_breath_weight = 0.0
 		_clear_air()
-		return
-	var stepping := grounded and not dashed
-	_advance_look(delta, turn, stepping and world_velocity.length_squared() < IDLE_SPEED * IDLE_SPEED, captured)
-	_advance_movement(delta, world_velocity, acceleration, ground_travel if stepping else Vector2.ZERO,
-		body_basis, stepping, stepping and braking, attacking)
+		return false
+	_advance_look(delta, turn, grounded and world_velocity.length_squared() < IDLE_SPEED * IDLE_SPEED, captured)
+	var stepped := _advance_movement(delta, world_velocity, acceleration, ground_travel if grounded else Vector2.ZERO,
+		body_basis, grounded, sprinting, grounded and braking, attacking)
 	_advance_air(delta, grounded)
+	return stepped
 
 
 func get_sway(left: bool, short_sword: bool, weight: float) -> Transform3D:
@@ -268,7 +270,7 @@ func _advance_look(delta: float, turn: Vector2, standing: bool, captured: bool) 
 
 
 func _advance_movement(delta: float, velocity: Vector2, acceleration: Vector2,
-		ground_travel: Vector2, body_basis: Basis, grounded: bool, braking: bool, attacking: bool) -> void:
+		ground_travel: Vector2, body_basis: Basis, grounded: bool, sprinting: bool, braking: bool, attacking: bool) -> bool:
 	var style := _style_override if _style_override != null else _settings.bob_style
 	_advance_styles(delta, style)
 	var response_scale := 1.0
@@ -293,10 +295,13 @@ func _advance_movement(delta: float, velocity: Vector2, acceleration: Vector2,
 	var speed := ground_velocity.length()
 	_advance_carry(ground_velocity, to_body, response, delta)
 	var loaded_side := sin(_bob_phase)
-	_advance_bob(delta, minf(speed / full_speed, 1.0), response, Vector2(lean.x, lean.z), ground_travel.length())
+	_sprint_weight = move_toward(_sprint_weight, float(sprinting), delta / GAIT_BLEND_TIME)
+	var stepped := _advance_bob(delta, minf(speed / full_speed, 1.0), response, Vector2(lean.x, lean.z),
+		ground_travel.length())
 	_advance_breath(delta, speed, grounded, attacking)
 	_gait.advance(delta, ground_velocity, grounded, braking, to_body, style, loaded_side)
 	_gait_weight = float(_styles.get(_gait.active_style, 0.0))
+	return stepped
 
 
 func _advance_carry(velocity: Vector2, to_body: Basis, response: float, delta: float) -> void:
@@ -345,7 +350,7 @@ func _advance_styles(delta: float, selected: BobStyle) -> void:
 	_styles[selected] = 1.0 - remaining
 
 
-func _advance_bob(delta: float, strength: float, response: float, travel: Vector2, distance: float) -> void:
+func _advance_bob(delta: float, strength: float, response: float, travel: Vector2, distance: float) -> bool:
 	var cadence_scale := 1.0
 	var travel_scale := Vector3.ONE
 	var rotation_scale := Vector2.ONE
@@ -367,9 +372,11 @@ func _advance_bob(delta: float, strength: float, response: float, travel: Vector
 		_style_carry_position += style.carry_position * weight
 		_style_carry_rotation += style.carry_rotation_degrees * weight
 	_bob_motion.follow(Vector2(strength, 0.0), delta, response)
-	var run_weight := smoothstep(1.0 / 3.0, 1.0, strength)
-	var step_length := lerpf(_settings.bob_walk_step_length, _settings.bob_run_step_length, run_weight)
-	_bob_phase = fposmod(_bob_phase + PI * distance * cadence_scale / maxf(step_length, 0.001), TAU)
+	var step_length := lerpf(_settings.bob_walk_step_length, _settings.bob_run_step_length, _sprint_weight)
+	var next_phase := _bob_phase + PI * distance * cadence_scale / maxf(step_length, 0.001)
+	# One stride is two footsteps. Test the boundary before wrapping the stride.
+	var stepped := floorf(next_phase / PI) > floorf(_bob_phase / PI)
+	_bob_phase = fposmod(next_phase, TAU)
 
 	var amplitude := _bob_motion.value.x
 	var direction := travel / maxf(maxf(travel.length(), amplitude), 0.0001)
@@ -378,7 +385,7 @@ func _advance_bob(delta: float, strength: float, response: float, travel: Vector
 	var arm_swing := cos(_bob_phase)
 	var wrist_phase := wrist_delay * TAU
 	var wrist_follow := cos(_bob_phase - wrist_phase)
-	var height := _step_height(fposmod(_bob_phase / PI, 1.0), amplitude)
+	var height := _step_height(fposmod(_bob_phase / PI, 1.0))
 	var plant := direction * minf(height, 0.0) * plant_travel
 	var lateral := _settings.bob_lateral_travel * travel_scale.x
 	var vertical := _settings.bob_vertical_travel * travel_scale.y
@@ -390,21 +397,21 @@ func _advance_bob(delta: float, strength: float, response: float, travel: Vector
 	_bob_rotation = Vector3(sin(_bob_phase * 2.0 - wrist_phase) * pitch * 0.25,
 		-arm_swing * shoulder_yaw, -weight_shift * _settings.bob_roll * rotation_scale.y) * amplitude
 	_bob_hand_pitch = -direction.y * wrist_follow * pitch * 0.75 * amplitude
+	return stepped
 
 
-func _step_height(phase: float, strength: float) -> float:
+func _step_height(phase: float) -> float:
 	var walk := _settings.bob_walk_step
 	var run := _settings.bob_run_step
 	var walk_height := walk.sample(phase) if walk != null else cos(phase * TAU)
 	var run_height := run.sample(phase) if run != null else walk_height
-	var weight := smoothstep(1.0 / 3.0, 1.0, strength)
-	var base := lerpf(walk_height, run_height, weight)
+	var base := lerpf(walk_height, run_height, _sprint_weight)
 	var height := base
 	for style: BobStyle in _styles:
 		if style != null:
 			var styled_walk := style.walk_step.sample(phase) if style.walk_step != null else walk_height
 			var styled_run := style.run_step.sample(phase) if style.run_step != null else run_height
-			height += (lerpf(styled_walk, styled_run, weight) - base) * float(_styles[style])
+			height += (lerpf(styled_walk, styled_run, _sprint_weight) - base) * float(_styles[style])
 	return height
 
 

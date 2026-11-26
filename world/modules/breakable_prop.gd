@@ -9,6 +9,12 @@ signal broken
 @export var debris_scene: PackedScene
 @export var break_cue := &"crate_break"
 @export var impact_surface := &"wood"
+## Allow weapon-melee contacts to shatter the prop.
+@export var allow_melee_damage := true
+## Let a melee strike continue after the prop breaks. Contact mass still affects later hits.
+@export var melee_hit_through := false
+## Cleave mass spent when a melee strike breaks this prop.
+@export_range(0.0, 20.0, 0.05, "or_greater") var melee_contact_mass := 1.0
 
 @onready var _intact: Node3D = $Intact
 @onready var _collider: CollisionShape3D = $Collider

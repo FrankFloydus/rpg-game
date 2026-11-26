@@ -93,7 +93,7 @@ func _exercise_title_entry(checkpoint: Dictionary, checkpoint_files: PackedStrin
 		return false
 	_check(_game.player.gameplay_enabled and _game.player.combat_enabled
 			and _game.player.weapon_type == "sword_1h" and _game.inventory.gold == 30
-			and _game.unlocked == 1 and _game.run.is_empty(),
+			and _game.unlocked == 1,
 		"Direct entry starts a fresh character with the starter sword and live combat")
 	if await _open_roster():
 		_check(_game.training_roster.selected_level() == 1, "The title-entry roster defaults to Enemy Level 1")
@@ -161,7 +161,7 @@ func _exercise_training_weaponry() -> void:
 	_check(rolled.base_id == "funeral_rapier" and rolled.item_level == 25 and rolled.rarity in ["magic", "rare"]
 		and rolled.prefixes.size() + rolled.suffixes.size() > 0
 		and rolled.base_stats.damage_min == 14 and rolled.base_stats.damage_max == 24,
-		"The selected base, typed item level, and dungeon affixes reach the actual pickup")
+		"The selected base, typed item level, and selected affixes reach the actual pickup")
 	_check(rapier_base.text == "14–24 Physical Damage" and rapier_implicit.text.contains("7% Critical Chance"),
 		"Changing Item Level updates the base preview without adding rolled affixes to the card")
 	var practice_seal := false
@@ -244,6 +244,7 @@ func _exercise_player_weapon_traces() -> void:
 		return
 	var tabs := _game.training_roster.find_child("TrainingTabs", true, false) as TabContainer
 	tabs.current_tab = 1
+	await _exercise_contact_presets()
 	var toggle := _game.training_roster.find_child("ShowPlayerWeaponTraces", true, false) as CheckButton
 	if not _check(toggle != null and toggle.is_visible_in_tree() and not toggle.button_pressed,
 			"Weaponry exposes disabled-by-default player weapon trace previews"):
@@ -274,6 +275,34 @@ func _exercise_player_weapon_traces() -> void:
 	_check(trace._count == 0 and trace.multimesh.visible_instance_count == 0,
 		"Timed traces clear all boxes after the swing")
 	toggle.button_pressed = false
+
+
+func _exercise_contact_presets() -> void:
+	var preset := _game.training_roster.find_child("MeleeContactPreset", true, false) as OptionButton
+	var player: CharacterBody3D = _game.player
+	if not _check(preset != null and preset.is_visible_in_tree() and preset.get_item_text(0) == "Training"
+			and preset.selected == 0 and player.melee_stops_on_static_world and not player.melee_uses_refuge_sweep,
+			"Weaponry starts at standard Training reach with solid stops enabled"):
+		return
+	await _choose_contact_preset(preset, 1)
+	_check(preset.selected == 1 and preset.get_item_text(1) == "Carry Through"
+		and not player.melee_stops_on_static_world and not player.melee_uses_refuge_sweep,
+		"Selecting Carry Through uses standard reach and lets solid impacts carry through")
+	await _choose_contact_preset(preset, 2)
+	_check(preset.selected == 2 and player.melee_stops_on_static_world and player.melee_uses_refuge_sweep,
+		"Selecting Refuge enables the shorter sweep and solid stops")
+	await _choose_contact_preset(preset, 0)
+	_check(preset.selected == 0 and player.melee_stops_on_static_world and not player.melee_uses_refuge_sweep,
+		"Returning to Training restores its standard sweep settings")
+
+
+func _choose_contact_preset(button: OptionButton, index: int) -> void:
+	button.grab_focus()
+	await _tap(KEY_ENTER)
+	var popup := button.get_popup()
+	if popup.visible:
+		popup.set_focused_item(index)
+		await _tap(KEY_ENTER)
 
 
 func _pick_up_practice_item(prop: Node3D) -> void:
@@ -340,17 +369,8 @@ func _exercise_training_cards(campaign_deck: Dictionary) -> void:
 func _exercise_arena() -> void:
 	await _tap(KEY_F1)
 	_check(not _game.training_roster.is_open() and _game.player.gameplay_enabled, "F1 leaves hub gameplay unchanged")
-	if not await _park_expedition():
-		return
-	var expedition: Node3D = _game.dungeon
-	var expedition_seed := int(_game.run.seed)
-	var keys: int = _game.inventory.treasure_key_count()
 	var gold := int(_game.inventory.gold)
 	var discovery_count: int = _game.bestiary_discoveries.size()
-	var survivors: int = _game._enemies.size()
-	var first_enemy: CharacterBody3D = _game._enemies.values()[0]
-	var parked_position := first_enemy.position
-	_check(first_enemy.enemy_level == 1, "The expedition spawner assigns Enemy Level 1 to its first-depth enemies")
 	var unlocked := int(_game.unlocked)
 	var completions := int(_game.completions)
 	var campaign_deck: Dictionary = _game.card_deck.snapshot()
@@ -365,8 +385,6 @@ func _exercise_arena() -> void:
 		return
 	var arena: Node3D = _game.training_ground
 	_check(_game.player.combat_enabled and _on_arrival(arena), "Arrival places the player at the arena entrance with live combat enabled")
-	_check(not expedition.is_inside_tree() and _game.dungeon == expedition,
-		"The parked expedition remains detached during training")
 	_check(_training_enemies().is_empty(), "The arena initially contains no enemies")
 	if not _check(await _wait_for_navigation(arena), "The arena publishes a native navigation map"):
 		return
@@ -425,7 +443,7 @@ func _exercise_arena() -> void:
 			"The last card spawns a Dread Knight alongside the Grave Thrall"):
 		return
 	_check(int(Catalog.ARCHETYPES[last_id].level) > 2 and enemies.back().enemy_level == 2 and thrall.enemy_level == 1,
-		"The selected Level 2 ignores dungeon eligibility and leaves the existing Level 1 Thrall unchanged")
+		"The selected Level 2 ignores the campaign level requirement and leaves the existing Level 1 Thrall unchanged")
 	_check(enemies[0].global_position.distance_squared_to(enemies[1].global_position) > 1.0,
 		"Concurrent spawns use separate positions")
 	for enemy in enemies:
@@ -440,16 +458,14 @@ func _exercise_arena() -> void:
 	thrall.take_damage(100000.0, "physical", _game.player)
 	_check(int(_game.inventory.gold) == gold and _game.bestiary_discoveries.size() == discovery_count,
 		"Training combat does not award gold or populate the campaign Bestiary")
-	_check(_game.inventory.treasure_key_count() == keys and int(_game.run.seed) == expedition_seed and not _game.run.cleared
-			and int(_game.unlocked) == unlocked and int(_game.completions) == completions and _game._enemies.size() == survivors,
-		"Training combat leaves the parked expedition and campaign progress unchanged")
+	_check(int(_game.unlocked) == unlocked and int(_game.completions) == completions,
+		"Training combat leaves the character's completion history unchanged")
 
 	_game.player.life = float(_game.player.stats.max_health) * 0.30
 	_check(_game._save_now() == OK, "Saving while in the arena writes a checkpoint")
 	var checkpoint := CharacterSlots.load_slot(_save_path, 1)
-	_check(not checkpoint.is_empty() and not checkpoint.has("in_dungeon")
-			and int(checkpoint.run.seed) == expedition_seed and absf(float(checkpoint.get("life", 0.0)) - campaign_life) < 0.5,
-		"The checkpoint retains the hub return and pre-training Life")
+	_check(not checkpoint.is_empty() and absf(float(checkpoint.get("life", 0.0)) - campaign_life) < 0.5,
+		"The checkpoint retains pre-training Life")
 	_check(checkpoint.get("bestiary", []).size() == discovery_count, "The checkpoint only stores campaign discoveries")
 	_check(checkpoint.get("card_deck", {}) == campaign_deck,
 		"Saving while the practice deck is edited stores only the campaign loadout")
@@ -458,7 +474,7 @@ func _exercise_arena() -> void:
 	await _ticks(10)
 	if not _check(is_instance_valid(_game.training_ground) and _game.training_ground.is_inside_tree()
 			and _training_enemies().is_empty() and _on_arrival(_game.training_ground),
-			"Defeat resets the arena at the entrance without ending the parked expedition"):
+			"Defeat resets the Training Ground at the arena entrance"):
 		return
 	_check(is_equal_approx(_game.player.life, float(_game.player.stats.max_health)),
 		"A training defeat restores the player to full Life in the arena")
@@ -481,15 +497,7 @@ func _exercise_arena() -> void:
 		"Leaving discards the loadout edited in F1 and restores the campaign deck")
 	_check(not is_instance_valid(_game._training_trace_visuals),
 		"Leaving the Training Ground removes its trace overlay")
-	_check(_game.dungeon == expedition and not expedition.is_inside_tree() and first_enemy.position == parked_position,
-		"The parked dungeon retains its actors and their positions")
 	await _check_bestiary_access(false)
-
-	var expedition_gate: Vector3 = _game.hub.interaction_position("altar")
-	_aim(Vector3(expedition_gate.x, 0.06, expedition_gate.z + 2.0), expedition_gate)
-	await _tap(KEY_E)
-	_check(_game.in_dungeon and _game.dungeon == expedition and int(_game.run.seed) == expedition_seed,
-		"The main altar resumes the same expedition after training")
 
 
 func _check_enemy_scenes() -> Dictionary[int, Dictionary]:
@@ -562,26 +570,6 @@ func _check_bestiary_access(in_training: bool) -> void:
 	await _tap(KEY_ESCAPE)
 	await _tap(KEY_ESCAPE)
 	await _tap(KEY_ESCAPE)
-
-
-func _park_expedition() -> bool:
-	_game._rng.seed = SEED
-	_game._select_depth(1)
-	await _ticks(8)
-	if not _check(_game.in_dungeon, "The training test enters a real expedition"):
-		return false
-	await _tap(KEY_F1)
-	_check(not _game.training_roster.is_open() and _game.player.gameplay_enabled,
-		"F1 leaves expedition gameplay unchanged")
-	_game.inventory.add_treasure_keys(2)
-	await _tap(KEY_T)
-	var portal: Node3D = _game._portal_prop
-	if not _check(is_instance_valid(portal), "T opens the expedition return portal"):
-		return false
-	_aim(_game.dungeon.spawn_position, portal.global_position + portal.interaction_point)
-	await _tap(KEY_E)
-	return _check(not _game.in_dungeon and _game.hub.is_inside_tree() and not _game.dungeon.is_inside_tree(),
-		"Using the expedition portal parks that world and returns to the hub")
 
 
 func _open_roster() -> bool:

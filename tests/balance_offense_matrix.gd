@@ -9,6 +9,7 @@ const EnemyStats := preload("res://combat/enemies/enemy_stat_resolver.gd")
 const WeaponRoles := preload("res://combat/weapons/weapon_roles.gd")
 const LOADOUTS_PER_ROW := 64
 const STRIKES_PER_LOADOUT := 16
+const ENEMY_LEVELS := [1, 5, 6, 7, 15, 30]
 const WEAPONS := ["dagger_1h", "sword_1h", "axe_1h", "mace_1h", "sword_2h", "axe_2h", "mace_2h", "staff"]
 const RANKS := ["normal", "magic", "rare"]
 const LEVEL_OFFSETS := [-2, 0, 2]
@@ -108,11 +109,13 @@ func _run() -> void:
 	_target.position = Vector3(0.0, 0.0, -1.0)
 	_rows.append("depth,weapon,mode,player_level,enemy_rank,trials,oneshot_pct,noncrit_oneshot_pct,p50_damage,p90_damage,p99_damage,p90_overkill,mean_life,mean_total_seconds,mean_charge_seconds,extra_cut_eligible_pct")
 	var started := Time.get_ticks_usec()
-	for depth: int in [6, 7]:
+	for depth: int in ENEMY_LEVELS:
 		for type: String in WEAPONS:
 			_player.update_equipment({"main_hand": Items.training_weapon_preview(_bases(type, depth)[0].id, depth)})
 			for heavy: bool in [false, true]:
 				for gap: int in LEVEL_OFFSETS:
+					if depth + gap < 1:
+						continue
 					for rank: String in RANKS:
 						_measure_row(depth, type, heavy, gap, rank)
 	if not _csv.is_empty():
@@ -159,7 +162,8 @@ func _measure_row(depth: int, type: String, heavy: bool, gap: int, rank: String)
 		var weapon: Dictionary = gear.main_hand
 		progression.reset_attributes()
 		var relevant := WeaponRoles.scaling_attribute(type, weapon.base_id)
-		progression.allocate(relevant, loadout % (player_level - 1) + 1)
+		if player_level > 1:
+			progression.allocate(relevant, loadout % (player_level - 1) + 1)
 		_player.character_progression = progression
 		_player._equipment = gear
 		_player.stats = Items.player_stats(gear, progression)

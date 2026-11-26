@@ -4,6 +4,7 @@ extends Control
 
 signal item_selected(id: StringName)
 signal action_feedback(message: String, success: bool)
+signal cursor_swapped(placement: Dictionary, viewport_position: Vector2)
 
 const Items := preload("res://systems/items.gd")
 const Inventory := preload("res://systems/inventory.gd")
@@ -31,6 +32,7 @@ var carried_id: StringName = &""
 var allow_quick_actions := true
 var _hover := Vector2i(-1, -1)
 var _target := Rect2i()
+var _swap_target := Rect2i()
 var _target_ok := false
 var _search_filter: Callable
 
@@ -99,6 +101,9 @@ func _draw() -> void:
 	var origin := Vector2(_target.position * cell_size)
 	var target_extent := Vector2(_target.size * cell_size)
 	Appearance.paint_drop(self, Rect2(origin, target_extent), Appearance.LIVE, _target_ok)
+	if _swap_target.has_area():
+		Appearance.paint_swap(self, Rect2(Vector2(_swap_target.position * cell_size),
+			Vector2(_swap_target.size * cell_size)), Appearance.LIVE)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -153,7 +158,9 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 		return false
 	var area := drop_cells(at_position, data["size"])
 	_target = area.intersection(Rect2i(Vector2i.ZERO, inventory.get_grid(endpoint).get_grid_size()))
-	_target_ok = inventory.preview_drop(data["source"], data["id"], endpoint, area.position).is_empty()
+	var plan := preview_grid_cursor_drop(area, data)
+	_target_ok = plan.denial.is_empty()
+	_swap_target = swap_cells(area, plan.displaced) if _target_ok else Rect2i()
 	queue_redraw()
 	return _target_ok
 
@@ -165,7 +172,14 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	var selling := endpoint == "vendor"
 	var price := Inventory.buy_price(item) if buying else Inventory.sell_price(item)
 	var origin := drop_cells(at_position, data["size"]).position
-	var denial := inventory.drop_item(data["source"], id, endpoint, origin)
+	var denial: String
+	if _can_swap_from(data):
+		var result := inventory.place_backpack_cursor(id, origin)
+		denial = result.denial
+		if denial.is_empty() and not result.displaced.is_empty():
+			cursor_swapped.emit(result.displaced, get_global_transform_with_canvas() * at_position)
+	else:
+		denial = inventory.drop_item(data["source"], id, endpoint, origin)
 	if denial.is_empty():
 		InventorySounds.place(self, item)
 	if not denial.is_empty():
@@ -202,8 +216,24 @@ func drop_cells(at_position: Vector2, footprint: Vector2i) -> Rect2i:
 
 
 func preview_grid_drop(at_position: Vector2, data: Dictionary) -> String:
-	var origin := drop_cells(at_position, data["size"]).position
-	return inventory.preview_drop(data["source"], data["id"], endpoint, origin)
+	return preview_grid_cursor_drop(drop_cells(at_position, data["size"]), data).denial
+
+
+func preview_grid_cursor_drop(area: Rect2i, data: Dictionary) -> Dictionary:
+	if _can_swap_from(data):
+		return inventory.backpack_cursor_preview(data["id"], area.position)
+	return {"denial": inventory.preview_drop(data["source"], data["id"], endpoint, area.position), "displaced": &""}
+
+
+func swap_cells(area: Rect2i, displaced: StringName) -> Rect2i:
+	if displaced.is_empty():
+		return Rect2i()
+	var placement := inventory.get_grid(endpoint).get_placement(displaced)
+	return Rect2i() if placement.is_empty() else area.intersection(Rect2i(placement.origin, placement.footprint))
+
+
+func _can_swap_from(data: Dictionary) -> bool:
+	return endpoint == "bag" and data["source"] == "bag" and cursor_swapped.has_connections()
 
 
 static func make_drag_preview(item: Dictionary, footprint: Vector2i, pixels: int) -> Control:
@@ -219,6 +249,7 @@ static func make_drag_preview(item: Dictionary, footprint: Vector2i, pixels: int
 func _clear_preview() -> void:
 	_hover = Vector2i(-1, -1)
 	_target = Rect2i()
+	_swap_target = Rect2i()
 	queue_redraw()
 
 

@@ -11,8 +11,8 @@ var _inspector: EditorInspectorPlugin
 
 func _enter_tree() -> void:
 	_inspector = Inspector.new()
-	_inspector.open_effect = _open_effect
-	_inspector.open_bob_style = _open_bob_style
+	_inspector.open_effect = func(effect: EffectDefinition) -> void: _open_effect.call_deferred(effect)
+	_inspector.open_bob_style = func(style: Resource) -> void: _open_bob_style.call_deferred(style)
 	add_inspector_plugin(_inspector)
 	_button = Button.new()
 	_button.text = "Workbench"

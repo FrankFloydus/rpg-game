@@ -85,8 +85,7 @@ func _run() -> void:
 	await _ticks(1120)
 	_check(get_nodes_in_group("friendly_skeletons").is_empty() and not _game._remaining_cards().has(CARD_ID),
 		"Temporary companions expire while the used card remains spent")
-	_check(int(Catalog.CARDS[CARD_ID].minimum_depth) == 4 and Catalog.CARDS[CARD_ID].rarity == "rare",
-		"The card is a level-gated Rare reward in normal expeditions")
+	_check(Catalog.CARDS[CARD_ID].rarity == "rare", "Oathbound Three retains its Rare rarity")
 	await _test_pillar_route()
 	_finish()
 

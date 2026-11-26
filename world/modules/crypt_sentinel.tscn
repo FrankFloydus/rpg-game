@@ -1,9 +1,0 @@
-[gd_scene format=3]
-
-[ext_resource type="PackedScene" path="res://assets/models/architecture/crypt_sentinel.glb" id="1_sculpture"]
-
-[node name="CryptSentinel" type="Node3D"]
-
-[node name="LimestoneSentinelAndStandard" parent="." instance=ExtResource("1_sculpture")]
-
-[editable path="LimestoneSentinelAndStandard"]

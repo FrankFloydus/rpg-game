@@ -42,8 +42,6 @@ const WORLD_LAYER := 1
 const PLAYER_LAYER := 2
 const ENEMY_LAYER := 4
 const BASE_ALERT := 9.8
-const ROOM_SIGHT_RANGE := 16.0
-const CORRIDOR_SIGHT_RANGE := 18.0
 const TRACKING_SIGHT_RANGE := 25.0
 const MELEE_ATTACK_CATEGORY := &"hearth_melee"
 const RANGED_ATTACK_CATEGORY := &"hearth_ranged"
@@ -61,7 +59,7 @@ const ABILITY_TRACE_HEIGHT := 0.075
 const VOLATILE_RADIUS := 2.05
 const VOLATILE_WARNING := {"shape": "disc", "reach": VOLATILE_RADIUS}
 const VOLATILE_WINDUP := 0.62
-const ExpeditionRules := preload("res://data/expedition_rules.tres")
+const CombatLifetimeRules := preload("res://data/combat_lifetime_rules.tres")
 const HEALTH_BAR_MAX_PIXELS := 108.0
 const INDICATOR_GAP := 0.13
 const REGENERATION_DELAY := 1.8
@@ -119,7 +117,6 @@ var enemy_level := 1
 var archetype_name := ""
 var display_name := ""
 var rarity := "normal"
-var player_caused_death := false
 var part_key := ""
 var affixes: Array[String] = []
 var max_health := 1.0
@@ -232,14 +229,13 @@ var _patrol_points := PackedVector3Array()
 var _patrol_route: Array = []
 var _brain: AIBehaviorRunner
 var _encounter: AIEncounter3D
-var _expedition_pressure: Node
+var _encounter_pressure: Node
 var _target: Node3D
 var _melee_ring := AIEncounter3D.RING_NORMAL
 var _shooting_lane := false
 var _has_move_goal := false
 var _tactical_goal := Vector3.ZERO
 var _path_goal := Vector3.INF
-var convergence_floor := -1
 var _contact_point := Vector3.ZERO
 var _attack_claim := false
 var _dashed_this_tick := false
@@ -256,7 +252,7 @@ func ranged_positioning() -> Dictionary:
 
 func setup(player: Node3D, spawn_level: int, rank: String, rng: RandomNumberGenerator,
 		route: Callable = Callable(), ability_details: Callable = Callable(),
-		selected_affixes: Array[String] = [], depth_multiplier := 1.0) -> void:
+		selected_affixes: Array[String] = []) -> void:
 	_player = player
 	_route = route
 	_ability_details = ability_details
@@ -289,7 +285,7 @@ func setup(player: Node3D, spawn_level: int, rank: String, rng: RandomNumberGene
 		elif rarity == "magic" and not affixes.is_empty():
 			display_name = "%s %s" % [Affixes.AFFIX_NAMES[affixes[0]], archetype_name]
 	var stats := EnemyStats.resolve(base_life, base_attack_damage, base_move_speed,
-		float(behavior.get("advance_speed", 1.0)), enemy_level, rarity, affixes, depth_multiplier)
+		float(behavior.get("advance_speed", 1.0)), enemy_level, rarity, affixes)
 	_size_multiplier = stats["size_multiplier"]
 	_body_height = float(_spec["height"]) * _size_multiplier
 	max_health = stats["life"]
@@ -351,15 +347,6 @@ func can_be_raised() -> bool:
 	return _dead and not is_cocoon() and archetype_id not in [25, 26] and not is_queued_for_deletion()
 
 
-func apply_expedition_oath(life_factor: float, damage_factor: float) -> void:
-	health *= life_factor
-	max_health *= life_factor
-	_moth_life *= life_factor
-	_base_damage *= damage_factor
-	if is_node_ready():
-		_update_health_bar()
-
-
 func combat_stun_power() -> float:
 	return stun_power
 
@@ -378,20 +365,6 @@ func save_behavior_state() -> Dictionary:
 func restore_behavior_state(_state: Dictionary) -> void:
 	pass
 
-func save_checkpoint_behavior() -> Dictionary:
-	var state := save_behavior_state()
-	if rarity == "rare" and display_name != archetype_name:
-		state["display_name"] = display_name
-	return state
-
-func restore_checkpoint_behavior(state: Dictionary) -> void:
-	if rarity == "rare" and not bool(_spec.get("proper_name", false)):
-		var stored_name: Variant = state.get("display_name")
-		if stored_name is String and not stored_name.is_empty():
-			display_name = stored_name
-			refresh_level_label()
-	restore_behavior_state(state)
-
 func aim_point() -> Vector3:
 	var height := COCOON_HEIGHT if is_cocoon() else _body_height
 	return global_position + Vector3.UP * height * 0.48
@@ -402,6 +375,16 @@ func is_cocoon() -> bool:
 func is_thornback_reflecting() -> bool:
 	return _thornback_guard_remaining > 0.0
 
+func melee_contact_material() -> StringName:
+	if is_cocoon() or is_thornback_reflecting():
+		return &"guard"
+	return &"armor" if affixes.has("armored") else &"body"
+
+
+func melee_contact_mass() -> float:
+	return clampf(_body_resistance(), 0.65, 2.5)
+
+
 func thornback_guard_details() -> Dictionary:
 	return _combat_ability("thornback_guard")
 
@@ -410,31 +393,12 @@ func save_metamorphosis() -> Dictionary:
 		return {}
 	return {"hatches": _hatches, "cocoon_remaining": _cocoon_remaining}
 
-func restore_metamorphosis(state: Dictionary) -> void:
-	if not _has_cocoon:
-		return
-	_hatches = maxi(0, int(state.get("hatches", 0)))
-	_cocoon_remaining = clampf(float(state.get("cocoon_remaining", 0.0)), 0.0, _cocoon_profile["hatch_seconds"])
-	max_health = _moth_max_health()
-	if is_cocoon():
-		max_health *= float(_cocoon_profile["health_fraction"])
-	health = max_health
-
-func restore_saved_life(saved_life: float, saved_max_life: float) -> void:
-	health = EnemyStats.restored_life(saved_life, saved_max_life, max_health, base_life,
-		enemy_level, archetype_id)
-
-
 func configure_encounter(pack: int, _ambush: bool, alert_radius: float,
 		patrol_points: PackedVector3Array = PackedVector3Array(), sight_radius := 0.0) -> void:
 	_pack = pack
 	_alert_radius = maxf(2.0, alert_radius)
 	_sight_radius = maxf(_alert_radius, sight_radius)
 	_patrol_points = patrol_points
-
-static func expedition_sight_range(level: int, corridor: bool) -> float:
-	var starting_range := CORRIDOR_SIGHT_RANGE if corridor else ROOM_SIGHT_RANGE
-	return starting_range + clampf(float(level - 1) * 0.4, 0.0, 3.0)
 
 static func create_ai_encounter(rating: int, target: Node3D, use_navigation: bool = true) -> AIEncounter3D:
 	var encounter := AIEncounter3D.new()
@@ -460,42 +424,7 @@ static func apply_encounter_attack_rating(encounter: AIEncounter3D, rating: int)
 
 func configure_ai(encounter: AIEncounter3D, pacing: Node = null) -> void:
 	_encounter = encounter
-	_expedition_pressure = pacing
-
-func set_convergence_route(floor_index: int, route: Callable) -> void:
-	convergence_floor = floor_index
-	_route = route
-	_has_move_goal = false
-	_path_goal = Vector3.INF
-	_route_timer = 0.0
-	_waypoints.clear()
-	_waypoint_tail.clear()
-	_waypoint_index = 0
-	_patrol_points.clear()
-	_patrol_route.clear()
-	if is_instance_valid(_brain):
-		_bind_behavior()
-
-func relocate_for_convergence(point: Vector3, floor_index: int, route: Callable) -> void:
-	if not is_cocoon():
-		_finish_attack_cast(&"cast_cancel", "Regrouped")
-		_brain.reset()
-		_release_attack_claim()
-		_encounter.release_agent(self)
-		_reset_attack()
-		_recovery = maxf(_recovery, 0.60 + _rest_offset)
-		_strike_time = -1.0
-		_target = null
-		_decision_time = 0.0
-		_ranged_retreat_until = -1.0
-	set_convergence_route(floor_index, route)
-	global_position = point
-	reset_physics_interpolation()
-	velocity = Vector3.ZERO
-	_impulse = Vector3.ZERO
-	if not is_cocoon():
-		_contact_point = _player.global_position
-		_sample_perception()
+	_encounter_pressure = pacing
 
 func _ensure_encounter() -> void:
 	if is_instance_valid(_encounter):
@@ -685,7 +614,7 @@ func _lose_life(amount: int, source: Node3D, hit_point := Vector3.INF,
 	if _model != null and not cocoon and hit_point.is_finite():
 		CombatImpact.enemy(self, _model, hit_point, direction, amount, defeated and not hatching_defense,
 			source, weapon_contact, overkill, resistance)
-		if not defeated:
+		if not defeated and bool(weapon_contact.get("can_stagger", true)):
 			_model.react_to_hit(direction, bool(weapon_contact.get("heavy", false)))
 	if hatching_defense:
 		_begin_cocoon()
@@ -1248,8 +1177,8 @@ func _admit_attack() -> bool:
 	if not use_cobweb and float(_profile["windup"]) == 0.0 and not _has_sight():
 		return false
 	var cost := 1.0
-	if is_instance_valid(_expedition_pressure):
-		cost = _expedition_pressure.attack_cost_multiplier()
+	if is_instance_valid(_encounter_pressure):
+		cost = _encounter_pressure.attack_cost_multiplier()
 	if not use_cobweb:
 		cost *= float(_profile.get("attack_cost", 1.0))
 	var category := RANGED_ATTACK_CATEGORY if use_cobweb else _attack_category()
@@ -1739,7 +1668,7 @@ func _steer_locomotion(to_player: Vector3, delta: float) -> Vector3:
 
 func _turn(direction: Vector3, delta: float) -> void:
 	if direction.length_squared() > 0.002:
-		# Dungeon floors can rotate at stair connections. The committed direction is global.
+		# The parent can be rotated. The committed direction is global.
 		var angle := atan2(-direction.x, -direction.z)
 		global_rotation.y = lerp_angle(global_rotation.y, angle, minf(delta * 11.0, 1.0))
 
@@ -1946,8 +1875,6 @@ func _update_health_bar() -> void:
 
 func _die(source: Node3D, direction := Vector3.ZERO, weapon_contact: Dictionary = {},
 		overkill := 0.0, body_resistance := 1.0) -> void:
-	player_caused_death = is_instance_valid(source) and source == _player \
-		and not bool(weapon_contact.get("allied_summon", false))
 	var corpse: Node3D = _model
 	_finish_attack_cast(&"cast_cancel", "Defeated")
 	if is_cocoon():
@@ -1988,7 +1915,7 @@ func _die(source: Node3D, direction := Vector3.ZERO, weapon_contact: Dictionary 
 	cleanup.process_callback = Timer.TIMER_PROCESS_PHYSICS
 	add_child(cleanup)
 	cleanup.timeout.connect(queue_free)
-	cleanup.start(ExpeditionRules.corpse_lifetime_seconds)
+	cleanup.start(CombatLifetimeRules.corpse_lifetime_seconds)
 	if affixes.has("volatile"):
 		_show_ground_warning(VOLATILE_WARNING, global_position)
 		_emit_cast(&"cast_start", _combat_ability("volatile"), "Player")

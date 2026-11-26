@@ -7,8 +7,6 @@ const Footprint := preload("res://addons/hearth_workbench/workbench_footprint.gd
 
 var _controls := {}
 var _options := {}
-var _help := ""
-var _unit := ""
 var _profile_fields := VBoxContainer.new()
 var _footprint: Control
 var _shown_keys: Array[String] = []
@@ -19,16 +17,15 @@ var _fixed_footprint := false
 
 func configure_profile(fixed_footprint: bool) -> void:
 	_fixed_footprint = fixed_footprint
-	_help = "The attack's footprint and AI start distance. Only fields used by the selected shape or its ability are shown."
-	_profile_fields.add_theme_constant_override("separation", 8)
+	_profile_fields.add_theme_constant_override("separation", _scaled(14.0))
 	add_child(_profile_fields)
 	set_bottom_editor(_profile_fields)
 
 
 func configure_choice(options: Dictionary, help: String) -> void:
 	_options = options.duplicate()
-	_help = help
 	_select = _make_select(_options, help)
+	Fields.describe_control(_select, "", help)
 	_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_select.item_selected.connect(func(index: int) -> void:
 		emit_changed(get_edited_property(), _select.get_item_metadata(index)))
@@ -42,6 +39,7 @@ func _update_property() -> void:
 		return
 	var value: Variant = object.get(get_edited_property())
 	if _select != null:
+		_select.accessibility_name = str(get_edited_property()).get_file().capitalize()
 		_select_value(_select, str(value))
 		return
 	if value is Dictionary:
@@ -59,10 +57,13 @@ func _update_profile(profile: Dictionary) -> void:
 		var current: Variant = profile.get(key, _default_value(key))
 		if control is SpinBox:
 			control.set_value_no_signal(float(current))
-		elif control is CheckBox:
+		elif control is CheckButton:
 			control.set_pressed_no_signal(bool(current))
 		elif control is OptionButton:
 			_select_value(control, str(current))
+		elif control is Label:
+			control.text = str(current)
+			Fields.describe_control(control, key.capitalize(), _script_data_help(control.text))
 	_updating = false
 	if _footprint != null:
 		_footprint.show_profile(profile)
@@ -73,56 +74,100 @@ func _rebuild_profile(profile: Dictionary) -> void:
 		_profile_fields.remove_child(child)
 		child.queue_free()
 	_controls.clear()
+	var shape_fields: Array = Schema.SHAPE_FIELDS.get(str(profile.get("shape", "")), [])
+	var targeting: Array[String] = []
+	var shape: Array[String] = []
+	var ability: Array[String] = []
+	var other: Array[String] = []
+	for key: String in _shown_keys:
+		if key in ["shape", "start", "floor_warning"]:
+			targeting.append(key)
+		elif key in shape_fields:
+			shape.append(key)
+		elif Schema.FIELDS.has(key):
+			ability.append(key)
+		else:
+			other.append(key)
+	_add_group("Targeting", targeting, profile)
 	_footprint = Footprint.new()
 	_profile_fields.add_child(_footprint)
-	for key: String in _shown_keys:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 12)
-		_profile_fields.add_child(row)
-		var title := Label.new()
-		title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		row.add_child(title)
-		var control: Control
-		match key:
-			"shape", "floor_warning":
-				title.text = "Hit shape" if key == "shape" else "Floor warning"
-				title.tooltip_text = _help if key == "shape" else "Draw the move's red ground warning before it lands. Marked enemy attacks cannot be blocked."
-				var choice := _make_select(Schema.SHAPES if key == "shape" else Schema.WARNINGS, title.tooltip_text)
-				if key == "shape" and _fixed_footprint:
-					choice.disabled = true
-					title.tooltip_text = "This ability's script owns the shape. Tune its size and timing in the fields below."
-				choice.item_selected.connect(func(index: int) -> void: _edit(key, choice.get_item_metadata(index)))
-				control = choice
-			_ when Schema.FIELDS.has(key):
-				var field: Array = Schema.FIELDS[key]
-				title.text = field[0]
-				title.tooltip_text = field[1]
-				if field[3] is bool:
-					var flag := CheckBox.new()
-					flag.toggled.connect(func(next: bool) -> void: _edit(key, next))
-					control = flag
-				else:
-					var spin := SpinBox.new()
-					spin.min_value = 0.0
-					spin.max_value = field[5] if field.size() > 5 else 1000.0
-					spin.step = field[4]
-					spin.suffix = field[2]
-					spin.update_on_text_changed = true
-					spin.get_line_edit().tooltip_text = title.tooltip_text
-					Fields.style_line_edit(spin.get_line_edit())
-					spin.value_changed.connect(func(next: float) -> void: _edit(key, next))
-					control = spin
-			_:
-				title.text = key.capitalize()
-				title.tooltip_text = "Script-specific data preserved from this resource."
-				var unrecognized := Label.new()
-				unrecognized.text = str(profile[key])
-				control = unrecognized
-		control.tooltip_text = title.tooltip_text
-		control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(control)
-		_controls[key] = control
+	_add_group("Shape dimensions", shape, profile)
+	_add_group("Ability behavior", ability, profile)
+	_add_group("Script data", other, profile)
+
+
+func _add_group(heading: String, keys: Array[String], profile: Dictionary) -> void:
+	if keys.is_empty():
+		return
+	var group := VBoxContainer.new()
+	group.add_theme_constant_override("separation", _scaled(8.0))
+	var header := Label.new()
+	header.text = heading
+	header.add_theme_font_size_override("font_size", _scaled(14.0))
+	_profile_fields.add_child(group)
+	group.add_child(header)
+	for key: String in keys:
+		_add_profile_field(group, key, profile)
+
+
+func _add_profile_field(group: VBoxContainer, key: String, profile: Dictionary) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", _scaled(12.0))
+	group.add_child(row)
+	var title := key.capitalize()
+	var help := Schema.field_help(key)
+	var control: Control
+	match key:
+		"shape", "floor_warning":
+			var shape_choice := key == "shape"
+			title = "Hit shape" if shape_choice else "Floor warning"
+			var fixed := shape_choice and _fixed_footprint
+			if fixed:
+				help = "This ability defines the shape. Adjust the shape's dimensions in the fields below."
+			var choice := _make_select(Schema.SHAPES if shape_choice else Schema.WARNINGS, help)
+			choice.disabled = fixed
+			choice.item_selected.connect(func(index: int) -> void: _edit(key, choice.get_item_metadata(index)))
+			control = choice
+		_ when Schema.FIELDS.has(key):
+			var field: Array = Schema.FIELDS[key]
+			title = field[0]
+			if field[3] is bool:
+				var flag := CheckButton.new()
+				flag.toggled.connect(func(next: bool) -> void: _edit(key, next))
+				control = flag
+			else:
+				var spin := SpinBox.new()
+				spin.min_value = 0.0
+				spin.max_value = field[5] if field.size() > 5 else 1000.0
+				spin.step = field[4]
+				spin.suffix = field[2]
+				spin.update_on_text_changed = true
+				Fields.describe_control(spin.get_line_edit(), title, help)
+				Fields.style_line_edit(spin.get_line_edit())
+				spin.value_changed.connect(func(next: float) -> void: _edit(key, next))
+				control = spin
+		_:
+			var unrecognized := Label.new()
+			unrecognized.text = str(profile[key])
+			unrecognized.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			unrecognized.mouse_filter = Control.MOUSE_FILTER_PASS
+			help = _script_data_help(unrecognized.text)
+			control = unrecognized
+	var label := Fields.property_label(title, help)
+	label.custom_minimum_size.x = _scaled(92.0)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(label)
+	Fields.describe_control(control, title, help)
+	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if control is SpinBox or control is CheckButton:
+		control.custom_minimum_size.x = _scaled(108.0) if control is SpinBox else 0.0
+		control.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_END
+	row.add_child(control)
+	_controls[key] = control
+
+
+func _script_data_help(value: String) -> String:
+	return "%s\nRead-only field preserved for the ability's script." % value
 
 
 func _edit(key: String, value: Variant) -> void:
@@ -170,3 +215,7 @@ func _select_value(choice: OptionButton, value: String) -> void:
 	choice.add_item(value.capitalize())
 	choice.set_item_metadata(choice.item_count - 1, value)
 	choice.select(choice.item_count - 1)
+
+
+func _scaled(amount: float) -> int:
+	return roundi(amount * EditorInterface.get_editor_scale())

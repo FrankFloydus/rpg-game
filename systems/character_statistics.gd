@@ -4,34 +4,21 @@ extends RefCounted
 signal achievement_unlocked(entry: Dictionary)
 
 const ACHIEVEMENTS := [
-	{"id": "first_blood", "name": "First Blood", "description": "Slay your first enemy in the Undervault.",
+	{"id": "first_blood", "name": "First Blood", "description": "Slay your first enemy in the campaign.",
 		"stat": "kills", "threshold": 1, "points": 5},
-	{"id": "vaultbreaker", "name": "Vaultbreaker", "description": "Clear an entire dungeon depth.",
-		"stat": "depths_cleared", "threshold": 1, "points": 15},
-	{"id": "behind_stone", "name": "Behind the Stone", "description": "Open a concealed passage.",
-		"stat": "secrets_opened", "threshold": 1, "points": 10},
-	{"id": "trial_survivor", "name": "Trial Survivor", "description": "Defeat every wave and open a Trial Coffer.",
-		"stat": "trials_claimed", "threshold": 1, "points": 20},
-	{"id": "gilded_purse", "name": "Gilded Purse", "description": "Gather 500 gold in the Undervault.",
-		"stat": "gold_collected", "threshold": 500, "points": 10},
 ]
+const RETIRED_AWARD_POINTS := {
+	"vaultbreaker": 15, "behind_stone": 10, "trial_survivor": 20, "gilded_purse": 10,
+}
 const GROUPS := {
 	"Combat": {
 		"damage_dealt": "Damage dealt", "damage_taken": "Damage taken", "kills": "Enemies slain",
 		"magic_kills": "Magic enemies slain", "rare_kills": "Rare enemies slain", "deaths": "Times fallen",
 		"cards_cast": "Cards played",
 	},
-	"Exploration": {
-		"depths_entered": "Expeditions begun", "depths_cleared": "Expeditions cleared",
-		"coffers_opened": "Coffers opened", "secrets_opened": "Secret passages opened",
-		"gates_opened": "Route gates opened", "trials_claimed": "Trial coffers looted",
-		"breakables": "Destructibles broken",
-	},
 	"Wealth": {
-		"gold_dropped": "Gold dropped", "gold_collected": "Gold collected", "gold_spent": "Gold spent",
-		"gold_earned_trade": "Gold earned from trade", "items_dropped": "Equipment dropped",
-		"items_looted": "Equipment collected", "materials_looted": "Materials collected",
-		"cards_looted": "Cards acquired", "items_bought": "Items bought", "items_sold": "Items sold",
+		"gold_spent": "Gold spent", "gold_earned_trade": "Gold earned from trade",
+		"items_bought": "Items bought", "items_sold": "Items sold",
 		"items_crafted": "Items crafted",
 	},
 }
@@ -81,8 +68,11 @@ func groups() -> Dictionary:
 func achievements() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for definition in ACHIEVEMENTS:
+		# The hub and Training Ground cannot award campaign combat achievements.
+		if not _awards.has(definition.id):
+			continue
 		var entry: Dictionary = definition.duplicate()
-		entry["unlocked"] = _awards.has(entry.id)
+		entry["unlocked"] = true
 		entry["progress"] = mini(int(_totals.get(entry.stat, 0)), int(entry.threshold))
 		result.append(entry)
 	return result
@@ -93,6 +83,9 @@ func points() -> int:
 	for entry in ACHIEVEMENTS:
 		if _awards.has(entry.id):
 			total += int(entry.points)
+	for id: String in RETIRED_AWARD_POINTS:
+		if _awards.has(id):
+			total += int(RETIRED_AWARD_POINTS[id])
 	return total
 
 
@@ -111,6 +104,9 @@ func restore(state: Dictionary) -> void:
 		for entry in ACHIEVEMENTS:
 			if entry.id in saved:
 				_awards[entry.id] = true
+		for id: String in RETIRED_AWARD_POINTS:
+			if id in saved:
+				_awards[id] = true
 
 
 static func compact(value: int) -> String:
